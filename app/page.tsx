@@ -1,4 +1,3 @@
-import Navigation from "./components/Navigation";
 import HeroSection from "./components/HeroSection";
 import AboutSection from "./components/AboutSection";
 import BooksSection from "./components/BooksSection";
@@ -12,7 +11,6 @@ import Footer from "./components/Footer";
 export default function Home() {
   return (
     <>
-      <Navigation />
       <main id="main-content">
         <HeroSection />
         <AboutSection />
