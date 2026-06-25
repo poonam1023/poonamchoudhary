@@ -1,40 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useMotionValue, useSpring } from "motion/react";
+import { useEffect, useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import {
   ArrowRight,
   BookOpen,
-  Home,
   Leaf,
-  Mail,
-  Mic2,
-  PenLine,
   PlayCircle,
   Quote,
-  Sparkles,
-  UserRound,
 } from "lucide-react";
 import styles from "./BookHero.module.css";
 
 const navItems = [
-  { label: "Home", href: "home", icon: Home },
-  { label: "About", href: "about", icon: UserRound },
-  { label: "Books", href: "books", icon: BookOpen },
-  { label: "Speaking", href: "speaking", icon: Mic2 },
-  { label: "Journal", href: "journal", icon: PenLine },
-  { label: "Connect", href: "connect", icon: Mail },
-];
-
-const particles = [
-  { left: "12%", top: "22%", delay: 0.1 },
-  { left: "22%", top: "72%", delay: 0.7 },
-  { left: "41%", top: "16%", delay: 0.4 },
-  { left: "57%", top: "80%", delay: 0.9 },
-  { left: "73%", top: "20%", delay: 0.2 },
-  { left: "88%", top: "62%", delay: 0.6 },
-  { left: "35%", top: "45%", delay: 1.1 },
-  { left: "66%", top: "48%", delay: 0.3 },
+  { label: "Home", href: "home" },
+  { label: "About", href: "about" },
+  { label: "Books", href: "books" },
+  { label: "Speaking", href: "speaking" },
+  { label: "Journal", href: "journal" },
+  { label: "Connect", href: "connect" },
 ];
 
 function scrollToSection(id: string) {
@@ -46,6 +30,16 @@ export default function BookHero() {
   const rawY = useMotionValue(0);
   const lightX = useSpring(rawX, { stiffness: 70, damping: 24, bounce: 0 });
   const lightY = useSpring(rawY, { stiffness: 70, damping: 24, bounce: 0 });
+  const portraitX = useSpring(useTransform(rawX, [-720, 720], [-5, 5]), {
+    stiffness: 52,
+    damping: 28,
+    bounce: 0,
+  });
+  const portraitY = useSpring(useTransform(rawY, [-480, 480], [-3, 3]), {
+    stiffness: 52,
+    damping: 28,
+    bounce: 0,
+  });
 
   return (
     <section
@@ -59,11 +53,9 @@ export default function BookHero() {
       }}
     >
       <BookBackground lightX={lightX} lightY={lightY} />
-      <AmbientParticles />
+      <BookNavbar />
 
       <div className={styles.stage}>
-        <BookNavbar />
-
         <motion.article
           className={styles.book}
           initial={{ opacity: 0, y: 24, scale: 0.985 }}
@@ -78,15 +70,13 @@ export default function BookHero() {
           <PaperCard side="left">
             <div className={styles.brandBlock}>
               <span className={styles.mark}>
-                <Leaf size={26} strokeWidth={1.35} />
+                <Leaf size={20} strokeWidth={1.25} />
               </span>
               <div>
                 <p className={styles.brandName}>Poonam Choudhary</p>
                 <p className={styles.brandRole}>Author - Speaker - Parenting Guide</p>
               </div>
             </div>
-
-            <BotanicalDecoration variant="vine" className={styles.leftVine} />
 
             <motion.div
               className={styles.copy}
@@ -109,19 +99,10 @@ export default function BookHero() {
               </p>
               <HeroButtons />
             </motion.div>
-
-            <div className={styles.featuredStrip} aria-label="Featured publications">
-              <span>As featured in</span>
-              <strong>The Hindu</strong>
-              <strong>Forbes</strong>
-              <strong>Femina</strong>
-            </div>
           </PaperCard>
 
           <PaperCard side="right">
-            <div className={styles.paintWash} aria-hidden="true" />
             <BotanicalDecoration variant="sprig" className={styles.rightSprig} />
-            <BotanicalDecoration variant="pressed" className={styles.pressedFlower} />
 
             <motion.div
               className={styles.portraitPlate}
@@ -129,29 +110,26 @@ export default function BookHero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.25, ease: "easeOut" }}
             >
-              <Image
-                src="/author-portrait.png"
-                alt="Poonam Choudhary smiling in warm natural light"
-                fill
-                priority
-                sizes="(max-width: 900px) 70vw, 430px"
-                className={styles.portrait}
-              />
+              <motion.div
+                className={styles.portraitInner}
+                style={{
+                  x: portraitX,
+                  y: portraitY,
+                }}
+              >
+                <Image
+                  src="/author-portrait.png"
+                  alt="Poonam Choudhary smiling in warm natural light"
+                  fill
+                  priority
+                  sizes="(max-width: 900px) 70vw, 430px"
+                  className={styles.portrait}
+                />
+              </motion.div>
               <PaperTexture subtle />
             </motion.div>
 
             <QuoteCard />
-
-            <aside className={styles.statCard} aria-label="Author credentials">
-              <span className={styles.statIcon}>
-                <Sparkles size={18} />
-              </span>
-              <div>
-                <strong>Bestselling Author</strong>
-                <p>of Conscious Parenting</p>
-                <span>50K+ families impacted</span>
-              </div>
-            </aside>
           </PaperCard>
         </motion.article>
       </div>
@@ -180,49 +158,52 @@ export function BookBackground({
 }
 
 export function BookNavbar() {
-  return (
-    <nav className={styles.bookNav} aria-label="Primary navigation">
-      {navItems.map((item, index) => (
-        <BookmarkTab
-          key={item.href}
-          label={item.label}
-          targetId={item.href}
-          icon={item.icon}
-          active={item.href === "home"}
-          rotation={[-2.5, 1.5, -1, 1, -1.6, 2][index]}
-        />
-      ))}
-    </nav>
-  );
-}
+  const [isVisible, setIsVisible] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
-export function BookmarkTab({
-  label,
-  targetId,
-  icon: Icon,
-  active,
-  rotation,
-}: {
-  label: string;
-  targetId: string;
-  icon: typeof Home;
-  active?: boolean;
-  rotation: number;
-}) {
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsVisible(window.scrollY > 96);
+
+      const currentSection = navItems.find((item) => {
+        const section = document.getElementById(item.href);
+        if (!section) return false;
+        const rect = section.getBoundingClientRect();
+        return rect.top <= 140 && rect.bottom >= 140;
+      });
+
+      if (currentSection) setActiveSection(currentSection.href);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <motion.button
-      type="button"
-      className={`${styles.bookmark} ${active ? styles.bookmarkActive : ""}`}
-      style={{ rotate: rotation }}
-      whileHover={{ y: -7 }}
-      whileTap={{ y: -3 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      onClick={() => scrollToSection(targetId)}
-      aria-current={active ? "page" : undefined}
+    <motion.nav
+      className={styles.bookNav}
+      aria-label="Primary navigation"
+      initial={false}
+      animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : -10 }}
+      style={{ pointerEvents: isVisible ? "auto" : "none" }}
+      transition={{ duration: 0.36, ease: "easeOut" }}
     >
-      <Icon size={21} strokeWidth={1.35} />
-      <span>{label}</span>
-    </motion.button>
+      <span className={styles.navMark} aria-hidden="true" />
+      {navItems.map((item) => (
+        <button
+          key={item.href}
+          type="button"
+          className={`${styles.navLink} ${
+            activeSection === item.href ? styles.navLinkActive : ""
+          }`}
+          onClick={() => scrollToSection(item.href)}
+          aria-current={activeSection === item.href ? "page" : undefined}
+        >
+          {item.label}
+        </button>
+      ))}
+    </motion.nav>
   );
 }
 
@@ -255,7 +236,7 @@ export function QuoteCard() {
       aria-label="Poonam Choudhary quote"
     >
       <span className={styles.tape} aria-hidden="true" />
-      <Quote size={28} strokeWidth={1.2} className={styles.quoteIcon} />
+      <Quote size={22} strokeWidth={1.1} className={styles.quoteIcon} />
       <p>There is no perfect parent, only a present one.</p>
       <strong>- Poonam Choudhary</strong>
     </motion.aside>
@@ -272,40 +253,20 @@ export function HeroButtons() {
         transition={{ duration: 0.25, ease: "easeOut" }}
         onClick={() => scrollToSection("books")}
       >
-        <BookOpen size={18} strokeWidth={1.5} />
+        <BookOpen size={16} strokeWidth={1.35} />
         Explore my book
-        <ArrowRight size={17} strokeWidth={1.5} />
+        <ArrowRight size={15} strokeWidth={1.35} />
       </motion.button>
       <motion.button
         type="button"
         className={styles.secondaryCta}
-        whileHover={{ y: -3 }}
+        whileHover={{ x: 3 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
         onClick={() => scrollToSection("speaking")}
       >
-        <PlayCircle size={18} strokeWidth={1.35} />
+        <PlayCircle size={16} strokeWidth={1.2} />
         Watch my story
       </motion.button>
-    </div>
-  );
-}
-
-export function AmbientParticles() {
-  return (
-    <div className={styles.particles} aria-hidden="true">
-      {particles.map((particle, index) => (
-        <motion.span
-          key={`${particle.left}-${particle.top}`}
-          style={{ left: particle.left, top: particle.top }}
-          animate={{ opacity: [0.08, 0.2, 0.08], y: [0, -8, 0] }}
-          transition={{
-            duration: 4.8 + index * 0.2,
-            delay: particle.delay,
-            repeat: Infinity,
-            ease: "easeOut",
-          }}
-        />
-      ))}
     </div>
   );
 }
