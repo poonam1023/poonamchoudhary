@@ -1,3 +1,4 @@
+import { BookCanvas } from "./components/book";
 import HeroSection from "./components/HeroSection";
 import AboutSection from "./components/AboutSection";
 import BooksSection from "./components/BooksSection";
@@ -10,15 +11,17 @@ import Footer from "./components/Footer";
 export default function Home() {
   return (
     <>
-      <main id="main-content">
-        <HeroSection />
-        <AboutSection />
-        <PhilosophySection />
-        <BooksSection />
-        <TestimonialsSection />
-        <JournalSection />
-        <ConnectSection />
-      </main>
+      <BookCanvas>
+        <main id="main-content">
+          <HeroSection />
+          <AboutSection />
+          <PhilosophySection />
+          <BooksSection />
+          <TestimonialsSection />
+          <JournalSection />
+          <ConnectSection />
+        </main>
+      </BookCanvas>
       <Footer />
     </>
   );

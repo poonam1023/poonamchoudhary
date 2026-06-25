@@ -2,24 +2,21 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
-import { Heart, Leaf, MessageCircle, RotateCcw } from "lucide-react";
-import BookChapter from "./BookChapter";
+import { BookSpread, BookPage } from "./book";
+import styles from "./book/BookSystem.module.css";
 
 const principles = [
   {
-    icon: Heart,
     title: "Presence before perfection",
-    text: "Children do not need parents who never fail. They need adults who return, repair, and remain emotionally available.",
+    text: "Children need adults who return, repair, and remain emotionally available.",
   },
   {
-    icon: MessageCircle,
     title: "Connection before correction",
-    text: "The most useful guidance begins with understanding what a child is trying to say beneath the behaviour.",
+    text: "Guidance begins with understanding what a child is trying to say beneath the behaviour.",
   },
   {
-    icon: RotateCcw,
     title: "Repair before shame",
-    text: "Every difficult moment can become a way back to trust when parents learn to pause, name, and reconnect.",
+    text: "Every difficult moment can become a way back to trust when parents pause and reconnect.",
   },
 ];
 
@@ -28,77 +25,68 @@ export default function PhilosophySection() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <BookChapter
+    <BookSpread
       id="philosophy"
-      number="02"
-      label="Chapter Two — Parenting Philosophy"
-      title="The quiet work of raising humans"
-      subtitle="Poonam's approach is not a method to perform. It is a way of seeing children, parents, and everyday moments with more honesty."
-      tone="warm"
-    >
-      <div ref={ref} className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-12 lg:gap-20 items-start">
-        <motion.aside
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="relative rounded-sm p-8 lg:p-10"
-          style={{
-            background: "rgba(247,241,232,0.72)",
-            border: "1px solid rgba(196,204,184,0.46)",
-            boxShadow: "0 1rem 2rem rgba(43,43,43,0.05)",
-          }}
+      left={
+        <BookPage
+          side="left"
+          chapterLabel="Chapter Two"
+          chapterTitle="Parenting Philosophy"
+          pageNumber="4"
         >
-          <Leaf
-            size={92}
-            strokeWidth={1}
-            className="absolute right-6 top-6 text-[#A8B29A]/20"
-            aria-hidden="true"
-          />
-          <p className="font-display text-[2rem] lg:text-[2.6rem] leading-[1.12] text-[#2B2B2B]">
-            Parenting is not a performance. It is a relationship practiced in ordinary moments.
-          </p>
-          <p className="mt-8 font-body text-[0.95rem] leading-[1.9] text-[#6E5A4E]">
-            This chapter slows the reader down. It moves from admiration of the author into recognition:
-            the feeling that this work understands the invisible pressure parents carry.
-          </p>
-        </motion.aside>
+          <motion.div
+            ref={ref}
+            className={styles.marginQuote}
+            style={{ padding: "1.5rem 1.25rem", marginTop: "0.5rem" }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <p style={{ fontSize: "clamp(1.15rem, 1.8vw, 1.55rem)", lineHeight: 1.2 }}>
+              Parenting is not a performance. It is a relationship practiced in
+              ordinary moments.
+            </p>
+          </motion.div>
 
-        <div className="grid grid-cols-1 gap-5">
-          {principles.map((principle, index) => {
-            const Icon = principle.icon;
-            return (
-              <motion.article
+          <motion.p
+            className={`${styles.pageProse} ${styles.pageProseMuted}`}
+            style={{ marginTop: "1rem" }}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.2 }}
+          >
+            This spread slows the reader down — from admiration of the author into
+            recognition of the invisible pressure parents carry.
+          </motion.p>
+        </BookPage>
+      }
+      right={
+        <BookPage side="right" chapterLabel="Chapter Two" pageNumber="5">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55, delay: 0.1 }}
+          >
+            <p className={styles.pageEyebrow}>Three guiding principles</p>
+            <h3 className={styles.pageHeadline}>The quiet work of raising humans</h3>
+            <div className={styles.flourish} />
+
+            {principles.map((principle, index) => (
+              <motion.div
                 key={principle.title}
-                initial={{ opacity: 0, y: 18 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.45, delay: index * 0.08, ease: "easeOut" }}
-                className="grid grid-cols-[auto_1fr] gap-5 border-b border-[#D5CABC]/70 pb-6"
+                className={styles.principleItem}
+                initial={{ opacity: 0, x: 10 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ delay: 0.15 + index * 0.08 }}
               >
-                <span
-                  className="mt-1 grid h-10 w-10 place-items-center rounded-full"
-                  style={{
-                    background: "rgba(168,178,154,0.13)",
-                    border: "1px solid rgba(168,178,154,0.28)",
-                  }}
-                >
-                  <Icon size={17} strokeWidth={1.4} className="text-[#6E5A4E]" />
-                </span>
-                <div>
-                  <h3 className="font-display text-[1.6rem] leading-tight text-[#2B2B2B]">
-                    {principle.title}
-                  </h3>
-                  <p className="mt-2 font-body text-[0.95rem] leading-[1.85] text-[#6E5A4E]">
-                    {principle.text}
-                  </p>
-                </div>
-              </motion.article>
-            );
-          })}
-        </div>
-      </div>
-      <p className="chapter-transition-note">
-        Once the philosophy feels familiar, the reader is ready to hold the work in their hands.
-      </p>
-    </BookChapter>
+                <h3>{principle.title}</h3>
+                <p>{principle.text}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </BookPage>
+      }
+      transitionNote="Once the philosophy feels familiar, the reader holds the work in their hands."
+    />
   );
 }

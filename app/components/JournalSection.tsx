@@ -2,205 +2,135 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
-import { Clock, ArrowRight } from "lucide-react";
-import BotanicalCorner from "./BotanicalCorner";
-import BookChapter from "./BookChapter";
+import { ArrowRight, Clock } from "lucide-react";
+import { BookSpread, BookPage } from "./book";
+import styles from "./book/BookSystem.module.css";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (delay = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] as const },
-  }),
+const featured = {
+  category: "Emotional Growth",
+  title: "Why 'Good Job' Might Be Doing More Harm Than Good",
+  excerpt:
+    "Research — and lived experience — suggests that how we praise matters more than whether we praise at all.",
+  readTime: "6 min read",
+  date: "June 10, 2026",
 };
 
 const articles = [
   {
-    id: "article-1",
-    category: "Emotional Growth",
-    title: "Why 'Good Job' Might Be Doing More Harm Than Good",
-    excerpt:
-      "We've been taught to praise our children endlessly. But research — and lived experience — suggests that how we praise matters more than whether we praise at all.",
-    readTime: "6 min read",
-    date: "June 10, 2026",
-    featured: true,
-  },
-  {
-    id: "article-2",
-    category: "Presence",
     title: "The Extraordinary Power of Simply Being There",
-    excerpt:
-      "In our rush to give our children the best experiences, we sometimes forget the most nourishing one: our undivided attention.",
-    readTime: "4 min read",
-    date: "May 28, 2026",
-    featured: false,
+    readTime: "4 min",
+    category: "Presence",
   },
   {
-    id: "article-3",
+    title: "Saying No with Love: A Guide for Conflict-Averse Parents",
+    readTime: "7 min",
     category: "Boundaries",
-    title: "Saying No with Love: A Guide for Parents Who Hate Conflict",
-    excerpt:
-      "Setting boundaries isn't about being strict. It's about being honest. Here's how to hold the line without losing the warmth.",
-    readTime: "7 min read",
-    date: "May 14, 2026",
-    featured: false,
   },
   {
-    id: "article-4",
+    title: "When Your Child Stops Talking to You",
+    readTime: "5 min",
     category: "Teenage Years",
-    title: "When Your Child Stops Talking to You — and What to Do",
-    excerpt:
-      "Adolescence is not a rejection of you. It's a conversation your child is having with themselves. Here's how to stay in the room.",
-    readTime: "5 min read",
-    date: "Apr 30, 2026",
-    featured: false,
   },
 ];
-
-const categoryColors: Record<string, string> = {
-  "Emotional Growth": "rgba(168,178,154,0.25)",
-  "Presence": "rgba(201,169,110,0.2)",
-  "Boundaries": "rgba(196,204,184,0.35)",
-  "Teenage Years": "rgba(168,178,154,0.2)",
-};
 
 export default function JournalSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <BookChapter
+    <BookSpread
       id="journal"
-      number="05"
-      label="Chapter Five — The Journal Desk"
-      title="Thoughts written in the margins"
-      subtitle="Essays, reflections, and practical resources for parents who want to keep thinking after the page closes."
-      tone="warm"
-    >
-      <div ref={ref} className="relative">
-      <BotanicalCorner position="tl" opacity={0.06} size={180} />
-      <BotanicalCorner position="br" opacity={0.06} size={160} />
-
-        {/* Featured + sidebar layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-
-          {/* Featured article */}
-          <motion.article
-            id={articles[0].id}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            custom={0.1}
-            variants={fadeUp}
-            className="lg:col-span-3 article-card group cursor-pointer"
-            aria-label={`Featured article: ${articles[0].title}`}
-          >
-            {/* Image placeholder */}
-            <div
-              className="w-full relative overflow-hidden"
-              style={{ height: "280px", background: "linear-gradient(135deg, #DDD0BC 0%, #C9B8A0 50%, #E8DCCB 100%)" }}
-            >
-              <BotanicalCorner position="br" opacity={0.15} size={200} />
-              <BotanicalCorner position="tl" opacity={0.1} size={150} />
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 opacity-20">
-                <div className="w-16 h-px bg-[#6E5A4E]" />
-                <span className="font-display text-3xl italic text-[#6E5A4E]">Journal</span>
-                <div className="w-16 h-px bg-[#6E5A4E]" />
-              </div>
-              <div
-                className="absolute top-5 left-5 rounded-full px-3 py-1"
-                style={{ background: categoryColors[articles[0].category] || "rgba(168,178,154,0.2)" }}
-              >
-                <span className="font-body text-[0.68rem] font-semibold text-[#6E5A4E] tracking-widest uppercase">
-                  {articles[0].category}
-                </span>
-              </div>
-              <div className="absolute top-5 right-5 font-body text-[0.68rem] text-[#9E8A7E]">
-                {articles[0].date}
-              </div>
-            </div>
-
-            <div className="p-8 lg:p-10">
-              <div className="flex items-center gap-2 mb-4">
-                <Clock size={12} className="text-[#A8B29A]" />
-                <span className="font-body text-[0.75rem] text-[#9E8A7E]">
-                  {articles[0].readTime}
-                </span>
-              </div>
-              <h3 className="font-display text-[1.7rem] sm:text-[2rem] font-medium leading-tight text-[#2B2B2B] mb-4 group-hover:text-[#6E5A4E] transition-colors">
-                {articles[0].title}
-              </h3>
-              <p className="font-body text-[0.95rem] text-[#6E5A4E] leading-[1.85] mb-6">
-                {articles[0].excerpt}
-              </p>
-              <span className="flex items-center gap-2 font-body text-[0.82rem] font-semibold text-[#6E5A4E] group-hover:text-[#2B2B2B] transition-colors">
-                Continue Reading
-                <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
-              </span>
-            </div>
-          </motion.article>
-
-          {/* Other articles */}
-          <div className="lg:col-span-2 flex flex-col gap-4">
-            {articles.slice(1).map((article, i) => (
-              <motion.article
-                key={article.id}
-                id={article.id}
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                custom={0.15 + i * 0.08}
-                variants={fadeUp}
-                className="article-card group cursor-pointer p-6 flex flex-col gap-3"
-                aria-label={`Article: ${article.title}`}
-              >
-                <div className="flex items-center justify-between">
-                  <span
-                    className="font-body text-[0.65rem] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full"
-                    style={{ background: categoryColors[article.category] || "rgba(168,178,154,0.2)", color: "#6E5A4E" }}
-                  >
-                    {article.category}
-                  </span>
-                  <div className="flex items-center gap-1.5 text-[#9E8A7E]">
-                    <Clock size={11} />
-                    <span className="font-body text-[0.72rem]">{article.readTime}</span>
-                  </div>
-                </div>
-                <h3 className="font-display text-[1.15rem] font-medium leading-tight text-[#2B2B2B] group-hover:text-[#6E5A4E] transition-colors">
-                  {article.title}
-                </h3>
-                <p className="font-body text-[0.85rem] text-[#9E8A7E] leading-[1.7] line-clamp-2">
-                  {article.excerpt}
-                </p>
-                <span className="flex items-center gap-1.5 font-body text-[0.78rem] font-medium text-[#A8B29A] group-hover:text-[#6E5A4E] transition-colors mt-auto pt-2 border-t border-[rgba(196,204,184,0.3)]">
-                  Read Essay
-                  <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
-                </span>
-              </motion.article>
-            ))}
-
-            {/* View all */}
+      left={
+        <BookPage
+          side="left"
+          chapterLabel="Chapter Five"
+          chapterTitle="The Journal Desk"
+          pageNumber="10"
+        >
+          <div ref={ref}>
             <motion.div
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              custom={0.45}
-              variants={fadeUp}
-              className="text-center pt-2"
+              initial={{ opacity: 0, y: 14 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55 }}
             >
-              <button
-                id="btn-view-all-journal"
-                className="btn-secondary w-full justify-center"
-                aria-label="View all journal articles"
+              <div
+                style={{
+                  height: "clamp(7rem, 18vh, 10rem)",
+                  borderRadius: "4px",
+                  background: "linear-gradient(135deg, #DDD0BC, #E8DCCB)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "0.85rem",
+                  border: "1px solid rgba(196,204,184,0.4)",
+                }}
               >
-                View All Essays
+                <span
+                  style={{
+                    fontFamily: "var(--font-cormorant), Georgia, serif",
+                    fontSize: "1.5rem",
+                    fontStyle: "italic",
+                    color: "rgba(110,90,78,0.35)",
+                  }}
+                >
+                  Journal
+                </span>
+              </div>
+
+              <p className={styles.pageEyebrow}>{featured.category}</p>
+              <h3 className={styles.pageHeadline} style={{ fontSize: "clamp(1.25rem, 2vw, 1.65rem)" }}>
+                {featured.title}
+              </h3>
+              <div className={styles.flourish} />
+              <p className={styles.pageProse}>{featured.excerpt}</p>
+
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginTop: "0.75rem" }}>
+                <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.68rem", color: "#9e8a7e" }}>
+                  <Clock size={11} /> {featured.readTime}
+                </span>
+                <span style={{ fontSize: "0.68rem", color: "#9e8a7e" }}>{featured.date}</span>
+              </div>
+
+              <button type="button" className={styles.secondaryCta} style={{ marginTop: "0.85rem" }}>
+                Continue Reading
                 <ArrowRight size={13} />
               </button>
             </motion.div>
           </div>
-        </div>
-      </div>
-      <p className="chapter-transition-note">
-        The essays narrow into one final letter: a personal invitation to begin.
-      </p>
-    </BookChapter>
+        </BookPage>
+      }
+      right={
+        <BookPage side="right" chapterLabel="Chapter Five" pageNumber="11">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.12 }}
+          >
+            <p className={styles.pageEyebrow}>Recent essays</p>
+            <div className={styles.flourish} />
+
+            {articles.map((article) => (
+              <article key={article.title} className={styles.journalEntry}>
+                <small className={styles.pageEyebrow} style={{ margin: 0 }}>
+                  {article.category} · {article.readTime}
+                </small>
+                <h4>{article.title}</h4>
+              </article>
+            ))}
+
+            <button
+              type="button"
+              className={styles.primaryCta}
+              style={{ marginTop: "1rem", width: "100%" }}
+              aria-label="View all journal articles"
+            >
+              View All Essays
+              <ArrowRight size={13} />
+            </button>
+          </motion.div>
+        </BookPage>
+      }
+      transitionNote="The essays narrow into one final letter — a personal invitation to begin."
+    />
   );
 }
