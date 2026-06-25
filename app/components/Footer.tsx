@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Instagram, Twitter, Youtube, Facebook } from "lucide-react";
+import { BookOpen, AtSign, MessageCircle, Play, Globe } from "lucide-react";
 import BotanicalCorner from "./BotanicalCorner";
 
 const footerLinks = {
@@ -20,10 +20,10 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { id: "footer-instagram", icon: Instagram, label: "Instagram", href: "#" },
-  { id: "footer-twitter", icon: Twitter, label: "Twitter", href: "#" },
-  { id: "footer-youtube", icon: Youtube, label: "YouTube", href: "#" },
-  { id: "footer-facebook", icon: Facebook, label: "Facebook", href: "#" },
+  { id: "footer-instagram", icon: AtSign, label: "Instagram", href: "#" },
+  { id: "footer-twitter", icon: MessageCircle, label: "Twitter", href: "#" },
+  { id: "footer-youtube", icon: Play, label: "YouTube", href: "#" },
+  { id: "footer-facebook", icon: Globe, label: "Facebook", href: "#" },
 ];
 
 export default function Footer() {

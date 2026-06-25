@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef, useState } from "react";
-import { Mail, Phone, MapPin, Instagram, Twitter, Youtube, Facebook, Send } from "lucide-react";
+import { Mail, Phone, MapPin, AtSign, MessageCircle, Play, Globe, Send } from "lucide-react";
 import BotanicalCorner from "./BotanicalCorner";
 
 const fadeUp = {
@@ -15,10 +15,10 @@ const fadeUp = {
 };
 
 const socialLinks = [
-  { id: "social-instagram", icon: Instagram, label: "Instagram", href: "#" },
-  { id: "social-twitter", icon: Twitter, label: "Twitter / X", href: "#" },
-  { id: "social-youtube", icon: Youtube, label: "YouTube", href: "#" },
-  { id: "social-facebook", icon: Facebook, label: "Facebook", href: "#" },
+  { id: "social-instagram", icon: AtSign, label: "Instagram", href: "#" },
+  { id: "social-twitter", icon: MessageCircle, label: "Twitter / X", href: "#" },
+  { id: "social-youtube", icon: Play, label: "YouTube", href: "#" },
+  { id: "social-facebook", icon: Globe, label: "Facebook", href: "#" },
 ];
 
 export default function ConnectSection() {
