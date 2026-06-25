@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import BotanicalCorner from "./BotanicalCorner";
+import BookChapter from "./BookChapter";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -58,17 +59,19 @@ const books = [
 ];
 
 export default function BooksSection() {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section
+    <BookChapter
       id="books"
-      ref={ref}
-      className="relative py-28 lg:py-36 overflow-hidden"
-      style={{ background: "#F0E8D6" }}
-      aria-labelledby="books-heading"
+      number="03"
+      label="Chapter Three — The Bookshelf"
+      title="Books to return to slowly"
+      subtitle="Each book becomes a practical place to continue the conversation: warm, structured, and meant to be lived with."
+      tone="cream"
     >
+      <div ref={ref} className="relative">
       {/* Subtle paper tone stripes */}
       <div
         className="absolute inset-0 pointer-events-none opacity-30"
@@ -79,15 +82,13 @@ export default function BooksSection() {
       />
       <BotanicalCorner position="tl" opacity={0.07} size={160} />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-
         {/* Section header */}
         <motion.div
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           custom={0}
           variants={fadeUp}
-          className="flex flex-col items-center text-center mb-16"
+          className="hidden"
         >
           <span className="section-label">The Books</span>
           <div className="section-rule w-full max-w-xs" />
@@ -252,6 +253,9 @@ export default function BooksSection() {
           ))}
         </div>
       </div>
-    </section>
+      <p className="chapter-transition-note">
+        After the work is tangible, the reader turns the page toward the families it has touched.
+      </p>
+    </BookChapter>
   );
 }

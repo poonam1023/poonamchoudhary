@@ -13,12 +13,13 @@ import {
 import styles from "./BookHero.module.css";
 
 const navItems = [
-  { label: "Home", href: "home" },
-  { label: "About", href: "about" },
+  { label: "Cover", href: "home" },
+  { label: "Author", href: "author" },
+  { label: "Philosophy", href: "philosophy" },
   { label: "Books", href: "books" },
-  { label: "Speaking", href: "speaking" },
+  { label: "Readers", href: "readers" },
   { label: "Journal", href: "journal" },
-  { label: "Connect", href: "connect" },
+  { label: "Letter", href: "letter" },
 ];
 
 function scrollToSection(id: string) {
@@ -262,10 +263,10 @@ export function HeroButtons() {
         className={styles.secondaryCta}
         whileHover={{ x: 3 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
-        onClick={() => scrollToSection("speaking")}
+        onClick={() => scrollToSection("author")}
       >
         <PlayCircle size={16} strokeWidth={1.2} />
-        Watch my story
+        Meet the author
       </motion.button>
     </div>
   );

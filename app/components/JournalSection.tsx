@@ -4,6 +4,7 @@ import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 import { Clock, ArrowRight } from "lucide-react";
 import BotanicalCorner from "./BotanicalCorner";
+import BookChapter from "./BookChapter";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -65,44 +66,21 @@ const categoryColors: Record<string, string> = {
 };
 
 export default function JournalSection() {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section
+    <BookChapter
       id="journal"
-      ref={ref}
-      className="relative py-28 lg:py-36 overflow-hidden"
-      style={{ background: "linear-gradient(180deg, #F7F1E8 0%, #EFE6D4 100%)" }}
-      aria-labelledby="journal-heading"
+      number="05"
+      label="Chapter Five — The Journal Desk"
+      title="Thoughts written in the margins"
+      subtitle="Essays, reflections, and practical resources for parents who want to keep thinking after the page closes."
+      tone="warm"
     >
+      <div ref={ref} className="relative">
       <BotanicalCorner position="tl" opacity={0.06} size={180} />
       <BotanicalCorner position="br" opacity={0.06} size={160} />
-
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-
-        {/* Section header */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          custom={0}
-          variants={fadeUp}
-          className="flex flex-col items-center text-center mb-16"
-        >
-          <span className="section-label">Journal</span>
-          <div className="section-rule w-full max-w-xs" />
-          <h2
-            id="journal-heading"
-            className="font-display text-[2.8rem] sm:text-[3.5rem] lg:text-[4rem] font-light leading-tight text-[#2B2B2B] text-balance"
-          >
-            Thoughts Written{" "}
-            <em className="italic font-light text-[#6E5A4E]">in the Margins</em>
-          </h2>
-          <p className="font-body text-[1rem] text-[#9E8A7E] mt-4 max-w-[520px] leading-relaxed">
-            Essays, reflections, and honest conversations about what it means to
-            raise human beings in this complicated, beautiful world.
-          </p>
-        </motion.div>
 
         {/* Featured + sidebar layout */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
@@ -220,6 +198,9 @@ export default function JournalSection() {
           </div>
         </div>
       </div>
-    </section>
+      <p className="chapter-transition-note">
+        The essays narrow into one final letter: a personal invitation to begin.
+      </p>
+    </BookChapter>
   );
 }

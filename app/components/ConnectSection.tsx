@@ -4,6 +4,7 @@ import { motion, useInView } from "motion/react";
 import { useRef, useState } from "react";
 import { Mail, Phone, MapPin, AtSign, MessageCircle, Play, Globe, Send } from "lucide-react";
 import BotanicalCorner from "./BotanicalCorner";
+import BookChapter from "./BookChapter";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -22,7 +23,7 @@ const socialLinks = [
 ];
 
 export default function ConnectSection() {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [form, setForm] = useState({ name: "", email: "", message: "", subject: "General Inquiry" });
   const [submitted, setSubmitted] = useState(false);
@@ -41,17 +42,17 @@ export default function ConnectSection() {
   };
 
   return (
-    <section
-      id="connect"
-      ref={ref}
-      className="relative py-28 lg:py-36 overflow-hidden"
-      style={{ background: "linear-gradient(180deg, #EFE6D4 0%, #F7F1E8 100%)" }}
-      aria-labelledby="connect-heading"
+    <BookChapter
+      id="letter"
+      number="06"
+      label="Final Letter"
+      title="Begin the conversation"
+      subtitle="The book closes with a personal invitation: write, ask, invite, or simply tell Poonam where this found you."
+      tone="paper"
     >
+      <div ref={ref} className="relative">
       <BotanicalCorner position="tr" opacity={0.07} size={200} />
       <BotanicalCorner position="bl" opacity={0.07} size={180} />
-
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
 
         {/* Section header */}
         <motion.div
@@ -59,7 +60,7 @@ export default function ConnectSection() {
           animate={isInView ? "visible" : "hidden"}
           custom={0}
           variants={fadeUp}
-          className="flex flex-col items-center text-center mb-16"
+          className="hidden"
         >
           <span className="section-label">Connect</span>
           <div className="section-rule w-full max-w-xs" />
@@ -71,7 +72,7 @@ export default function ConnectSection() {
             <em className="italic font-light text-[#6E5A4E]">Conversation</em>
           </h2>
           <p className="font-body text-[1rem] text-[#9E8A7E] mt-4 max-w-[520px] leading-relaxed">
-            Whether you'd like to book a speaking engagement, discuss a
+            Whether you&apos;d like to book a speaking engagement, discuss a
             collaboration, or simply share how her work has touched your
             family — Poonam would love to hear from you.
           </p>
@@ -228,7 +229,7 @@ export default function ConnectSection() {
                     Message Received
                   </h3>
                   <p className="font-body text-[0.95rem] text-[#6E5A4E] max-w-[320px] leading-relaxed">
-                    Poonam personally reads every message. She'll be in touch with you shortly.
+                    Poonam personally reads every message. She&apos;ll be in touch with you shortly.
                   </p>
                   <span className="font-script text-[#A8B29A] text-[1.1rem]">— With warmth</span>
                 </motion.div>
@@ -329,8 +330,8 @@ export default function ConnectSection() {
             >
               <BotanicalCorner position="br" opacity={0.15} size={120} />
               <p className="font-display text-[1.1rem] font-light italic text-white leading-[1.6] mb-3">
-                "For speaking enquiries, media requests, and book club visits,
-                Poonam responds personally."
+                &ldquo;For speaking enquiries, media requests, and book club visits,
+                Poonam responds personally.&rdquo;
               </p>
               <span className="font-body text-[0.78rem] text-white/70 tracking-wide">
                 Average response: 2–3 business days
@@ -339,6 +340,9 @@ export default function ConnectSection() {
           </div>
         </div>
       </div>
-    </section>
+      <p className="chapter-transition-note">
+        The final page should feel less like conversion and more like permission to reach out.
+      </p>
+    </BookChapter>
   );
 }

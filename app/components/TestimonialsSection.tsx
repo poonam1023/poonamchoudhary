@@ -3,6 +3,7 @@
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 import { Star } from "lucide-react";
+import BookChapter from "./BookChapter";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -65,17 +66,19 @@ const testimonials = [
 ];
 
 export default function TestimonialsSection() {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section
-      id="testimonials"
-      ref={ref}
-      className="relative py-28 lg:py-36 overflow-hidden"
-      style={{ background: "#F7F1E8" }}
-      aria-labelledby="testimonials-heading"
+    <BookChapter
+      id="readers"
+      number="04"
+      label="Chapter Four — Reader Margins"
+      title="Notes left by families"
+      subtitle="The work becomes real in the margins: in remembered conversations, repaired evenings, and parents who feel less alone."
+      tone="paper"
     >
+      <div ref={ref} className="relative">
       {/* Decorative line pattern */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.02]"
@@ -84,27 +87,6 @@ export default function TestimonialsSection() {
             "repeating-linear-gradient(45deg, #6E5A4E, #6E5A4E 1px, transparent 1px, transparent 60px)",
         }}
       />
-
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-
-        {/* Section header */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          custom={0}
-          variants={fadeUp}
-          className="flex flex-col items-center text-center mb-16"
-        >
-          <span className="section-label">Voices</span>
-          <div className="section-rule w-full max-w-xs" />
-          <h2
-            id="testimonials-heading"
-            className="font-display text-[2.8rem] sm:text-[3.5rem] lg:text-[4rem] font-light leading-tight text-[#2B2B2B] text-balance"
-          >
-            What Families{" "}
-            <em className="italic font-light text-[#6E5A4E]">Are Saying</em>
-          </h2>
-        </motion.div>
 
         {/* Testimonials grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -190,6 +172,9 @@ export default function TestimonialsSection() {
           </div>
         </motion.div>
       </div>
-    </section>
+      <p className="chapter-transition-note">
+        From reader stories, the book opens into ongoing essays and resources.
+      </p>
+    </BookChapter>
   );
 }

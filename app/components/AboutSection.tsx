@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { Feather, Heart, Mic2 } from "lucide-react";
 import BotanicalCorner from "./BotanicalCorner";
+import BookChapter from "./BookChapter";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -37,40 +38,21 @@ const pillars = [
 ];
 
 export default function AboutSection() {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section
-      id="about"
-      ref={ref}
-      className="relative py-28 lg:py-36 overflow-hidden"
-      style={{ background: "linear-gradient(180deg, #F7F1E8 0%, #EFE6D4 100%)" }}
-      aria-labelledby="about-heading"
+    <BookChapter
+      id="author"
+      number="01"
+      label="Chapter One — Meet the Author"
+      title="The author behind the work"
+      subtitle="Before the books, talks, and guidance, there is a person listening closely to what families are trying to say."
+      tone="paper"
     >
+      <div ref={ref} className="relative">
       <BotanicalCorner position="tr" opacity={0.07} size={180} />
       <BotanicalCorner position="bl" opacity={0.06} size={160} />
-
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-
-        {/* Section header */}
-        <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          custom={0}
-          variants={fadeUp}
-          className="flex flex-col items-center text-center mb-20"
-        >
-          <span className="section-label">The Author</span>
-          <div className="section-rule w-full max-w-xs" />
-          <h2
-            id="about-heading"
-            className="font-display text-[2.8rem] sm:text-[3.5rem] lg:text-[4rem] font-light leading-tight text-[#2B2B2B] text-balance"
-          >
-            A Life Written in{" "}
-            <em className="italic font-light text-[#6E5A4E]">Stories</em>
-          </h2>
-        </motion.div>
 
         {/* Main content grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start mb-24">
@@ -105,7 +87,7 @@ export default function AboutSection() {
               style={{ maxWidth: "240px" }}
             >
               <p className="font-display text-[1.1rem] italic font-light text-[#2B2B2B] leading-[1.6] mb-3">
-                "Every child is a letter to a time we will not see."
+                &ldquo;Every child is a letter to a time we will not see.&rdquo;
               </p>
               <span className="font-script text-[#A8B29A] text-[0.95rem]">— Poonam Choudhary</span>
             </div>
@@ -214,6 +196,6 @@ export default function AboutSection() {
           })}
         </div>
       </div>
-    </section>
+    </BookChapter>
   );
 }
