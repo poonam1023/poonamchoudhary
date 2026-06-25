@@ -1,71 +1,57 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./BookSystem.module.css";
 
 const navItems = [
-  { label: "Cover", href: "home" },
-  { label: "Author", href: "author" },
-  { label: "Philosophy", href: "philosophy" },
-  { label: "Books", href: "books" },
-  { label: "Readers", href: "readers" },
-  { label: "Journal", href: "journal" },
-  { label: "Letter", href: "letter" },
+  { label: "Home", num: "00", href: "home" },
+  { label: "Author", num: "01", href: "author" },
+  { label: "Philosophy", num: "02", href: "philosophy" },
+  { label: "Bookshelf", num: "03", href: "books" },
+  { label: "Letters", num: "04", href: "readers" },
+  { label: "Journal", num: "05", href: "journal" },
+  { label: "Connect", num: "06", href: "letter" },
 ];
 
 function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 }
 
-export function BookNav() {
-  const [isVisible, setIsVisible] = useState(false);
+function BookNav() {
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsVisible(window.scrollY > 96);
-
-      const currentSection = navItems.find((item) => {
-        const section = document.getElementById(item.href);
-        if (!section) return false;
-        const rect = section.getBoundingClientRect();
-        return rect.top <= 140 && rect.bottom >= 140;
+      const current = navItems.find((item) => {
+        const el = document.getElementById(item.href);
+        if (!el) return false;
+        const rect = el.getBoundingClientRect();
+        return rect.top <= window.innerHeight * 0.5 && rect.bottom >= window.innerHeight * 0.5;
       });
-
-      if (currentSection) setActiveSection(currentSection.href);
+      if (current) setActiveSection(current.href);
     };
 
-    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <motion.nav
-      className={styles.bookNav}
-      aria-label="Chapter navigation"
-      initial={false}
-      animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : -10 }}
-      style={{ pointerEvents: isVisible ? "auto" : "none" }}
-      transition={{ duration: 0.36, ease: "easeOut" }}
-    >
-      <span className={styles.navMark} aria-hidden="true" />
+    <nav className={styles.bookNav} aria-label="Chapter navigation">
       {navItems.map((item) => (
         <button
           key={item.href}
           type="button"
-          className={`${styles.navLink} ${
-            activeSection === item.href ? styles.navLinkActive : ""
-          }`}
+          className={`${styles.navItem} ${activeSection === item.href ? styles.navItemActive : ""}`}
           onClick={() => scrollToSection(item.href)}
           aria-current={activeSection === item.href ? "page" : undefined}
         >
-          {item.label}
+          <span className={styles.navLabel}>{item.label}</span>
+          <span className={styles.navNum}>{item.num}</span>
         </button>
       ))}
-    </motion.nav>
+    </nav>
   );
 }
 

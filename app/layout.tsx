@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter, Dancing_Script } from "next/font/google";
 import "./globals.css";
+import { LenisProvider } from "./providers/LenisProvider";
+import Cursor from "./components/Cursor";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -68,9 +70,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${inter.variable} ${dancingScript.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${inter.variable} ${dancingScript.variable} antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body>
+        <LenisProvider>
+          <Cursor />
+          {children}
+        </LenisProvider>
+      </body>
     </html>
   );
 }

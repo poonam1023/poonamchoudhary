@@ -3,6 +3,7 @@
   position: relative;
   background: #efe4d1;
   color: #29231d;
+  /* No fixed height — Lenis manages smooth scroll on the window */
 }
 
 .canvasBackground {
@@ -41,13 +42,21 @@
 /* ── Single spread (one viewport) ── */
 .spread {
   position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: clamp(4.5rem, 8vh, 6rem) 0 clamp(2rem, 4vh, 3rem);
+  /* Lenis handles scrolling — no snap needed */
+  padding: clamp(5rem, 10vh, 7rem) 0 clamp(3rem, 6vh, 5rem);
+}
+
+@media (max-width: 1024px) {
+  .spread {
+    height: auto;
+    display: block;
+    overflow: visible;
+    padding: clamp(3rem, 6vh, 4rem) 0;
+  }
 }
 
 .spreadInner {
@@ -61,85 +70,73 @@
 /* ── Navigation ── */
 .bookNav {
   position: fixed;
-  top: clamp(1rem, 2.2vh, 1.6rem);
-  left: 50%;
+  right: clamp(1rem, 3vw, 2.5rem);
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 40;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(0.75rem, 1.8vw, 2rem);
-  width: max-content;
-  max-width: calc(100vw - 2rem);
-  padding: 0.62rem clamp(1rem, 3vw, 2.2rem);
-  border: 1px solid rgba(104, 78, 49, 0.15);
-  border-radius: 0.48rem;
-  color: #45382c;
-  background:
-    linear-gradient(180deg, rgba(255, 253, 246, 0.78), rgba(239, 225, 201, 0.82)),
-    #f5ead8;
-  box-shadow:
-    0 0.9rem 1.8rem rgba(59, 39, 20, 0.11),
-    inset 0 1px 0 rgba(255, 255, 255, 0.58);
-  translate: -50% 0;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: clamp(0.6rem, 1.8vh, 1rem);
+  pointer-events: auto;
 }
 
-.bookNav::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
-  opacity: 0.42;
+@media (max-width: 1024px) {
+  .bookNav {
+    display: none; /* Hide on mobile/tablets to preserve reading space */
+  }
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: none;
+  border: none;
+  padding: 0.25rem 0;
+  cursor: pointer;
+  color: rgba(90, 75, 60, 0.42);
+  transition: color 250ms ease-out;
+}
+
+.navItem:hover {
+  color: #45382c;
+}
+
+.navItemActive {
+  color: #2b251d;
+}
+
+.navLabel {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(0.75rem, 0.85vw, 0.95rem);
+  font-style: italic;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity 250ms ease-out, transform 250ms ease-out;
   pointer-events: none;
 }
 
-.navMark {
-  width: 0.36rem;
-  height: 0.36rem;
-  border-radius: 999px;
-  background: #8c9874;
-  opacity: 0.58;
-  flex-shrink: 0;
+.navItem:hover .navLabel,
+.navItemActive .navLabel {
+  opacity: 0.85;
+  transform: translateX(0);
 }
 
-.navLink {
-  position: relative;
-  padding: 0.18rem 0 0.24rem;
-  border: 0;
-  color: rgba(57, 45, 35, 0.72);
-  background: transparent;
+.navNum {
   font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: clamp(0.56rem, 0.65vw, 0.68rem);
-  font-weight: 650;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: color 220ms ease-out;
-  white-space: nowrap;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  min-width: 1.5rem;
+  text-align: right;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  transition: border-color 250ms ease-out;
 }
 
-.navLink::after {
-  content: "";
-  position: absolute;
-  left: 15%;
-  right: 15%;
-  bottom: -0.08rem;
-  height: 1px;
-  background: #879570;
-  opacity: 0;
-  transform: scaleX(0.45);
-  transition: opacity 220ms ease-out, transform 220ms ease-out;
-}
-
-.navLink:hover,
-.navLinkActive {
-  color: #2f281f;
-}
-
-.navLinkActive::after {
-  opacity: 0.78;
-  transform: scaleX(1);
+.navItemActive .navNum {
+  border-bottom-color: #879570;
 }
 
 /* ── Physical book frame ── */
@@ -844,7 +841,12 @@
   }
 
   .page {
-    min-height: 32rem;
+    height: 100vh;
+    height: 100dvh;
+    min-height: auto;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    overflow: hidden;
   }
 
   .leftPage {
@@ -905,8 +907,10 @@
   }
 
   .page {
-    padding: 1.2rem;
-    min-height: 30rem;
+    padding: clamp(1rem, 4vw, 2rem);
+    height: 100vh;
+    height: 100dvh;
+    min-height: auto;
   }
 
   .coverCopy {
