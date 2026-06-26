@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import PaperBackground from "./PaperBackground";
 import AmbientLight from "./AmbientLight";
 import DustParticles from "./DustParticles";
@@ -13,93 +13,64 @@ import ChapterOne from "./ChapterOne";
 export default function BookOpeningAnimation() {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [coverLoaded, setCoverLoaded] = useState(true);
 
-  const handleOpen = useCallback(() => {
-    setIsOpen(true);
-    setCoverLoaded(true);
-  }, []);
-
-  const handleClose = useCallback(() => {
-    setIsOpen(false);
-  }, []);
+  const handleOpen = useCallback(() => setIsOpen(true), []);
+  const handleClose = useCallback(() => setIsOpen(false), []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-paper">
+    <div className="relative min-h-screen bg-paper">
       <PaperBackground />
       <AmbientLight />
       <DustParticles />
 
-      <AnimatePresence mode="wait">
-        {!isOpen ? (
-          <motion.div
-            key="cover"
-            className="perspective-container relative min-h-screen"
-            exit={{ opacity: 0, transition: { duration: 0.3 } }}
-          >
-            <motion.div
-              className="preserve-3d transform-origin-left relative min-h-screen"
-              animate={
-                coverLoaded
-                  ? { rotateY: 0 }
-                  : { rotateY: 0 }
-              }
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <motion.div
-                className="backface-hidden relative flex min-h-screen flex-col items-center justify-center px-6 py-20"
-                animate={
-                  isOpen
-                    ? {
-                        rotateY: -180,
-                        scale: 0.98,
-                      }
-                    : {
-                        rotateY: 0,
-                        scale: 1,
-                      }
-                }
-                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <div className="mx-auto w-full max-w-lg text-center">
-                  <VintageIllustration />
+      <div className="perspective-container relative min-h-screen">
+        {/* Chapter page — rendered underneath the cover */}
+        <motion.div
+          className="relative min-h-screen"
+          animate={
+            isOpen
+              ? { opacity: 1, scale: 1 }
+              : { opacity: 0, scale: 0.95 }
+          }
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: isOpen ? 0.6 : 0 }}
+        >
+          <ChapterOne onClose={handleClose} />
+        </motion.div>
 
-                  <h1 className="mb-3 font-display text-5xl font-light tracking-tight text-ink sm:text-6xl">
-                    Poonam
-                  </h1>
+        {/* Cover page — on top, rotates on left edge */}
+        <motion.div
+          className="backface-hidden transform-origin-left preserve-3d absolute inset-0 z-10"
+          animate={{ rotateY: isOpen ? -180 : 0 }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="flex min-h-screen flex-col items-center justify-center bg-paper px-6 py-20">
+            <div className="mx-auto w-full max-w-lg text-center">
+              <VintageIllustration />
 
-                  <p className="mb-2 font-display text-lg italic text-ink-brown/70">
-                    A Novel
-                  </p>
+              <h1 className="mb-3 font-display text-5xl font-light tracking-tight text-ink sm:text-6xl">
+                Poonam
+              </h1>
 
-                  <div className="mx-auto mb-6 w-16 border-t border-gold-muted/40" />
+              <p className="mb-2 font-display text-lg italic text-ink-brown/70">
+                A Novel
+              </p>
 
-                  <p className="mb-10 font-sans text-sm uppercase tracking-[0.3em] text-ink-brown/60">
-                    Poonam Choudhary
-                  </p>
+              <div className="mx-auto mb-6 w-16 border-t border-gold-muted/40" />
 
-                  <OpenBookButton
-                    onHover={setIsHovered}
-                    onClick={handleOpen}
-                  />
-                </div>
+              <p className="mb-10 font-sans text-sm uppercase tracking-[0.3em] text-ink-brown/60">
+                Poonam Choudhary
+              </p>
 
-                <PageCurl isHovered={isHovered} />
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        ) : (
-          <motion.div
-            key="chapter"
-            className="relative"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
-          >
-            <ChapterOne onClose={handleClose} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <OpenBookButton
+                onHover={setIsHovered}
+                onClick={handleOpen}
+              />
+            </div>
+          </div>
+
+          <PageCurl isHovered={isHovered} />
+        </motion.div>
+      </div>
     </div>
   );
 }
