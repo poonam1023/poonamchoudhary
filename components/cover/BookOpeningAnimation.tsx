@@ -89,15 +89,43 @@ export default function BookOpeningAnimation() {
           height: isMobile ? "80vh" : "620px",
         }}
         animate={{
-          // Shift left by 230px (half a page) when closed to center the cover on screen
+          // Shift left by 230px when closed on desktop to center the cover on screen
           x: isMobile ? 0 : isOpened ? 0 : -230,
-          scale: bookState === "pressing" ? 0.98 : 1,
+          scale: bookState === "pressing" ? 0.985 : 1,
         }}
         transition={{
           duration: bookState === "pressing" ? 0.3 : 0.9,
           ease: [0.25, 1, 0.5, 1],
         }}
       >
+        {/* ========================================================
+            PHYSICAL LAYER 1: Back Cover Board (visible only when closed)
+           ======================================================== */}
+        {!isOpened && (
+          <div 
+            className="absolute right-0 top-0 h-full bg-[#E8DCCB] border border-[#6E5A4E]/10 rounded-md pointer-events-none transition-opacity duration-300"
+            style={{
+              width: isMobile ? "100%" : "50%",
+              transform: "translate3d(4px, 4px, -10px)",
+              boxShadow: "0 35px 80px rgba(26, 20, 18, 0.45)",
+            }}
+          />
+        )}
+
+        {/* ========================================================
+            PHYSICAL LAYER 2: Page Stack Edge (visible only when closed)
+           ======================================================== */}
+        {!isOpened && (
+          <div 
+            className="absolute right-0 top-0 h-full bg-[#F7F1E8] border-y border-r border-[#6E5A4E]/10 rounded-r-sm pointer-events-none overflow-hidden transition-opacity duration-300"
+            style={{
+              width: isMobile ? "100%" : "50%",
+              transform: "translate3d(2px, 2px, -5px)",
+              backgroundImage: "repeating-linear-gradient(to bottom, #F7F1E8, #F7F1E8 2px, #E8DCCB 2px, #E8DCCB 3px)",
+            }}
+          />
+        )}
+
         {/* ========================================================
             RIGHT PAGE / UNDERLAY: Chapter One
            ======================================================== */}
@@ -188,23 +216,23 @@ export default function BookOpeningAnimation() {
                 </motion.div>
 
                 {/* Author Name Section
-                    Rhythm: Subtitle -> 28px -> BY -> 16px -> POONAM
+                    Rhythm: Subtitle -> 32px -> BY -> 16px -> POONAM
                 */}
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 3.0 }}
-                  className="mt-7"
+                  className="mt-8"
                 >
                   <AuthorName />
                 </motion.div>
 
-                {/* Button Invitation (40px below author) */}
+                {/* Button Invitation (48px below author) */}
                 <motion.div 
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 3.4 }}
-                  className="mt-10"
+                  className="mt-12"
                 >
                   <OpenBookButton
                     onHoverStart={() => setIsHovered(true)}

@@ -20,21 +20,21 @@ export default function PageCurl({ isHovered, isOpening }: PageCurlProps) {
   // Cutout triangle (showing the background color #1A1412)
   const cutoutPaths = {
     normal: "M 132 160 L 160 160 L 160 132 Z",
-    hovered: "M 127 160 L 160 160 L 160 127 Z",
+    hovered: "M 129 160 L 160 160 L 160 129 Z", // Subtle 3px change
     opening: "M 85 160 L 160 160 L 160 85 Z",
   };
 
   // Curled paper flap (showing the page underside)
   const flapPaths = {
     normal: "M 132 160 Q 126 136 160 132 C 148 132 132 148 132 160 Z",
-    hovered: "M 127 160 Q 120 130 160 127 C 145 127 127 145 127 160 Z",
+    hovered: "M 129 160 Q 123 133 160 129 C 146 129 129 146 129 160 Z", // Subtle curl lift
     opening: "M 85 160 Q 72 76 160 85 C 122 85 85 122 85 160 Z",
   };
 
   // Shadow underneath the curl
   const shadowPaths = {
     normal: "M 132 160 Q 120 128 160 132 Z",
-    hovered: "M 127 160 Q 112 122 160 127 Z",
+    hovered: "M 129 160 Q 115 124 160 129 Z",
     opening: "M 85 160 Q 62 68 160 85 Z",
   };
 
@@ -58,7 +58,7 @@ export default function PageCurl({ isHovered, isOpening }: PageCurlProps) {
           animate={{ d: shadowPaths[state as keyof typeof shadowPaths] }}
           transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
           fill="rgba(26, 20, 18, 0.55)"
-          className="blur-[5px]"
+          className="blur-[6px]"
         />
 
         {/* 3. Tighter, Darker Contact Shadow */}
@@ -66,7 +66,7 @@ export default function PageCurl({ isHovered, isOpening }: PageCurlProps) {
           animate={{ d: shadowPaths[state as keyof typeof shadowPaths] }}
           transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
           fill="rgba(26, 20, 18, 0.35)"
-          className="blur-[2px]"
+          className="blur-[3px]"
         />
 
         {/* 4. The Curled Flap */}
