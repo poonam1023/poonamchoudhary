@@ -3,12 +3,12 @@ import Image from "next/image";
 
 export default function VintageIllustration() {
   return (
-    <div className="relative w-48 h-48 md:w-[260px] md:h-[260px] mx-auto pointer-events-none select-none mix-blend-multiply opacity-10 filter contrast-[1.3] saturate-[5%] brightness-[0.98]">
+    <div className="absolute top-[8%] left-1/2 -translate-x-1/2 w-[280px] h-[280px] md:w-[360px] md:h-[360px] pointer-events-none select-none mix-blend-multiply opacity-[0.08] filter contrast-[1.35] saturate-[3%] brightness-[0.97] z-0">
       <Image
         src="/vintage-illustration.png"
-        alt="Vintage Botanical Illustration"
+        alt="Vintage Botanical Illustration Watermark"
         fill
-        sizes="(max-width: 768px) 192px, 260px"
+        sizes="(max-width: 768px) 280px, 360px"
         className="object-contain"
         priority
       />
