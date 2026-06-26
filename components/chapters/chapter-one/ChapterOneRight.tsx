@@ -1,111 +1,143 @@
 import React from "react";
+import Image from "next/image";
 
 /**
- * ChapterOneRight
+ * ChapterOneRight — V2
  *
- * The right-hand page of the Chapter I spread.
- * Typeset to match the opening page of a luxury hardcover novel.
- *
- * Hierarchy:
- *   CHAPTER I label
- *   ❦ ornament
- *   Chapter title
- *   — ✦ — divider
- *   Drop-cap opening paragraph
- *   Second paragraph
- *   ✦ 1 ✦ page number
- *
- * Typography:
- *   Headings — Cormorant Garamond (font-display)
- *   Body     — Inter (font-sans) at display size with Cormorant for the prose paragraphs
- *   Body width — ~58ch at this size (optimal for print)
- *   Line height — 1.88 for generous breathing room
- *
- * Uses .drop-cap-letter CSS class defined in globals.css.
+ * The opening chapter page. Typeset as a luxury hardcover first page.
+ * Redesigned with:
+ *   - Stronger vertical rhythm and breathing room
+ *   - PROJECT POONAM masthead above chapter label
+ *   - Botanical ornament between title and body
+ *   - Narrower body column (~55ch) for superior readability
+ *   - Refined drop cap with emboss treatment
+ *   - Marginal publisher annotations
+ *   - Full footer rule with printed page number
  */
 export default function ChapterOneRight() {
   return (
-    <div className="w-full h-full flex flex-col justify-between py-12 px-10 md:px-12">
+    <div className="relative w-full h-full flex flex-col py-10 px-11 md:px-12 overflow-hidden">
 
-      {/* ── Main typeset content ──────────────────────────────────────── */}
+      {/* ── Marginal note — left margin annotation ─────────────────────── */}
+      {/* Positioned absolutely in the outer left margin of the text column */}
+      <div
+        className="absolute hidden md:flex flex-col items-end select-none pointer-events-none"
+        style={{
+          left: "14px",
+          top: "50%",
+          transform: "translateY(-80px)",
+          gap: "4px",
+        }}
+      >
+        <span
+          className="font-sans uppercase"
+          style={{
+            writingMode: "vertical-rl",
+            transform: "rotate(180deg)",
+            fontSize: "6px",
+            letterSpacing: "0.26em",
+            color: "rgba(110,90,78,0.22)",
+            lineHeight: 1,
+          }}
+        >
+          First Edition
+        </span>
+        <span
+          style={{
+            width: "0.5px",
+            height: "16px",
+            background: "rgba(110,90,78,0.15)",
+            display: "block",
+            margin: "0 auto",
+          }}
+        />
+        <span
+          className="font-sans"
+          style={{
+            writingMode: "vertical-rl",
+            transform: "rotate(180deg)",
+            fontSize: "6px",
+            letterSpacing: "0.22em",
+            color: "rgba(110,90,78,0.18)",
+            lineHeight: 1,
+          }}
+        >
+          MMXXVI
+        </span>
+      </div>
+
+      {/* ── Main content column ────────────────────────────────────────── */}
       <div
         className="flex-1 flex flex-col justify-center mx-auto w-full"
-        style={{ maxWidth: "360px" }}
+        style={{ maxWidth: "320px" }}
       >
 
-        {/* Chapter label */}
-        <div className="text-center mb-5">
+        {/* PROJECT POONAM masthead */}
+        <div className="text-center mb-1">
           <span
             className="font-sans uppercase select-none"
             style={{
-              fontSize: "9px",
-              letterSpacing: "0.38em",
-              color: "rgba(110,90,78,0.42)",
+              fontSize: "7px",
+              letterSpacing: "0.42em",
+              color: "rgba(110,90,78,0.28)",
+            }}
+          >
+            Project Poonam
+          </span>
+        </div>
+
+        {/* Chapter label */}
+        <div className="text-center mb-6">
+          <span
+            className="font-sans uppercase select-none"
+            style={{
+              fontSize: "8px",
+              letterSpacing: "0.40em",
+              color: "rgba(110,90,78,0.38)",
             }}
           >
             Chapter I
           </span>
         </div>
 
-        {/* Ornament */}
-        <div
-          className="text-center mb-5"
-          style={{
-            fontFamily: "Georgia, serif",
-            fontSize: "16px",
-            color: "rgba(110,90,78,0.22)",
-            lineHeight: 1,
-          }}
-        >
-          ❦
-        </div>
-
-        {/* Chapter Title */}
+        {/* Chapter title — intentional line breaks, strong vertical rhythm */}
         <div className="text-center mb-6">
           <h2
-            className="font-display font-semibold leading-[1.12]"
+            className="font-display leading-[1.18]"
             style={{
-              fontSize: "clamp(22px, 4.5vw, 28px)",
-              letterSpacing: "0.008em",
-              color: "rgba(110,90,78,0.90)",
+              fontSize: "clamp(20px, 3.8vw, 26px)",
+              letterSpacing: "0.01em",
+              color: "rgba(110,90,78,0.92)",
+              fontWeight: 400,
             }}
           >
             The Architect
             <br />
-            of Imagined Spaces
+            <span style={{ fontSize: "0.88em", opacity: 0.7 }}>of</span>
+            <br />
+            Imagined Spaces
           </h2>
         </div>
 
-        {/* Decorative divider */}
+        {/* Botanical ornament — the existing vintage illustration, tiny */}
         <div
-          className="flex items-center justify-center mb-8"
-          style={{ gap: "12px", opacity: 0.28 }}
+          className="relative mx-auto mb-7 select-none pointer-events-none"
+          style={{ width: "52px", height: "30px" }}
         >
-          <span
+          <Image
+            src="/vintage-illustration.png"
+            alt=""
+            fill
+            className="object-contain"
             style={{
-              display: "block",
-              width: "28px",
-              height: "0.5px",
-              background: "rgba(110,90,78,1)",
+              filter: "grayscale(100%) sepia(25%) opacity(0.22) contrast(0.9)",
+              mixBlendMode: "multiply",
             }}
-          />
-          <span
-            className="font-sans"
-            style={{ fontSize: "9px", color: "rgba(110,90,78,1)" }}
-          >
-            ✦
-          </span>
-          <span
-            style={{
-              display: "block",
-              width: "28px",
-              height: "0.5px",
-              background: "rgba(110,90,78,1)",
-            }}
+            aria-hidden
           />
         </div>
 
-        {/* ── First paragraph — Drop Cap ─────────────────────────────── */}
+        {/* ── First paragraph with drop cap ──────────────────────────── */}
         <div
           className="text-justify mb-5"
           style={{ color: "rgba(110,90,78,0.80)" }}
@@ -113,17 +145,16 @@ export default function ChapterOneRight() {
           <p
             className="font-display"
             style={{
-              fontSize: "14.5px",
-              lineHeight: "1.88",
-              letterSpacing: "0.005em",
+              fontSize: "13.5px",
+              lineHeight: "1.92",
+              letterSpacing: "0.008em",
             }}
           >
-            {/* Drop cap uses CSS float — see globals.css .drop-cap-letter */}
             <span className="drop-cap-letter">E</span>
-            very line of code is a sentence waiting to be written. For years, we
-            treated the digital screen as a glowing dashboard — a canvas of cold
-            glass and neon signals. But Poonam saw it differently. To her, the
-            screen was paper, dried ink, and binding glue. It was a space where
+            very line of code is a sentence waiting to be written. For years,
+            we treated the digital screen as a glowing dashboard — a canvas of
+            cold glass and neon signals. But Poonam saw it differently. To her,
+            the screen was paper, dried ink, and binding glue. A space where
             design and engineering did not merely function, but breathed.
           </p>
         </div>
@@ -132,28 +163,59 @@ export default function ChapterOneRight() {
         <p
           className="font-display text-justify"
           style={{
-            fontSize: "14.5px",
-            lineHeight: "1.88",
-            letterSpacing: "0.005em",
-            color: "rgba(110,90,78,0.76)",
+            fontSize: "13.5px",
+            lineHeight: "1.92",
+            letterSpacing: "0.008em",
+            color: "rgba(110,90,78,0.72)",
           }}
         >
           This is the ledger of her creations — where logic meets literature,
-          and every project begins as a page waiting to be turned. As you read
-          on, you will uncover works crafted through design, code, and pure
-          imagination. The cover is open. The narrative begins.
+          and every project begins as a page waiting to be turned. The cover
+          is open. The narrative begins.
         </p>
 
       </div>
 
-      {/* ── Page Number ──────────────────────────────────────────────── */}
-      <div className="text-center">
+      {/* ── Page footer — printed rule and number ──────────────────────── */}
+      <div className="flex flex-col items-center gap-2 pb-1">
+        {/* Full-width rule */}
+        <div
+          className="flex items-center gap-3 w-full"
+          style={{ maxWidth: "320px", margin: "0 auto" }}
+        >
+          <span
+            style={{
+              flex: 1,
+              height: "0.5px",
+              background: "rgba(110,90,78,0.14)",
+              display: "block",
+            }}
+          />
+          <span
+            className="font-display select-none"
+            style={{
+              fontSize: "8px",
+              color: "rgba(110,90,78,0.22)",
+            }}
+          >
+            ✦
+          </span>
+          <span
+            style={{
+              flex: 1,
+              height: "0.5px",
+              background: "rgba(110,90,78,0.14)",
+              display: "block",
+            }}
+          />
+        </div>
+        {/* Page number */}
         <span
           className="font-display select-none"
           style={{
-            fontSize: "10.5px",
+            fontSize: "10px",
             letterSpacing: "0.30em",
-            color: "rgba(110,90,78,0.32)",
+            color: "rgba(110,90,78,0.28)",
           }}
         >
           ✦&thinsp;1&thinsp;✦

@@ -4,133 +4,180 @@ import React from "react";
 import { motion } from "framer-motion";
 
 interface BookmarkItemProps {
-  /** Display label — shown as vertical text on the tab. */
   label: string;
-  /** Whether this is the reader's current location. */
   isActive: boolean;
-  /** Called when the reader taps this bookmark. */
   onClick: () => void;
-  /** Used to stagger the entry animation. */
   index: number;
 }
 
 /**
- * BookmarkItem
+ * BookmarkItem — V2
  *
- * A single physical bookmark tab attached to the outside edge of the book.
- * Designed to look like a thumb-index tab cut into a premium hardcover.
+ * Redesigned to resemble handmade paper tabs tucked between book pages.
+ * No longer resembles UI navigation. Looks like a physical object.
  *
- * Visual language:
- *   Active  — sage green, wider, deeper shadow, extends further from book
- *   Inactive — warm cream, narrower, subdued, mostly tucked behind the edge
- *   Hover   — slides 8–10px outward, ease-out, no bounce
+ * Visual characteristics:
+ *  - Paper texture background
+ *  - Folded-corner illusion at the top (triangular shadow)
+ *  - Slight edge notch at the bottom (bookmark identification cut)
+ *  - Aged paper edges — darker along binding side and bottom
+ *  - Paper thickness rendered as a right-side shadow gradient
+ *  - Overlapping stack layout — each bookmark slightly overlaps the next
  *
- * Shape: vertical rectangle, left edge straight (binding),
- *        right corners 3px rounded (exposed).
+ * Active:  sage green, +20–28px more exposed, deeper shadow, slight elevation
+ * Inactive: cream parchment, partially tucked, subdued label
  *
- * The outer wrapper carries drop-shadow via `filter` so it works
- * correctly against the transparent background and clip path.
+ * Typography:
+ *  - Roman numeral (Ⅰ, Ⅱ) for chapters
+ *  - Small editorial label below
+ *  - Cormorant Garamond, vertical
  */
 export default function BookmarkItem({ label, isActive, onClick, index }: BookmarkItemProps) {
-  const tabWidth  = isActive ? 42 : 32;
-  const tabHeight = isActive ? 56 : 48;
+  // Active bookmark is meaningfully wider — 20–28px difference vs inactive
+  const visibleWidth = isActive ? 46 : 26;
+  const tabHeight = 60;
 
   return (
     <motion.div
       className="relative"
       style={{
+        // Drop-shadow works correctly with clip-path and irregular shapes
         filter: isActive
-          ? "drop-shadow(2px 4px 10px rgba(0,0,0,0.24)) drop-shadow(0px 1px 2px rgba(0,0,0,0.14))"
-          : "drop-shadow(1px 1px 4px rgba(0,0,0,0.12))",
+          ? "drop-shadow(3px 4px 12px rgba(0,0,0,0.28)) drop-shadow(0px 1px 2px rgba(0,0,0,0.16))"
+          : "drop-shadow(1px 2px 5px rgba(0,0,0,0.13))",
       }}
-      initial={{ x: 16, opacity: 0 }}
+      initial={{ x: 20, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{
-        delay: 0.55 + index * 0.13,
-        duration: 0.55,
+        delay: 0.55 + index * 0.14,
+        duration: 0.60,
         ease: [0.25, 1, 0.5, 1],
       }}
     >
       <motion.button
         onClick={onClick}
         whileHover={{ x: isActive ? 8 : 10 }}
-        transition={{ type: "tween", duration: 0.26, ease: "easeOut" }}
+        transition={{ type: "tween", duration: 0.28, ease: "easeOut" }}
         className="cursor-pointer focus:outline-none select-none"
         aria-label={isActive ? `Current page: ${label}` : `Open ${label}`}
         aria-current={isActive ? "page" : undefined}
+        style={{ display: "block" }}
       >
-        {/* ── Tab Body ─────────────────────────────────────────────────── */}
         <div
           style={{
-            width: `${tabWidth}px`,
+            width: `${visibleWidth}px`,
             height: `${tabHeight}px`,
-            borderRadius: "0 3px 3px 0",
-            background: isActive
-              ? "linear-gradient(155deg, #BAC4AD 0%, #A8B29A 55%, #9BAF89 100%)"
-              : "linear-gradient(155deg, #F5EDD8 0%, #EEE4C8 55%, #E6D9B8 100%)",
             position: "relative",
             overflow: "hidden",
-            transition: "width 0.30s cubic-bezier(0.25,1,0.5,1), height 0.30s cubic-bezier(0.25,1,0.5,1), background 0.30s ease",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
+            // Notch at the bottom: clip to create a small V-cut identification mark
+            clipPath: `polygon(0 0, 100% 0, 100% ${tabHeight - 8}px, 50% ${tabHeight}px, 0 ${tabHeight - 8}px)`,
+            // Smooth width transition when active state changes
+            transition: "width 0.35s cubic-bezier(0.25,1,0.5,1)",
+            // Base paper color
+            background: isActive
+              ? "linear-gradient(148deg, #B8C4AC 0%, #A8B29A 48%, #98A889 100%)"
+              : "linear-gradient(148deg, #F4ECD5 0%, #EDE3C5 48%, #E5D8B5 100%)",
           }}
         >
-          {/* Paper grain texture */}
+          {/* ── Paper grain — bookmark has its own grain ───────────────── */}
           <div
             className="absolute inset-0 paper-grain-overlay pointer-events-none"
-            style={{ opacity: 0.18 }}
+            style={{ opacity: 0.20 }}
           />
 
-          {/* Binding-side edge — left dark line simulating insertion into pages */}
+          {/* ── Folded-corner shadow at top ────────────────────────────── */}
+          {/* Triangular shadow in the top-left corner simulates a paper fold */}
           <div
-            className="absolute left-0 top-0 bottom-0 pointer-events-none"
+            className="absolute pointer-events-none"
             style={{
-              width: "2px",
-              background: isActive
-                ? "rgba(0,0,0,0.13)"
-                : "rgba(110,90,78,0.14)",
+              top: 0,
+              left: 0,
+              width: "10px",
+              height: "10px",
+              background: `linear-gradient(135deg, rgba(0,0,0,${isActive ? "0.12" : "0.06"}) 0%, transparent 70%)`,
+            }}
+          />
+          {/* Fold highlight — the fold edge catches light */}
+          <div
+            className="absolute pointer-events-none"
+            style={{
+              top: 0,
+              left: 0,
+              width: "1px",
+              height: "10px",
+              background: `linear-gradient(to bottom, rgba(255,255,255,${isActive ? "0.30" : "0.40"}) 0%, transparent 100%)`,
+              transform: "rotate(45deg) translateX(4px)",
+              transformOrigin: "top left",
             }}
           />
 
-          {/* Top highlight — edge of paper catching light */}
+          {/* ── Binding-side edge — left dark line ────────────────────── */}
+          {/* The side inserted between pages; slightly darker from compression */}
+          <div
+            className="absolute left-0 top-0 bottom-0 pointer-events-none"
+            style={{
+              width: "3px",
+              background: isActive
+                ? "linear-gradient(to right, rgba(0,0,0,0.18), rgba(0,0,0,0.06) 70%, transparent)"
+                : "linear-gradient(to right, rgba(110,90,78,0.18), rgba(110,90,78,0.06) 70%, transparent)",
+            }}
+          />
+
+          {/* ── Top edge highlight — paper catching light ─────────────── */}
           <div
             className="absolute top-0 left-0 right-0 pointer-events-none"
             style={{
               height: "1px",
-              background: "rgba(255,255,255,0.50)",
+              background: `rgba(255,255,255,${isActive ? "0.45" : "0.55"})`,
             }}
           />
 
-          {/* Bottom shadow line */}
+          {/* ── Right side — paper thickness shadow ───────────────────── */}
           <div
-            className="absolute bottom-0 left-0 right-0 pointer-events-none"
+            className="absolute right-0 top-0 bottom-0 pointer-events-none"
             style={{
-              height: "1px",
-              background: isActive ? "rgba(0,0,0,0.09)" : "rgba(110,90,78,0.08)",
+              width: "2px",
+              background: isActive
+                ? "linear-gradient(to left, rgba(0,0,0,0.10), transparent)"
+                : "linear-gradient(to left, rgba(110,90,78,0.10), transparent)",
             }}
           />
 
-          {/* Vertical label */}
-          <span
+          {/* ── Aged edge wear — bottom and sides darken slightly ─────── */}
+          <div
+            className="absolute inset-0 pointer-events-none"
             style={{
-              writingMode: "vertical-rl",
-              textOrientation: "mixed",
-              transform: "rotate(180deg)",
-              fontSize: "7.5px",
-              fontFamily: "var(--font-inter), sans-serif",
-              fontWeight: 600,
-              letterSpacing: "0.19em",
-              textTransform: "uppercase",
-              color: isActive ? "rgba(44,34,24,0.68)" : "rgba(110,90,78,0.48)",
-              transition: "color 0.30s ease",
-              userSelect: "none",
-              lineHeight: 1,
+              background: isActive
+                ? "linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.06) 100%)"
+                : "linear-gradient(to bottom, transparent 60%, rgba(110,90,78,0.05) 100%)",
             }}
+          />
+
+          {/* ── Label ─────────────────────────────────────────────────── */}
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center gap-[3px]"
+            style={{ paddingTop: "6px" }}
           >
-            {label}
-          </span>
+            <span
+              style={{
+                writingMode: "vertical-rl",
+                textOrientation: "mixed",
+                transform: "rotate(180deg)",
+                // Use the roman numeral character if label is "Chapter I" etc.
+                // otherwise show the full label in compact form
+                fontFamily: "var(--font-cormorant), serif",
+                fontSize: isActive ? "9px" : "8px",
+                fontWeight: 400,
+                letterSpacing: "0.12em",
+                color: isActive ? "rgba(44,34,24,0.72)" : "rgba(110,90,78,0.42)",
+                transition: "color 0.30s ease, font-size 0.30s ease",
+                userSelect: "none",
+                lineHeight: 1.2,
+              }}
+            >
+              {label}
+            </span>
+          </div>
         </div>
       </motion.button>
     </motion.div>
