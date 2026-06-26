@@ -28,7 +28,9 @@
 }
 
 @layer utilities {
-  /* Paper grain overlays */
+  /* ─────────────────────────────────────────────────────────────────
+     Paper grain overlays — reused across BookPage, BookmarkItem, etc.
+     ───────────────────────────────────────────────────────────────── */
   .paper-grain-overlay {
     filter: url(#paper-grain);
     opacity: 0.13;
@@ -41,10 +43,12 @@
     mix-blend-mode: color-burn;
   }
 
-  /* Physical Book Spine Crease (Highlight & Shadow blend) */
+  /* ─────────────────────────────────────────────────────────────────
+     Physical Book Spine Crease
+     ───────────────────────────────────────────────────────────────── */
   .book-spine-crease {
     position: absolute;
-    left: 44px; /* Crease shifted to 44px to form a realistic spine strip */
+    left: 44px;
     top: 0;
     bottom: 0;
     width: 8px;
@@ -56,11 +60,13 @@
       rgba(255, 255, 255, 0.22) 55%,
       rgba(255, 255, 255, 0.0) 100%
     );
-    z-index: 15; /* Sits above cover elements */
+    z-index: 15;
     pointer-events: none;
   }
 
-  /* Hardcover Board Edge highlight to simulate thickness */
+  /* ─────────────────────────────────────────────────────────────────
+     Hardcover Board Edge highlight
+     ───────────────────────────────────────────────────────────────── */
   .book-board-edge {
     position: absolute;
     inset: 0;
@@ -73,7 +79,9 @@
     z-index: 12;
   }
 
-  /* Letterpress / Emboss effect for printed book cover title */
+  /* ─────────────────────────────────────────────────────────────────
+     Letterpress / Emboss — printed cover title
+     ───────────────────────────────────────────────────────────────── */
   .text-emboss {
     text-shadow: 
       0.5px 0.5px 0px rgba(255, 255, 255, 0.45), 
@@ -81,38 +89,93 @@
   }
 
   /* ─────────────────────────────────────────────────────────────────
-     Drop Cap V2 — Premium printed novel opening letter
-     Float the first letter large-left so body text wraps around it.
-     Emboss shadow simulates letterpress ink impression into paper.
-     Used in ChapterOneRight via <span className="drop-cap-letter">.
+     Drop Cap V4 — Premium letterpress impression
+     5.2em float with full emboss shadow stack.
      ───────────────────────────────────────────────────────────────── */
   .drop-cap-letter {
     float: left;
     font-family: var(--font-cormorant), serif;
-    font-size: 4.8em;
-    font-weight: 600;
+    font-size: 5.2em;
+    font-weight: 500;
     font-style: normal;
-    line-height: 0.80;
-    /* Optical alignment: nudge down so cap sits on baseline */
-    margin-top: 0.06em;
-    padding-right: 0.04em;
-    /* Sage green — marks the narrative start */
+    line-height: 0.78;
+    margin-top: 0.04em;
+    padding-right: 0.06em;
     color: #A8B29A;
     shape-outside: margin-box;
-    /* Letterpress emboss: subtle shadow pressed into paper */
+    /* Multi-layer letterpress: top-left highlight, bottom-right shadow, soft depth */
     text-shadow:
-      0.5px 0.5px 0px rgba(255,255,255,0.50),
-      -0.3px -0.3px 0px rgba(110,90,78,0.18),
-      0px 1px 2px rgba(110,90,78,0.08);
+      0.8px 0.8px 0px rgba(255,255,255,0.55),
+      -0.4px -0.4px 0px rgba(110,90,78,0.15),
+      0px 1.5px 3px rgba(110,90,78,0.10),
+      0px 0px 1px rgba(168,178,154,0.30);
   }
 
+  /* ─────────────────────────────────────────────────────────────────
+     Ribbon Bookmark — fabric linen weave texture
+     Applied to the ribbon body div.
+     ───────────────────────────────────────────────────────────────── */
+  .ribbon-weave {
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        rgba(0,0,0,0.025) 0px,
+        rgba(0,0,0,0.025) 1px,
+        transparent 1px,
+        transparent 4px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.018) 0px,
+        rgba(0,0,0,0.018) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     Library Stamp — CSS ink stamp effect
+     Apply to a div containing stamp text.
+     ───────────────────────────────────────────────────────────────── */
+  .library-stamp {
+    border: 1.5px solid rgba(110,90,78,0.28);
+    color: rgba(110,90,78,0.30);
+    font-family: var(--font-inter), sans-serif;
+    font-size: 5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 4px 6px;
+    line-height: 1.6;
+    /* Irregular ink impression: uneven shadow */
+    box-shadow:
+      0.5px 0 0 rgba(110,90,78,0.12),
+      0 0.5px 0 rgba(110,90,78,0.08),
+      inset 0 0 0 0.5px rgba(255,255,255,0.15);
+    /* Very slight rotation applied inline */
+    transform: rotate(-2deg);
+    mix-blend-mode: multiply;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     Publisher Seal — embossed circle
+     ───────────────────────────────────────────────────────────────── */
+  .publisher-seal {
+    border-radius: 50%;
+    border: 0.75px solid rgba(110,90,78,0.18);
+    box-shadow:
+      inset 0 1px 1px rgba(255,255,255,0.40),
+      inset 0 -1px 1px rgba(110,90,78,0.12),
+      0 1px 2px rgba(110,90,78,0.08);
+  }
 }
 
 /* Global resets for literary site */
 body {
   font-family: var(--font-inter), sans-serif;
   color: #6E5A4E;
-  background-color: #1A1412; /* Darkened warm charcoal brown */
+  background-color: #1A1412;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -124,4 +187,3 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #E8DCCB;
   color: #6E5A4E;
 }
-

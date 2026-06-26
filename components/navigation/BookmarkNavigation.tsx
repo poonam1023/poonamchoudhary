@@ -1,72 +1,81 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import BookmarkItem from "./BookmarkItem";
+import ChapterIndexPanel from "./ChapterIndexPanel";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Chapter Registry
-//
-// This is the single source of truth for book navigation.
-// Adding a new chapter requires ONLY adding a new entry here.
-// No component changes required.
+// Chapter Registry — single source of truth for navigation
 // ─────────────────────────────────────────────────────────────────────────────
 export interface ChapterEntry {
   id: string;
-  /** Short label printed on the bookmark tab. Max ~12 chars for readability. */
   label: string;
-  /** Page index used to identify active state and trigger navigation. */
   page: number;
 }
 
 export const CHAPTERS: ChapterEntry[] = [
   { id: "cover",     label: "Cover",     page: 0 },
   { id: "chapter-1", label: "Chapter I", page: 1 },
-  // { id: "chapter-2", label: "Chapter II",  page: 2 },
-  // { id: "gallery",   label: "Gallery",     page: 3 },
-  // { id: "contact",   label: "Contact",     page: 4 },
-  // { id: "back",      label: "Back Cover",  page: 5 },
 ];
 
 interface BookmarkNavigationProps {
-  /** Page index the reader is currently on. Used to mark the active bookmark. */
   currentPage: number;
-  /**
-   * Called when the reader clicks a bookmark.
-   * The page number is passed — the parent decides what happens
-   * (close book, flip forward, flip backward, etc.).
-   */
   onNavigate: (page: number) => void;
 }
 
 /**
- * BookmarkNavigation
+ * BookmarkNavigation — V4
  *
- * Renders the physical bookmark tabs attached to the outside right edge
- * of the open book. Fully data-driven from CHAPTERS registry above.
+ * Renders a horizontal row of fabric ribbon bookmarks anchored at the
+ * top of the book spread near the spine.
  *
- * Positioned via the parent ChapterOne component — this component is
- * purely a visual and interaction layer.
+ * Clicking any ribbon opens the ChapterIndexPanel — a printed chapter
+ * index card that slides in. Clicking again or clicking outside closes it.
+ *
+ * The ribbons themselves hang vertically downward (200px) with fishtail cuts.
  */
 export default function BookmarkNavigation({
   currentPage,
   onNavigate,
 }: BookmarkNavigationProps) {
+  const [panelOpen, setPanelOpen] = useState(false);
+
+  const handleRibbonClick = (page: number) => {
+    if (currentPage === page && page !== 0) {
+      // Same chapter — toggle panel
+      setPanelOpen((prev) => !prev);
+    } else {
+      // Different chapter — navigate directly
+      onNavigate(page);
+    }
+  };
+
   return (
     <div
-      className="flex flex-col items-start pointer-events-auto"
-      style={{ gap: "7px", paddingTop: "76px" }}
+      className="relative pointer-events-auto"
+      style={{ display: "flex", flexDirection: "row", alignItems: "flex-start" }}
       role="navigation"
       aria-label="Chapter navigation"
     >
+      {/* Ribbon row */}
       {CHAPTERS.map((chapter, index) => (
         <BookmarkItem
           key={chapter.id}
           label={chapter.label}
           isActive={currentPage === chapter.page}
-          onClick={() => onNavigate(chapter.page)}
+          onClick={() => handleRibbonClick(chapter.page)}
           index={index}
+          panelOpen={panelOpen && currentPage === chapter.page}
         />
       ))}
+
+      {/* Chapter index panel — slides in near ribbons */}
+      <ChapterIndexPanel
+        isOpen={panelOpen}
+        currentPage={currentPage}
+        onNavigate={onNavigate}
+        onClose={() => setPanelOpen(false)}
+      />
     </div>
   );
 }

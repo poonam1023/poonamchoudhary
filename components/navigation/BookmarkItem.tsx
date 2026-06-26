@@ -3,176 +3,196 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-interface BookmarkItemProps {
+interface RibbonBookmarkProps {
   label: string;
   isActive: boolean;
   onClick: () => void;
   index: number;
+  /** Whether the chapter index panel is currently open */
+  panelOpen?: boolean;
 }
 
 /**
- * BookmarkItem — V2
+ * RibbonBookmark — V4
  *
- * Redesigned to resemble handmade paper tabs tucked between book pages.
- * No longer resembles UI navigation. Looks like a physical object.
+ * A premium sewn fabric ribbon bookmark emerging from inside the book's binding.
+ * The reader should believe they could physically pull it out.
  *
- * Visual characteristics:
- *  - Paper texture background
- *  - Folded-corner illusion at the top (triangular shadow)
- *  - Slight edge notch at the bottom (bookmark identification cut)
- *  - Aged paper edges — darker along binding side and bottom
- *  - Paper thickness rendered as a right-side shadow gradient
- *  - Overlapping stack layout — each bookmark slightly overlaps the next
+ * Material characteristics:
+ *  - Woven linen texture (CSS repeating-linear-gradient crosshatch)
+ *  - Slight fabric fold (diagonal gradient lighter top → darker bottom)
+ *  - Thread edge (1px darker stripe along vertical sides)
+ *  - Fishtail V-cut at bottom (clipPath polygon)
+ *  - Realistic fabric shadow (drop-shadow)
+ *  - Stitched top illusion (dashed line at very top)
  *
- * Active:  sage green, +20–28px more exposed, deeper shadow, slight elevation
- * Inactive: cream parchment, partially tucked, subdued label
+ * Active bookmark (current chapter): sage green #A8B29A
+ * Inactive bookmark (other chapters): warm cream linen #E8DABE
  *
- * Typography:
- *  - Roman numeral (Ⅰ, Ⅱ) for chapters
- *  - Small editorial label below
- *  - Cormorant Garamond, vertical
+ * Interaction:
+ *  - Hover: very slight x-translate + shadow deepen (fabric sway feel)
+ *  - Click: triggers onNavigate / panel open
  */
-export default function BookmarkItem({ label, isActive, onClick, index }: BookmarkItemProps) {
-  // Active bookmark is meaningfully wider — 20–28px difference vs inactive
-  const visibleWidth = isActive ? 46 : 26;
-  const tabHeight = 60;
+export default function RibbonBookmark({
+  label,
+  isActive,
+  onClick,
+  index,
+  panelOpen = false,
+}: RibbonBookmarkProps) {
+  const ribbonWidth = isActive ? 26 : 18;
+  const ribbonHeight = 200;
+  const fishtailDepth = 14;
+
+  // Active: sage green; Inactive: warm linen cream
+  const ribbonColor = isActive
+    ? { base: "#A4B098", light: "#B4C0A8", dark: "#8E9C84", thread: "#7A8872" }
+    : { base: "#E2D8B8", light: "#EDE3C5", dark: "#CCC0A0", thread: "#C0B090" };
 
   return (
     <motion.div
       className="relative"
       style={{
-        // Drop-shadow works correctly with clip-path and irregular shapes
-        filter: isActive
-          ? "drop-shadow(3px 4px 12px rgba(0,0,0,0.28)) drop-shadow(0px 1px 2px rgba(0,0,0,0.16))"
-          : "drop-shadow(1px 2px 5px rgba(0,0,0,0.13))",
+        // Each ribbon is spaced horizontally from the last
+        marginLeft: index > 0 ? "8px" : "0",
       }}
-      initial={{ x: 20, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
+      initial={{ y: -30, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
       transition={{
-        delay: 0.55 + index * 0.14,
-        duration: 0.60,
+        delay: 0.5 + index * 0.18,
+        duration: 0.70,
         ease: [0.25, 1, 0.5, 1],
       }}
     >
       <motion.button
         onClick={onClick}
-        whileHover={{ x: isActive ? 8 : 10 }}
-        transition={{ type: "tween", duration: 0.28, ease: "easeOut" }}
+        whileHover={{
+          y: isActive && panelOpen ? 0 : 4,
+          filter: isActive
+            ? "drop-shadow(2px 6px 14px rgba(0,0,0,0.30))"
+            : "drop-shadow(1px 4px 8px rgba(0,0,0,0.18))",
+        }}
+        transition={{ type: "spring", stiffness: 280, damping: 22 }}
         className="cursor-pointer focus:outline-none select-none"
-        aria-label={isActive ? `Current page: ${label}` : `Open ${label}`}
-        aria-current={isActive ? "page" : undefined}
-        style={{ display: "block" }}
+        aria-label={isActive ? `Current: ${label}` : `Navigate to ${label}`}
+        aria-pressed={isActive}
+        style={{
+          display: "block",
+          filter: isActive
+            ? "drop-shadow(1px 4px 12px rgba(0,0,0,0.26))"
+            : "drop-shadow(0.5px 2px 6px rgba(0,0,0,0.14))",
+          transition: "filter 0.25s ease",
+        }}
       >
+        {/* ── Ribbon body ─────────────────────────────────────────────── */}
         <div
           style={{
-            width: `${visibleWidth}px`,
-            height: `${tabHeight}px`,
+            width: `${ribbonWidth}px`,
+            height: `${ribbonHeight}px`,
             position: "relative",
             overflow: "hidden",
-            // Notch at the bottom: clip to create a small V-cut identification mark
-            clipPath: `polygon(0 0, 100% 0, 100% ${tabHeight - 8}px, 50% ${tabHeight}px, 0 ${tabHeight - 8}px)`,
-            // Smooth width transition when active state changes
-            transition: "width 0.35s cubic-bezier(0.25,1,0.5,1)",
-            // Base paper color
-            background: isActive
-              ? "linear-gradient(148deg, #B8C4AC 0%, #A8B29A 48%, #98A889 100%)"
-              : "linear-gradient(148deg, #F4ECD5 0%, #EDE3C5 48%, #E5D8B5 100%)",
+            // Fishtail bottom cut — the identifying ribbon shape
+            clipPath: `polygon(0 0, 100% 0, 100% calc(100% - ${fishtailDepth}px), 50% 100%, 0 calc(100% - ${fishtailDepth}px))`,
+            // Base fabric color with slight gradient (fabric fold: lighter top-left → darker bottom-right)
+            background: `linear-gradient(155deg, ${ribbonColor.light} 0%, ${ribbonColor.base} 50%, ${ribbonColor.dark} 100%)`,
+            // Width transition when active state changes
+            transition: "width 0.40s cubic-bezier(0.25,1,0.5,1)",
           }}
         >
-          {/* ── Paper grain — bookmark has its own grain ───────────────── */}
+          {/* ── Linen weave texture ────────────────────────────────────── */}
           <div
-            className="absolute inset-0 paper-grain-overlay pointer-events-none"
-            style={{ opacity: 0.20 }}
+            className="absolute inset-0 pointer-events-none ribbon-weave"
+            style={{ opacity: 1 }}
           />
 
-          {/* ── Folded-corner shadow at top ────────────────────────────── */}
-          {/* Triangular shadow in the top-left corner simulates a paper fold */}
-          <div
-            className="absolute pointer-events-none"
-            style={{
-              top: 0,
-              left: 0,
-              width: "10px",
-              height: "10px",
-              background: `linear-gradient(135deg, rgba(0,0,0,${isActive ? "0.12" : "0.06"}) 0%, transparent 70%)`,
-            }}
-          />
-          {/* Fold highlight — the fold edge catches light */}
-          <div
-            className="absolute pointer-events-none"
-            style={{
-              top: 0,
-              left: 0,
-              width: "1px",
-              height: "10px",
-              background: `linear-gradient(to bottom, rgba(255,255,255,${isActive ? "0.30" : "0.40"}) 0%, transparent 100%)`,
-              transform: "rotate(45deg) translateX(4px)",
-              transformOrigin: "top left",
-            }}
-          />
-
-          {/* ── Binding-side edge — left dark line ────────────────────── */}
-          {/* The side inserted between pages; slightly darker from compression */}
-          <div
-            className="absolute left-0 top-0 bottom-0 pointer-events-none"
-            style={{
-              width: "3px",
-              background: isActive
-                ? "linear-gradient(to right, rgba(0,0,0,0.18), rgba(0,0,0,0.06) 70%, transparent)"
-                : "linear-gradient(to right, rgba(110,90,78,0.18), rgba(110,90,78,0.06) 70%, transparent)",
-            }}
-          />
-
-          {/* ── Top edge highlight — paper catching light ─────────────── */}
-          <div
-            className="absolute top-0 left-0 right-0 pointer-events-none"
-            style={{
-              height: "1px",
-              background: `rgba(255,255,255,${isActive ? "0.45" : "0.55"})`,
-            }}
-          />
-
-          {/* ── Right side — paper thickness shadow ───────────────────── */}
-          <div
-            className="absolute right-0 top-0 bottom-0 pointer-events-none"
-            style={{
-              width: "2px",
-              background: isActive
-                ? "linear-gradient(to left, rgba(0,0,0,0.10), transparent)"
-                : "linear-gradient(to left, rgba(110,90,78,0.10), transparent)",
-            }}
-          />
-
-          {/* ── Aged edge wear — bottom and sides darken slightly ─────── */}
+          {/* ── Fabric fold highlight — diagonal ──────────────────────── */}
+          {/* Simulates light catching the woven fabric at an angle */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: isActive
-                ? "linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.06) 100%)"
-                : "linear-gradient(to bottom, transparent 60%, rgba(110,90,78,0.05) 100%)",
+              background: `linear-gradient(
+                120deg,
+                rgba(255,255,255,${isActive ? "0.18" : "0.22"}) 0%,
+                transparent 45%,
+                rgba(0,0,0,${isActive ? "0.06" : "0.04"}) 100%
+              )`,
             }}
           />
 
-          {/* ── Label ─────────────────────────────────────────────────── */}
+          {/* ── Thread edge — left vertical ───────────────────────────── */}
           <div
-            className="absolute inset-0 flex flex-col items-center justify-center gap-[3px]"
-            style={{ paddingTop: "6px" }}
+            className="absolute left-0 top-0 bottom-0 pointer-events-none"
+            style={{
+              width: "1.5px",
+              background: `linear-gradient(to bottom, ${ribbonColor.thread}, ${ribbonColor.dark})`,
+              opacity: 0.70,
+            }}
+          />
+
+          {/* ── Thread edge — right vertical ──────────────────────────── */}
+          <div
+            className="absolute right-0 top-0 bottom-0 pointer-events-none"
+            style={{
+              width: "1.5px",
+              background: `linear-gradient(to bottom, ${ribbonColor.thread}, ${ribbonColor.dark})`,
+              opacity: 0.60,
+            }}
+          />
+
+          {/* ── Stitched top — sewn into binding ──────────────────────── */}
+          {/* A few tiny stitches at the very top of the ribbon */}
+          <div
+            className="absolute top-0 left-0 right-0 pointer-events-none"
+            style={{
+              height: "8px",
+              background: `linear-gradient(to bottom, rgba(0,0,0,${isActive ? "0.12" : "0.08"}) 0%, transparent 100%)`,
+            }}
+          />
+          {/* Stitch line — dashed border illusion */}
+          <div
+            className="absolute top-[5px] pointer-events-none"
+            style={{
+              left: "3px",
+              right: "3px",
+              height: "0.5px",
+              background: `repeating-linear-gradient(
+                to right,
+                ${ribbonColor.thread} 0px,
+                ${ribbonColor.thread} 3px,
+                transparent 3px,
+                transparent 5px
+              )`,
+              opacity: 0.55,
+            }}
+          />
+
+          {/* ── Bottom aged wear — fabric fray ────────────────────────── */}
+          <div
+            className="absolute bottom-0 left-0 right-0 pointer-events-none"
+            style={{
+              height: "28px",
+              background: `linear-gradient(to bottom, transparent 0%, rgba(0,0,0,${isActive ? "0.08" : "0.05"}) 100%)`,
+            }}
+          />
+
+          {/* ── Label — printed onto ribbon ───────────────────────────── */}
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ paddingTop: "16px", paddingBottom: `${fishtailDepth + 4}px` }}
           >
             <span
               style={{
                 writingMode: "vertical-rl",
                 textOrientation: "mixed",
                 transform: "rotate(180deg)",
-                // Use the roman numeral character if label is "Chapter I" etc.
-                // otherwise show the full label in compact form
                 fontFamily: "var(--font-cormorant), serif",
-                fontSize: isActive ? "9px" : "8px",
+                fontSize: isActive ? "8px" : "7px",
                 fontWeight: 400,
-                letterSpacing: "0.12em",
-                color: isActive ? "rgba(44,34,24,0.72)" : "rgba(110,90,78,0.42)",
-                transition: "color 0.30s ease, font-size 0.30s ease",
+                letterSpacing: "0.14em",
+                color: isActive ? "rgba(44,36,28,0.65)" : "rgba(110,90,78,0.38)",
                 userSelect: "none",
                 lineHeight: 1.2,
+                transition: "color 0.30s ease, font-size 0.30s ease",
               }}
             >
               {label}

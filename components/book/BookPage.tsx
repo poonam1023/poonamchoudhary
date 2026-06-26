@@ -8,16 +8,27 @@ interface BookPageProps {
 }
 
 /**
- * BookPage — V2
+ * BookPage — V4
  *
- * Enhanced paper realism. Added layers:
- *  9.  Deeper spine gutter with visible page-warp curvature near binding
- *  10. Outer edge shadow — book edge catching ambient light
- *  11. Horizontal paper warp band — subtle light shift across page mid-point
- *  12. Ink spread layer — very faint warm tint simulating ink absorption
+ * Paper realism layers (cumulative from all versions):
+ *  1.  Paper fibre weave crosshatch
+ *  2.  SVG turbulence grain (paper-grain-overlay)
+ *  3.  SVG noise light (paper-grain-light)
+ *  4.  Aged yellowing corner
+ *  5.  Corner age spots × 4
+ *  6.  Micro stains × 3
+ *  7.  Spine gutter shadow (wide feathered)
+ *  8.  Tight spine crease line
+ *  9.  Page surface curvature radial
+ *  10. Horizontal paper warp band
+ *  11. Ink spread warm tint
+ *  12. Edge highlight & page thickness
+ *  13. Physical page-stack outer edge
+ *  14. Outer edge ambient shadow
  *
- * All texture should be felt, never noticed.
- * If you can name the effect, it is too strong.
+ * V4 additions:
+ *  15. Foxing spots — 5 tiny aged brown dots at seeded positions
+ *  16. Very subtle top-edge darkening (moisture absorption)
  */
 export default function BookPage({ side, children, className = "" }: BookPageProps) {
   const isLeft = side === "left";
@@ -26,19 +37,15 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
     <div
       className={`relative w-full h-full overflow-hidden ${className}`}
       style={{
-        // Warm aged cream — the right page is slightly warmer toward the outer edge
         background: isLeft
-          ? "linear-gradient(162deg, #F6EBCA 0%, #F2E6C6 38%, #EBD9B5 100%)"
-          : "linear-gradient(198deg, #F7EDD0 0%, #F3E8C7 42%, #ECE0BA 100%)",
-        // Gutter inner shadow — deeper than V1, creates convincing page curve
+          ? "linear-gradient(162deg, #F5EAC6 0%, #F1E4C2 38%, #EAD8B2 100%)"
+          : "linear-gradient(198deg, #F6ECC8 0%, #F2E7C4 42%, #EBE0B8 100%)",
         boxShadow: isLeft
           ? "inset -22px 0 38px -4px rgba(0,0,0,0.09), inset -4px 0 8px rgba(110,90,78,0.12)"
           : "inset 22px 0 38px -4px rgba(0,0,0,0.09), inset 4px 0 8px rgba(110,90,78,0.12)",
       }}
     >
-      {/* ── 1. Paper Fibre Weave ─────────────────────────────────────────
-          Fine crosshatch at near-zero opacity. Felt, not seen.
-         ──────────────────────────────────────────────────────────────── */}
+      {/* ── 1. Paper Fibre Weave ─────────────────────────────────────────── */}
       <div
         className="absolute inset-0 pointer-events-none select-none"
         style={{
@@ -61,15 +68,11 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         }}
       />
 
-      {/* ── 2. SVG Turbulence Grain ─────────────────────────────────────
-          Reuses filter IDs from layout.tsx.
-         ──────────────────────────────────────────────────────────────── */}
+      {/* ── 2–3. SVG Turbulence Grain ────────────────────────────────────── */}
       <div className="absolute inset-0 paper-grain-overlay pointer-events-none select-none" />
       <div className="absolute inset-0 paper-grain-light pointer-events-none select-none" />
 
-      {/* ── 3. Aged Yellowing — warm corner discoloration ───────────────
-          Left page ages at bottom-right; right at top-left (spine proximity).
-         ──────────────────────────────────────────────────────────────── */}
+      {/* ── 4. Aged Yellowing — warm corner discoloration ────────────────── */}
       <div
         className="absolute pointer-events-none select-none"
         style={{
@@ -84,9 +87,7 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         }}
       />
 
-      {/* ── 4. Corner Age Spots ─────────────────────────────────────────
-          Four corners — subtle oxidization darkening.
-         ──────────────────────────────────────────────────────────────── */}
+      {/* ── 5. Corner Age Spots × 4 ─────────────────────────────────────── */}
       <div className="absolute top-0 left-0 w-20 h-20 pointer-events-none select-none"
         style={{ background: "radial-gradient(circle at 0% 0%, rgba(110,90,78,0.07) 0%, transparent 70%)" }} />
       <div className="absolute top-0 right-0 w-20 h-20 pointer-events-none select-none"
@@ -96,9 +97,7 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
       <div className="absolute bottom-0 right-0 w-20 h-20 pointer-events-none select-none"
         style={{ background: "radial-gradient(circle at 100% 100%, rgba(110,90,78,0.08) 0%, transparent 70%)" }} />
 
-      {/* ── 5. Micro Stains — fingerprints of time ──────────────────────
-          Asymmetric, non-repeating. Near-invisible blemishes.
-         ──────────────────────────────────────────────────────────────── */}
+      {/* ── 6. Micro Stains ─────────────────────────────────────────────── */}
       <div className="absolute pointer-events-none select-none"
         style={{ top: "27%", left: isLeft ? "22%" : "17%", width: "80px", height: "56px",
           background: "radial-gradient(ellipse, rgba(110,90,78,0.032) 0%, transparent 70%)", filter: "blur(14px)" }} />
@@ -109,10 +108,7 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         style={{ top: "44%", left: isLeft ? "52%" : "60%", width: "34px", height: "28px",
           background: "radial-gradient(ellipse, rgba(110,90,78,0.020) 0%, transparent 70%)", filter: "blur(7px)" }} />
 
-      {/* ── 6. Spine Gutter Shadow — deeper than V1 ─────────────────────
-          Gradient that pools at the spine and feathers outward.
-          The second layer (darker, tighter) creates the actual crease.
-         ──────────────────────────────────────────────────────────────── */}
+      {/* ── 7. Spine Gutter Shadow — wide feathered ─────────────────────── */}
       <div
         className="absolute top-0 bottom-0 pointer-events-none select-none"
         style={{
@@ -121,7 +117,8 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
           background: `linear-gradient(to ${isLeft ? "left" : "right"}, rgba(0,0,0,0.09) 0%, rgba(0,0,0,0.04) 50%, transparent 100%)`,
         }}
       />
-      {/* Tight dark crease line at the very spine edge */}
+
+      {/* ── 8. Tight spine crease line ──────────────────────────────────── */}
       <div
         className="absolute top-4 bottom-4 pointer-events-none select-none"
         style={{
@@ -132,9 +129,7 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         }}
       />
 
-      {/* ── 7. Page Surface Curvature ────────────────────────────────────
-          Radial lightening toward mid-page — page bowing away from spine.
-         ──────────────────────────────────────────────────────────────── */}
+      {/* ── 9. Page Surface Curvature ────────────────────────────────────── */}
       <div
         className="absolute inset-0 pointer-events-none select-none"
         style={{
@@ -142,10 +137,7 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         }}
       />
 
-      {/* ── 8. Horizontal Paper Warp Band ────────────────────────────────
-          A barely-visible horizontal band of slightly different tone
-          simulates the micro-warp of paper absorbing humidity over time.
-         ──────────────────────────────────────────────────────────────── */}
+      {/* ── 10. Horizontal Paper Warp Band ──────────────────────────────── */}
       <div
         className="absolute left-0 right-0 pointer-events-none select-none"
         style={{
@@ -155,10 +147,7 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         }}
       />
 
-      {/* ── 9. Ink Spread — warm tint in text areas ──────────────────────
-          Very faint warm tinge in the upper reading area, as if ink
-          has been absorbed into the fibres over decades.
-         ──────────────────────────────────────────────────────────────── */}
+      {/* ── 11. Ink Spread ──────────────────────────────────────────────── */}
       <div
         className="absolute left-0 right-0 pointer-events-none select-none"
         style={{
@@ -168,11 +157,7 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         }}
       />
 
-      {/* ── 10. Edge Highlight & Page Thickness ──────────────────────────
-           Top highlight: paper edge catching overhead light.
-           Bottom shadow: page weight resting.
-           Outer edge: stack of pages below this one.
-          ──────────────────────────────────────────────────────────────── */}
+      {/* ── 12. Edge Highlight & Page Thickness ─────────────────────────── */}
       <div
         className="absolute inset-0 pointer-events-none select-none"
         style={{
@@ -184,7 +169,7 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         }}
       />
 
-      {/* Physical page-stack edge — outer side shows slight darkness from pages below */}
+      {/* ── 13. Physical page-stack outer edge ──────────────────────────── */}
       <div
         className="absolute top-0 bottom-0 pointer-events-none select-none"
         style={{
@@ -196,10 +181,7 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         }}
       />
 
-      {/* ── 11. Outer Edge Ambient Shadow ────────────────────────────────
-           Soft darkening along the outer edge of the book —
-           simulates the ambient shadow cast by the desk beneath.
-          ──────────────────────────────────────────────────────────────── */}
+      {/* ── 14. Outer Edge Ambient Shadow ───────────────────────────────── */}
       <div
         className="absolute top-0 bottom-0 pointer-events-none select-none"
         style={{
@@ -209,9 +191,34 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         }}
       />
 
-      {/* ── Content Layer ────────────────────────────────────────────────
-           Renders above all paper texture at z-10.
-          ──────────────────────────────────────────────────────────────── */}
+      {/* ── 15. Foxing Spots — V4 addition ──────────────────────────────── */}
+      {/* Tiny aged brown dots at seeded positions — oxidisation over time */}
+      <div className="absolute pointer-events-none select-none"
+        style={{ top: "18%", left: isLeft ? "72%" : "28%", width: "8px", height: "8px",
+          background: "radial-gradient(circle, rgba(158,120,62,0.048) 0%, transparent 70%)", filter: "blur(2px)" }} />
+      <div className="absolute pointer-events-none select-none"
+        style={{ top: "33%", left: isLeft ? "15%" : "80%", width: "6px", height: "6px",
+          background: "radial-gradient(circle, rgba(148,110,58,0.036) 0%, transparent 70%)", filter: "blur(1.5px)" }} />
+      <div className="absolute pointer-events-none select-none"
+        style={{ top: "55%", left: isLeft ? "80%" : "18%", width: "10px", height: "10px",
+          background: "radial-gradient(circle, rgba(168,128,68,0.032) 0%, transparent 70%)", filter: "blur(3px)" }} />
+      <div className="absolute pointer-events-none select-none"
+        style={{ top: "72%", left: isLeft ? "30%" : "65%", width: "7px", height: "7px",
+          background: "radial-gradient(circle, rgba(138,106,52,0.040) 0%, transparent 70%)", filter: "blur(2px)" }} />
+      <div className="absolute pointer-events-none select-none"
+        style={{ top: "88%", left: isLeft ? "55%" : "38%", width: "5px", height: "5px",
+          background: "radial-gradient(circle, rgba(158,118,60,0.028) 0%, transparent 70%)", filter: "blur(1px)" }} />
+
+      {/* ── 16. Top edge moisture darkening — V4 ───────────────────────── */}
+      <div
+        className="absolute top-0 left-0 right-0 pointer-events-none select-none"
+        style={{
+          height: "28px",
+          background: "linear-gradient(to bottom, rgba(110,90,78,0.04) 0%, transparent 100%)",
+        }}
+      />
+
+      {/* ── Content Layer ────────────────────────────────────────────────── */}
       <div className="relative z-10 w-full h-full">
         {children}
       </div>

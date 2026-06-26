@@ -12,39 +12,38 @@ interface ChapterOneProps {
   /**
    * Closes the book and returns to the cover.
    * Wired from BookOpeningAnimation → setBookState("closed").
-   * This is the same prop signature the original component used,
-   * ensuring BookOpeningAnimation.tsx needs zero changes.
+   * Same prop signature as the original component.
    */
   onClose: () => void;
 }
 
 /**
- * ChapterOne — Chapter orchestrator
+ * ChapterOne — Chapter orchestrator (V4 position update)
  *
- * Architecture note:
- * BookOpeningAnimation renders this component inside the right-half page div
- * (absolute, right-0, w-1/2 of the 920px book spread = ~460px wide).
+ * Architecture:
+ *  BookOpeningAnimation renders this inside the right-half page div
+ *  (absolute, right-0, w-1/2 of the 920px book spread = ~460px wide).
  *
- * To form a complete two-page spread, this component:
- *   - Extends the left page LEFTWARD via `position: absolute; right: 100%`
- *     (This extends it into the left half of the book. On desktop it sits
- *      behind the flip card's back face at z-30; it provides content for
- *      future navigation states.)
- *   - Fills the current container with the right page content
- *   - Extends the bookmark panel RIGHTWARD via `position: absolute; left: 100%`
- *     (This places bookmarks just outside the book's right edge)
+ *  Left page:  extends leftward via `position: absolute; right: 100%`
+ *  Right page: fills this container
  *
- * Mobile:
- *   Left page is hidden (display: none).
- *   Bookmarks are hidden and replaced by a minimal bottom return button.
+ * V4 Bookmark repositioning:
+ *  Ribbons now emerge from the TOP of the book near the spine, not the
+ *  right edge. They are anchored at `top: "-8px", left: "8px"` — just
+ *  inside the left edge of the right page (= near the spine/center of
+ *  the full spread). They hang DOWN 200px, appearing to be sewn into
+ *  the binding and draping over the pages.
+ *
+ *  This feels physically correct: luxury ribbons are sewn at the spine
+ *  and hang through pages to mark your place.
  */
 export default function ChapterOne({ onClose }: ChapterOneProps) {
   const handleNavigate = (page: number) => {
     if (page === 0) {
-      // "Cover" bookmark clicked → close the book, return to cover
+      // "Cover" ribbon clicked → close book, return to cover
       onClose();
     }
-    // page === 1 → Chapter I, already here. No-op.
+    // page === 1 → Chapter I, already here. No-op (panel handles UX).
   };
 
   return (
@@ -59,14 +58,14 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
           LEFT PAGE
           Extends leftward from this container's left edge.
           On desktop: occupies the left half of the 920px book spread.
-          On mobile:  hidden (the flip card is full-width and opacity:0).
+          On mobile:  hidden.
          ================================================================ */}
       <div
         className="hidden md:block absolute top-0 bottom-0"
         style={{
-          right: "100%",        // pushes it leftward to the left half
-          width: "100%",        // same width as this container (~460px)
-          zIndex: 10,           // below the flip card's back face (z-30)
+          right: "100%",
+          width: "100%",
+          zIndex: 10,
           pointerEvents: "none",
         }}
       >
@@ -77,8 +76,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
 
       {/* ================================================================
           CENTER GUTTER
-          Thin vertical line at the spine — printed books have this crease.
-          Positioned at the left edge of this container (= center of book).
+          Thin vertical crease at the spine — where the pages are bound.
          ================================================================ */}
       <div
         className="hidden md:block absolute top-8 bottom-8 left-0 pointer-events-none"
@@ -101,16 +99,21 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
       </div>
 
       {/* ================================================================
-          BOOKMARK NAVIGATION (desktop only)
-          Extends rightward from this container's right edge,
-          appearing attached to the outside edge of the open book.
-          Pointer events re-enabled on the inner component.
+          RIBBON BOOKMARKS (desktop only)
+
+          V4 position: top of book, near spine.
+          `left: "8px"` = 8px from the left edge of the right page
+                          = near the center-spine of the full 920px spread.
+          `top: "-8px"`  = ribbons emerge from just above the book top edge,
+                          as if sewn into the binding and hanging down.
+
+          Ribbons hang 200px downward with fishtail cuts at the bottom.
          ================================================================ */}
       <div
-        className="hidden md:block absolute top-0 bottom-0 pointer-events-none"
+        className="hidden md:flex absolute pointer-events-none"
         style={{
-          left: "100%",         // starts at right edge of this container = right edge of book
-          width: "60px",
+          top: "-8px",
+          left: "8px",
           zIndex: 50,
         }}
       >
@@ -122,7 +125,6 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
 
       {/* ================================================================
           MOBILE: Minimal return hint at bottom
-          The bookmark tabs are too small for touch; offer a text link.
          ================================================================ */}
       <motion.div
         className="block md:hidden absolute bottom-5 left-0 right-0 text-center pointer-events-auto"
