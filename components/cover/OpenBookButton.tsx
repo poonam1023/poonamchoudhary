@@ -1,38 +1,43 @@
 "use client";
 
-import { motion } from "framer-motion";
+import React from "react";
 
 interface OpenBookButtonProps {
-  onHover: (hovered: boolean) => void;
+  onHoverStart: () => void;
+  onHoverEnd: () => void;
   onClick: () => void;
 }
 
-export default function OpenBookButton({ onHover, onClick }: OpenBookButtonProps) {
+export default function OpenBookButton({
+  onHoverStart,
+  onHoverEnd,
+  onClick,
+}: OpenBookButtonProps) {
   return (
-    <motion.button
+    <button
       onClick={onClick}
-      onMouseEnter={() => onHover(true)}
-      onMouseLeave={() => onHover(false)}
-      className="group relative inline-flex items-center gap-3 border-b border-ink-brown/30 pb-1 font-display text-lg tracking-wide text-ink-brown transition-colors hover:border-gold-muted"
-      whileHover={{ x: 4 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      onMouseEnter={onHoverStart}
+      onMouseLeave={onHoverEnd}
+      onFocus={onHoverStart}
+      onBlur={onHoverEnd}
+      className="group flex flex-col items-center justify-center py-4 px-12 cursor-pointer focus:outline-none select-none z-20"
+      aria-label="Open the book"
     >
-      <span className="relative">
+      {/* Top Divider Line */}
+      <div className="w-32 h-[1px] bg-ink/20 group-hover:bg-ink/40 transition-colors duration-500" />
+      
+      {/* Button Text & Arrow */}
+      <div className="my-4 flex items-center font-sans font-medium text-[10px] md:text-[11px] tracking-[0.25em] text-ink/75 group-hover:text-ink transition-colors duration-500 uppercase">
         Open the Book
-        <motion.span
-          className="absolute -bottom-0.5 left-0 h-px bg-gold-muted"
-          initial={{ width: 0 }}
-          whileHover={{ width: "100%" }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        />
-      </span>
-      <motion.span
-        className="inline-block"
-        animate={{ x: [0, 3, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-      >
-        &rarr;
-      </motion.span>
-    </motion.button>
+        <span className="ml-2 inline-block transform group-hover:translate-x-2 transition-transform duration-500 ease-out">
+          →
+        </span>
+      </div>
+
+      {/* Bottom Divider Line with growing center-out underline */}
+      <div className="relative w-32 h-[1px] bg-ink/20">
+        <div className="absolute inset-0 bg-ink scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center ease-[0.25,1,0.5,1]" />
+      </div>
+    </button>
   );
 }

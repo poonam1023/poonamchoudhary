@@ -1,19 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-cormorant), "Georgia", serif;
-
-  --color-paper: #f8f3e8;
-  --color-paper-warm: #efe4d2;
-  --color-paper-aged: #dccbb3;
-  --color-ink: #2c221a;
-  --color-ink-brown: #4a3b2a;
-  --color-gold-muted: #a9864a;
+  --font-display: var(--font-cormorant), serif;
+  --font-sans: var(--font-inter), sans-serif;
+  
+  --color-paper-primary: #F8F3E8;
+  --color-paper-warm: #EFE4D2;
+  --color-paper-aged: #DCCBB3;
+  --color-ink: #2C221A;
+  --color-dark-brown: #4A3B2A;
+  --color-muted-gold: #A9864A;
 }
 
-@utility perspective-container {
-  perspective: 1200px;
+/* Custom 3D & Vintage Effects */
+@utility perspective-1500 {
+  perspective: 1500px;
 }
 
 @utility preserve-3d {
@@ -24,6 +25,37 @@
   backface-visibility: hidden;
 }
 
-@utility transform-origin-left {
-  transform-origin: left;
+@utility origin-left {
+  transform-origin: left center;
+}
+
+@layer utilities {
+  /* Paper grain overlays */
+  .paper-grain-overlay {
+    filter: url(#paper-grain);
+    opacity: 0.15;
+    mix-blend-mode: multiply;
+  }
+
+  .paper-grain-light {
+    filter: url(#paper-noise-light);
+    opacity: 0.12;
+    mix-blend-mode: color-burn;
+  }
+}
+
+/* Global resets for literary site */
+body {
+  font-family: var(--font-inter), sans-serif;
+  color: #2C221A;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-cormorant), serif;
+}
+
+::selection {
+  background-color: #DCCBB3;
+  color: #2C221A;
 }

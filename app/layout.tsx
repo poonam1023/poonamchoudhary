@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
-
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
-  title: "Poonam — A Novel",
-  description: "A beautifully designed novel cover page",
+  title: "Project Poonam — The Book Cover",
+  description: "Every project begins as a page waiting to be turned. Stories crafted through design, code and imagination.",
 };
 
 export default function RootLayout({
@@ -26,17 +26,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${cormorant.variable} ${inter.variable} antialiased`}
-    >
-      <body>
-        <svg className="absolute h-0 w-0" aria-hidden="true">
+    <html lang="en" className={`${inter.variable} ${cormorant.variable} antialiased`}>
+      <body className="overflow-hidden bg-[#2C221A]">
+        {/* Hidden SVG Filter for Paper Grain */}
+        <svg
+          style={{
+            position: "absolute",
+            width: 0,
+            height: 0,
+            pointerEvents: "none",
+          }}
+          aria-hidden="true"
+        >
           <defs>
-            <filter id="paper-noise">
+            <filter id="paper-grain">
               <feTurbulence
                 type="fractalNoise"
-                baseFrequency="0.65"
+                baseFrequency="0.04"
                 numOctaves="4"
                 stitchTiles="stitch"
               />
