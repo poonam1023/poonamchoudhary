@@ -17,25 +17,25 @@ export default function PageCurl({ isHovered, isOpening }: PageCurlProps) {
     state = "hovered";
   }
 
-  // Cutout triangle (showing the background color #2C221A)
+  // Cutout triangle (showing the background color #1A1412)
   const cutoutPaths = {
-    normal: "M 130 160 L 160 160 L 160 130 Z",
-    hovered: "M 115 160 L 160 160 L 160 115 Z",
-    opening: "M 90 160 L 160 160 L 160 90 Z",
+    normal: "M 132 160 L 160 160 L 160 132 Z",
+    hovered: "M 127 160 L 160 160 L 160 127 Z",
+    opening: "M 85 160 L 160 160 L 160 85 Z",
   };
 
   // Curled paper flap (showing the page underside)
   const flapPaths = {
-    normal: "M 130 160 Q 124 134 160 130 C 146 130 130 146 130 160 Z",
-    hovered: "M 115 160 Q 106 116 160 115 C 138 115 115 138 115 160 Z",
-    opening: "M 90 160 Q 78 88 160 90 C 128 90 90 128 90 160 Z",
+    normal: "M 132 160 Q 126 136 160 132 C 148 132 132 148 132 160 Z",
+    hovered: "M 127 160 Q 120 130 160 127 C 145 127 127 145 127 160 Z",
+    opening: "M 85 160 Q 72 76 160 85 C 122 85 85 122 85 160 Z",
   };
 
   // Shadow underneath the curl
   const shadowPaths = {
-    normal: "M 130 160 Q 118 126 160 130 Z",
-    hovered: "M 115 160 Q 98 104 160 115 Z",
-    opening: "M 90 160 Q 68 76 160 90 Z",
+    normal: "M 132 160 Q 120 128 160 132 Z",
+    hovered: "M 127 160 Q 112 122 160 127 Z",
+    opening: "M 85 160 Q 62 68 160 85 Z",
   };
 
   return (
@@ -50,23 +50,31 @@ export default function PageCurl({ isHovered, isOpening }: PageCurlProps) {
         <motion.path
           animate={{ d: cutoutPaths[state as keyof typeof cutoutPaths] }}
           transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-          fill="#2C221A"
+          fill="#1A1412"
         />
 
-        {/* 2. Soft Shadow under the fold */}
+        {/* 2. Soft Ambient Shadow under the fold */}
         <motion.path
           animate={{ d: shadowPaths[state as keyof typeof shadowPaths] }}
           transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-          fill="rgba(44, 34, 26, 0.35)"
-          className="blur-[4px]"
+          fill="rgba(26, 20, 18, 0.55)"
+          className="blur-[5px]"
         />
 
-        {/* 3. The Curled Flap */}
+        {/* 3. Tighter, Darker Contact Shadow */}
+        <motion.path
+          animate={{ d: shadowPaths[state as keyof typeof shadowPaths] }}
+          transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+          fill="rgba(26, 20, 18, 0.35)"
+          className="blur-[2px]"
+        />
+
+        {/* 4. The Curled Flap */}
         <defs>
           <linearGradient id="curlGrad" x1="0" y1="1" x2="1" y2="0">
-            <stop offset="0%" stopColor="#DCCBB3" />
-            <stop offset="40%" stopColor="#EFE4D2" />
-            <stop offset="100%" stopColor="#F8F3E8" />
+            <stop offset="0%" stopColor="#E8DCCB" />
+            <stop offset="35%" stopColor="#F2EAE0" />
+            <stop offset="100%" stopColor="#F7F1E8" />
           </linearGradient>
         </defs>
 
@@ -74,9 +82,18 @@ export default function PageCurl({ isHovered, isOpening }: PageCurlProps) {
           animate={{ d: flapPaths[state as keyof typeof flapPaths] }}
           transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
           fill="url(#curlGrad)"
-          stroke="#4A3B2A"
-          strokeWidth="0.25"
+          stroke="#6E5A4E"
+          strokeWidth="0.3"
           className="drop-shadow-sm"
+        />
+
+        {/* 5. Paper edge highlight overlay (simulating cardboard thickness edge) */}
+        <motion.path
+          animate={{ d: flapPaths[state as keyof typeof flapPaths] }}
+          transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+          stroke="rgba(255, 255, 255, 0.45)"
+          strokeWidth="0.8"
+          style={{ mixBlendMode: "overlay" }}
         />
       </svg>
     </div>

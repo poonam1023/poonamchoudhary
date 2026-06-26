@@ -2,7 +2,7 @@ import React from "react";
 
 export default function BookSubtitle() {
   return (
-    <p className="font-sans font-normal text-[11px] md:text-[13px] tracking-wider text-ink/70 text-center max-w-[420px] mx-auto leading-relaxed select-none">
+    <p className="font-sans font-normal text-[11px] md:text-[12.5px] tracking-wide text-ink/65 text-center max-w-[320px] md:max-w-[420px] mx-auto leading-[1.8] select-none">
       Every project begins as a page waiting to be turned.
     </p>
   );

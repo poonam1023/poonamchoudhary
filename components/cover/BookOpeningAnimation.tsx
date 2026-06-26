@@ -12,6 +12,7 @@ import AuthorName from "./AuthorName";
 import OpenBookButton from "./OpenBookButton";
 import PageCurl from "./PageCurl";
 import ChapterOne from "./ChapterOne";
+import CoverSection from "./CoverSection";
 
 export default function BookOpeningAnimation() {
   const [isHovered, setIsHovered] = useState(false);
@@ -30,7 +31,7 @@ export default function BookOpeningAnimation() {
   const handleOpenBook = async () => {
     if (bookState !== "closed") return;
     
-    // 1. Press effect: paper slightly compresses (scale down 3D)
+    // 1. Press effect: paper compresses slightly
     setBookState("pressing");
     await new Promise((resolve) => setTimeout(resolve, 350));
     
@@ -46,37 +47,35 @@ export default function BookOpeningAnimation() {
     setBookState("closed");
   };
 
-  // Determine standard 3D transform values based on state
+  // 3D book open states
   const isOpened = bookState === "open" || bookState === "flipping";
   const isFlipped = bookState === "open" || bookState === "flipping";
 
   return (
-    <div className="relative w-screen h-screen flex items-center justify-center bg-[#2C221A] overflow-hidden">
-      {/* ========================================================
-          PAGE LOAD SEQUENCE: Screen starts almost black, fades out
-         ======================================================== */}
+    <div className="relative w-screen h-screen flex items-center justify-center bg-[#1A1412] overflow-hidden">
+      {/* Cinematic Page Load: Screen starts almost black, fades out */}
       <motion.div
-        className="absolute inset-0 bg-[#0e0a08] z-50 pointer-events-none"
+        className="absolute inset-0 bg-[#0c0807] z-50 pointer-events-none"
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
         transition={{ duration: 1.8, ease: "easeInOut", delay: 0.2 }}
       />
 
-      {/* Ambient lighting fades in */}
+      {/* Ambient lighting fades in (top-left) */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.8, ease: "easeOut", delay: 1.0 }}
+        transition={{ duration: 2.0, ease: "easeOut", delay: 1.0 }}
         className="absolute inset-0 pointer-events-none z-10"
       >
         <AmbientLight />
       </motion.div>
 
-      {/* Dust particles fade in */}
+      {/* Dust particles & curved paper fibers fade in */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.8, ease: "easeOut", delay: 1.4 }}
+        transition={{ duration: 2.0, ease: "easeOut", delay: 1.4 }}
         className="absolute inset-0 pointer-events-none z-10"
       >
         <DustParticles />
@@ -86,13 +85,13 @@ export default function BookOpeningAnimation() {
       <motion.div
         className="relative flex items-center justify-center perspective-1500"
         style={{
-          width: isMobile ? "90vw" : "840px",
-          height: isMobile ? "80vh" : "580px",
+          width: isMobile ? "90vw" : "920px",
+          height: isMobile ? "80vh" : "620px",
         }}
         animate={{
-          // Shift left by 210px when closed on desktop to center the cover
-          x: isMobile ? 0 : isOpened ? 0 : 210,
-          scale: bookState === "pressing" ? 0.97 : 1,
+          // Shift left by 230px (half a page) when closed to center the cover on screen
+          x: isMobile ? 0 : isOpened ? 0 : -230,
+          scale: bookState === "pressing" ? 0.98 : 1,
         }}
         transition={{
           duration: bookState === "pressing" ? 0.3 : 0.9,
@@ -103,12 +102,18 @@ export default function BookOpeningAnimation() {
             RIGHT PAGE / UNDERLAY: Chapter One
            ======================================================== */}
         <div 
-          className={`absolute right-0 top-0 h-full bg-[#F8F3E8] shadow-[0_15px_40px_rgba(0,0,0,0.35)] transition-opacity duration-500 rounded-r-md ${
+          className={`absolute right-0 top-0 h-full bg-[#F7F1E8] transition-opacity duration-500 rounded-r-md ${
             isMobile 
               ? "left-0 w-full" 
               : "w-1/2"
           } ${isOpened ? "opacity-100 z-20" : "opacity-0 z-0"}`}
+          style={{
+            boxShadow: "0 25px 60px rgba(26, 20, 18, 0.45), 0 5px 20px rgba(26, 20, 18, 0.15)",
+          }}
         >
+          {/* Subtle inside cover spine crease */}
+          {!isMobile && <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-r from-black/10 to-transparent z-30" />}
+          
           {bookState === "open" && (
             <ChapterOne onClose={handleCloseBook} />
           )}
@@ -133,64 +138,82 @@ export default function BookOpeningAnimation() {
         >
           {/* A. FRONT FACE: The Book Cover */}
           <div 
-            className="absolute inset-0 w-full h-full backface-hidden rounded-md shadow-[0_15px_35px_rgba(0,0,0,0.25)] flex flex-col justify-between p-8 md:p-12 overflow-hidden"
+            className="absolute inset-0 w-full h-full backface-hidden rounded-md flex flex-col justify-between overflow-hidden border border-[#6E5A4E]/10"
             style={{
               transform: "rotateY(0deg)",
               pointerEvents: isOpened ? "none" : "auto",
+              boxShadow: "0 30px 70px rgba(26, 20, 18, 0.5), 0 10px 25px rgba(26, 20, 18, 0.2)",
             }}
           >
             <PaperBackground />
 
-            {/* Vintage line art illustration fades in */}
-            <motion.div 
-              className="mt-6 md:mt-8"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1], delay: 1.8 }}
-            >
-              <VintageIllustration />
-            </motion.div>
+            {/* Book Spine Crease Shading */}
+            <div className="book-spine-crease" />
 
-            {/* Title, Subtitle, Author fade in sequentially */}
-            <div className="flex flex-col items-center justify-center space-y-6 md:space-y-8 my-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
+            {/* Bevel highlight to simulate cardboard thickness */}
+            <div className="book-board-edge" />
+
+            {/* Layout Wrapper with responsive horizontal margins */}
+            <CoverSection>
+              {/* 1. Vintage Illustration (fades in) */}
+              <motion.div 
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 2.2 }}
+                transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1], delay: 1.8 }}
+                className="flex justify-center w-full"
               >
-                <BookTitle />
+                <VintageIllustration />
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 2.6 }}
-              >
-                <BookSubtitle />
-              </motion.div>
+              {/* 2. Typographical layout with exact spacing rhythm */}
+              <div className="flex flex-col items-center justify-center w-full text-center">
+                {/* Title (48px below illustration) */}
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 2.2 }}
+                  className="mt-12"
+                >
+                  <BookTitle />
+                </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 3.0 }}
-              >
-                <AuthorName />
-              </motion.div>
-            </div>
+                {/* Subtitle (24px below title) */}
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 2.6 }}
+                  className="mt-6"
+                >
+                  <BookSubtitle />
+                </motion.div>
 
-            {/* Invitation CTA Button fades in last */}
-            <motion.div 
-              className="flex items-center justify-center mb-6"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 3.4 }}
-            >
-              <OpenBookButton
-                onHoverStart={() => setIsHovered(true)}
-                onHoverEnd={() => setIsHovered(false)}
-                onClick={handleOpenBook}
-              />
-            </motion.div>
+                {/* Author Name Section
+                    Rhythm: Subtitle -> 28px -> BY -> 16px -> POONAM
+                */}
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 3.0 }}
+                  className="mt-7"
+                >
+                  <AuthorName />
+                </motion.div>
+
+                {/* Button Invitation (40px below author) */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 3.4 }}
+                  className="mt-10"
+                >
+                  <OpenBookButton
+                    onHoverStart={() => setIsHovered(true)}
+                    onHoverEnd={() => setIsHovered(false)}
+                    onClick={handleOpenBook}
+                  />
+                </motion.div>
+              </div>
+            </CoverSection>
 
             {/* Page curl at bottom right */}
             <PageCurl isHovered={isHovered} isOpening={bookState === "pressing" || bookState === "flipping"} />
@@ -199,21 +222,26 @@ export default function BookOpeningAnimation() {
           {/* B. BACK FACE: Inside Left Cover / Colophon (Hidden on mobile) */}
           {!isMobile && (
             <div 
-              className="absolute inset-0 w-full h-full backface-hidden rounded-md shadow-[0_15px_35px_rgba(0,0,0,0.25)]"
+              className="absolute inset-0 w-full h-full backface-hidden rounded-md border border-[#6E5A4E]/10"
               style={{
                 transform: "rotateY(180deg)",
+                boxShadow: "0 30px 70px rgba(26, 20, 18, 0.5), 0 10px 25px rgba(26, 20, 18, 0.2)",
               }}
             >
               <PaperBackground />
+
+              {/* Inside Left Cover Spine Crease (mirrored) */}
+              <div className="absolute right-0 top-0 bottom-0 w-[4px] bg-gradient-to-l from-black/10 to-transparent z-30" />
+              <div className="book-board-edge" />
               
               {/* Inside Left Cover Spread Contents */}
-              <div className="w-full h-full flex flex-col justify-between p-8 md:p-12 text-center text-ink/60 relative">
+              <div className="w-full h-full flex flex-col justify-between p-8 md:p-12 text-center text-ink/65 relative">
                 <div className="my-auto space-y-8 max-w-[280px] mx-auto z-10 font-sans">
-                  <div className="font-display italic text-2xl text-ink/80">
+                  <div className="font-display italic text-2xl text-ink/85">
                     Project Poonam
                   </div>
                   
-                  <div className="w-12 h-[1px] bg-ink/20 mx-auto" />
+                  <div className="w-12 h-[1px] bg-ink/15 mx-auto" />
 
                   <div className="space-y-3 text-[10px] tracking-[0.2em] leading-relaxed uppercase">
                     <p>First Edition</p>
@@ -221,14 +249,14 @@ export default function BookOpeningAnimation() {
                     <p>Published Anno MMXXVI</p>
                   </div>
 
-                  <div className="w-12 h-[1px] bg-ink/20 mx-auto" />
+                  <div className="w-12 h-[1px] bg-ink/15 mx-auto" />
 
-                  <p className="font-display italic text-xs text-ink/50 leading-relaxed">
+                  <p className="font-display italic text-xs text-ink/45 leading-relaxed">
                     "To build is to write a story in steel and sand, or in pixels and light."
                   </p>
                 </div>
 
-                <div className="text-[9px] text-ink/40 tracking-[0.2em] uppercase z-10">
+                <div className="text-[9px] text-ink/35 tracking-[0.2em] uppercase z-10">
                   P. C. — 2026
                 </div>
               </div>

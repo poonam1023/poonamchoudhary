@@ -10,7 +10,7 @@ interface ChapterOneProps {
 export default function ChapterOne({ onClose }: ChapterOneProps) {
   return (
     <div className="relative w-full max-w-5xl mx-auto px-4 py-8 md:py-16 h-full flex items-center justify-center font-sans">
-      {/* Bookmark Ribbon (Top Left/Center of the page spread) */}
+      {/* Bookmark Ribbon (Sage Green accent color) */}
       <motion.button
         onClick={onClose}
         initial={{ y: -80 }}
@@ -21,16 +21,16 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
         aria-label="Return to Cover"
       >
         {/* Ribbon body */}
-        <div className="w-6 md:w-8 h-24 bg-muted-gold relative flex items-end justify-center pb-3 shadow-[0_3px_6px_rgba(0,0,0,0.15)] group-hover:bg-[#bba063] transition-colors duration-300">
+        <div className="w-6 md:w-8 h-24 bg-accent-sage relative flex items-end justify-center pb-4 shadow-[0_3px_6px_rgba(0,0,0,0.12)] group-hover:bg-[#99a38b] transition-colors duration-300">
           {/* Label on ribbon, rotated vertically */}
           <span 
-            className="text-[8px] md:text-[9px] font-sans font-bold tracking-[0.25em] text-[#F8F3E8] uppercase select-none"
+            className="text-[8px] md:text-[9px] font-sans font-bold tracking-[0.25em] text-paper-primary uppercase select-none"
             style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
           >
             Cover
           </span>
           {/* Ribbon cut bottom */}
-          <div className="absolute bottom-0 left-0 right-0 h-0 border-l-[12px] md:border-l-[16px] border-l-transparent border-r-[12px] md:border-r-[16px] border-r-transparent border-b-[8px] md:border-b-[12px] border-b-[#F8F3E8]" />
+          <div className="absolute bottom-0 left-0 right-0 h-0 border-l-[12px] md:border-l-[16px] border-l-transparent border-r-[12px] md:border-r-[16px] border-r-transparent border-b-[8px] md:border-b-[12px] border-b-paper-primary" />
         </div>
       </motion.button>
 
@@ -38,13 +38,13 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-h-[85vh] items-stretch">
         
         {/* LEFT PAGE: Inside Cover / Colophon (Hidden on mobile) */}
-        <div className="hidden md:flex flex-col justify-between p-8 border-r border-ink/5 bg-paper-primary/80 shadow-[inset_-15px_0_20px_rgba(0,0,0,0.02)] relative rounded-l-md">
+        <div className="hidden md:flex flex-col justify-between p-8 border-r border-ink/5 bg-paper-primary/85 shadow-[inset_-15px_0_20px_rgba(0,0,0,0.02)] relative rounded-l-md">
           {/* Subtle page texture inside */}
           <div className="absolute inset-0 paper-grain-overlay opacity-10 rounded-l-md" />
 
           {/* Colophon content */}
-          <div className="my-auto space-y-12 text-center text-ink/60 max-w-[320px] mx-auto z-10">
-            <div className="font-display italic text-2xl text-ink/80">
+          <div className="my-auto space-y-12 text-center text-ink/70 max-w-[320px] mx-auto z-10">
+            <div className="font-display italic text-2xl text-ink/90">
               Project Poonam
             </div>
             
@@ -68,7 +68,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
           </div>
         </div>
 
-        {/* RIGHT PAGE: Chapter One (Scrollable if content overflow) */}
+        {/* RIGHT PAGE: Chapter One */}
         <div className="flex flex-col justify-between p-6 md:p-10 bg-paper-primary shadow-[inset_15px_0_20px_rgba(0,0,0,0.02)] relative rounded-r-md min-h-[450px] md:min-h-0 overflow-y-auto">
           {/* Subtle page texture inside */}
           <div className="absolute inset-0 paper-grain-overlay opacity-10 rounded-r-md" />
@@ -92,7 +92,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
 
             {/* Chapter Prose */}
             <p className="font-display text-sm md:text-base leading-relaxed md:leading-loose text-justify text-ink/80">
-              <span className="float-left text-5xl md:text-6xl font-bold font-display line-height-none mr-2 mt-1 text-muted-gold">
+              <span className="float-left text-5xl md:text-6xl font-bold font-display line-height-none mr-2 mt-1 text-accent-sage">
                 E
               </span>
               very line of code is a sentence waiting to be written. For years, we treated the digital screen as a glowing dashboard, a canvas of cold glass and neon signals. But Poonam saw it differently. To her, the screen was paper, dried ink, and binding glue. It was a space where design and engineering did not just function, but breathed. This is the ledger of her creations—where logic meets literature, and every project begins as a page waiting to be turned.
@@ -107,7 +107,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
           <div className="block md:hidden mt-8 text-center z-10">
             <button
               onClick={onClose}
-              className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-muted-gold hover:text-ink transition-colors duration-300 py-2 border-b border-muted-gold/30 hover:border-ink/30"
+              className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-accent-sage hover:text-ink transition-colors duration-300 py-2 border-b border-accent-sage/30 hover:border-ink/30"
             >
               ← Close the Book
             </button>
