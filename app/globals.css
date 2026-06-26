@@ -79,6 +79,28 @@
       0.5px 0.5px 0px rgba(255, 255, 255, 0.45), 
       -0.5px -0.5px 0px rgba(110, 90, 78, 0.45);
   }
+
+  /* ─────────────────────────────────────────────────────────────────
+     Drop Cap — Classic printed novel opening letter
+     Float the first letter large-left so body text wraps around it.
+     Used in ChapterOneRight via <span className="drop-cap-letter">.
+     ───────────────────────────────────────────────────────────────── */
+  .drop-cap-letter {
+    float: left;
+    font-family: var(--font-cormorant), serif;
+    font-size: 5.0em;
+    font-weight: 700;
+    font-style: normal;
+    line-height: 0.78;
+    /* Optical alignment: nudge down so the cap aligns with text baseline */
+    margin-top: 0.055em;
+    padding-right: 0.055em;
+    /* Sage green accent — marks this as the start of the narrative */
+    color: #A8B29A;
+    shape-outside: margin-box;
+    /* Prevent the drop cap itself from showing a text-shadow */
+    text-shadow: none;
+  }
 }
 
 /* Global resets for literary site */
@@ -97,3 +119,4 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #E8DCCB;
   color: #6E5A4E;
 }
+
