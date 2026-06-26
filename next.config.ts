@@ -1,10 +1,5 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  transpilePackages: ["three"],
-  turbopack: {
-    root: __dirname,
-  },
-};
+const nextConfig: NextConfig = {};
 
 export default nextConfig;
