@@ -164,7 +164,6 @@ export default function ChapterOneLeft() {
             className="object-contain"
             style={{
               filter: "sepia(20%) opacity(0.38)",
-              mixBlendMode: "multiply",
             }}
           />
         </div>

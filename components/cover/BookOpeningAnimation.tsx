@@ -13,6 +13,8 @@ import OpenBookButton from "./OpenBookButton";
 import PageCurl from "./PageCurl";
 import ChapterOne from "./ChapterOne";
 import CoverSection from "./CoverSection";
+import LeftPage from "@/components/book/LeftPage";
+import ChapterOneLeft from "@/components/chapters/chapter-one/ChapterOneLeft";
 
 export default function BookOpeningAnimation() {
   const [isHovered, setIsHovered] = useState(false);
@@ -174,13 +176,14 @@ export default function BookOpeningAnimation() {
             FLIP CARD: Cover Page (Front) & Inside Left Page (Back)
            ======================================================== */}
         <motion.div
-          className="absolute right-0 top-0 h-full preserve-3d origin-left z-30"
+          className="absolute right-0 top-0 h-full preserve-3d origin-left"
           style={{
             width: isMobile ? "100%" : "50%",
           }}
           animate={{
             rotateY: isFlipped ? -180 : 0,
             opacity: isMobile && bookState === "open" ? 0 : 1,
+            zIndex: bookState === "open" ? 10 : 30,
           }}
           transition={{
             duration: 0.9,
@@ -290,38 +293,13 @@ export default function BookOpeningAnimation() {
                 boxShadow: "0 30px 70px rgba(26, 20, 18, 0.5), 0 10px 25px rgba(26, 20, 18, 0.2)",
               }}
             >
-              <PaperBackground />
+              <LeftPage>
+                <ChapterOneLeft />
+              </LeftPage>
 
               {/* Inside Left Cover Spine Crease (mirrored) */}
               <div className="absolute right-0 top-0 bottom-0 w-[4px] bg-gradient-to-l from-black/10 to-transparent z-30" />
               <div className="book-board-edge" />
-              
-              {/* Inside Left Cover Spread Contents */}
-              <div className="w-full h-full flex flex-col justify-between p-8 md:p-12 text-center text-ink/65 relative">
-                <div className="my-auto space-y-8 max-w-[280px] mx-auto z-10 font-sans">
-                  <div className="font-display italic text-2xl text-ink/85">
-                    Project Poonam
-                  </div>
-                  
-                  <div className="w-12 h-[1px] bg-ink/15 mx-auto" />
-
-                  <div className="space-y-3 text-[10px] tracking-[0.2em] leading-relaxed uppercase">
-                    <p>First Edition</p>
-                    <p>Designed & Coded in the Ether</p>
-                    <p>Published Anno MMXXVI</p>
-                  </div>
-
-                  <div className="w-12 h-[1px] bg-ink/15 mx-auto" />
-
-                  <p className="font-display italic text-xs text-ink/45 leading-relaxed">
-                    "To build is to write a story in steel and sand, or in pixels and light."
-                  </p>
-                </div>
-
-                <div className="text-[9px] text-ink/35 tracking-[0.2em] uppercase z-10">
-                  P. C. — 2026
-                </div>
-              </div>
             </div>
           )}
         </motion.div>
