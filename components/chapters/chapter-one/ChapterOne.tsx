@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import LeftPage from "@/components/book/LeftPage";
 import RightPage from "@/components/book/RightPage";
 import BookmarkNavigation from "@/components/navigation/BookmarkNavigation";
@@ -18,42 +18,58 @@ interface ChapterOneProps {
 }
 
 /**
- * ChapterOne — Chapter orchestrator (V4 position update)
+ * ChapterOne — Chapter orchestrator (V5 physical tabs update)
  *
  * Architecture:
- *  BookOpeningAnimation renders this inside the right-half page div
- *  (absolute, right-0, w-1/2 of the 920px book spread = ~460px wide).
+ *  - Left page:  extends leftward via `position: absolute; right: 100%`
+ *  - Right page: fills this container
  *
- *  Left page:  extends leftward via `position: absolute; right: 100%`
- *  Right page: fills this container
- *
- * V4 Bookmark repositioning:
- *  Ribbons now emerge from the TOP of the book near the spine, not the
- *  right edge. They are anchored at `top: "-8px", left: "8px"` — just
- *  inside the left edge of the right page (= near the spine/center of
- *  the full spread). They hang DOWN 200px, appearing to be sewn into
- *  the binding and draping over the pages.
- *
- *  This feels physically correct: luxury ribbons are sewn at the spine
- *  and hang through pages to mark your place.
+ * Bookmark Repositioning:
+ *  - The bookmark navigation is positioned at the RIGHT EDGE of the book page
+ *    (`left: "100%"`, `top: "30%"`), placed at `z-index: 5` so the tabs sit
+ *    behind the right page contents (`z-index: 10`), appearing physically
+ *    inserted between the sheets.
+ *  - Hovering a tab translates it horizontally outward.
+ *  - Clicking a tab triggers a simulated 3D page-flip animation before updating
+ *    the active tab state.
  */
 export default function ChapterOne({ onClose }: ChapterOneProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isFlipping, setIsFlipping] = useState(false);
+  const [pendingPage, setPendingPage] = useState<number | null>(null);
+
   const handleNavigate = (page: number) => {
     if (page === 0) {
-      // "Cover" ribbon clicked → close book, return to cover
+      // "Cover" tab clicked → close book, return to cover
       onClose();
+      return;
     }
-    // page === 1 → Chapter I, already here. No-op (panel handles UX).
+    if (page === currentPage || isFlipping) return;
+
+    // Trigger simulated page turn animation
+    setIsFlipping(true);
+    setPendingPage(page);
   };
+
+  // Sync state update with the mid-point of the page turn animation
+  useEffect(() => {
+    if (isFlipping && pendingPage !== null) {
+      const timer = setTimeout(() => {
+        setCurrentPage(pendingPage);
+        setPendingPage(null);
+      }, 450); // 450ms represents the peak transition point of a 900ms flip
+      return () => clearTimeout(timer);
+    }
+  }, [isFlipping, pendingPage]);
 
   return (
     <motion.div
       className="relative w-full h-full"
+      style={{ transformStyle: "preserve-3d" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.45, ease: "easeIn", delay: 0.08 }}
     >
-
       {/* ================================================================
           LEFT PAGE
           Extends leftward from this container's left edge.
@@ -92,36 +108,86 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
           RIGHT PAGE
           Fills this container — the visible chapter content.
          ================================================================ */}
-      <div className="w-full h-full">
+      <div className="w-full h-full relative z-10">
         <RightPage>
           <ChapterOneRight />
         </RightPage>
       </div>
 
       {/* ================================================================
-          RIBBON BOOKMARKS (desktop only)
-
-          V4 position: top of book, near spine.
-          `left: "8px"` = 8px from the left edge of the right page
-                          = near the center-spine of the full 920px spread.
-          `top: "-8px"`  = ribbons emerge from just above the book top edge,
-                          as if sewn into the binding and hanging down.
-
-          Ribbons hang 200px downward with fishtail cuts at the bottom.
+          BOOKMARK INDEX TABS (desktop only)
+          
+          Positioned relative to the open book's right edge.
+          `left: "100%"` places it exactly at the right boundary of the page.
+          `top: "30%"` places the stack approx 1/3 from the top.
+          `zIndex: 5` ensures the tabs tuck behind the active page's top layer,
+          simulating insertion between sheets of paper.
          ================================================================ */}
       <div
-        className="hidden md:flex absolute pointer-events-none"
+        className="hidden md:block absolute pointer-events-none"
         style={{
-          top: "-8px",
-          left: "8px",
-          zIndex: 50,
+          top: "30%",
+          left: "100%",
+          zIndex: 5,
         }}
       >
         <BookmarkNavigation
-          currentPage={1}
+          currentPage={currentPage}
           onNavigate={handleNavigate}
         />
       </div>
+
+      {/* ================================================================
+          3D PAGE FLIP TRANSITION OVERLAY
+          Triggers a realistic page flip from right to left around the spine
+         ================================================================ */}
+      <AnimatePresence>
+        {isFlipping && (
+          <motion.div
+            className="absolute top-0 right-0 h-full origin-left z-40 pointer-events-none"
+            style={{
+              width: "100%",
+              transformStyle: "preserve-3d",
+            }}
+            initial={{ rotateY: 0 }}
+            animate={{ rotateY: -180 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9, ease: [0.25, 1, 0.5, 1] }}
+          >
+            {/* Front of the flipping page (facing right at start) */}
+            <div 
+              className="absolute inset-0 w-full h-full backface-hidden rounded-r-md border-y border-r border-[#6E5A4E]/10"
+              style={{
+                background: "linear-gradient(198deg, #F6ECC8 0%, #F2E7C4 42%, #EBE0B8 100%)",
+                boxShadow: "inset 22px 0 38px -4px rgba(0,0,0,0.09), inset 4px 0 8px rgba(110,90,78,0.12)",
+                transform: "rotateY(0deg)",
+              }}
+            >
+              {/* Paper textures */}
+              <div className="absolute inset-0 paper-grain-overlay opacity-[0.12] mix-blend-multiply" />
+              <div className="absolute inset-0 paper-grain-light opacity-[0.10] mix-blend-color-burn" />
+              <div className="absolute top-0 bottom-0 right-0 w-[3px] bg-gradient-to-l from-rgba(110,90,78,0.18) to-rgba(110,90,78,0.06)" />
+              <div className="absolute left-0 top-0 bottom-0 w-[6px] bg-gradient-to-r from-black/15 to-transparent filter blur-[1px]" />
+            </div>
+
+            {/* Back of the flipping page (facing left at end) */}
+            <div 
+              className="absolute inset-0 w-full h-full backface-hidden rounded-l-md border-y border-l border-[#6E5A4E]/10"
+              style={{
+                background: "linear-gradient(162deg, #F5EAC6 0%, #F1E4C2 38%, #EAD8B2 100%)",
+                boxShadow: "inset -22px 0 38px -4px rgba(0,0,0,0.09), inset -4px 0 8px rgba(110,90,78,0.12)",
+                transform: "rotateY(180deg)",
+              }}
+            >
+              {/* Paper textures */}
+              <div className="absolute inset-0 paper-grain-overlay opacity-[0.12] mix-blend-multiply" />
+              <div className="absolute inset-0 paper-grain-light opacity-[0.10] mix-blend-color-burn" />
+              <div className="absolute top-0 bottom-0 left-0 w-[3px] bg-gradient-to-r from-rgba(110,90,78,0.18) to-rgba(110,90,78,0.06)" />
+              <div className="absolute right-0 top-0 bottom-0 w-[6px] bg-gradient-to-l from-black/15 to-transparent filter blur-[1px]" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ================================================================
           MOBILE: Minimal return hint at bottom
