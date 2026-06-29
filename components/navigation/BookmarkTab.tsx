@@ -14,33 +14,15 @@ interface BookmarkTabProps {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DIMENSIONS
-//
-//  Total height  70px  — bookmark body
-//  PageEdge      8px   — masks the top of the bookmark (insertion point)
-//  Visible inactive     62px  (below PageEdge, above page content)
-//  Visible active       70px  (bookmark slides down 8px, fully below PageEdge)
-//
-//  The bookmark hangs DOWNWARD from top: 0 (the page top edge).
-//  PageEdge (zIndex 30) covers the first 8px.
-//  Page background (zIndex 10) is behind the bookmark body (zIndex 20).
+// CLOTH RIBBON GEOMETRY
+//  Total height  84px
+//  PageEdge      8px  — masks top portion of ribbon
+//  Swallowtail V-cut at bottom
 // ─────────────────────────────────────────────────────────────────────────────
-const W = 17;      // width  (px) — narrow cardstock tab
-const H = 70;      // total height (px)
-const NOTCH = 5;   // V-notch depth — almost flat, just a hint
+const W = 18;      // Ribbon width
+const H = 84;      // Ribbon height
+const VCUT = 7;    // swallowtail cut depth
 
-/**
- * BookmarkTab — Physical Cardstock Page Marker
- *
- * Positioning model:
- *   top: 0  →  hangs downward into the page face
- *   y: 0    →  inactive (8px masked by PageEdge, 62px visible)
- *   y: 8    →  active   (0px masked, 70px visible)
- *   y: 4    →  hover    (4px masked, 66px visible)
- *
- * The PageEdge parent element (zIndex 30) provides the clipping mask.
- * No overflow:hidden or clip-path is needed on the container.
- */
 export default function BookmarkTab({
   label,
   numeral,
@@ -52,11 +34,11 @@ export default function BookmarkTab({
 }: BookmarkTabProps) {
   const [hovered, setHovered] = React.useState(false);
 
-  // Bookmark slides DOWN to become more visible.
-  // Active: fully below PageEdge. Inactive: 8px hidden. Hover: 4px hidden.
-  const targetY = isActive ? 8 : hovered ? 4 : 0;
+  // Active: slides down 12px for prominent hang. Hover: slides down 6px. Inactive: sits at 0px.
+  const targetY = isActive ? 12 : hovered ? 6 : 0;
 
-  const clipPath = `polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - ${NOTCH}px), 0 100%)`;
+  // Swallowtail ribbon shape polygon path
+  const swallowtailPath = `polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - ${VCUT}px), 0 100%)`;
 
   return (
     <motion.div
@@ -66,16 +48,16 @@ export default function BookmarkTab({
         left: xOffset,
         width: W,
         height: H,
-        // drop-shadow respects clip-path shape; casts soft shadow onto page
-        filter:
-          "drop-shadow(0 2px 6px rgba(0,0,0,0.08)) drop-shadow(1px 0 2px rgba(0,0,0,0.04))",
+        // Realistic multi-stage cloth shadow cast onto the page face
+        filter: isActive
+          ? "drop-shadow(1px 4px 8px rgba(0,0,0,0.18)) drop-shadow(2px 8px 16px rgba(0,0,0,0.10))"
+          : "drop-shadow(0.5px 2px 4px rgba(0,0,0,0.12)) drop-shadow(1px 4px 8px rgba(0,0,0,0.06))",
       }}
-      // Entrance: fade up from just inside the PageEdge, no large translation
-      initial={{ y: -4, opacity: 0 }}
+      initial={{ y: -6, opacity: 0 }}
       animate={{ y: targetY, opacity: 1 }}
       transition={{
-        y: { duration: 0.3, ease: "easeOut" },
-        opacity: { duration: 0.45, delay: 0.12 + index * 0.06 },
+        y: { duration: 0.32, ease: "easeOut" },
+        opacity: { duration: 0.45, delay: 0.1 + index * 0.05 },
       }}
     >
       <button
@@ -88,46 +70,62 @@ export default function BookmarkTab({
         aria-label={isActive ? `Current chapter: ${label}` : `Go to ${label}`}
         aria-pressed={isActive}
       >
-        {/* ── BODY: flat cardstock colour + V-notch ── */}
+        {/* ── RIBBON BODY ── */}
         <div
-          className="absolute inset-0"
-          style={{ clipPath, background: color.main }}
+          className="absolute inset-0 transition-colors duration-300"
+          style={{
+            clipPath: swallowtailPath,
+            backgroundColor: color.main,
+          }}
         >
-          {/* Paper grain — matte micro-texture (very low opacity) */}
+          {/* 1. Fine Linen/Cloth Weave Overlay */}
           <div
-            className="absolute inset-0 paper-grain-overlay pointer-events-none"
-            style={{ opacity: 0.06, mixBlendMode: "multiply" }}
-          />
-
-          {/* Left-edge highlight — simulates light catching the paper thickness */}
-          <div
-            className="absolute top-0 bottom-0 left-0 pointer-events-none"
-            style={{ width: 1, background: "rgba(255,255,255,0.18)" }}
-          />
-
-          {/* Right-edge shadow — far side in shadow */}
-          <div
-            className="absolute top-0 bottom-0 right-0 pointer-events-none"
-            style={{ width: 1, background: "rgba(0,0,0,0.07)" }}
-          />
-
-          {/* Bottom fade — bookmark disappearing between page sheets */}
-          <div
-            className="absolute left-0 right-0 bottom-0 pointer-events-none"
+            className="absolute inset-0 opacity-[0.14] mix-blend-overlay pointer-events-none"
             style={{
-              height: 14,
-              background:
-                "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.07) 100%)",
+              backgroundImage: `
+                repeating-linear-gradient(90deg, #fff, #fff 1px, transparent 1px, transparent 3px),
+                repeating-linear-gradient(0deg, #000, #000 1px, transparent 1px, transparent 3px)
+              `,
+            }}
+          />
+
+          {/* 2. Stitched Edges (Fine dashes down left and right borders) */}
+          <div
+            className="absolute top-0 bottom-[10px] left-[1.5px] w-[0.5px] opacity-40"
+            style={{
+              borderLeft: "0.75px dashed #FAF7EE",
+            }}
+          />
+          <div
+            className="absolute top-0 bottom-[10px] right-[1.5px] w-[0.5px] opacity-40"
+            style={{
+              borderLeft: "0.75px dashed #FAF7EE",
+            }}
+          />
+
+          {/* 3. Subtle Ribbon Crease (Vertical gradient in middle for 3D fold depth) */}
+          <div
+            className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[4px] pointer-events-none opacity-[0.18]"
+            style={{
+              background: "linear-gradient(to right, rgba(0,0,0,0.3) 0%, transparent 50%, rgba(255,255,255,0.3) 100%)",
+            }}
+          />
+
+          {/* 4. Shadow/Glow transition at insertion point (top edge) */}
+          <div
+            className="absolute top-0 left-0 right-0 h-4 pointer-events-none opacity-40"
+            style={{
+              background: "linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 100%)",
             }}
           />
         </div>
 
-        {/* ── NUMERAL: 10px, vertical, upper portion only ── */}
+        {/* ── GOLD FOIL TYPOGRAPHY ── */}
         <div
           className="absolute left-0 right-0 pointer-events-none select-none"
           style={{
-            top: 10,
-            height: "42%",
+            top: 14,
+            height: "45%",
             display: "flex",
             alignItems: "flex-start",
             justifyContent: "center",
@@ -136,15 +134,18 @@ export default function BookmarkTab({
           }}
         >
           <span
+            className="font-display font-bold tracking-[0.18em] text-center"
             style={{
-              fontFamily: "sans-serif",
-              fontSize: 10,
-              letterSpacing: "0.12em",
-              fontWeight: 600,
+              fontSize: "9px",
               textTransform: "uppercase",
-              color: color.text,
-              opacity: isActive ? 0.9 : 0.5,
-              lineHeight: 1,
+              // Elegant reflective gold foil gradient
+              background: isActive
+                ? "linear-gradient(135deg, #ECC880 0%, #C49E52 50%, #FAF0CD 100%)"
+                : "linear-gradient(135deg, #ECC880/70 0%, #C49E52/70 50%, #FAF0CD/70 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              filter: "drop-shadow(0.5px 0.5px 0.5px rgba(0,0,0,0.25))",
+              opacity: isActive ? 1.0 : 0.75,
               transition: "opacity 0.25s ease",
             }}
           >
