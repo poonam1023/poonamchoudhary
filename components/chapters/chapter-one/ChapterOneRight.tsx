@@ -1,152 +1,77 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+import {
+  PaperTexture,
+  CornerOrnament,
+  BotanicalDivider,
+  DecorativeDivider,
+  WatercolorBlob,
+  PressedFlower,
+  LibrarySeal,
+  FloatingLeaves,
+  ChapterRibbon,
+  SketchOverlay,
+} from "@/components/decorations";
 
 /**
- * ChapterOneRight — V4
+ * ChapterOneRight — Handcrafted Illustrated Literary Spread (Right Page)
  *
- * The opening chapter page. Typeset as a luxury hardcover first page.
- * Benchmarked against Penguin Classics / Folio Society editorial standards.
- *
- * Hierarchy:
- *   PROJECT POONAM masthead    ← 6.5px tracked label
- *   CHAPTER I                  ← 8px tracked label
- *   Botanical ornament         ← small vintage illustration
- *   ——✦—— divider              ← 0.4px rule
- *   The Architect              ← Cormorant 400, 24px
- *   of                         ← italic, smaller, indented
- *   Imagined Spaces            ← Cormorant 400, 24px
- *   ——————————                 ← thin rule
- *   Drop-cap paragraph         ← E + body text
- *   Second paragraph
- *   ———— ✦ 1 ✦ ————           ← printed footer rule
- *
- * Marginal annotations sit in the left margin (outside the 300px column).
+ * Designed as a ceremonial chapter opening in a premium illustrated journal.
+ * Lays out multiple botanical, sketch, watercolor, and papercraft layers.
  */
 export default function ChapterOneRight() {
   return (
-    <div className="relative w-full h-full flex flex-col py-10 px-10 overflow-hidden">
+    <div className="relative w-full h-full flex flex-col py-9 px-10 overflow-hidden">
+      
+      {/* ── LAYER 1: Background & Stains ── */}
+      <PaperTexture variant="sage" opacity={0.6} />
+      <SketchOverlay variant="leaf" opacity={0.06} position={{ top: "8%", right: "8%" }} scale={1.2} />
+      <WatercolorBlob variant="sage" opacity={0.12} position={{ top: "15%", left: "10%" }} width={220} height={180} />
 
-      {/* ── Marginal note — vertical editorial annotation ──────────────── */}
-      <div
-        className="absolute hidden md:flex flex-col items-end select-none pointer-events-none"
-        style={{
-          left: "12px",
-          top: "50%",
-          transform: "translateY(-90px)",
-          gap: "5px",
-        }}
-      >
-        <span
-          className="font-sans uppercase"
-          style={{
-            writingMode: "vertical-rl",
-            transform: "rotate(180deg)",
-            fontSize: "6px",
-            letterSpacing: "0.28em",
-            color: "rgba(110,90,78,0.20)",
-            lineHeight: 1,
-          }}
-        >
-          First Edition
+      {/* ── LAYER 2: Page Corners & Margins ── */}
+      <CornerOrnament position="top-right" scale={0.8} opacity={0.25} />
+      <CornerOrnament position="bottom-right" scale={0.8} opacity={0.25} />
+
+      {/* ── LAYER 3: Animated Floating Elements ── */}
+      <FloatingLeaves count={2} opacity={0.18} />
+
+      {/* ── LAYER 4: Marginal Notes & Stamps ── */}
+      <div className="absolute hidden md:flex flex-col items-end select-none pointer-events-none" style={{ left: "12px", top: "50%", transform: "translateY(-110px)", gap: "6px" }}>
+        <span className="font-sans uppercase text-[5.5px] tracking-[0.25em] text-[#6E5A4E]/30" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
+          Journal Entry
         </span>
-        <span
-          style={{
-            width: "0.5px",
-            height: "18px",
-            background: "rgba(110,90,78,0.12)",
-            display: "block",
-            margin: "0 auto",
-          }}
-        />
-        <span
-          className="font-sans"
-          style={{
-            writingMode: "vertical-rl",
-            transform: "rotate(180deg)",
-            fontSize: "5.5px",
-            letterSpacing: "0.24em",
-            color: "rgba(110,90,78,0.16)",
-            lineHeight: 1,
-          }}
-        >
-          MMXXVI
+        <span style={{ width: "0.5px", height: "24px", background: "rgba(110,90,78,0.12)" }} />
+        <span className="font-sans text-[5px] tracking-[0.2em] text-[#6E5A4E]/20" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
+          Foliage No. I
         </span>
       </div>
 
-      {/* ── Main content column ────────────────────────────────────────── */}
-      <div
-        className="flex-1 flex flex-col justify-center mx-auto w-full"
-        style={{ maxWidth: "300px" }}
-      >
-
-        {/* ── Header block ────────────────────────────────────────────── */}
-        <div className="flex flex-col items-center" style={{ gap: "4px", marginBottom: "20px" }}>
-
-          {/* PROJECT POONAM */}
-          <span
-            className="font-sans uppercase select-none"
-            style={{
-              fontSize: "6.5px",
-              letterSpacing: "0.48em",
-              color: "rgba(110,90,78,0.25)",
-            }}
-          >
+      {/* ── LAYER 5: Ceremonial Chapter Content Column ── */}
+      <div className="flex-1 flex flex-col justify-between mx-auto w-full relative z-10" style={{ maxWidth: "310px" }}>
+        
+        {/* 1. Header ribbon & metadata */}
+        <div className="flex flex-col items-center gap-2 mt-2">
+          <ChapterRibbon label="First Edition" variant="sage" scale={0.9} opacity={0.85} />
+          
+          <span className="font-sans uppercase text-[6.5px] tracking-[0.45em] text-[#6E5A4E]/40 mt-1 select-none">
             Project Poonam
           </span>
+        </div>
 
-          {/* CHAPTER I */}
-          <span
-            className="font-sans uppercase select-none"
-            style={{
-              fontSize: "8px",
-              letterSpacing: "0.44em",
-              color: "rgba(110,90,78,0.36)",
-            }}
-          >
+        {/* 2. Title block & botanical divider */}
+        <div className="flex flex-col items-center gap-3 my-4">
+          <span className="font-sans uppercase text-[9px] tracking-[0.4em] text-[#6E5A4E]/50 font-semibold select-none">
             Chapter I
           </span>
-        </div>
 
-        {/* ── Botanical ornament ──────────────────────────────────────── */}
-        <div
-          className="relative mx-auto select-none pointer-events-none"
-          style={{ width: "50px", height: "28px", marginBottom: "18px" }}
-        >
-          <Image
-            src="/vintage-illustration.png"
-            alt=""
-            fill
-            className="object-contain"
-            style={{
-              filter: "grayscale(100%) sepia(30%) opacity(0.20) contrast(0.88)",
-              mixBlendMode: "multiply",
-            }}
-            aria-hidden
-          />
-        </div>
+          <BotanicalDivider variant="leaves" opacity={0.4} width="120px" />
 
-        {/* ── Title ───────────────────────────────────────────────────── */}
-        <div className="text-center" style={{ marginBottom: "16px" }}>
-          <h2
-            className="font-display"
-            style={{
-              fontSize: "24px",
-              letterSpacing: "0.015em",
-              color: "rgba(110,90,78,0.90)",
-              fontWeight: 400,
-              lineHeight: 1.22,
-            }}
-          >
+          <h2 className="font-display text-center" style={{ fontSize: "25px", letterSpacing: "0.01em", color: "rgba(110,90,78,0.92)", fontWeight: 400, lineHeight: 1.2 }}>
             The Architect
             <br />
-            <span
-              style={{
-                fontSize: "0.80em",
-                fontStyle: "italic",
-                opacity: 0.68,
-                paddingLeft: "20px",
-              }}
-            >
+            <span style={{ fontSize: "0.78em", fontStyle: "italic", opacity: 0.65, paddingLeft: "15px" }}>
               of
             </span>
             <br />
@@ -154,115 +79,38 @@ export default function ChapterOneRight() {
           </h2>
         </div>
 
-        {/* ── Divider before body ─────────────────────────────────────── */}
-        <div className="flex items-center gap-2 mx-auto" style={{ marginBottom: "22px", width: "160px" }}>
-          <span style={{ flex: 1, height: "0.4px", display: "block", background: "rgba(110,90,78,0.16)" }} />
-          <span
-            className="font-display select-none"
-            style={{ fontSize: "7px", color: "rgba(110,90,78,0.22)" }}
-          >
-            ✦
-          </span>
-          <span style={{ flex: 1, height: "0.4px", display: "block", background: "rgba(110,90,78,0.16)" }} />
-        </div>
-
-        {/* ── First paragraph with drop cap ────────────────────────────── */}
-        <div
-          className="text-justify"
-          style={{
-            color: "rgba(110,90,78,0.78)",
-            marginBottom: "18px",
-            hyphens: "auto",
-          }}
-        >
-          <p
-            className="font-display"
-            style={{
-              fontSize: "13px",
-              lineHeight: "2.0",
-              letterSpacing: "0.006em",
-            }}
-          >
-            <span className="drop-cap-letter">E</span>
+        {/* 3. Drop-cap Paragraph & Body */}
+        <div className="text-justify text-[#6E5A4E]/85 select-text" style={{ hyphens: "auto" }}>
+          <p className="font-display text-[13px] leading-[1.95] letterSpacing-[0.005em] mb-4">
+            <span className="drop-cap-letter" style={{ color: "#8EA98C" }}>E</span>
             very line of code is a sentence waiting to be written. For years,
             we treated the digital screen as a glowing dashboard — a canvas of
             cold glass and neon signals. But Poonam saw it differently. To her,
             the screen was paper, dried ink, and binding glue. A space where
             design and engineering did not merely function, but breathed.
           </p>
+
+          <p className="font-display text-[13px] leading-[1.95] letterSpacing-[0.005em] text-[#6E5A4E]/70">
+            This is the ledger of her creations — where logic meets literature,
+            and every project begins as a page waiting to be turned. The cover
+            is open. The narrative begins.
+          </p>
         </div>
 
-        {/* ── Second paragraph ─────────────────────────────────────────── */}
-        <p
-          className="font-display text-justify"
-          style={{
-            fontSize: "13px",
-            lineHeight: "2.0",
-            letterSpacing: "0.006em",
-            color: "rgba(110,90,78,0.68)",
-            hyphens: "auto",
-          }}
-        >
-          This is the ledger of her creations — where logic meets literature,
-          and every project begins as a page waiting to be turned. The cover
-          is open. The narrative begins.
-        </p>
+        {/* 4. Fine vintage divider & page number footer */}
+        <div className="flex flex-col items-center gap-1.5 mt-4">
+          <DecorativeDivider variant="diamond-dots" opacity={0.3} width="80px" />
+          <div className="flex items-center gap-3 w-full max-w-[280px] justify-center text-[9px] text-[#6E5A4E]/40 font-display select-none">
+            <span>✦</span>
+            <span>1</span>
+            <span>✦</span>
+          </div>
+        </div>
 
       </div>
 
-      {/* ── Footer: full-width rule + page number ──────────────────────── */}
-      <div className="flex flex-col items-center gap-[8px] pb-1">
-        {/* Full-width rule */}
-        <div
-          className="flex items-center gap-3 w-full"
-          style={{ maxWidth: "300px", margin: "0 auto" }}
-        >
-          <span
-            style={{
-              flex: 1,
-              height: "0.4px",
-              background: "rgba(110,90,78,0.13)",
-              display: "block",
-            }}
-          />
-          <span
-            className="font-display select-none"
-            style={{
-              fontSize: "7px",
-              color: "rgba(110,90,78,0.20)",
-            }}
-          >
-            ✦
-          </span>
-          <span
-            className="font-display select-none"
-            style={{
-              fontSize: "10px",
-              letterSpacing: "0.32em",
-              color: "rgba(110,90,78,0.26)",
-            }}
-          >
-            1
-          </span>
-          <span
-            className="font-display select-none"
-            style={{
-              fontSize: "7px",
-              color: "rgba(110,90,78,0.20)",
-            }}
-          >
-            ✦
-          </span>
-          <span
-            style={{
-              flex: 1,
-              height: "0.4px",
-              background: "rgba(110,90,78,0.13)",
-              display: "block",
-            }}
-          />
-        </div>
-      </div>
+      {/* ── Pressed botanical detail in the bottom right corner ── */}
+      <PressedFlower variant="fern-leaf" opacity={0.35} position={{ bottom: "-8px", right: "-12px" }} scale={0.7} />
 
     </div>
   );

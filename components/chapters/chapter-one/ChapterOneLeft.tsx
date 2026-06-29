@@ -1,302 +1,142 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+import {
+  PaperTexture,
+  CornerOrnament,
+  DecorativeFrame,
+  PressedFlower,
+  QuoteCard,
+  WaxSeal,
+  LibrarySeal,
+  PaperClip,
+  WatercolorBlob,
+  SketchOverlay,
+  PageStamp,
+} from "@/components/decorations";
 
 /**
- * ChapterOneLeft — V4
+ * ChapterOneLeft — Handcrafted Illustrated frontispiece (Left Page)
  *
- * Author Introduction Frontispiece.
- * The reader has just opened the book. This is the first thing they see.
- * They meet Poonam before reading a single word of prose.
- *
- * Composition (top → bottom):
- *   Publisher ornament ❦
- *   AUTHOR label
- *   Engraved portrait (180px, vintage-processed)
- *   Poonam Choudhary (name)
- *   Author · Parenting Mentor · Banker
- *   ——✦—— divider
- *   Quote (italic)
- *   Handwritten signature
- *   Publisher seal (circular emboss)
- *   ✦ i ✦ page number
- *
- * Literary objects (two only):
- *   1. Pressed botanical SVG watermark — behind portrait, ~3% opacity
- *   2. Library stamp — CSS ink stamp, bottom-left corner
- *
- * Design principle: every element intentionally placed.
- * Breathing room between sections is generous.
- * The page should feel printable if photographed right now.
+ * Designed as a scrapbooked author portrait with collectible paper artifacts:
+ *  - Portrait inside a dual-border DecorativeFrame
+ *  - Bronze PaperClip clamping the portrait
+ *  - Translucent PressedFlower tucked behind the frame
+ *  - QuoteCard styled as torn paper taped to the book
+ *  - WaxSeal securing the author's signature
+ *  - LibrarySeal ink stamp in the margin
  */
 export default function ChapterOneLeft() {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-between py-9 px-8 overflow-hidden relative">
+    <div className="relative w-full h-full flex flex-col items-center justify-between py-8 px-9 overflow-hidden">
 
-      {/* ═══════════════════════════════════════════════════════════════
-          LITERARY OBJECT 1: Pressed Botanical SVG Watermark
-          Sits behind the portrait. Almost invisible. Felt, not seen.
-         ═══════════════════════════════════════════════════════════════ */}
-      <div
-        className="absolute pointer-events-none select-none"
-        style={{
-          top: "8%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "220px",
-          height: "280px",
-          opacity: 0.038,
-          zIndex: 1,
-        }}
-      >
-        <svg
-          viewBox="0 0 220 280"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ width: "100%", height: "100%" }}
-          aria-hidden="true"
-        >
-          {/* Central stem */}
-          <path
-            d="M110 260 Q108 200 105 140 Q102 80 108 20"
-            stroke="rgba(110,90,78,1)"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-          />
-          {/* Left fronds — large */}
-          <path d="M105 140 Q70 120 40 88 C68 116 98 128 105 140 Z" fill="rgba(110,90,78,0.9)" />
-          <path d="M107 120 Q75 95 52 60 C78 90 102 108 107 120 Z" fill="rgba(110,90,78,0.8)" />
-          <path d="M108 100 Q80 72 64 38 C84 68 104 88 108 100 Z" fill="rgba(110,90,78,0.7)" />
-          <path d="M108 82 Q86 52 74 18 C88 48 106 70 108 82 Z" fill="rgba(110,90,78,0.6)" />
-          {/* Right fronds — large */}
-          <path d="M105 140 Q140 120 170 88 C142 116 112 128 105 140 Z" fill="rgba(110,90,78,0.9)" />
-          <path d="M107 120 Q140 95 163 60 C138 90 112 108 107 120 Z" fill="rgba(110,90,78,0.8)" />
-          <path d="M108 100 Q136 72 152 38 C132 68 110 88 108 100 Z" fill="rgba(110,90,78,0.7)" />
-          <path d="M108 82 Q130 52 142 18 C128 48 110 70 108 82 Z" fill="rgba(110,90,78,0.6)" />
-          {/* Lower left fronds */}
-          <path d="M106 165 Q68 158 36 140 C65 156 100 162 106 165 Z" fill="rgba(110,90,78,0.85)" />
-          <path d="M107 185 Q75 182 44 168 C72 180 102 182 107 185 Z" fill="rgba(110,90,78,0.75)" />
-          <path d="M108 205 Q80 204 55 194 C78 202 104 204 108 205 Z" fill="rgba(110,90,78,0.60)" />
-          {/* Lower right fronds */}
-          <path d="M106 165 Q145 158 177 140 C148 156 112 162 106 165 Z" fill="rgba(110,90,78,0.85)" />
-          <path d="M107 185 Q140 182 171 168 C144 180 112 182 107 185 Z" fill="rgba(110,90,78,0.75)" />
-          <path d="M108 205 Q136 204 162 194 C138 202 112 204 108 205 Z" fill="rgba(110,90,78,0.60)" />
-          {/* Tiny leaf tip details */}
-          <ellipse cx="40" cy="88" rx="4" ry="7" transform="rotate(-30 40 88)" fill="rgba(110,90,78,0.5)" />
-          <ellipse cx="170" cy="88" rx="4" ry="7" transform="rotate(30 170 88)" fill="rgba(110,90,78,0.5)" />
-          <ellipse cx="110" cy="20" rx="3" ry="5" fill="rgba(110,90,78,0.5)" />
-        </svg>
-      </div>
+      {/* ── LAYER 1: Background Paper Wash & Sketches ── */}
+      <PaperTexture variant="antique" opacity={0.65} />
+      <SketchOverlay variant="butterfly" opacity={0.05} position={{ top: "6%", left: "8%" }} scale={1.1} />
+      <WatercolorBlob variant="rose" opacity={0.09} position={{ top: "12%", right: "12%" }} width={190} height={150} />
 
-      {/* ═══════════════════════════════════════════════════════════════
-          TOP: Publisher Ornament + AUTHOR label
-         ═══════════════════════════════════════════════════════════════ */}
-      <div className="flex flex-col items-center gap-[7px] pt-1 relative z-10">
-        <span
-          style={{
-            fontFamily: "Georgia, serif",
-            fontSize: "16px",
-            color: "rgba(110,90,78,0.20)",
-            lineHeight: 1,
-          }}
-        >
-          ❦
-        </span>
-        <span
-          className="font-sans uppercase select-none"
-          style={{
-            fontSize: "6.5px",
-            letterSpacing: "0.46em",
-            color: "rgba(110,90,78,0.32)",
-          }}
-        >
-          Author
-        </span>
-      </div>
+      {/* ── LAYER 2: Page Corners ── */}
+      <CornerOrnament position="top-left" scale={0.8} opacity={0.25} />
+      <CornerOrnament position="bottom-left" scale={0.8} opacity={0.25} />
 
-      {/* ═══════════════════════════════════════════════════════════════
-          CENTER: Portrait + Identity Stack
-         ═══════════════════════════════════════════════════════════════ */}
-      <div className="flex flex-col items-center gap-[18px] flex-1 justify-center relative z-10">
-
-        {/* ── Engraved Portrait ───────────────────────────────────────── */}
-        <div
-          className="relative"
-          style={{
-            width: "180px",
-            height: "180px",
-          }}
-        >
-          {/* Outer ring — faint circular border like engraving plate */}
-          <div
-            className="absolute pointer-events-none select-none"
-            style={{
-              inset: "-4px",
-              borderRadius: "50%",
-              border: "0.5px solid rgba(110,90,78,0.10)",
-            }}
-          />
-          {/* Vignette: blends edges of portrait into paper */}
-          <div
-            className="absolute inset-0 pointer-events-none select-none"
-            style={{
-              zIndex: 2,
-              borderRadius: "50%",
-              boxShadow: "inset 0 0 36px 14px rgba(241,228,194,0.88)",
-            }}
-          />
-          {/* Paper grain on portrait */}
-          <div
-            className="absolute inset-0 paper-grain-overlay pointer-events-none select-none"
-            style={{ zIndex: 3, opacity: 0.24, borderRadius: "50%" }}
-          />
-          <Image
-            src="/author-portrait.png"
-            alt="Portrait of Poonam Choudhary"
-            fill
-            className="object-cover"
-            style={{
-              filter: "grayscale(100%) sepia(50%) contrast(1.08) brightness(0.94)",
-              borderRadius: "50%",
-            }}
-            priority
-          />
+      {/* ── LAYER 3: Main Frontispiece Composition ── */}
+      <div className="flex-1 flex flex-col items-center justify-center gap-5 w-full relative z-10 my-1">
+        
+        {/* 1. Header label */}
+        <div className="flex flex-col items-center gap-1 select-none">
+          <span style={{ fontFamily: "Georgia, serif", fontSize: "14px", color: "rgba(110,90,78,0.25)", lineHeight: 1 }}>
+            ❦
+          </span>
+          <span className="font-sans uppercase text-[6px] tracking-[0.44em] text-[#6E5A4E]/35">
+            Author Introduction
+          </span>
         </div>
 
-        {/* ── Name ────────────────────────────────────────────────────── */}
-        <div className="flex flex-col items-center gap-[8px]">
-          <p
-            className="font-display text-center leading-tight"
-            style={{
-              fontSize: "20px",
-              letterSpacing: "0.03em",
-              color: "rgba(110,90,78,0.88)",
-              fontWeight: 400,
-            }}
-          >
+        {/* 2. Framed Portrait with Paperclip & Botanical */}
+        <div className="relative flex items-center justify-center my-1 select-none">
+          {/* Botanical leaf tucked behind portrait frame */}
+          <PressedFlower variant="wildflower" opacity={0.35} position={{ top: "-18px", left: "-22px" }} scale={0.8} />
+
+          <DecorativeFrame variant="double-rule" padding="5px" opacity={0.4}>
+            <div className="relative w-[130px] h-[130px]">
+              {/* Vignette: blends edges of portrait into paper */}
+              <div className="absolute inset-0 z-2 rounded-full" style={{ boxShadow: "inset 0 0 20px 8px rgba(241,228,194,0.7)" }} />
+              <Image
+                src="/author-portrait.png"
+                alt="Poonam Choudhary"
+                fill
+                className="object-cover rounded-full"
+                style={{
+                  filter: "grayscale(100%) sepia(35%) contrast(1.05) brightness(0.95)",
+                }}
+                priority
+              />
+            </div>
+          </DecorativeFrame>
+
+          {/* Bronze Paperclip clamped onto the top-right corner of the frame */}
+          <PaperClip position={{ top: "-12px", right: "2px" }} scale={0.9} variant="bronze" />
+        </div>
+
+        {/* 3. Name & Roles Stack */}
+        <div className="flex flex-col items-center gap-2 select-text">
+          <p className="font-display text-center leading-tight text-[19px] text-[#6E5A4E]/90 font-medium">
             Poonam Choudhary
           </p>
 
-          {/* Thin ornamental rule */}
-          <div
-            style={{
-              width: "28px",
-              height: "0.5px",
-              background: "rgba(110,90,78,0.14)",
-            }}
-          />
+          <div style={{ width: "24px", height: "0.5px", background: "rgba(110,90,78,0.15)" }} />
 
-          {/* Role descriptors */}
-          <div className="flex flex-col items-center gap-[6px]">
-            {["Author", "Parenting Mentor", "Banker"].map((role) => (
-              <span
-                key={role}
-                className="font-sans uppercase select-none"
-                style={{
-                  fontSize: "7px",
-                  letterSpacing: "0.26em",
-                  color: "rgba(110,90,78,0.36)",
-                  lineHeight: 1,
-                }}
-              >
-                {role}
-              </span>
-            ))}
+          <div className="flex items-center gap-3 text-[7px] text-[#6E5A4E]/40 font-sans uppercase tracking-[0.2em] select-none">
+            <span>Author</span>
+            <span>•</span>
+            <span>Parenting Mentor</span>
+            <span>•</span>
+            <span>Banker</span>
           </div>
         </div>
 
-        {/* ── Decorative divider ──────────────────────────────────────── */}
-        <div className="flex items-center gap-3" style={{ opacity: 0.18 }}>
-          <span style={{ display: "block", width: "24px", height: "0.5px", background: "rgba(110,90,78,1)" }} />
-          <span style={{ fontFamily: "Georgia, serif", fontSize: "8px", color: "rgba(110,90,78,1)" }}>✦</span>
-          <span style={{ display: "block", width: "24px", height: "0.5px", background: "rgba(110,90,78,1)" }} />
-        </div>
+        {/* 4. Handcrafted Quote Card (looks like a torn card taped down) */}
+        <QuoteCard
+          quote="Every child deserves a story worth growing inside."
+          author="Poonam Choudhary"
+          variant="cream"
+          rotation={-1.5}
+          scale={0.95}
+          width="240px"
+        />
 
-        {/* ── Quote ───────────────────────────────────────────────────── */}
-        <p
-          className="font-display italic text-center"
-          style={{
-            fontSize: "12px",
-            lineHeight: 1.78,
-            color: "rgba(110,90,78,0.40)",
-            maxWidth: "196px",
-          }}
-        >
-          &ldquo;Every child deserves a story<br />worth growing inside.&rdquo;
-        </p>
+        {/* 5. Signature and Wax Seal */}
+        <div className="relative flex items-center justify-center w-full h-[40px] my-1">
+          {/* Handwritten Signature */}
+          <div className="relative w-[110px] h-[34px] select-none pointer-events-none opacity-45">
+            <Image
+              src="/signature.png"
+              alt="Signature"
+              fill
+              className="object-contain"
+              style={{ filter: "sepia(20%) opacity(0.8)" }}
+            />
+          </div>
 
-        {/* ── Handwritten Signature ────────────────────────────────────── */}
-        <div
-          className="relative select-none"
-          style={{ width: "140px", height: "42px" }}
-        >
-          <Image
-            src="/signature.png"
-            alt="Signature of Poonam Choudhary"
-            fill
-            className="object-contain"
-            style={{
-              filter: "sepia(30%) opacity(0.34)",
-            }}
-          />
-        </div>
-
-        {/* ── Publisher Seal ──────────────────────────────────────────── */}
-        <div
-          className="publisher-seal flex flex-col items-center justify-center"
-          style={{
-            width: "46px",
-            height: "46px",
-            gap: "2px",
-          }}
-        >
-          <span
-            className="font-display select-none"
-            style={{
-              fontSize: "10px",
-              letterSpacing: "0.12em",
-              color: "rgba(110,90,78,0.28)",
-              lineHeight: 1,
-            }}
-          >
-            PC
-          </span>
-          <span
-            className="font-sans select-none"
-            style={{
-              fontSize: "5px",
-              letterSpacing: "0.16em",
-              color: "rgba(110,90,78,0.22)",
-              lineHeight: 1,
-            }}
-          >
-            MMXXVI
-          </span>
+          {/* Red Terracotta Wax Seal placed offset to the signature */}
+          <WaxSeal position={{ right: "12%", top: "-5px" }} scale={0.8} variant="terracotta" />
         </div>
 
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════════
-          BOTTOM: Page Number
-         ═══════════════════════════════════════════════════════════════ */}
-      <div className="flex flex-col items-center gap-[14px] relative z-10 pb-1 w-full">
+      {/* ── LAYER 4: Footer Page Info & Stamps ── */}
+      <div className="relative z-10 w-full flex items-center justify-between mt-auto pt-2">
+        {/* Ink stamp on bottom-left margin */}
+        <LibrarySeal position={{ bottom: "-4px", left: "0px" }} scale={0.75} variant="ink" text1="FIRST EDITION" text2="POONAM PRESS" />
 
-        {/* LITERARY OBJECT 2: Library Stamp — bottom left */}
-        <div className="absolute bottom-10 left-6 library-stamp text-center select-none pointer-events-none">
-          <div>First Edition</div>
-          <div>MMXXVI</div>
-          <div>Poonam Press</div>
-        </div>
-
-        <span
-          className="font-display select-none"
-          style={{
-            fontSize: "10px",
-            letterSpacing: "0.30em",
-            color: "rgba(110,90,78,0.26)",
-          }}
-        >
+        {/* Page Number */}
+        <span className="font-display select-none text-[9px] text-[#6E5A4E]/30 tracking-[0.25em] mx-auto">
           ✦&thinsp;i&thinsp;✦
         </span>
+
+        {/* Faded Postage Stamp on bottom-right margin */}
+        <PageStamp position={{ bottom: "-12px", right: "-10px" }} scale={0.65} variant="botanical" rotation={5} />
       </div>
 
     </div>
