@@ -17,48 +17,45 @@ interface BookmarkStackProps {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// MATTE VINTAGE PALETTE
-// Flat, muted paper/fabric tones — no saturation, no gloss.
-// main  = ribbon body colour
-// text  = printed numeral colour
+// MATTE VINTAGE PALETTE — flat cardstock tones
+// 95% body / 5% edge shading only. No gloss. No satin. No large gradients.
 // ─────────────────────────────────────────────────────────────────────────────
 export const RIBBON_COLORS = [
-  { main: "#C2A882", text: "#3D2B18" }, // Aged tan       (Cover)
-  { main: "#9EA98C", text: "#282E1C" }, // Dusty sage     (Ch I)
-  { main: "#8EA2AA", text: "#1C2A30" }, // Faded steel    (Ch II)
-  { main: "#B89684", text: "#37261A" }, // Warm umber     (Library)
-  { main: "#9E8898", text: "#2C1A28" }, // Dusty burgundy (Gallery)
-  { main: "#A0956C", text: "#2E2618" }, // Faded olive    (extra)
-  { main: "#8C9EA2", text: "#1A2A2E" }, // Slate blue     (extra)
+  { main: "#C4A882", text: "#3C2A18" }, // aged tan       — Cover
+  { main: "#9EA88A", text: "#272E1C" }, // dusty sage     — Chapter I
+  { main: "#8EA0A8", text: "#1B2930" }, // faded steel    — Chapter II
+  { main: "#B89482", text: "#362518" }, // warm umber     — Library
+  { main: "#9E8698", text: "#2B1828" }, // dusty rose     — Gallery
+  { main: "#A09468", text: "#2C2418" }, // faded olive    — (extra)
+  { main: "#8E9EA2", text: "#19282E" }, // slate blue     — (extra)
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SPINE OFFSETS
-// Bookmarks start just right of the spine and step inward with slight variation.
+// SPINE OFFSETS — simulate page depth, not equal spacing
+//
+// Each offset represents how far into the book that chapter's pages are.
+// Deeper chapters → bookmark sits further from the spine.
 // Values are px from left: 0 (spine crease).
+//
+//   Cover      ~ page   5  →  18px
+//   Chapter I  ~ page  40  →  38px
+//   Chapter II ~ page  90  →  60px
+//   Library    ~ page 180  →  84px
+//   Gallery    ~ page 280  → 110px
 // ─────────────────────────────────────────────────────────────────────────────
-const SPINE_OFFSETS = [18, 38, 60, 84, 110, 138, 168];
+const SPINE_OFFSETS = [18, 38, 60, 84, 110, 138, 170];
 
-/**
- * BookmarkStack
- *
- * Absolutely positions each ribbon relative to the spine crease anchor.
- * Derives x-position from SPINE_OFFSETS for a physical, depth-indexed look.
- */
 export default function BookmarkStack({
   chapters,
   activeId,
   onNavigate,
 }: BookmarkStackProps) {
   return (
-    // Relative container — zero-size so it doesn't affect page layout.
-    // Children use absolute positioning and may render outside (overflow: visible
-    // on the parent chain allows the ribbons to appear above the page edge).
     <div className="relative w-0 h-0">
       {chapters.map((chapter, index) => {
         const isActive = activeId === chapter.id;
         const color = RIBBON_COLORS[index % RIBBON_COLORS.length];
-        const xOffset = SPINE_OFFSETS[index] ?? 18 + index * 22;
+        const xOffset = SPINE_OFFSETS[index] ?? 18 + index * 24;
 
         return (
           <BookmarkTab

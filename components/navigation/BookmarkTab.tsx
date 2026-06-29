@@ -10,39 +10,36 @@ interface BookmarkTabProps {
   onClick: () => void;
   index: number;
   color: { main: string; text: string };
-  xOffset: number; // px right of spine crease
+  xOffset: number; // px right of spine (left: 0 = spine crease)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// RIBBON DIMENSIONS
+// DIMENSIONS
+//
+//  Total height  70px  — bookmark body
+//  PageEdge      8px   — masks the top of the bookmark (insertion point)
+//  Visible inactive     62px  (below PageEdge, above page content)
+//  Visible active       70px  (bookmark slides down 8px, fully below PageEdge)
+//
+//  The bookmark hangs DOWNWARD from top: 0 (the page top edge).
+//  PageEdge (zIndex 30) covers the first 8px.
+//  Page background (zIndex 10) is behind the bookmark body (zIndex 20).
 // ─────────────────────────────────────────────────────────────────────────────
-const W = 17;         // ribbon width  (px)
-const H = 78;         // ribbon total height — most is hidden inside the page
-const NOTCH = 6;      // V-notch depth at bottom tip
-const SHOW = 54;      // px that protrude above the page edge (inactive)
-const SHOW_ACTIVE = 62; // px that protrude when active (+8)
+const W = 17;      // width  (px) — narrow cardstock tab
+const H = 70;      // total height (px)
+const NOTCH = 5;   // V-notch depth — almost flat, just a hint
 
 /**
- * BookmarkTab — Physical Paper Bookmark
+ * BookmarkTab — Physical Cardstock Page Marker
  *
- * Appearance
- *  • Rectangle with a small V-notch at the bottom tip
- *  • Matte, flat colour — no satin, no gloss, no fabric sheen
- *  • Very subtle left-edge highlight (paper thickness impression)
- *  • Insertion shadow at the bottom where the bookmark disappears into pages
- *  • Vertical uppercase numeral in the upper portion
+ * Positioning model:
+ *   top: 0  →  hangs downward into the page face
+ *   y: 0    →  inactive (8px masked by PageEdge, 62px visible)
+ *   y: 8    →  active   (0px masked, 70px visible)
+ *   y: 4    →  hover    (4px masked, 66px visible)
  *
- * Positioning
- *  • Absolutely positioned at `top: 0` (the page top edge / spine crease)
- *  • Translated upward (negative Y) so only SHOW px are visible above the page
- *  • The page background at zIndex: 10 (parent chain) covers the lower portion
- *    naturally — no clip-path or overflow trickery needed
- *
- * Motion
- *  • Active:   translateY(-SHOW_ACTIVE)  →  62 px visible
- *  • Inactive: translateY(-SHOW)         →  54 px visible
- *  • Hover:    translateY(-SHOW - 4)     →  58 px visible (subtle lift)
- *  • Duration: 300 ms, ease: easeOut — paper, not springs
+ * The PageEdge parent element (zIndex 30) provides the clipping mask.
+ * No overflow:hidden or clip-path is needed on the container.
  */
 export default function BookmarkTab({
   label,
@@ -55,14 +52,10 @@ export default function BookmarkTab({
 }: BookmarkTabProps) {
   const [hovered, setHovered] = React.useState(false);
 
-  const translateY = isActive
-    ? -SHOW_ACTIVE
-    : hovered
-    ? -(SHOW + 4)
-    : -SHOW;
+  // Bookmark slides DOWN to become more visible.
+  // Active: fully below PageEdge. Inactive: 8px hidden. Hover: 4px hidden.
+  const targetY = isActive ? 8 : hovered ? 4 : 0;
 
-  // CSS clip-path for the V-notch bookmark shape
-  // polygon: top-left → top-right → bottom-right → notch-tip → bottom-left
   const clipPath = `polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - ${NOTCH}px), 0 100%)`;
 
   return (
@@ -73,14 +66,16 @@ export default function BookmarkTab({
         left: xOffset,
         width: W,
         height: H,
-        // drop-shadow respects the clip-path shape — casts shadow on book page
-        filter: "drop-shadow(0 2px 5px rgba(0,0,0,0.11)) drop-shadow(1px 0 2px rgba(0,0,0,0.06))",
+        // drop-shadow respects clip-path shape; casts soft shadow onto page
+        filter:
+          "drop-shadow(0 2px 6px rgba(0,0,0,0.08)) drop-shadow(1px 0 2px rgba(0,0,0,0.04))",
       }}
-      initial={{ y: -H, opacity: 0 }}
-      animate={{ y: translateY, opacity: 1 }}
+      // Entrance: fade up from just inside the PageEdge, no large translation
+      initial={{ y: -4, opacity: 0 }}
+      animate={{ y: targetY, opacity: 1 }}
       transition={{
         y: { duration: 0.3, ease: "easeOut" },
-        opacity: { duration: 0.5, delay: 0.1 + index * 0.07 },
+        opacity: { duration: 0.45, delay: 0.12 + index * 0.06 },
       }}
     >
       <button
@@ -88,60 +83,51 @@ export default function BookmarkTab({
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         title={label}
-        className="relative w-full h-full focus:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
+        className="relative w-full h-full focus:outline-none"
         style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
         aria-label={isActive ? `Current chapter: ${label}` : `Go to ${label}`}
         aria-pressed={isActive}
       >
-        {/* ── 1. Ribbon body: flat matte colour + V-notch ── */}
+        {/* ── BODY: flat cardstock colour + V-notch ── */}
         <div
           className="absolute inset-0"
-          style={{
-            clipPath,
-            background: color.main,
-          }}
+          style={{ clipPath, background: color.main }}
         >
-          {/* Very subtle paper grain — keeps it matte, adds micro-texture */}
+          {/* Paper grain — matte micro-texture (very low opacity) */}
           <div
             className="absolute inset-0 paper-grain-overlay pointer-events-none"
-            style={{ opacity: 0.07, mixBlendMode: "multiply" }}
+            style={{ opacity: 0.06, mixBlendMode: "multiply" }}
           />
 
-          {/* Left-edge highlight — simulates paper thickness catching light */}
+          {/* Left-edge highlight — simulates light catching the paper thickness */}
           <div
             className="absolute top-0 bottom-0 left-0 pointer-events-none"
-            style={{
-              width: 1,
-              background: "rgba(255,255,255,0.22)",
-            }}
+            style={{ width: 1, background: "rgba(255,255,255,0.18)" }}
           />
 
-          {/* Right-edge darkening — depth on far side */}
+          {/* Right-edge shadow — far side in shadow */}
           <div
             className="absolute top-0 bottom-0 right-0 pointer-events-none"
-            style={{
-              width: 1,
-              background: "rgba(0,0,0,0.08)",
-            }}
+            style={{ width: 1, background: "rgba(0,0,0,0.07)" }}
           />
 
-          {/* Insertion shadow — bottom band, simulates ribbon disappearing into pages */}
+          {/* Bottom fade — bookmark disappearing between page sheets */}
           <div
             className="absolute left-0 right-0 bottom-0 pointer-events-none"
             style={{
-              height: 18,
+              height: 14,
               background:
-                "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.06) 100%)",
+                "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.07) 100%)",
             }}
           />
         </div>
 
-        {/* ── 2. Vertical numeral — occupies upper half of ribbon ── */}
+        {/* ── NUMERAL: 10px, vertical, upper portion only ── */}
         <div
           className="absolute left-0 right-0 pointer-events-none select-none"
           style={{
-            top: 8,
-            height: Math.floor(H * 0.45),
+            top: 10,
+            height: "42%",
             display: "flex",
             alignItems: "flex-start",
             justifyContent: "center",
@@ -150,13 +136,14 @@ export default function BookmarkTab({
           }}
         >
           <span
-            className="font-sans uppercase"
             style={{
+              fontFamily: "sans-serif",
               fontSize: 10,
-              letterSpacing: "0.13em",
-              color: color.text,
-              opacity: isActive ? 0.88 : 0.52,
+              letterSpacing: "0.12em",
               fontWeight: 600,
+              textTransform: "uppercase",
+              color: color.text,
+              opacity: isActive ? 0.9 : 0.5,
               lineHeight: 1,
               transition: "opacity 0.25s ease",
             }}

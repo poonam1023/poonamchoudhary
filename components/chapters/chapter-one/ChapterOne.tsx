@@ -115,12 +115,52 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
       </div>
 
       {/* ================================================================
-          BOOKMARK INDEX RIBBONS (desktop only)
-          
-          Architecture: anchored at top: 0, left: 0 (the spine crease).
-          zIndex: 5 means page backgrounds (zIndex: 10) naturally cover the
-          ribbon's bottom portion → insertion-inside-pages illusion.
-          The ribbon's top portion (above page edge) floats into dark bg.
+          PAGE EDGE — physical paper stack at the book's top boundary
+
+          zIndex: 30 sits above:
+            • page backgrounds (zIndex: 10)
+            • bookmarks       (zIndex: 20)
+          and below the 3D flip overlay (zIndex: 40).
+
+          Purpose: masks the top 8px of every bookmark so the insertion
+          point is never visible. The bookmark appears to emerge FROM
+          between the pages, not to sit on top of them.
+
+          left: "-100%" spans the full book width (left page + right page).
+         ================================================================ */}
+      <div
+        className="hidden md:block absolute pointer-events-none"
+        style={{
+          top: 0,
+          left: "-100%",
+          right: 0,
+          height: 8,
+          zIndex: 30,
+          // Multi-layer paper stack appearance:
+          // darker at top (compressed edge), lighter toward page face
+          background:
+            "linear-gradient(to bottom, #BDB09C 0%, #CEC2A8 20%, #DAD0B8 45%, #E4DBC8 70%, #EEE4D4 100%)",
+          boxShadow: "0 3px 10px rgba(0,0,0,0.13), 0 1px 3px rgba(0,0,0,0.08)",
+        }}
+      >
+        {/* Vertical page-count lines — dozens of thin paper sheets */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(0,0,0,0.035) 2px, rgba(0,0,0,0.035) 3px)",
+          }}
+        />
+      </div>
+
+      {/* ================================================================
+          BOOKMARK LAYER — physical page markers (desktop only)
+
+          Anchored at top: 0, left: 0 (spine crease).
+          zIndex: 20 means:
+            • page backgrounds (zIndex: 10) cover the bookmark's lower body
+            • PageEdge (zIndex: 30) covers the bookmark's top 8px
+          Together these two layers create the insertion illusion.
          ================================================================ */}
       <div
         className="hidden md:block absolute pointer-events-none"
@@ -129,7 +169,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
           left: 0,
           right: 0,
           height: 0,
-          zIndex: 5,
+          zIndex: 20,
           overflow: "visible",
         }}
       >
