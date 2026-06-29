@@ -16,50 +16,49 @@ interface BookmarkStackProps {
   onNavigate: (page: number) => void;
 }
 
-// Vintage color palette matching muted book paper/fabric colors
-const COLOR_PALETTE = [
-  { light: "#A68E7E", main: "#8C7261", dark: "#705849", text: "#F7F1E8", textMuted: "rgba(247, 241, 232, 0.45)" }, // Warm Brown (Cover)
-  { light: "#BDC7B1", main: "#A8B29A", dark: "#8D977F", text: "#3D4730", textMuted: "rgba(61, 71, 48, 0.45)" }, // Sage Green (Chapter I)
-  { light: "#A2B5C4", main: "#8FA3B2", dark: "#758B9A", text: "#283742", textMuted: "rgba(40, 55, 66, 0.45)" }, // Faded Blue (Chapter II)
-  { light: "#F5EAC6", main: "#E8DCCB", dark: "#CBA680", text: "#6E5A4E", textMuted: "rgba(110, 90, 78, 0.45)" }, // Warm Cream (Library)
-  { light: "#D6B8B0", main: "#C29F95", dark: "#A88277", text: "#4D3630", textMuted: "rgba(77, 54, 48, 0.45)" }, // Terracotta / Rose (Gallery)
+// ─────────────────────────────────────────────────────────────────────────────
+// MATTE VINTAGE PALETTE
+// Flat, muted paper/fabric tones — no saturation, no gloss.
+// main  = ribbon body colour
+// text  = printed numeral colour
+// ─────────────────────────────────────────────────────────────────────────────
+export const RIBBON_COLORS = [
+  { main: "#C2A882", text: "#3D2B18" }, // Aged tan       (Cover)
+  { main: "#9EA98C", text: "#282E1C" }, // Dusty sage     (Ch I)
+  { main: "#8EA2AA", text: "#1C2A30" }, // Faded steel    (Ch II)
+  { main: "#B89684", text: "#37261A" }, // Warm umber     (Library)
+  { main: "#9E8898", text: "#2C1A28" }, // Dusty burgundy (Gallery)
+  { main: "#A0956C", text: "#2E2618" }, // Faded olive    (extra)
+  { main: "#8C9EA2", text: "#1A2A2E" }, // Slate blue     (extra)
 ];
 
-// Irregular rotation angles to give the ribbons a natural physical drape
-const STACK_PRESETS = [
-  { rotate: -0.6 },
-  { rotate: 0.4 },
-  { rotate: -0.2 },
-  { rotate: 0.8 },
-  { rotate: -0.5 },
-];
+// ─────────────────────────────────────────────────────────────────────────────
+// SPINE OFFSETS
+// Bookmarks start just right of the spine and step inward with slight variation.
+// Values are px from left: 0 (spine crease).
+// ─────────────────────────────────────────────────────────────────────────────
+const SPINE_OFFSETS = [18, 38, 60, 84, 110, 138, 168];
 
 /**
  * BookmarkStack
  *
- * Renders a row of physical ribbon bookmarks clustered around the spine.
- * Positions ribbons absolutely based on dynamic spacing to prevent overlap.
+ * Absolutely positions each ribbon relative to the spine crease anchor.
+ * Derives x-position from SPINE_OFFSETS for a physical, depth-indexed look.
  */
 export default function BookmarkStack({
   chapters,
   activeId,
   onNavigate,
 }: BookmarkStackProps) {
-  const total = chapters.length;
-  // Calculate dynamic spacing so the entire ribbon cluster stays within a tight, readable area around the spine (max 220px wide)
-  const spacing = Math.min(26, 220 / (total - 1 || 1));
-  const startOffset = -((total - 1) * spacing) / 2;
-  const halfRibbonWidth = 11; // Ribbon width is 22px
-
   return (
-    <div className="relative w-full h-0 pointer-events-none select-none">
+    // Relative container — zero-size so it doesn't affect page layout.
+    // Children use absolute positioning and may render outside (overflow: visible
+    // on the parent chain allows the ribbons to appear above the page edge).
+    <div className="relative w-0 h-0">
       {chapters.map((chapter, index) => {
         const isActive = activeId === chapter.id;
-        const color = COLOR_PALETTE[index % COLOR_PALETTE.length];
-        const preset = STACK_PRESETS[index % STACK_PRESETS.length];
-
-        // Center-align the ribbon stack around the spine crease
-        const xPos = startOffset + index * spacing - halfRibbonWidth;
+        const color = RIBBON_COLORS[index % RIBBON_COLORS.length];
+        const xOffset = SPINE_OFFSETS[index] ?? 18 + index * 22;
 
         return (
           <BookmarkTab
@@ -70,8 +69,7 @@ export default function BookmarkStack({
             onClick={() => onNavigate(chapter.page)}
             index={index}
             color={color}
-            customRotate={preset.rotate}
-            xOffset={xPos}
+            xOffset={xOffset}
           />
         );
       })}

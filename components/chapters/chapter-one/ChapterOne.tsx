@@ -117,17 +117,20 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
       {/* ================================================================
           BOOKMARK INDEX RIBBONS (desktop only)
           
-          Positioned relative to the open book's top spine crease (left: 0).
-          `bottom: "100%"` places the anchor at the top edge of the pages.
-          No container z-index is set to allow individual ribbons to stack
-          behind (zIndex: 5) or in front of (zIndex: 20) the pages.
+          Architecture: anchored at top: 0, left: 0 (the spine crease).
+          zIndex: 5 means page backgrounds (zIndex: 10) naturally cover the
+          ribbon's bottom portion → insertion-inside-pages illusion.
+          The ribbon's top portion (above page edge) floats into dark bg.
          ================================================================ */}
       <div
         className="hidden md:block absolute pointer-events-none"
         style={{
-          bottom: "100%",
+          top: 0,
           left: 0,
-          width: "0px",
+          right: 0,
+          height: 0,
+          zIndex: 5,
+          overflow: "visible",
         }}
       >
         <BookmarkNavigation

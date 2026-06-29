@@ -45,19 +45,8 @@ export default function BookSpread({ leftPage, rightPage, sidePanel }: BookSprea
         {rightPage}
       </div>
 
-      {/* Top navigation panel (bookmark ribbons) inserted at the top edge near the spine */}
-      {sidePanel && (
-        <div
-          className="hidden md:block absolute pointer-events-none"
-          style={{
-            bottom: "100%",
-            left: "50%",
-            width: "0px",
-          }}
-        >
-          {sidePanel}
-        </div>
-      )}
+      {/* Side panel slot — passthrough for future use */}
+      {sidePanel}
     </div>
   );
 }

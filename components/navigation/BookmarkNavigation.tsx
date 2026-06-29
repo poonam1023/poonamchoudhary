@@ -3,13 +3,16 @@
 import React from "react";
 import BookmarkStack, { ChapterEntry } from "./BookmarkStack";
 
-// The single source of truth for the chapter index navigation structure
+// ─────────────────────────────────────────────────────────────────────────────
+// CHAPTERS — Single source of truth for the chapter index navigation.
+// Adding a chapter only requires appending an object here.
+// ─────────────────────────────────────────────────────────────────────────────
 export const CHAPTERS: ChapterEntry[] = [
-  { id: "cover",     title: "Cover",     numeral: "0",   page: 0 },
-  { id: "chapter-1", title: "Chapter I",  numeral: "Ⅰ",   page: 1 },
-  { id: "chapter-2", title: "Chapter II", numeral: "Ⅱ",   page: 2 },
-  { id: "library",   title: "Library",   numeral: "Ⅲ",   page: 3 },
-  { id: "gallery",   title: "Gallery",   numeral: "Ⅳ",   page: 4 },
+  { id: "cover",     title: "Cover",      numeral: "0",  page: 0 },
+  { id: "chapter-1", title: "Chapter I",  numeral: "Ⅰ",  page: 1 },
+  { id: "chapter-2", title: "Chapter II", numeral: "Ⅱ",  page: 2 },
+  { id: "library",   title: "Library",    numeral: "Ⅲ",  page: 3 },
+  { id: "gallery",   title: "Gallery",    numeral: "Ⅳ",  page: 4 },
 ];
 
 interface BookmarkNavigationProps {
@@ -20,19 +23,19 @@ interface BookmarkNavigationProps {
 /**
  * BookmarkNavigation
  *
- * Owns the data-driven chapters configuration and handles z-index stacking.
- * Positions the stack relatively, acting as the bridge between book pages and tabs.
+ * Zero-size positional anchor at the spine crease.
+ * BookmarkStack absolutely positions each ribbon relative to this anchor.
  */
 export default function BookmarkNavigation({
   currentPage,
   onNavigate,
 }: BookmarkNavigationProps) {
-  // Match current page state to the appropriate active chapter tab
-  const activeChapter = CHAPTERS.find((ch) => ch.page === currentPage) || CHAPTERS[1];
+  const activeChapter =
+    CHAPTERS.find((ch) => ch.page === currentPage) ?? CHAPTERS[1];
 
   return (
     <div
-      className="relative w-0 pointer-events-auto"
+      className="relative w-0 h-0 pointer-events-none"
       role="navigation"
       aria-label="Chapter index ribbons"
     >
