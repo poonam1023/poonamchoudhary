@@ -22,3 +22,13 @@ export { default as VintageBorder } from "./VintageBorder";
 export { default as DecorativeMargin } from "./DecorativeMargin";
 export { default as CornerOrnament } from "./CornerOrnament";
 export { default as SketchOverlay } from "./SketchOverlay";
+
+// V5 New Premium Components
+export { default as PaperNote } from "./PaperNote";
+export { default as BotanicalSketch } from "./BotanicalSketch";
+export { default as WatercolorSplash } from "./WatercolorSplash";
+export { default as EditorialLabel } from "./EditorialLabel";
+export { default as VintageStamp } from "./VintageStamp";
+export { default as CornerIllustration } from "./CornerIllustration";
+export { default as MarginIllustration } from "./MarginIllustration";
+export { default as PortraitFrame } from "./PortraitFrame";

@@ -15,6 +15,7 @@ import ChapterOne from "./ChapterOne";
 import CoverSection from "./CoverSection";
 import LeftPage from "@/components/book/LeftPage";
 import ChapterOneLeft from "@/components/chapters/chapter-one/ChapterOneLeft";
+import Book3D from "@/components/book/Book3D";
 
 export default function BookOpeningAnimation() {
   const [isHovered, setIsHovered] = useState(false);
@@ -104,7 +105,7 @@ export default function BookOpeningAnimation() {
         <DustParticles />
       </motion.div>
 
-      {/* Book Spread Container */}
+      {/* Book Spread Container — wrapped by Book3D for physical depth */}
       <motion.div
         className="relative flex items-center justify-center perspective-1500"
         style={{
@@ -112,8 +113,8 @@ export default function BookOpeningAnimation() {
           height: isMobile ? "80vh" : "90vh",
         }}
         animate={{
-          // Center-offset shifting & subtle V4 rotation for asymmetric imperfection when closed
-          // "-25%" is exactly -W/4, which centers the cover page (the right 50% of the book) perfectly in the screen center
+          // Center-offset shifting & subtle rotation for asymmetric imperfection when closed
+          // "-25%" is exactly -W/4, which centers the cover page (the right 50% of the book)
           x: isMobile ? 0 : isOpened ? 0 : "-25%",
           rotate: isOpened ? 0 : -0.7, 
           scale: bookState === "pressing" ? 0.985 : 1,
@@ -123,6 +124,12 @@ export default function BookOpeningAnimation() {
           ease: [0.25, 1, 0.5, 1],
         }}
       >
+        {/* ── Book3D Physical wrapper (only visible when open) ── */}
+        {isOpened && (
+          <div className="absolute inset-0 pointer-events-none z-0">
+            <Book3D>{/* passthrough — decorative layer only */}<></></Book3D>
+          </div>
+        )}
         {/* ========================================================
             PHYSICAL LAYER 1: Back Cover Board (visible only when closed)
            ======================================================== */}

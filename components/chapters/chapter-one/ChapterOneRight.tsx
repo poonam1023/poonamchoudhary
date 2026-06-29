@@ -2,115 +2,250 @@
 
 import React from "react";
 import Image from "next/image";
-import {
-  PaperTexture,
-  CornerOrnament,
-  BotanicalDivider,
-  DecorativeDivider,
-  WatercolorBlob,
-  PressedFlower,
-  LibrarySeal,
-  FloatingLeaves,
-  ChapterRibbon,
-  SketchOverlay,
-} from "@/components/decorations";
 
 /**
- * ChapterOneRight — Handcrafted Illustrated Literary Spread (Right Page)
+ * ChapterOneRight — Chapter Opening / Hero Spread
  *
- * Designed as a ceremonial chapter opening in a premium illustrated journal.
- * Lays out multiple botanical, sketch, watercolor, and papercraft layers.
+ * COMPOSITION FIRST — two large visual masses anchor the layout.
+ *
+ * HIERARCHY:
+ *   HERO       (40%) — Large chapter headline. Takes up left column space.
+ *   CO-HERO    (40%) — Large portrait image, right-aligned, overlapping watercolor.
+ *   SECONDARY  (30%) — Visible sage watercolor behind portrait.
+ *   SUPPORTING (15%) — Opening body paragraph beneath headline.
+ *   MICRO      (10%) — Labels, dividers, page number.
+ *
+ * LAYOUT LOGIC:
+ *   - The page is divided into two vertical bands, top and bottom.
+ *   - Top half: Large headline (left) + Portrait (right) — they share the same row.
+ *   - Portrait overlaps the watercolor and slightly overlaps the text zone.
+ *   - Bottom half: Opening paragraph + editorial footer.
+ *   - Nothing is stacked in equal isolation — elements overlap and relate.
  */
 export default function ChapterOneRight() {
   return (
-    <div className="relative w-full h-full flex flex-col py-9 px-10 overflow-hidden">
-      
-      {/* ── LAYER 1: Background & Stains ── */}
-      <PaperTexture variant="sage" opacity={0.6} />
-      <SketchOverlay variant="leaf" opacity={0.06} position={{ top: "8%", right: "8%" }} scale={1.2} />
-      <WatercolorBlob variant="sage" opacity={0.12} position={{ top: "15%", left: "10%" }} width={220} height={180} />
+    <div className="relative w-full h-full overflow-hidden">
 
-      {/* ── LAYER 2: Page Corners & Margins ── */}
-      <CornerOrnament position="top-right" scale={0.8} opacity={0.25} />
-      <CornerOrnament position="bottom-right" scale={0.8} opacity={0.25} />
+      {/* ═══════════════════════════════════════════════════════════════
+          SECONDARY MASS — Sage watercolor behind right-side portrait.
+          Large enough to be a real visual presence (not a hint of color).
+         ═══════════════════════════════════════════════════════════════ */}
+      <div
+        className="absolute pointer-events-none select-none"
+        style={{
+          top: "5%",
+          right: "-5%",
+          width: "65%",
+          height: "68%",
+          background:
+            "radial-gradient(ellipse 75% 85% at 55% 40%, rgba(163,181,153,0.42) 0%, rgba(142,169,140,0.20) 55%, transparent 78%)," +
+            "radial-gradient(ellipse 45% 50% at 75% 70%, rgba(130,155,120,0.18) 0%, transparent 70%)",
+          filter: "blur(22px)",
+          zIndex: 0,
+        }}
+      />
 
-      {/* ── LAYER 3: Animated Floating Elements ── */}
-      <FloatingLeaves count={2} opacity={0.18} />
-
-      {/* ── LAYER 4: Marginal Notes & Stamps ── */}
-      <div className="absolute hidden md:flex flex-col items-end select-none pointer-events-none" style={{ left: "12px", top: "50%", transform: "translateY(-110px)", gap: "6px" }}>
-        <span className="font-sans uppercase text-[5.5px] tracking-[0.25em] text-[#6E5A4E]/30" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
-          Journal Entry
-        </span>
-        <span style={{ width: "0.5px", height: "24px", background: "rgba(110,90,78,0.12)" }} />
-        <span className="font-sans text-[5px] tracking-[0.2em] text-[#6E5A4E]/20" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
-          Foliage No. I
+      {/* ═══════════════════════════════════════════════════════════════
+          MICRO — Chapter label (top-left)
+         ═══════════════════════════════════════════════════════════════ */}
+      <div
+        className="absolute select-none pointer-events-none"
+        style={{ top: "5%", left: "7%", zIndex: 20 }}
+      >
+        <span
+          className="font-sans uppercase tracking-[0.32em] text-[#6E5A4E] opacity-35"
+          style={{ fontSize: "6.5px" }}
+        >
+          Chapter I &ensp;—&ensp; Field Notes
         </span>
       </div>
 
-      {/* ── LAYER 5: Ceremonial Chapter Content Column ── */}
-      <div className="flex-1 flex flex-col justify-between mx-auto w-full relative z-10" style={{ maxWidth: "310px" }}>
-        
-        {/* 1. Header ribbon & metadata */}
-        <div className="flex flex-col items-center gap-2 mt-2">
-          <ChapterRibbon label="First Edition" variant="sage" scale={0.9} opacity={0.85} />
-          
-          <span className="font-sans uppercase text-[6.5px] tracking-[0.45em] text-[#6E5A4E]/40 mt-1 select-none">
-            Project Poonam
+      {/* ═══════════════════════════════════════════════════════════════
+          HERO ZONE — Upper 58% of the page.
+          Left side: headline typography.
+          Right side: portrait image.
+          They share the same vertical zone — one composition, not two sections.
+         ═══════════════════════════════════════════════════════════════ */}
+      <div
+        className="absolute left-0 right-0"
+        style={{ top: "10%", height: "55%", zIndex: 10 }}
+      >
+
+        {/* ── HERO: Chapter headline (left column) ── */}
+        <div
+          className="absolute top-0 bottom-0 flex flex-col justify-center"
+          style={{
+            left: "7%",
+            width: "52%",        // Left column — headline territory
+            paddingRight: "4%",
+          }}
+        >
+          {/* Thin rule above chapter numeral */}
+          <div
+            style={{
+              width: "32px",
+              height: "1px",
+              background: "rgba(110,90,78,0.35)",
+              marginBottom: "10px",
+            }}
+          />
+          <span
+            className="font-sans uppercase tracking-[0.28em] text-[#6E5A4E] opacity-40 select-none"
+            style={{ fontSize: "7px", display: "block", marginBottom: "8px" }}
+          >
+            I
           </span>
-        </div>
 
-        {/* 2. Title block & botanical divider */}
-        <div className="flex flex-col items-center gap-3 my-4">
-          <span className="font-sans uppercase text-[9px] tracking-[0.4em] text-[#6E5A4E]/50 font-semibold select-none">
-            Chapter I
-          </span>
-
-          <BotanicalDivider variant="leaves" opacity={0.4} width="120px" />
-
-          <h2 className="font-display text-center" style={{ fontSize: "25px", letterSpacing: "0.01em", color: "rgba(110,90,78,0.92)", fontWeight: 400, lineHeight: 1.2 }}>
-            The Architect
+          {/* Large headline — the biggest type on the page */}
+          <h2
+            className="font-display text-[#3A2C1E] select-text"
+            style={{
+              fontSize: "clamp(22px, 4.8vh, 38px)",
+              fontWeight: 700,
+              lineHeight: 1.1,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            The
             <br />
-            <span style={{ fontSize: "0.78em", fontStyle: "italic", opacity: 0.65, paddingLeft: "15px" }}>
-              of
-            </span>
+            Architect
             <br />
-            Imagined Spaces
+            <em
+              className="font-display"
+              style={{
+                fontWeight: 400,
+                fontSize: "0.72em",
+                opacity: 0.65,
+                letterSpacing: "0.01em",
+              }}
+            >
+              of Imagined
+              <br />
+              Spaces.
+            </em>
           </h2>
+
+          {/* Thin rule below headline */}
+          <div
+            style={{
+              width: "80px",
+              height: "0.5px",
+              background: "rgba(110,90,78,0.28)",
+              marginTop: "14px",
+            }}
+          />
         </div>
 
-        {/* 3. Drop-cap Paragraph & Body */}
-        <div className="text-justify text-[#6E5A4E]/85 select-text" style={{ hyphens: "auto" }}>
-          <p className="font-display text-[13px] leading-[1.95] letterSpacing-[0.005em] mb-4">
-            <span className="drop-cap-letter" style={{ color: "#8EA98C" }}>E</span>
-            very line of code is a sentence waiting to be written. For years,
-            we treated the digital screen as a glowing dashboard — a canvas of
-            cold glass and neon signals. But Poonam saw it differently. To her,
-            the screen was paper, dried ink, and binding glue. A space where
-            design and engineering did not merely function, but breathed.
-          </p>
-
-          <p className="font-display text-[13px] leading-[1.95] letterSpacing-[0.005em] text-[#6E5A4E]/70">
-            This is the ledger of her creations — where logic meets literature,
-            and every project begins as a page waiting to be turned. The cover
-            is open. The narrative begins.
-          </p>
-        </div>
-
-        {/* 4. Fine vintage divider & page number footer */}
-        <div className="flex flex-col items-center gap-1.5 mt-4">
-          <DecorativeDivider variant="diamond-dots" opacity={0.3} width="80px" />
-          <div className="flex items-center gap-3 w-full max-w-[280px] justify-center text-[9px] text-[#6E5A4E]/40 font-display select-none">
-            <span>✦</span>
-            <span>1</span>
-            <span>✦</span>
+        {/* ── CO-HERO: Portrait (right column, overlaps left slightly) ── */}
+        <div
+          className="absolute top-0 bottom-0 select-none"
+          style={{
+            right: "4%",
+            width: "44%",        // Right column — portrait territory
+            // slight top offset so portrait top aligns with headline mid
+            top: "-4%",
+            bottom: "-4%",
+            filter: "drop-shadow(0 8px 24px rgba(0,0,0,0.16)) drop-shadow(0 2px 6px rgba(0,0,0,0.10))",
+            zIndex: 12,
+          }}
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              background: "#F5F0E8",
+              border: "1px solid rgba(110,90,78,0.14)",
+              padding: "7px",
+              // Slight rotation for natural placement
+              transform: "rotate(1.5deg)",
+            }}
+          >
+            <div className="relative w-full h-full overflow-hidden">
+              <Image
+                src="/author-portrait.png"
+                alt="Poonam Choudhary"
+                fill
+                className="object-cover object-top"
+                style={{
+                  filter: "sepia(12%) contrast(1.04) brightness(0.97)",
+                  mixBlendMode: "multiply",
+                }}
+                priority
+              />
+              {/* Inner vignette */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{ boxShadow: "inset 0 0 24px rgba(0,0,0,0.10)" }}
+              />
+            </div>
           </div>
         </div>
 
+      </div>{/* end hero zone */}
+
+      {/* ═══════════════════════════════════════════════════════════════
+          SUPPORTING — Opening paragraph.
+          Anchored beneath the headline, left-aligned.
+          Visual weight: medium. Dense enough to feel like a block.
+         ═══════════════════════════════════════════════════════════════ */}
+      <div
+        className="absolute left-0 right-0"
+        style={{
+          top: "67%",
+          bottom: "12%",
+          padding: "0 7%",
+          zIndex: 15,
+          overflowY: "hidden",
+        }}
+      >
+        <p
+          className="font-display text-[#4A3728] select-text"
+          style={{
+            fontSize: "clamp(10px, 1.8vh, 13px)",
+            lineHeight: 1.85,
+            textAlign: "justify",
+            hyphens: "auto",
+          }}
+        >
+          <span
+            className="font-display float-left leading-none select-none"
+            style={{
+              fontSize: "clamp(38px, 6.5vh, 58px)",
+              fontWeight: 700,
+              color: "#8EA98C",
+              lineHeight: 0.82,
+              marginRight: "6px",
+              marginTop: "3px",
+            }}
+          >
+            E
+          </span>
+          very line of code is a sentence waiting to be written. To Poonam,
+          the screen was paper, dried ink, and binding glue — a space where
+          design and engineering did not merely function, but breathed.
+          This is the ledger of her creations.
+        </p>
       </div>
 
-      {/* ── Pressed botanical detail in the bottom right corner ── */}
-      <PressedFlower variant="fern-leaf" opacity={0.35} position={{ bottom: "-8px", right: "-12px" }} scale={0.7} />
+      {/* ═══════════════════════════════════════════════════════════════
+          MICRO — Footer rule + page number
+         ═══════════════════════════════════════════════════════════════ */}
+      <div
+        className="absolute left-0 right-0 bottom-[3.5%] flex flex-col items-center gap-1.5"
+        style={{ zIndex: 20, padding: "0 7%" }}
+      >
+        <div
+          style={{
+            width: "100%",
+            height: "0.5px",
+            background: "linear-gradient(to right, transparent, rgba(110,90,78,0.22), transparent)",
+          }}
+        />
+        <span
+          className="font-display text-[8px] tracking-[0.3em] text-[#6E5A4E] opacity-25 select-none"
+        >
+          1
+        </span>
+      </div>
 
     </div>
   );
