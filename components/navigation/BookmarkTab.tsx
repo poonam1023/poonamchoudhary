@@ -9,24 +9,23 @@ interface BookmarkTabProps {
   isActive: boolean;
   onClick: () => void;
   index: number;
-  customWidth: number;   // Slight width variation
-  customRadius: string;  // Hand-cut irregular rounded corners
-  customOffset: number;  // Vertical staggering position
+  color: { light: string; main: string; dark: string; text: string; textMuted: string };
+  customRotate: number;
+  xOffset: number;
 }
 
 /**
  * BookmarkTab
  *
- * Renders a single physical paper index tab that appears inserted between pages.
- * Stretches out from the right edge of the book spread.
+ * Renders a single vertical ribbon bookmark that appears inserted between book pages.
  *
  * Design features:
- *  - Thick paper feel with top highlight and bottom shadow
- *  - Dynamic, slightly irregular border-radius per tab to simulate hand cutting
- *  - Linear gradient reflecting organic lighting on paper
- *  - Inline SVG vintage botanical engraving on each tab
- *  - Editorial horizontal typography
- *  - Smooth horizontal slide out on hover (translateX)
+ *  - Vertical fabric ribbon feel with cylindrical light sheen background gradient
+ *  - Dashed side borders representing vintage thread stitching
+ *  - Folded triangular tip at the bottom with 3D crease shading
+ *  - Muted vintage paper/fabric colors
+ *  - Vertical-oriented tracked chapter typography printed near the top of the ribbon
+ *  - Spring vertical slide on hover and active states (translateY)
  */
 export default function BookmarkTab({
   label,
@@ -34,142 +33,118 @@ export default function BookmarkTab({
   isActive,
   onClick,
   index,
-  customWidth,
-  customRadius,
-  customOffset,
+  color,
+  customRotate,
+  xOffset,
 }: BookmarkTabProps) {
-  // Total width of the tab. 20px will sit inside the page boundary to look inserted.
-  const totalWidth = customWidth + 20;
+  const [isHovered, setIsHovered] = React.useState(false);
 
-  // Active: Sage green, Inactive: Cream paper
-  const tabBg = isActive
-    ? "linear-gradient(135deg, #A8B29A 0%, #959F87 100%)" // Sage Green
-    : "linear-gradient(135deg, #F5EAC6 0%, #E6D7B3 100%)"; // Warm Cream
-
-  // Shadow configurations (Active is elevated and casts a stronger shadow)
+  // Shadow configurations (Active is elevated and casts a stronger shadow onto the page)
   const tabShadow = isActive
-    ? "3px 6px 16px rgba(26, 20, 18, 0.35), 0px 1px 3px rgba(26, 20, 18, 0.15)"
-    : "1px 3px 8px rgba(26, 20, 18, 0.18), 0px 0.5px 1.5px rgba(26, 20, 18, 0.08)";
+    ? "drop-shadow(3px 8px 12px rgba(26, 20, 18, 0.35)) drop-shadow(0px 1px 2px rgba(26, 20, 18, 0.15))"
+    : "drop-shadow(1px 3px 6px rgba(26, 20, 18, 0.22)) drop-shadow(0px 0.5px 1px rgba(26, 20, 18, 0.1))";
+
+  // Gradient for a cylindrical fabric ribbon sheen
+  const ribbonBg = `linear-gradient(to right, ${color.dark} 0%, ${color.light} 28%, ${color.main} 72%, ${color.dark} 100%)`;
 
   return (
     <motion.div
-      className="absolute right-0 pointer-events-auto"
+      className="absolute pointer-events-auto"
       style={{
-        top: `${customOffset}px`,
-        width: `${totalWidth}px`,
-        height: "52px",
-        zIndex: isActive ? 20 : 10 - index,
-        // The left 20px is hidden behind the book page because the container has a lower z-index than the page
-        marginRight: `-${customWidth}px`,
+        left: `${xOffset}px`,
+        width: "22px",
+        height: "220px",
+        zIndex: isActive ? 20 : 5, // Active sits on top of pages (20 > 10), inactive behind pages (5 < 10)
+        filter: tabShadow,
       }}
-      initial={{ x: 50, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
+      initial={{ y: -220, opacity: 0 }}
+      animate={{
+        // Active hangs lower (y: -20px), inactive is tucked in (y: -120px), hover raises inactive slightly (y: -130px)
+        y: isActive ? -20 : isHovered ? -130 : -120,
+        rotate: customRotate,
+        opacity: 1,
+      }}
       transition={{
-        delay: 0.15 + index * 0.08,
-        duration: 0.65,
-        ease: [0.25, 1, 0.5, 1],
+        y: { type: "spring", stiffness: 220, damping: 20 },
+        opacity: { duration: 0.5 },
       }}
     >
-      <motion.button
+      <button
         onClick={onClick}
-        whileHover={{
-          // Horizontal slide out of 8px
-          x: 8,
-          transition: { ease: "easeInOut", duration: 0.28 },
-        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         className="relative w-full h-full text-left cursor-pointer focus:outline-none select-none overflow-hidden"
-        style={{
-          background: tabBg,
-          borderRadius: customRadius,
-          boxShadow: tabShadow,
-          transition: "box-shadow 0.3s ease, background 0.3s ease",
-        }}
         aria-label={isActive ? `Current Chapter: ${label}` : `Navigate to ${label}`}
         aria-pressed={isActive}
       >
-        {/* ── 1. Top Edge Highlight (Paper thickness) ──────────────────── */}
+        {/* ── 1. Ribbon Main Body (excluding the bottom 12px pointed tip) ──────────────── */}
         <div 
-          className="absolute top-0 left-0 right-0 h-[1.5px] pointer-events-none select-none" 
+          className="absolute top-0 left-0 right-0 bottom-[12px]" 
           style={{
-            background: isActive ? "rgba(255, 255, 255, 0.45)" : "rgba(255, 255, 255, 0.75)",
-            mixBlendMode: "overlay"
-          }}
-        />
-
-        {/* ── 2. Bottom Edge Shadow (Paper thickness) ─────────────────── */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-[1.8px] pointer-events-none select-none" 
-          style={{
-            background: "rgba(110, 90, 78, 0.22)",
-          }}
-        />
-
-        {/* ── 3. Page Crease Line (Where it emerges from under the page) ── */}
-        <div 
-          className="absolute left-[20px] top-0 bottom-0 w-[1.5px] pointer-events-none select-none"
-          style={{
-            background: "linear-gradient(to bottom, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.04) 50%, rgba(0,0,0,0.15) 100%)",
-          }}
-        />
-
-        {/* ── 4. Paper Texture & Grain Overlay ────────────────────────── */}
-        <div className="absolute inset-0 paper-grain-overlay opacity-[0.10] mix-blend-multiply pointer-events-none select-none" />
-
-        {/* ── 5. Organic Age Vignette ──────────────────────────────────── */}
-        <div 
-          className="absolute inset-0 pointer-events-none select-none"
-          style={{
-            background: "radial-gradient(circle at 100% 50%, transparent 60%, rgba(110, 90, 78, 0.08) 100%)",
-          }}
-        />
-
-        {/* ── 6. Vintage Botanical Engraving ───────────────────────────── */}
-        <div 
-          className="absolute top-[8px]"
-          style={{
-            left: "24px", // Positioned safely in the visible protruding section
+            background: ribbonBg,
           }}
         >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="0.5"
-            className="w-[18px] h-[18px] opacity-[0.24] text-ink select-none pointer-events-none"
-            xmlns="http://www.w3.org/2000/svg"
+          {/* Dashed stitches on left and right edges */}
+          <div className="absolute top-0 bottom-0 left-[1.5px] w-[1px] border-l border-dashed pointer-events-none opacity-20" style={{ borderColor: color.text }} />
+          <div className="absolute top-0 bottom-0 right-[1.5px] w-[1px] border-r border-dashed pointer-events-none opacity-25" style={{ borderColor: "#000000" }} />
+
+          {/* Paper texture grain overlays */}
+          <div className="absolute inset-0 paper-grain-overlay opacity-[0.08] mix-blend-multiply pointer-events-none" />
+
+          {/* Muted organic vignette */}
+          <div 
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 0%, transparent 15%, transparent 85%, rgba(0, 0, 0, 0.12) 100%)",
+            }}
+          />
+
+          {/* Vertical Editorial Typography (positioned in the upper visible area) */}
+          <div 
+            className="absolute top-[20px] inset-x-0 flex flex-col items-center gap-[6px] select-none"
+            style={{
+              writingMode: "vertical-rl",
+              textOrientation: "mixed",
+            }}
           >
-            {/* Elegant botanical branch with leaves */}
-            <path d="M4 20C8 17 12 11 16 6" strokeLinecap="round" />
-            <path d="M8 15.5C6.5 14 5.5 11 6.5 9.5C8 9.5 9.5 11 10 13Z" fill="currentColor" opacity="0.6" />
-            <path d="M11 11.5C9.5 10 8.5 7 9.5 5.5C11 5.5 12.5 7 13 9Z" fill="currentColor" opacity="0.6" />
-            <path d="M14 7.5C13 6.5 12 4.5 12.5 3.5C13.5 3.5 14.5 4.5 15 5.5Z" fill="currentColor" opacity="0.6" />
-          </svg>
+            {/* Numeral or Chapter Index */}
+            <span 
+              className="font-sans font-bold text-[6.5px] tracking-[0.16em] uppercase leading-none"
+              style={{ color: color.textMuted }}
+            >
+              {numeral}
+            </span>
+            <span className="text-[6px] leading-none opacity-30" style={{ color: color.text }}>·</span>
+            {/* Chapter Title */}
+            <span 
+              className="font-display italic text-[9.5px] font-semibold tracking-[0.04em] leading-none"
+              style={{ color: color.text }}
+            >
+              {label}
+            </span>
+          </div>
         </div>
 
-        {/* ── 7. Horizontal Editorial Typography ───────────────────────── */}
-        <div 
-          className="absolute inset-y-0 right-0 flex flex-col justify-center select-none"
-          style={{
-            left: "48px", // Past the crease and botanical detail
-            paddingRight: "8px",
-          }}
-        >
-          {/* Numeral or Chapter Index */}
-          <span 
-            className="font-sans font-medium text-[8.5px] tracking-[0.16em] uppercase leading-none opacity-50"
-            style={{ color: "#6E5A4E" }}
-          >
-            {numeral}
-          </span>
-          {/* Chapter Title */}
-          <span 
-            className="font-display italic text-[11px] font-semibold tracking-wide leading-tight mt-[2px]"
-            style={{ color: "#6E5A4E", opacity: isActive ? 0.95 : 0.75 }}
-          >
-            {label}
-          </span>
+        {/* ── 2. Folded Triangular End (at the bottom 12px of the ribbon) ──────────────── */}
+        <div className="absolute bottom-0 left-0 right-0 h-[12px] flex pointer-events-none select-none">
+          {/* Left half of pointed tip */}
+          <div 
+            className="w-1/2 h-full"
+            style={{
+              background: color.main,
+              clipPath: "polygon(0 0, 100% 0, 100% 100%)",
+            }}
+          />
+          {/* Right half of pointed tip (darker for 3D crease fold) */}
+          <div 
+            className="w-1/2 h-full"
+            style={{
+              background: color.dark,
+              clipPath: "polygon(0 0, 100% 0, 0 100%)",
+            }}
+          />
         </div>
-      </motion.button>
+      </button>
     </motion.div>
   );
 }

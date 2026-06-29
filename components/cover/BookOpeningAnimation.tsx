@@ -54,7 +54,7 @@ export default function BookOpeningAnimation() {
   const isFlipped = bookState === "open" || bookState === "flipping";
 
   return (
-    <div className="relative w-screen h-screen flex items-center justify-center bg-[#1A1412] overflow-hidden">
+    <div className="relative w-screen h-screen flex items-center justify-center bg-[#110D0C] overflow-hidden">
       {/* Pressed Leaf SVG lying on the dark desk to the left of the book */}
       <svg 
         className="hidden md:block absolute left-[14%] bottom-[12%] w-28 h-28 text-accent-sage/12 select-none pointer-events-none rotate-[-45deg] filter desaturate-[50%] blur-[0.3px] z-0" 
@@ -108,12 +108,13 @@ export default function BookOpeningAnimation() {
       <motion.div
         className="relative flex items-center justify-center perspective-1500"
         style={{
-          width: isMobile ? "90vw" : "920px",
-          height: isMobile ? "80vh" : "620px",
+          width: isMobile ? "90vw" : "min(96vw, 1800px)",
+          height: isMobile ? "80vh" : "90vh",
         }}
         animate={{
           // Center-offset shifting & subtle V4 rotation for asymmetric imperfection when closed
-          x: isMobile ? 0 : isOpened ? 0 : -230,
+          // "-25%" is exactly -W/4, which centers the cover page (the right 50% of the book) perfectly in the screen center
+          x: isMobile ? 0 : isOpened ? 0 : "-25%",
           rotate: isOpened ? 0 : -0.7, 
           scale: bookState === "pressing" ? 0.985 : 1,
         }}

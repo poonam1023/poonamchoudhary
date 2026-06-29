@@ -32,12 +32,9 @@ export default function BookmarkNavigation({
 
   return (
     <div
-      className="relative pointer-events-auto"
-      style={{
-        width: "0px", // Sticking out from the right edge, so zero-width container is ideal
-      }}
+      className="relative w-0 pointer-events-auto"
       role="navigation"
-      aria-label="Chapter index tabs"
+      aria-label="Chapter index ribbons"
     >
       <BookmarkStack
         chapters={CHAPTERS}

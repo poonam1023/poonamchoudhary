@@ -16,44 +16,50 @@ interface BookmarkStackProps {
   onNavigate: (page: number) => void;
 }
 
-// Handcrafted, slightly irregular styling presets to ensure a "human cut" look.
-// Deterministic so React renders it consistently on refresh.
+// Vintage color palette matching muted book paper/fabric colors
+const COLOR_PALETTE = [
+  { light: "#A68E7E", main: "#8C7261", dark: "#705849", text: "#F7F1E8", textMuted: "rgba(247, 241, 232, 0.45)" }, // Warm Brown (Cover)
+  { light: "#BDC7B1", main: "#A8B29A", dark: "#8D977F", text: "#3D4730", textMuted: "rgba(61, 71, 48, 0.45)" }, // Sage Green (Chapter I)
+  { light: "#A2B5C4", main: "#8FA3B2", dark: "#758B9A", text: "#283742", textMuted: "rgba(40, 55, 66, 0.45)" }, // Faded Blue (Chapter II)
+  { light: "#F5EAC6", main: "#E8DCCB", dark: "#CBA680", text: "#6E5A4E", textMuted: "rgba(110, 90, 78, 0.45)" }, // Warm Cream (Library)
+  { light: "#D6B8B0", main: "#C29F95", dark: "#A88277", text: "#4D3630", textMuted: "rgba(77, 54, 48, 0.45)" }, // Terracotta / Rose (Gallery)
+];
+
+// Irregular rotation angles to give the ribbons a natural physical drape
 const STACK_PRESETS = [
-  { baseWidth: 76, radius: "2px 12px 14px 2px", offsetShift: -3 },
-  { baseWidth: 79, radius: "3px 14px 10px 3px", offsetShift: 1 },
-  { baseWidth: 75, radius: "2px 11px 15px 2px", offsetShift: -2 },
-  { baseWidth: 81, radius: "4px 15px 12px 4px", offsetShift: 3 },
-  { baseWidth: 77, radius: "3px 13px 13px 3px", offsetShift: 0 },
+  { rotate: -0.6 },
+  { rotate: 0.4 },
+  { rotate: -0.2 },
+  { rotate: 0.8 },
+  { rotate: -0.5 },
 ];
 
 /**
  * BookmarkStack
  *
- * Renders a column of chapter index tabs.
- * Manages tab order, vertical offsets (staggering), width variations,
- * and z-indexing (active tab is physically on top).
+ * Renders a row of physical ribbon bookmarks clustered around the spine.
+ * Positions ribbons absolutely based on dynamic spacing to prevent overlap.
  */
 export default function BookmarkStack({
   chapters,
   activeId,
   onNavigate,
 }: BookmarkStackProps) {
-  // Height of each tab is 52px. With a base step of 42px, they overlap by 10px.
-  const baseStep = 42;
+  const total = chapters.length;
+  // Calculate dynamic spacing so the entire ribbon cluster stays within a tight, readable area around the spine (max 220px wide)
+  const spacing = Math.min(26, 220 / (total - 1 || 1));
+  const startOffset = -((total - 1) * spacing) / 2;
+  const halfRibbonWidth = 11; // Ribbon width is 22px
 
   return (
-    <div className="relative w-full" style={{ minHeight: `${chapters.length * baseStep + 20}px` }}>
+    <div className="relative w-full h-0 pointer-events-none select-none">
       {chapters.map((chapter, index) => {
         const isActive = activeId === chapter.id;
-        
-        // Loop around presets in case chapters length exceeds presets length
+        const color = COLOR_PALETTE[index % COLOR_PALETTE.length];
         const preset = STACK_PRESETS[index % STACK_PRESETS.length];
-        
-        // Calculate vertical position (staggering + handcrafted offset)
-        const customOffset = index * baseStep + preset.offsetShift;
 
-        // Active tab protrudes 25px more than inactive
-        const customWidth = isActive ? preset.baseWidth + 25 : preset.baseWidth;
+        // Center-align the ribbon stack around the spine crease
+        const xPos = startOffset + index * spacing - halfRibbonWidth;
 
         return (
           <BookmarkTab
@@ -63,9 +69,9 @@ export default function BookmarkStack({
             isActive={isActive}
             onClick={() => onNavigate(chapter.page)}
             index={index}
-            customWidth={customWidth}
-            customRadius={preset.radius}
-            customOffset={customOffset}
+            color={color}
+            customRotate={preset.rotate}
+            xOffset={xPos}
           />
         );
       })}

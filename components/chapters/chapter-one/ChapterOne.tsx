@@ -115,24 +115,23 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
       </div>
 
       {/* ================================================================
-          BOOKMARK INDEX TABS (desktop only)
+          BOOKMARK INDEX RIBBONS (desktop only)
           
-          Positioned relative to the open book's right edge.
-          `left: "100%"` places it exactly at the right boundary of the page.
-          `top: "30%"` places the stack approx 1/3 from the top.
-          `zIndex: 5` ensures the tabs tuck behind the active page's top layer,
-          simulating insertion between sheets of paper.
+          Positioned relative to the open book's top spine crease (left: 0).
+          `bottom: "100%"` places the anchor at the top edge of the pages.
+          No container z-index is set to allow individual ribbons to stack
+          behind (zIndex: 5) or in front of (zIndex: 20) the pages.
          ================================================================ */}
       <div
         className="hidden md:block absolute pointer-events-none"
         style={{
-          top: "30%",
-          left: "100%",
-          zIndex: 5,
+          bottom: "100%",
+          left: 0,
+          width: "0px",
         }}
       >
         <BookmarkNavigation
-          currentPage={currentPage}
+          currentPage={pendingPage !== null ? pendingPage : currentPage}
           onNavigate={handleNavigate}
         />
       </div>
