@@ -7,6 +7,12 @@ import RightPage from "@/components/book/RightPage";
 import BookmarkNavigation from "@/components/navigation/BookmarkNavigation";
 import ChapterOneLeft from "./ChapterOneLeft";
 import ChapterOneRight from "./ChapterOneRight";
+import ChapterTwoLeft from "../chapter-two/ChapterTwoLeft";
+import ChapterTwoRight from "../chapter-two/ChapterTwoRight";
+import LibraryLeft from "../library/LibraryLeft";
+import LibraryRight from "../library/LibraryRight";
+import GalleryLeft from "../gallery/GalleryLeft";
+import GalleryRight from "../gallery/GalleryRight";
 
 interface ChapterOneProps {
   /**
@@ -62,6 +68,36 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
     }
   }, [isFlipping, pendingPage]);
 
+  const renderLeftPage = () => {
+    switch (currentPage) {
+      case 1:
+        return <ChapterOneLeft />;
+      case 2:
+        return <ChapterTwoLeft />;
+      case 3:
+        return <LibraryLeft />;
+      case 4:
+        return <GalleryLeft />;
+      default:
+        return <ChapterOneLeft />;
+    }
+  };
+
+  const renderRightPage = () => {
+    switch (currentPage) {
+      case 1:
+        return <ChapterOneRight />;
+      case 2:
+        return <ChapterTwoRight />;
+      case 3:
+        return <LibraryRight />;
+      case 4:
+        return <GalleryRight />;
+      default:
+        return <ChapterOneRight />;
+    }
+  };
+
   return (
     <motion.div
       className="relative w-full h-full"
@@ -86,7 +122,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
         }}
       >
         <LeftPage>
-          <ChapterOneLeft />
+          {renderLeftPage()}
         </LeftPage>
       </div>
 
@@ -110,7 +146,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
          ================================================================ */}
       <div className="w-full h-full relative z-10">
         <RightPage>
-          <ChapterOneRight />
+          {renderRightPage()}
         </RightPage>
       </div>
 

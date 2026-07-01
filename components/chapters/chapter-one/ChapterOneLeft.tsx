@@ -2,185 +2,151 @@
 
 import React from "react";
 import Image from "next/image";
+import {
+  WatercolorSplash,
+  BotanicalIllustration,
+  VintageStamp,
+  InkSplash,
+  PressedFlower,
+  MaskingTape,
+  PaperNote,
+} from "@/components/decorations";
 
-/**
- * ChapterOneLeft — Author Context Page (Left side of spread)
- *
- * PURPOSE: Quiet introduction. Low visual weight.
- * Supports the right page — never competes with it.
- *
- * RULES:
- *  - Portrait is small (38% wide). NOT the hero.
- *  - No large visual masses. No color splashes.
- *  - Typography is restrained.
- *  - Lots of breathing room.
- *  - The eye should not linger here.
- *
- * RECTANGLE SKELETON:
- *   [label — top left, tiny]
- *   [portrait — 38% wide, left of center, upper third]
- *   [name — medium serif, below portrait]
- *   [role — tiny caps]
- *   [quote — small, lower third, italic]
- *   [page num — bottom center]
- */
 export default function ChapterOneLeft() {
   return (
-    <div className="relative w-full h-full overflow-hidden">
-
-      {/* ── Editorial label — barely visible, top left ── */}
-      <div
-        className="absolute select-none pointer-events-none"
-        style={{ top: "5%", left: "8%", zIndex: 10 }}
+    <div className="absolute inset-0 overflow-hidden select-none">
+      {/* ── 1. BACKGROUND LAYER (WATERCOLOR & INK) ── */}
+      <WatercolorSplash
+        variant="sage"
+        opacity={0.16}
+        position={{ top: "8%", left: "-10%" }}
+        width={380}
+        height={320}
+      />
+      <WatercolorSplash
+        variant="cream"
+        opacity={0.15}
+        position={{ bottom: "15%", right: "-8%" }}
+        width={300}
+        height={260}
+      />
+      
+      {/* ── 2. HERO PORTRAIT COMPOSITION (DOMINATES LEFT PAGE) ── */}
+      {/* Scale is dramatically larger to dominate the page canvas */}
+      <div 
+        className="absolute top-[10%] left-[14%] w-[72%] h-[72%] z-10"
+        style={{
+          transform: "rotate(-1.5deg)",
+          filter: "drop-shadow(12px 24px 42px rgba(26, 20, 18, 0.22)) drop-shadow(0 4px 12px rgba(26, 20, 18, 0.12))"
+        }}
       >
-        <span
-          className="font-sans uppercase tracking-[0.32em] text-[#6E5A4E]"
-          style={{ fontSize: "6px", opacity: 0.3 }}
-        >
-          Author Introduction
+        {/* Matte Paper Backing & Frame */}
+        <div className="relative w-full h-full p-4 bg-[#FAF7EE] border border-[#6E5A4E]/22 flex flex-col justify-between">
+          <div className="w-full h-full border border-[#6E5A4E]/12 p-1.5 flex flex-col justify-between relative bg-[#FAF7EE]">
+            <div className="relative w-full h-full overflow-hidden">
+              <div className="absolute inset-0 z-10 pointer-events-none" style={{ boxShadow: "inset 0 0 24px rgba(0,0,0,0.2)" }} />
+              <Image
+                src="/author-portrait.png"
+                alt="Poonam Choudhary"
+                fill
+                className="object-cover object-top"
+                style={{
+                  filter: "grayscale(100%) sepia(35%) contrast(1.06) brightness(0.96)",
+                }}
+                priority
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Washi tape securing the portrait top center */}
+        <MaskingTape
+          variant="washi-sage"
+          rotation={3}
+          width={90}
+          height={18}
+          style={{ top: "-10px", left: "50%", transform: "translateX(-50%) rotate(3deg)", zIndex: 25 }}
+        />
+      </div>
+
+      {/* ── 3. OVERLAPPING BOTANICAL & FLORAL COMPOSITION ── */}
+      {/* Botanical leaves belong to the portrait frame and overlap it */}
+      <BotanicalIllustration
+        variant="olive"
+        scale={1.3}
+        opacity={0.4}
+        position={{ bottom: "6%", left: "6%" }}
+        rotation={32}
+        animation={true}
+        className="z-20 pointer-events-none"
+      />
+      <BotanicalIllustration
+        variant="branch"
+        scale={1.0}
+        opacity={0.3}
+        position={{ top: "4%", right: "8%" }}
+        rotation={-18}
+        animation={true}
+        className="z-20 pointer-events-none"
+      />
+      <PressedFlower
+        variant="pansy"
+        scale={1.15}
+        rotation={14}
+        opacity={0.7}
+        position={{ bottom: "12%", right: "8%" }}
+        className="z-20"
+      />
+
+      {/* ── 4. TACTILE OVERLAPPING CARDS (MUSEUM TYPE CAPTION) ── */}
+      <div 
+        className="absolute bottom-[4%] left-[10%] z-20 bg-[#FAF7EE] border border-[#6E5A4E]/20 p-3 w-[210px]"
+        style={{ 
+          clipPath: "polygon(1% 0%, 99% 1.5%, 98% 97%, 1% 99%)",
+          boxShadow: "2px 6px 16px rgba(0,0,0,0.06)"
+        }}
+      >
+        <span className="font-sans uppercase text-[6px] tracking-widest text-[#6E5A4E]/45 font-bold block mb-1">Plate I.</span>
+        <h4 className="font-display font-bold text-[13px] text-[#3A2C1E] leading-tight">
+          Poonam Choudhary
+        </h4>
+        <span className="font-sans uppercase text-[6.5px] tracking-wider text-[#6E5A4E]/60 block mt-0.5">
+          Author · Speaker · Parenting Guide
         </span>
       </div>
 
-      {/* ── Small portrait — upper-left zone ── */}
-      {/* Intentionally small. 38% width. NOT the hero of the spread. */}
-      <div
-        className="absolute select-none"
-        style={{
-          top: "10%",
-          left: "10%",
-          width: "38%",
-          aspectRatio: "3/4",
-          zIndex: 10,
-          filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.12))",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            background: "#F5F0E8",
-            border: "0.75px solid rgba(110,90,78,0.16)",
-            padding: "5px",
-          }}
-        >
-          <div className="relative w-full h-full overflow-hidden">
-            <Image
-              src="/author-portrait.png"
-              alt="Poonam Choudhary"
-              fill
-              className="object-cover object-top"
-              style={{
-                filter: "grayscale(20%) sepia(18%) contrast(1.03) brightness(0.98)",
-                mixBlendMode: "multiply",
-              }}
-              priority
-            />
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{ boxShadow: "inset 0 0 18px rgba(0,0,0,0.10)" }}
-            />
-          </div>
-        </div>
-      </div>
+      <PaperNote
+        text='"Every child deserves a story worth growing inside."'
+        paperColor="rose"
+        rotation={3.5}
+        width={160}
+        position={{ bottom: "8%", right: "10%" }}
+        tape={true}
+        className="z-20"
+      />
 
-      {/* ── Author name — sits right of portrait, vertically centered with it ── */}
-      <div
-        className="absolute"
-        style={{
-          top: "10%",
-          left: "55%",
-          right: "6%",
-          zIndex: 10,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          // vertically align with the portrait zone
-          height: "38%",
-          paddingTop: "5%",
-        }}
-      >
-        {/* Fine rule */}
-        <div
-          style={{
-            width: "24px",
-            height: "0.5px",
-            background: "rgba(110,90,78,0.28)",
-            marginBottom: "10px",
-          }}
-        />
-        <h3
-          className="font-display text-[#3A2C1E] select-text"
-          style={{
-            fontSize: "clamp(13px, 2.2vh, 17px)",
-            fontWeight: 600,
-            letterSpacing: "0.03em",
-            lineHeight: 1.25,
-          }}
-        >
-          Poonam<br />Choudhary
-        </h3>
-        <p
-          className="mt-2 font-sans uppercase tracking-[0.22em] text-[#6E5A4E] select-none"
-          style={{ fontSize: "6px", opacity: 0.4 }}
-        >
-          Author&ensp;·&ensp;Speaker
-          <br />
-          <span style={{ letterSpacing: "0.18em" }}>Parenting Guide</span>
-        </p>
-      </div>
+      {/* ── 5. STAMPS & INK DETAILS ── */}
+      <VintageStamp
+        text="ARCHIVAL PRINT"
+        scale={0.9}
+        rotation={-15}
+        position={{ top: "6%", left: "8%" }}
+        className="z-20"
+      />
+      <InkSplash
+        variant="droplet"
+        scale={0.8}
+        opacity={0.15}
+        position={{ top: "45%", right: "8%" }}
+        className="z-20"
+      />
 
-      {/* ── Quiet quote — lower third of page ── */}
-      {/* Small, italic, centered. One quiet moment before the right page. */}
-      <div
-        className="absolute left-0 right-0"
-        style={{
-          bottom: "16%",
-          padding: "0 10%",
-          zIndex: 10,
-        }}
-      >
-        {/* Fine rule — separates portrait zone from quote zone */}
-        <div
-          style={{
-            width: "40px",
-            height: "0.5px",
-            background: "rgba(110,90,78,0.22)",
-            marginBottom: "12px",
-          }}
-        />
-        <p
-          className="font-display italic text-[#4A3728] select-text"
-          style={{
-            fontSize: "clamp(9.5px, 1.6vh, 12px)",
-            lineHeight: 1.75,
-            opacity: 0.68,
-          }}
-        >
-          "Every child deserves a story
-          <br />
-          worth growing inside."
-        </p>
-        <p
-          className="mt-2 font-sans uppercase tracking-[0.2em] text-[#6E5A4E] opacity-30 select-none"
-          style={{ fontSize: "5.5px" }}
-        >
-          — Poonam Choudhary
-        </p>
-      </div>
-
-      {/* ── Page number ── */}
-      <div
-        className="absolute bottom-[3%] left-1/2 -translate-x-1/2 select-none pointer-events-none"
-        style={{ zIndex: 10 }}
-      >
-        <span
-          className="font-display tracking-[0.3em] text-[#6E5A4E]"
-          style={{ fontSize: "8px", opacity: 0.22 }}
-        >
+      {/* ── 6. PAGE NUMBER ── */}
+      <div className="absolute bottom-[3%] left-1/2 -translate-x-1/2 select-none pointer-events-none z-20">
+        <span className="font-display tracking-[0.3em] text-[#6E5A4E] text-[8px] opacity-25">
           i
         </span>
       </div>
-
     </div>
   );
 }
