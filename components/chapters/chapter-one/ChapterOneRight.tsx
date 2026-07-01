@@ -93,16 +93,19 @@ export default function ChapterOneRight() {
       />
 
       {/* ── 3. HERO PORTRAIT ──
-          Large scale, borderless — portrait sits directly on the page like a printed photo. */}
+          Large scale, borderless — portrait sits directly on the page like a printed photo.
+          Image is 1536×1024 landscape — use object-cover to fill the frame, showing the subject. */}
       <div
         className="absolute"
         style={{
-          left: "4%",
-          right: "20%",
+          left: "2%",
+          right: "2%",
           bottom: "2%",
-          height: "84%",
+          height: "70%",
           zIndex: 10,
           pointerEvents: "none",
+          borderRadius: "2px",
+          overflow: "hidden",
         }}
       >
         <div className="relative w-full h-full">
@@ -110,7 +113,7 @@ export default function ChapterOneRight() {
             src="/author-portrait.png"
             alt="Poonam Choudhary"
             fill
-            className="object-contain object-bottom"
+            className="object-cover object-center"
             style={{
               filter: "contrast(1.02) brightness(1.03) saturate(0.92)",
             }}

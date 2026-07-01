@@ -1,9 +1,9 @@
-import BookOpeningAnimation from "@/components/cover/BookOpeningAnimation";
+import BookOpeningAnimationClient from "@/components/cover/BookOpeningAnimationClient";
 
 export default function Home() {
   return (
     <main className="w-screen h-screen">
-      <BookOpeningAnimation />
+      <BookOpeningAnimationClient />
     </main>
   );
 }
