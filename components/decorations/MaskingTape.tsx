@@ -46,7 +46,7 @@ export default function MaskingTape({
         transform: `rotate(${rotation}deg)`,
         opacity,
         background: colors.bg,
-        boxShadow: "0 1px 2px rgba(0,0,0,0.06), inset 0 0 2px rgba(255,255,255,0.2)",
+        boxShadow: "0 1px 2px rgba(58,44,30,0.04), inset 0 0 2px rgba(255,255,255,0.2)",
         // Jagged tape tear via CSS clipPath
         clipPath: "polygon(1% 0%, 99% 1%, 100% 30%, 99% 70%, 100% 100%, 98% 99%, 2% 100%, 0% 85%, 2% 50%, 0% 15%)",
         position: "absolute",

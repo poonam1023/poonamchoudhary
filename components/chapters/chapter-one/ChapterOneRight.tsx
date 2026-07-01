@@ -115,7 +115,7 @@ export default function ChapterOneRight() {
             fill
             className="object-cover object-center"
             style={{
-              filter: "contrast(1.02) brightness(1.03) saturate(0.92)",
+              filter: "contrast(0.98) brightness(1.06) saturate(0.88) sepia(0.04)",
             }}
             priority
           />
@@ -162,7 +162,7 @@ export default function ChapterOneRight() {
           width: "42%",
           zIndex: 22,
           transform: "rotate(-3.5deg)",
-          filter: "drop-shadow(2px 6px 18px rgba(26,20,18,0.14))",
+          filter: "drop-shadow(2px 6px 18px rgba(58,44,30,0.08))",
           position: "absolute",
         }}
       >
@@ -175,9 +175,9 @@ export default function ChapterOneRight() {
             transform: "translateX(-50%) rotate(2.5deg)",
             width: "62px",
             height: "14px",
-            background: "rgba(210,196,165,0.62)",
+            background: "rgba(200,185,165,0.50)",
             clipPath: "polygon(1% 0%, 99% 1%, 100% 30%, 99% 70%, 100% 100%, 98% 99%, 2% 100%, 0% 85%, 2% 50%, 0% 15%)",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.07)",
+            boxShadow: "0 1px 3px rgba(58,44,30,0.05)",
             zIndex: 26,
           }}
         >
@@ -186,8 +186,8 @@ export default function ChapterOneRight() {
             className="absolute inset-0 opacity-20"
             style={{
               backgroundImage: `
-                repeating-linear-gradient(45deg, rgba(140,118,85,0.15) 0px, rgba(140,118,85,0.15) 1px, transparent 1px, transparent 4px),
-                repeating-linear-gradient(-45deg, rgba(140,118,85,0.15) 0px, rgba(140,118,85,0.15) 1px, transparent 1px, transparent 4px)
+                repeating-linear-gradient(45deg, rgba(140,118,85,0.08) 0px, rgba(140,118,85,0.08) 1px, transparent 1px, transparent 4px),
+                repeating-linear-gradient(-45deg, rgba(140,118,85,0.08) 0px, rgba(140,118,85,0.08) 1px, transparent 1px, transparent 4px)
               `,
             }}
           />
@@ -196,11 +196,11 @@ export default function ChapterOneRight() {
         {/* Quote Card Body — torn paper look */}
         <div
           style={{
-            background: "#FEFBF5",
-            border: "0.5px solid rgba(142,120,95,0.16)",
+            background: "#FAF7F2",
+            border: "0.5px solid rgba(110,90,78,0.10)",
             padding: "18px 16px 22px",
             clipPath: "polygon(0.5% 1.5%, 98.8% 0%, 100% 98%, 1.5% 99.5%)",
-            boxShadow: "inset 0 1px 8px rgba(110,90,78,0.03), 0 4px 14px rgba(26,20,18,0.07)",
+            boxShadow: "inset 0 1px 8px rgba(58,44,30,0.02), 0 4px 14px rgba(58,44,30,0.04)",
             position: "relative",
           }}
         >
@@ -209,7 +209,7 @@ export default function ChapterOneRight() {
             className="absolute inset-0 pointer-events-none"
             style={{
               backgroundImage: `
-                repeating-linear-gradient(0deg, transparent, transparent 22px, rgba(110,90,78,0.025) 22px, rgba(110,90,78,0.025) 23px)
+                repeating-linear-gradient(0deg, transparent, transparent 22px, rgba(110,90,78,0.015) 22px, rgba(110,90,78,0.015) 23px)
               `,
               borderRadius: "inherit",
             }}
@@ -222,7 +222,7 @@ export default function ChapterOneRight() {
               fontSize: "38px",
               fontWeight: 700,
               lineHeight: 0.5,
-              color: "#B48C58",
+              color: "#C4A882",
               display: "block",
               marginBottom: "10px",
               opacity: 0.9,
@@ -238,7 +238,7 @@ export default function ChapterOneRight() {
               fontStyle: "italic",
               fontSize: "clamp(12px, 1.9vh, 14px)",
               lineHeight: 1.72,
-              color: "#3C2E25",
+              color: "#4A3728",
               paddingLeft: "4px",
               paddingRight: "4px",
               position: "relative",
@@ -257,14 +257,14 @@ export default function ChapterOneRight() {
                 fontSize: "8.5px",
                 fontWeight: 600,
                 letterSpacing: "0.06em",
-                color: "#8E7A6C",
+                  color: "#6E5A4E",
               }}
             >
               — Poonam Choudhary
             </span>
 
             {/* Hand-drawn-look heart */}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B48C58" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.75 }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C4A882" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.6 }}>
               <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
             </svg>
           </div>
@@ -286,20 +286,20 @@ export default function ChapterOneRight() {
         <div
           style={{
             background: "#FAF7F2",
-            border: "1px solid rgba(142,120,95,0.18)",
+            border: "1px solid rgba(110,90,78,0.10)",
             borderRadius: "3px",
             padding: "3px",
-            boxShadow: "1px 3px 10px rgba(26,20,18,0.08)",
+            boxShadow: "1px 3px 10px rgba(58,44,30,0.05)",
           }}
         >
           {/* Inner content area */}
-          <div
-            style={{
-              background: "#FDFAF5",
-              border: "0.5px solid rgba(142,120,95,0.1)",
-              borderRadius: "2px",
-              padding: "10px 12px 10px",
-            }}
+            <div
+              style={{
+                background: "#FAF7F2",
+                border: "0.5px solid rgba(110,90,78,0.06)",
+                borderRadius: "2px",
+                padding: "10px 12px 10px",
+              }}
           >
             {/* Top row: leaf logo + "Bestselling Author" */}
             <div className="flex items-center gap-2">
@@ -308,11 +308,11 @@ export default function ChapterOneRight() {
                 style={{
                   width: "18px",
                   height: "18px",
-                  background: "rgba(110,122,102,0.12)",
+                  background: "rgba(168,178,154,0.15)",
                   flexShrink: 0,
                 }}
               >
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6E7A66" strokeWidth="2" strokeLinecap="round">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#A8B29A" strokeWidth="2" strokeLinecap="round">
                   <path d="M12 2C12 10 6 14 6 18c0 2 2 3 6 3s6-1 6-3c0-4-6-8-6-16z" />
                   <path d="M12 9c-1 1.5-1.5 3-1.5 4" strokeDasharray="1.5 1.5" />
                   <path d="M12 9c1 1.5 1.5 3 1.5 4" strokeDasharray="1.5 1.5" />
@@ -324,7 +324,7 @@ export default function ChapterOneRight() {
                     fontFamily: "var(--font-sans), sans-serif",
                     fontSize: "8px",
                     fontWeight: 700,
-                    color: "#2E2318",
+                    color: "#3A2C1E",
                     letterSpacing: "0.06em",
                     textTransform: "uppercase",
                   }}
@@ -336,7 +336,7 @@ export default function ChapterOneRight() {
                     fontFamily: "var(--font-cormorant), serif",
                     fontStyle: "italic",
                     fontSize: "9px",
-                    color: "#7A6355",
+                    color: "#6E5A4E",
                     marginTop: "0.5px",
                   }}
                 >
@@ -348,7 +348,7 @@ export default function ChapterOneRight() {
             {/* Star rating */}
             <div className="flex items-center gap-0.5 mt-2 ml-[22px]">
               {[1, 2, 3, 4, 5].map((s) => (
-                <svg key={s} width="8" height="8" viewBox="0 0 24 24" fill="#B48C58" stroke="none">
+                <svg key={s} width="8" height="8" viewBox="0 0 24 24" fill="#C4A882" stroke="none">
                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                 </svg>
               ))}
@@ -356,7 +356,7 @@ export default function ChapterOneRight() {
                 style={{
                   fontFamily: "var(--font-sans), sans-serif",
                   fontSize: "6px",
-                  color: "#8E7A6C",
+                color: "#6E5A4E",
                   marginLeft: "4px",
                   letterSpacing: "0.04em",
                 }}
@@ -369,7 +369,7 @@ export default function ChapterOneRight() {
             <div
               style={{
                 height: "0.5px",
-                background: "rgba(142,120,95,0.14)",
+                background: "rgba(110,90,78,0.08)",
                 margin: "8px 0",
               }}
             />
@@ -380,7 +380,7 @@ export default function ChapterOneRight() {
                 fontFamily: "var(--font-sans), sans-serif",
                 fontSize: "7px",
                 fontWeight: 700,
-                color: "#6E7A66",
+                color: "#A8B29A",
                 letterSpacing: "0.1em",
                 textAlign: "center",
                 textTransform: "uppercase",

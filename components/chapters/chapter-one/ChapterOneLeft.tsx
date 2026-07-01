@@ -29,7 +29,7 @@ export default function ChapterOneLeft() {
           left: "-10%",
           width: "70%",
           height: "60%",
-          background: "radial-gradient(circle, rgba(245,235,215,0.25) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(168,178,154,0.08) 0%, transparent 70%)",
           filter: "blur(20px)",
           zIndex: 0,
         }}
@@ -54,10 +54,10 @@ export default function ChapterOneLeft() {
       >
         {/* Circle Emblem with leaf */}
         <div
-          className="rounded-full flex items-center justify-center border border-[#8E7A6C]/30 bg-[#FAF7F2]"
-          style={{ width: "38px", height: "38px", boxShadow: "inset 0 1px 2px rgba(0,0,0,0.04)" }}
+          className="rounded-full flex items-center justify-center border border-[#A8B29A]/20 bg-[#FAF7F2]"
+          style={{ width: "38px", height: "38px", boxShadow: "inset 0 1px 2px rgba(58,44,30,0.03)" }}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6E7A66" strokeWidth="1.2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8B29A" strokeWidth="1.2">
             <path d="M12 2c5.5 0 10 4.5 10 10S17.5 22 12 2 2 6.5 2 12s4.5 10 10 10z" strokeDasharray="1 1" opacity="0.4" />
             <path d="M12 22C12 17 8 13 8 8c0-3 2-5 4-5s4 2 4 5c0 5-4 9-4 14z" />
             <path d="M12 8c-1.5 2-2 4-2 6" strokeDasharray="1 1" />
@@ -84,7 +84,7 @@ export default function ChapterOneLeft() {
               fontSize: "7px",
               fontWeight: 600,
               letterSpacing: "0.14em",
-              color: "#8E7A6C",
+                  color: "#6E5A4E",
               textTransform: "uppercase",
               marginTop: "2px",
             }}
@@ -105,7 +105,7 @@ export default function ChapterOneLeft() {
             fontSize: "8.5px",
             fontWeight: 600,
             letterSpacing: "0.18em",
-            color: "#8E7A6C",
+            color: "#6E5A4E",
             textTransform: "uppercase",
           }}
         >
@@ -125,7 +125,7 @@ export default function ChapterOneLeft() {
             fontWeight: 500,
             lineHeight: 1.12,
             letterSpacing: "-0.02em",
-            color: "#2C221A",
+            color: "#3A2C1E",
           }}
         >
           But presence
@@ -136,7 +136,7 @@ export default function ChapterOneLeft() {
               fontFamily: "Georgia, serif", // Fallback for script/handwriting style
               fontStyle: "italic",
               fontWeight: 400,
-              color: "#A47E53", // Warm golden-brown
+              color: "#C4A882",
             }}
           >
             everything.
@@ -145,11 +145,11 @@ export default function ChapterOneLeft() {
 
         {/* Small Decorative leaf divider below headline */}
         <div className="flex items-center gap-2 mt-4 select-none pointer-events-none opacity-40">
-          <div style={{ width: "30px", height: "0.5px", background: "#8E7A6C" }} />
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8E7A6C" strokeWidth="1.5">
-            <path d="M12 2C12 10 6 14 6 18c0 2 2 3 6 3s6-1 6-3c0-4-6-8-6-16z" />
+          <div style={{ width: "30px", height: "0.5px", background: "#6E5A4E" }} />
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6E5A4E" strokeWidth="1.5">
+            <circle cx="12" cy="12" r="9" />
           </svg>
-          <div style={{ width: "30px", height: "0.5px", background: "#8E7A6C" }} />
+          <div style={{ width: "30px", height: "0.5px", background: "#6E5A4E" }} />
         </div>
       </div>
 
@@ -168,7 +168,7 @@ export default function ChapterOneLeft() {
             fontFamily: "var(--font-cormorant), serif",
             fontSize: "clamp(11.5px, 1.9vh, 14.5px)",
             lineHeight: 1.76,
-            color: "#5C4D44",
+            color: "#4A3728",
             textAlign: "left",
           }}
         >
@@ -190,7 +190,7 @@ export default function ChapterOneLeft() {
         <button
           className="flex items-center gap-2 px-5 py-2.5 rounded-sm transition-all duration-300 pointer-events-auto"
           style={{
-            backgroundColor: "#6E7A66", // Olive green
+            backgroundColor: "#A8B29A",
             color: "#FAF7F2",
             fontFamily: "var(--font-sans), sans-serif",
             fontSize: "8.5px",
@@ -199,14 +199,14 @@ export default function ChapterOneLeft() {
             textTransform: "uppercase",
             border: "none",
             cursor: "pointer",
-            boxShadow: "0 4px 10px rgba(110,122,102,0.22)",
+            boxShadow: "0 4px 10px rgba(58,44,30,0.10)",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#5A6653";
+            e.currentTarget.style.backgroundColor = "#98A58B";
             e.currentTarget.style.transform = "translateY(-1px)";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "#6E7A66";
+            e.currentTarget.style.backgroundColor = "#A8B29A";
             e.currentTarget.style.transform = "translateY(0)";
           }}
         >
@@ -223,7 +223,7 @@ export default function ChapterOneLeft() {
           className="flex items-center gap-2 py-2.5 transition-all duration-300 pointer-events-auto"
           style={{
             backgroundColor: "transparent",
-            color: "#5C4D44",
+            color: "#4A3728",
             fontFamily: "var(--font-sans), sans-serif",
             fontSize: "8.5px",
             fontWeight: 700,
@@ -233,15 +233,15 @@ export default function ChapterOneLeft() {
             cursor: "pointer",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.color = "#2C221A";
+            e.currentTarget.style.color = "#3A2C1E";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.color = "#5C4D44";
+            e.currentTarget.style.color = "#4A3728";
           }}
         >
           {/* Play Icon Outline */}
           <div
-            className="flex items-center justify-center rounded-full border border-[#5C4D44]/35"
+            className="flex items-center justify-center rounded-full border border-[#4A3728]/25"
             style={{ width: "20px", height: "20px" }}
           >
             <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: "1px" }}>

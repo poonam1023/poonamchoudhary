@@ -154,7 +154,7 @@ export default function GalleryRight() {
               fontFamily: "var(--font-inter), sans-serif",
               fontSize: "5px",
               letterSpacing: "0.16em",
-              color: "#8E7A6C",
+              color: "#6E5A4E",
               textTransform: "uppercase",
               display: "block",
               marginTop: "4px",

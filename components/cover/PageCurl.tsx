@@ -50,14 +50,14 @@ export default function PageCurl({ isHovered, isOpening }: PageCurlProps) {
         <motion.path
           animate={{ d: cutoutPaths[state as keyof typeof cutoutPaths] }}
           transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-          fill="#1A1412"
+          fill="#F7F1E8"
         />
 
         {/* 2. Soft Ambient Shadow under the fold */}
         <motion.path
           animate={{ d: shadowPaths[state as keyof typeof shadowPaths] }}
           transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-          fill="rgba(26, 20, 18, 0.55)"
+          fill="rgba(58, 44, 30, 0.16)"
           className="blur-[6px]"
         />
 
@@ -65,7 +65,7 @@ export default function PageCurl({ isHovered, isOpening }: PageCurlProps) {
         <motion.path
           animate={{ d: shadowPaths[state as keyof typeof shadowPaths] }}
           transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-          fill="rgba(26, 20, 18, 0.35)"
+          fill="rgba(58, 44, 30, 0.08)"
           className="blur-[3px]"
         />
 

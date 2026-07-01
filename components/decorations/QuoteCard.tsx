@@ -46,7 +46,7 @@ export default function QuoteCard({
         return {
           bg: "#FAF6EE",
           border: "rgba(196,168,130,0.25)",
-          text: "#3C2E25",
+          text: "#4A3728",
           tapeColor: "washi-cream" as const,
         };
     }
@@ -71,7 +71,7 @@ export default function QuoteCard({
       style={{
         width,
         background: currentStyles.bg,
-        boxShadow: "1px 4px 14px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04)",
+        boxShadow: "1px 4px 14px rgba(58,44,30,0.03), 0 2px 4px rgba(58,44,30,0.02)",
         transform: `rotate(${rotation}deg) scale(${scale})`,
         clipPath: tornPath,
         border: `1px solid ${currentStyles.border}`,

@@ -51,7 +51,7 @@ export default function PaperClip({
         transform: `rotate(${rotation}deg)`,
         opacity,
         zIndex: 26,
-        filter: "drop-shadow(1px 2px 2px rgba(0,0,0,0.22))",
+        filter: "drop-shadow(1px 2px 2px rgba(58,44,30,0.10))",
         ...style,
       }}
     >
@@ -59,7 +59,7 @@ export default function PaperClip({
         {/* Shadow trace (rendered slightly offset manually to align with 3D look) */}
         <path
           d="M6 44 L6 14 C6 8 14 8 14 14 L14 36 C14 40 10 40 10 36 L10 18 C10 15 8 15 8 18 L8 36 C8 42 16 42 16 36 L16 14 C16 6 4 6 4 14 L4 44 C4 49 11 49 11 44"
-          stroke="rgba(0,0,0,0.3)"
+          stroke="rgba(58,44,30,0.15)"
           strokeWidth="1.8"
           strokeLinecap="round"
           strokeLinejoin="round"

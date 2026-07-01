@@ -60,7 +60,7 @@ export default function WaxSeal({
         transform: `rotate(${rotation}deg)`,
         opacity,
         zIndex: 25,
-        filter: "drop-shadow(1px 3px 5px rgba(0,0,0,0.22))",
+        filter: "drop-shadow(1px 3px 5px rgba(58,44,30,0.10))",
         ...style,
       }}
     >

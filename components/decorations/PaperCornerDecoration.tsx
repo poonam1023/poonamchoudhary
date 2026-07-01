@@ -49,7 +49,7 @@ export default function PaperCornerDecoration({
           <path
             d="M0 0 L45 0 L0 45 Z"
             fill="#EAD8B2"
-            style={{ filter: "drop-shadow(1px 1px 2px rgba(0,0,0,0.15))" }}
+            style={{ filter: "drop-shadow(1px 1px 2px rgba(58,44,30,0.06))" }}
           />
           {/* Internal diagonal slit */}
           <path d="M5 5 L35 5 L5 35 Z" fill="#D3C19C" opacity="0.3" />
@@ -65,7 +65,7 @@ export default function PaperCornerDecoration({
             fill="url(#brassGradient)"
             stroke="#4A3B32"
             strokeWidth="0.75"
-            style={{ filter: "drop-shadow(1px 2px 3px rgba(0,0,0,0.25))" }}
+            style={{ filter: "drop-shadow(1px 2px 3px rgba(58,44,30,0.10))" }}
           />
           {/* Rivet head */}
           <circle cx="9" cy="9" r="2.5" fill="#5C4D3C" stroke="#2D231A" strokeWidth="0.5" />

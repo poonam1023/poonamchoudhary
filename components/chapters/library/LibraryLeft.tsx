@@ -77,7 +77,7 @@ export default function LibraryLeft() {
         <div
           className="border border-[#6E5A4E]/20 bg-[#FAF7EE]/60 p-4 rounded-[1px] relative"
           style={{
-            boxShadow: "inset 0 0 10px rgba(110,90,78,0.06), 1px 2px 5px rgba(0,0,0,0.04)",
+            boxShadow: "inset 0 0 10px rgba(110,90,78,0.04), 1px 2px 5px rgba(58,44,30,0.02)",
           }}
         >
           {/* Paper Clip holding a scrap memo note */}

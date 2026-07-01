@@ -22,41 +22,41 @@ export default function Book3D({ children }: Book3DProps) {
       {/* ── 1. LAYERED DROP SHADOWS (Floating Book on Desk Effect) ── */}
       {/* Ambient shadow (large, soft spread) */}
       <div 
-        className="absolute inset-x-[-4%] inset-y-[-2%] rounded-[24px] pointer-events-none z-0 opacity-40 blur-[36px]"
+        className="absolute inset-x-[-4%] inset-y-[-2%] rounded-[24px] pointer-events-none z-0 opacity-25 blur-[36px]"
         style={{
-          background: "radial-gradient(circle, rgba(16,12,10,0.65) 0%, rgba(0,0,0,0) 80%)",
+          background: "radial-gradient(circle, rgba(58,44,30,0.40) 0%, rgba(58,44,30,0) 80%)",
         }}
       />
-      {/* Contact shadow (dark, tight underneath the book boards) */}
+      {/* Contact shadow (tight underneath the book boards) */}
       <div 
-        className="absolute inset-x-[-1%] bottom-[-15px] h-[35px] rounded-full pointer-events-none z-0 opacity-80 blur-[8px]"
+        className="absolute inset-x-[-1%] bottom-[-15px] h-[35px] rounded-full pointer-events-none z-0 opacity-50 blur-[8px]"
         style={{
-          background: "radial-gradient(ellipse at center, rgba(10,8,6,0.95) 0%, rgba(0,0,0,0) 75%)",
+          background: "radial-gradient(ellipse at center, rgba(58,44,30,0.60) 0%, rgba(58,44,30,0) 75%)",
         }}
       />
       {/* Soft edge shadow mapping to page curl */}
       <div 
-        className="absolute right-[-15px] bottom-[-10px] w-[180px] h-[60px] pointer-events-none z-0 opacity-55 blur-[12px] rotate-[2deg]"
+        className="absolute right-[-15px] bottom-[-10px] w-[160px] h-[50px] pointer-events-none z-0 opacity-35 blur-[10px] rotate-[2deg]"
         style={{
-          background: "radial-gradient(circle, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 70%)",
+          background: "radial-gradient(circle, rgba(58,44,30,0.50) 0%, rgba(58,44,30,0) 70%)",
         }}
       />
 
-      {/* ── 2. HARDCOVER BOARD BACKING (Canvas/Leather Cover) ── */}
+      {/* ── 2. HARDCOVER BOARD BACKING ── */}
       {/* Left board cover backing */}
       <div 
-        className="absolute top-[-4px] bottom-[-6px] rounded-l-[8px] pointer-events-none z-0 border border-[#2D231B]/40"
+        className="absolute top-[-4px] bottom-[-6px] rounded-l-[8px] pointer-events-none z-0 border border-[#C4A882]/20"
         style={{
           right: "50%",
-          left: "-100.8%", // Slightly wider than pages
-          background: "linear-gradient(135deg, #2D231B 0%, #1A1410 100%)",
-          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.1), 2px 4px 10px rgba(0,0,0,0.35)",
+          left: "-100.8%",
+          background: "linear-gradient(135deg, #F0EAE0 0%, #E8E0D0 100%)",
+          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.3), 2px 4px 10px rgba(58,44,30,0.12)",
         }}
       >
-        {/* Leather/Canvas texture simulation */}
-        <div className="absolute inset-0 opacity-[0.08]"
+        {/* Canvas texture simulation */}
+        <div className="absolute inset-0 opacity-[0.04]"
           style={{
-            backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(circle, #DCCBB3 1px, transparent 1px)",
             backgroundSize: "3px 3px",
           }}
         />
@@ -64,36 +64,35 @@ export default function Book3D({ children }: Book3DProps) {
 
       {/* Right board cover backing */}
       <div 
-        className="absolute top-[-4px] bottom-[-6px] rounded-r-[8px] pointer-events-none z-0 border border-[#2D231B]/40"
+        className="absolute top-[-4px] bottom-[-6px] rounded-r-[8px] pointer-events-none z-0 border border-[#C4A882]/20"
         style={{
           left: "50%",
-          right: "-0.8%", // Slightly wider than pages
-          background: "linear-gradient(225deg, #2D231B 0%, #1A1410 100%)",
-          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.1), -2px 4px 10px rgba(0,0,0,0.35)",
+          right: "-0.8%",
+          background: "linear-gradient(225deg, #F0EAE0 0%, #E8E0D0 100%)",
+          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.3), -2px 4px 10px rgba(58,44,30,0.12)",
         }}
       >
-        {/* Leather/Canvas texture simulation */}
-        <div className="absolute inset-0 opacity-[0.08]"
+        {/* Canvas texture simulation */}
+        <div className="absolute inset-0 opacity-[0.04]"
           style={{
-            backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(circle, #DCCBB3 1px, transparent 1px)",
             backgroundSize: "3px 3px",
           }}
         />
       </div>
 
-      {/* ── 3. STACKED PAPER THICKNESS (120-200 sheets stack along edges) ── */}
+      {/* ── 3. STACKED PAPER THICKNESS ── */}
       {/* Left page-stack thickness block */}
       <div 
         className="absolute top-0 bottom-0 pointer-events-none z-1"
         style={{
           right: "100%",
-          width: "12px",
+          width: "10px",
           left: "-100.4%",
-          background: "#ECE0CE",
-          borderLeft: "0.5px solid rgba(110,90,78,0.25)",
-          // Layered paper lines simulating sheets
-          backgroundImage: "repeating-linear-gradient(to right, #ECE0CE, #ECE0CE 1.5px, #DDCAB4 1.5px, #DDCAB4 2.5px)",
-          boxShadow: "inset 1px 0 3px rgba(0,0,0,0.1)",
+          background: "#F5F0E8",
+          borderLeft: "0.5px solid rgba(110,90,78,0.12)",
+          backgroundImage: "repeating-linear-gradient(to right, #F5F0E8, #F5F0E8 1.5px, #EDE6DC 1.5px, #EDE6DC 2.5px)",
+          boxShadow: "inset 1px 0 3px rgba(58,44,30,0.04)",
         }}
       />
 
@@ -102,50 +101,40 @@ export default function Book3D({ children }: Book3DProps) {
         className="absolute top-0 bottom-0 pointer-events-none z-1"
         style={{
           left: "100%",
-          width: "12px",
+          width: "10px",
           right: "-0.4%",
-          background: "#ECE0CE",
-          borderRight: "0.5px solid rgba(110,90,78,0.25)",
-          // Layered paper lines simulating sheets
-          backgroundImage: "repeating-linear-gradient(to left, #ECE0CE, #ECE0CE 1.5px, #DDCAB4 1.5px, #DDCAB4 2.5px)",
-          boxShadow: "inset -1px 0 3px rgba(0,0,0,0.1)",
+          background: "#F5F0E8",
+          borderRight: "0.5px solid rgba(110,90,78,0.12)",
+          backgroundImage: "repeating-linear-gradient(to left, #F5F0E8, #F5F0E8 1.5px, #EDE6DC 1.5px, #EDE6DC 2.5px)",
+          boxShadow: "inset -1px 0 3px rgba(58,44,30,0.04)",
         }}
       />
 
-      {/* Bottom page-stack thickness block (spans full book width) */}
+      {/* Bottom page-stack thickness block */}
       <div 
         className="absolute bottom-[-5px] pointer-events-none z-1"
         style={{
           left: "-100.4%",
           right: "-0.4%",
-          height: "6px",
-          background: "#ECE0CE",
-          borderBottom: "0.5px solid rgba(110,90,78,0.25)",
-          // Layered horizontal paper lines
-          backgroundImage: "repeating-linear-gradient(to bottom, #ECE0CE, #ECE0CE 1.5px, #DDCAB4 1.5px, #DDCAB4 2.5px)",
-          boxShadow: "inset 0 1px 3px rgba(0,0,0,0.1)",
+          height: "5px",
+          background: "#F5F0E8",
+          borderBottom: "0.5px solid rgba(110,90,78,0.12)",
+          backgroundImage: "repeating-linear-gradient(to bottom, #F5F0E8, #F5F0E8 1.5px, #EDE6DC 1.5px, #EDE6DC 2.5px)",
+          boxShadow: "inset 0 1px 3px rgba(58,44,30,0.04)",
         }}
       />
 
       {/* ── 4. MAIN PAGE CURVATURE DISTORTION ── */}
-      {/* 
-        This is the actual page contents viewport.
-        Slight perspective bend, soft lighting falloff from outer edges to spine.
-      */}
       <div 
         className="relative w-full h-full z-10"
         style={{
-          boxShadow: "inset 0 0 100px rgba(0,0,0,0.06)",
+          boxShadow: "inset 0 0 100px rgba(58,44,30,0.03)",
         }}
       >
         {children}
       </div>
 
       {/* ── 5. DEEP CENTER SPINE GUTTER ── */}
-      {/* 
-        Overlapping shadow valley down the center binding crease.
-        Provides realistic lighting falloff and spine depth.
-      */}
       <div 
         className="absolute top-0 bottom-0 pointer-events-none"
         style={{
@@ -153,14 +142,14 @@ export default function Book3D({ children }: Book3DProps) {
           transform: "translateX(-50%)",
           width: "36px",
           zIndex: 35,
-          background: "linear-gradient(to right, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.15) 30%, rgba(0,0,0,0.02) 46%, rgba(255,255,255,0.12) 50%, rgba(0,0,0,0.02) 54%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0.28) 100%)",
+          background: "linear-gradient(to right, rgba(58,44,30,0.12) 0%, rgba(58,44,30,0.06) 30%, rgba(58,44,30,0.01) 46%, rgba(255,255,255,0.08) 50%, rgba(58,44,30,0.01) 54%, rgba(58,44,30,0.06) 70%, rgba(58,44,30,0.12) 100%)",
         }}
       >
         {/* Deepest central crevice line */}
         <div 
-          className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[2.5px]"
+          className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[1.5px]"
           style={{
-            background: "linear-gradient(to right, rgba(0,0,0,0.48), rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.25))",
+            background: "linear-gradient(to right, rgba(58,44,30,0.20), rgba(58,44,30,0.30) 50%, rgba(58,44,30,0.12))",
           }}
         />
       </div>

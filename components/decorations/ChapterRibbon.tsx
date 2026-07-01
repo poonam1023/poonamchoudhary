@@ -39,7 +39,7 @@ export default function ChapterRibbon({
         opacity,
         background: colors.bg,
         borderLeft: `3px solid ${colors.border}`,
-        boxShadow: "0 2px 5px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.2)",
+        boxShadow: "0 2px 5px rgba(58,44,30,0.08), inset 0 1px 0 rgba(255,255,255,0.2)",
       }}
     >
       {/* V-notch ends via CSS clip-path or absolute elements */}

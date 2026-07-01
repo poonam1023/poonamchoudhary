@@ -28,16 +28,16 @@ export default function BookmarkTab({
   const targetY = isActive ? 20 : hovered ? 10 : 0;
 
   // Active color: soft sage green. Inactive: warm cream cardstock.
-  const paperColor = isActive ? "#A8B29A" : "#F5EFEB";
-  const textColor = isActive ? "#2E3B27" : "#5A4A3E";
-  const iconColor = isActive ? "#2E3B27" : "#7D6B5D";
+  const paperColor = isActive ? "#A8B29A" : "#F7F1E8";
+  const textColor = isActive ? "#FAF7F2" : "#4A3728";
+  const iconColor = isActive ? "#FAF7F2" : "#6E5A4E";
 
   // Individual shadow styling to give it realistic thickness and distance from the page
   const shadowFilter = isActive
-    ? "drop-shadow(1px 6px 12px rgba(26,20,18,0.22)) drop-shadow(2px 12px 24px rgba(26,20,18,0.12))"
+    ? "drop-shadow(1px 6px 12px rgba(58,44,30,0.14)) drop-shadow(2px 12px 24px rgba(58,44,30,0.08))"
     : hovered
-    ? "drop-shadow(0.5px 4px 8px rgba(26,20,18,0.16)) drop-shadow(1px 8px 16px rgba(26,20,18,0.08))"
-    : "drop-shadow(0.5px 3px 6px rgba(26,20,18,0.12)) drop-shadow(1px 5px 10px rgba(26,20,18,0.06))";
+    ? "drop-shadow(0.5px 3px 6px rgba(58,44,30,0.08)) drop-shadow(1px 6px 12px rgba(58,44,30,0.04))"
+    : "drop-shadow(0.5px 2px 4px rgba(58,44,30,0.06)) drop-shadow(1px 3px 6px rgba(58,44,30,0.03))";
 
   // Render outline SVG icons for each tab
   const getIcon = () => {
@@ -134,7 +134,7 @@ export default function BookmarkTab({
             clipPath: isActive
               ? "polygon(0 0, 100% 0, 100% 100%, 50% 92%, 0 100%)" // active swallowtail V-cut
               : "polygon(0 0, 100% 0, 100% 95%, 50% 100%, 0 95%)", // inactive V-cut
-            boxShadow: "inset 0 1px 0.5px rgba(255,255,255,0.4), inset 0 -1px 2px rgba(110,90,78,0.12)",
+            boxShadow: "inset 0 1px 0.5px rgba(255,255,255,0.4), inset 0 -1px 2px rgba(58,44,30,0.06)",
           }}
         >
           {/* Subtle paper grain texture overlay */}
@@ -152,9 +152,9 @@ export default function BookmarkTab({
           <div
             className="absolute inset-[1.5px] pointer-events-none rounded-[3px] opacity-[0.35]"
             style={{
-              borderLeft: `0.75px dashed ${isActive ? "#FAF7EE" : "#8E7252"}`,
-              borderRight: `0.75px dashed ${isActive ? "#FAF7EE" : "#8E7252"}`,
-              borderBottom: `0.75px dashed ${isActive ? "#FAF7EE" : "#8E7252"}`,
+              borderLeft: `0.75px dashed ${isActive ? "#FAF7EE" : "#A8B29A"}`,
+              borderRight: `0.75px dashed ${isActive ? "#FAF7EE" : "#A8B29A"}`,
+              borderBottom: `0.75px dashed ${isActive ? "#FAF7EE" : "#A8B29A"}`,
             }}
           />
 
@@ -162,7 +162,7 @@ export default function BookmarkTab({
           <div
             className="absolute top-0 left-0 right-0 h-[6px] pointer-events-none"
             style={{
-              background: "linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.06) 60%, transparent 100%)",
+              background: "linear-gradient(to bottom, rgba(58,44,30,0.08) 0%, rgba(58,44,30,0.03) 60%, transparent 100%)",
               borderBottom: "0.5px solid rgba(255,255,255,0.15)",
             }}
           />

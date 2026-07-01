@@ -71,7 +71,7 @@ export default function LibrarySeal({
           style={{
             border: "0.5px solid rgba(110,90,78,0.12)",
             boxShadow:
-              "inset 0 1px 1px rgba(255,255,255,0.4), inset 0 -1px 1.5px rgba(110,90,78,0.15), 0 1px 3px rgba(0,0,0,0.04)",
+              "inset 0 1px 1px rgba(255,255,255,0.4), inset 0 -1px 1.5px rgba(110,90,78,0.15), 0 1px 3px rgba(58,44,30,0.02)",
             background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 80%)",
           }}
         >
@@ -79,7 +79,7 @@ export default function LibrarySeal({
             <span
               className="text-[5px] font-display text-emboss tracking-[0.2em] font-medium text-[#6E5A4E]/30 leading-none"
               style={{
-                textShadow: "0.5px 0.5px 0px rgba(255,255,255,0.35), -0.5px -0.5px 0px rgba(0,0,0,0.06)",
+                textShadow: "0.5px 0.5px 0px rgba(255,255,255,0.35), -0.5px -0.5px 0px rgba(58,44,30,0.03)",
               }}
             >
               PC

@@ -38,11 +38,11 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
       className={`relative w-full h-full overflow-hidden ${className}`}
       style={{
         background: isLeft
-          ? "linear-gradient(162deg, #F5EAC6 0%, #F1E4C2 38%, #EAD8B2 100%)"
-          : "linear-gradient(198deg, #F6ECC8 0%, #F2E7C4 42%, #EBE0B8 100%)",
+          ? "linear-gradient(162deg, #FAF7F2 0%, #F7F3EC 38%, #F5F0E8 100%)"
+          : "linear-gradient(198deg, #FAF7F2 0%, #F7F3EC 42%, #F5F0E8 100%)",
         boxShadow: isLeft
-          ? "inset -22px 0 38px -4px rgba(0,0,0,0.09), inset -4px 0 8px rgba(110,90,78,0.12)"
-          : "inset 22px 0 38px -4px rgba(0,0,0,0.09), inset 4px 0 8px rgba(110,90,78,0.12)",
+          ? "inset -22px 0 38px -4px rgba(58,44,30,0.05), inset -4px 0 8px rgba(58,44,30,0.06)"
+          : "inset 22px 0 38px -4px rgba(58,44,30,0.05), inset 4px 0 8px rgba(58,44,30,0.06)",
       }}
     >
       {/* ── 1. Paper Fibre Weave ─────────────────────────────────────────── */}
@@ -82,20 +82,20 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
           left: isLeft ? "auto" : 0,
           width: "200px",
           height: "200px",
-          background: `radial-gradient(circle at ${isLeft ? "100% 100%" : "0% 0%"}, rgba(190,148,52,0.08) 0%, transparent 70%)`,
+          background: `radial-gradient(circle at ${isLeft ? "100% 100%" : "0% 0%"}, rgba(196,168,130,0.04) 0%, transparent 70%)`,
           filter: "blur(32px)",
         }}
       />
 
       {/* ── 5. Corner Age Spots × 4 ─────────────────────────────────────── */}
-      <div className="absolute top-0 left-0 w-20 h-20 pointer-events-none select-none"
-        style={{ background: "radial-gradient(circle at 0% 0%, rgba(110,90,78,0.07) 0%, transparent 70%)" }} />
-      <div className="absolute top-0 right-0 w-20 h-20 pointer-events-none select-none"
-        style={{ background: "radial-gradient(circle at 100% 0%, rgba(110,90,78,0.065) 0%, transparent 70%)" }} />
-      <div className="absolute bottom-0 left-0 w-20 h-20 pointer-events-none select-none"
-        style={{ background: "radial-gradient(circle at 0% 100%, rgba(110,90,78,0.075) 0%, transparent 70%)" }} />
-      <div className="absolute bottom-0 right-0 w-20 h-20 pointer-events-none select-none"
-        style={{ background: "radial-gradient(circle at 100% 100%, rgba(110,90,78,0.08) 0%, transparent 70%)" }} />
+      <div className="absolute top-0 left-0 w-16 h-16 pointer-events-none select-none"
+        style={{ background: "radial-gradient(circle at 0% 0%, rgba(110,90,78,0.04) 0%, transparent 70%)" }} />
+      <div className="absolute top-0 right-0 w-16 h-16 pointer-events-none select-none"
+        style={{ background: "radial-gradient(circle at 100% 0%, rgba(110,90,78,0.035) 0%, transparent 70%)" }} />
+      <div className="absolute bottom-0 left-0 w-16 h-16 pointer-events-none select-none"
+        style={{ background: "radial-gradient(circle at 0% 100%, rgba(110,90,78,0.04) 0%, transparent 70%)" }} />
+      <div className="absolute bottom-0 right-0 w-16 h-16 pointer-events-none select-none"
+        style={{ background: "radial-gradient(circle at 100% 100%, rgba(110,90,78,0.045) 0%, transparent 70%)" }} />
 
       {/* ── 6. Micro Stains ─────────────────────────────────────────────── */}
       <div className="absolute pointer-events-none select-none"
@@ -113,8 +113,8 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         className="absolute top-0 bottom-0 pointer-events-none select-none"
         style={{
           [isLeft ? "right" : "left"]: 0,
-          width: "48px",
-          background: `linear-gradient(to ${isLeft ? "left" : "right"}, rgba(0,0,0,0.09) 0%, rgba(0,0,0,0.04) 50%, transparent 100%)`,
+          width: "36px",
+          background: `linear-gradient(to ${isLeft ? "left" : "right"}, rgba(58,44,30,0.05) 0%, rgba(58,44,30,0.02) 50%, transparent 100%)`,
         }}
       />
 
@@ -123,8 +123,8 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         className="absolute top-4 bottom-4 pointer-events-none select-none"
         style={{
           [isLeft ? "right" : "left"]: 0,
-          width: "6px",
-          background: `linear-gradient(to ${isLeft ? "left" : "right"}, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0.06) 60%, transparent 100%)`,
+          width: "4px",
+          background: `linear-gradient(to ${isLeft ? "left" : "right"}, rgba(58,44,30,0.08) 0%, rgba(58,44,30,0.03) 60%, transparent 100%)`,
           filter: "blur(1px)",
         }}
       />
@@ -133,7 +133,7 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
       <div
         className="absolute inset-0 pointer-events-none select-none"
         style={{
-          background: `radial-gradient(ellipse at ${isLeft ? "38%" : "62%"} 50%, rgba(255,252,244,0.10) 0%, transparent 60%)`,
+          background: `radial-gradient(ellipse at ${isLeft ? "38%" : "62%"} 50%, rgba(255,252,244,0.06) 0%, transparent 60%)`,
         }}
       />
 
@@ -142,8 +142,8 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         className="absolute left-0 right-0 pointer-events-none select-none"
         style={{
           top: "46%",
-          height: "80px",
-          background: "linear-gradient(to bottom, transparent 0%, rgba(185,145,70,0.018) 50%, transparent 100%)",
+          height: "60px",
+          background: "linear-gradient(to bottom, transparent 0%, rgba(196,176,148,0.010) 50%, transparent 100%)",
         }}
       />
 
@@ -153,7 +153,7 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         style={{
           top: "15%",
           height: "55%",
-          background: `radial-gradient(ellipse at 50% 30%, rgba(140,110,70,0.015) 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse at 50% 30%, rgba(110,90,78,0.008) 0%, transparent 70%)`,
         }}
       />
 
@@ -162,9 +162,9 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         className="absolute inset-0 pointer-events-none select-none"
         style={{
           boxShadow: `
-            inset 0 1px 0 rgba(255,255,255,0.60),
-            inset 0 -1px 0 rgba(110,90,78,0.08),
-            inset ${isLeft ? "-" : ""}1px 0 rgba(110,90,78,0.06)
+            inset 0 1px 0 rgba(255,255,255,0.40),
+            inset 0 -1px 0 rgba(110,90,78,0.05),
+            inset ${isLeft ? "-" : ""}1px 0 rgba(110,90,78,0.04)
           `,
         }}
       />
@@ -174,10 +174,10 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         className="absolute top-0 bottom-0 pointer-events-none select-none"
         style={{
           [isLeft ? "left" : "right"]: 0,
-          width: "3px",
+          width: "2px",
           background: isLeft
-            ? "linear-gradient(to right, rgba(110,90,78,0.18), rgba(110,90,78,0.06))"
-            : "linear-gradient(to left, rgba(110,90,78,0.18), rgba(110,90,78,0.06))",
+            ? "linear-gradient(to right, rgba(110,90,78,0.10), rgba(110,90,78,0.04))"
+            : "linear-gradient(to left, rgba(110,90,78,0.10), rgba(110,90,78,0.04))",
         }}
       />
 
@@ -186,35 +186,25 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
         className="absolute top-0 bottom-0 pointer-events-none select-none"
         style={{
           [isLeft ? "left" : "right"]: 0,
-          width: "20px",
-          background: `linear-gradient(to ${isLeft ? "right" : "left"}, rgba(0,0,0,0.04) 0%, transparent 100%)`,
+          width: "16px",
+          background: `linear-gradient(to ${isLeft ? "right" : "left"}, rgba(58,44,30,0.02) 0%, transparent 100%)`,
         }}
       />
 
-      {/* ── 15. Foxing Spots — V4 addition ──────────────────────────────── */}
-      {/* Tiny aged brown dots at seeded positions — oxidisation over time */}
+      {/* ── 15. Foxing Spots — reduced ──────────────────────────────────── */}
       <div className="absolute pointer-events-none select-none"
-        style={{ top: "18%", left: isLeft ? "72%" : "28%", width: "8px", height: "8px",
-          background: "radial-gradient(circle, rgba(158,120,62,0.048) 0%, transparent 70%)", filter: "blur(2px)" }} />
+        style={{ top: "55%", left: isLeft ? "80%" : "18%", width: "8px", height: "8px",
+          background: "radial-gradient(circle, rgba(168,128,68,0.020) 0%, transparent 70%)", filter: "blur(2px)" }} />
       <div className="absolute pointer-events-none select-none"
-        style={{ top: "33%", left: isLeft ? "15%" : "80%", width: "6px", height: "6px",
-          background: "radial-gradient(circle, rgba(148,110,58,0.036) 0%, transparent 70%)", filter: "blur(1.5px)" }} />
-      <div className="absolute pointer-events-none select-none"
-        style={{ top: "55%", left: isLeft ? "80%" : "18%", width: "10px", height: "10px",
-          background: "radial-gradient(circle, rgba(168,128,68,0.032) 0%, transparent 70%)", filter: "blur(3px)" }} />
-      <div className="absolute pointer-events-none select-none"
-        style={{ top: "72%", left: isLeft ? "30%" : "65%", width: "7px", height: "7px",
-          background: "radial-gradient(circle, rgba(138,106,52,0.040) 0%, transparent 70%)", filter: "blur(2px)" }} />
-      <div className="absolute pointer-events-none select-none"
-        style={{ top: "88%", left: isLeft ? "55%" : "38%", width: "5px", height: "5px",
-          background: "radial-gradient(circle, rgba(158,118,60,0.028) 0%, transparent 70%)", filter: "blur(1px)" }} />
+        style={{ top: "72%", left: isLeft ? "30%" : "65%", width: "6px", height: "6px",
+          background: "radial-gradient(circle, rgba(138,106,52,0.025) 0%, transparent 70%)", filter: "blur(1.5px)" }} />
 
-      {/* ── 16. Top edge moisture darkening — V4 ───────────────────────── */}
+      {/* ── 16. Top edge moisture darkening ────────────────────────────── */}
       <div
         className="absolute top-0 left-0 right-0 pointer-events-none select-none"
         style={{
-          height: "28px",
-          background: "linear-gradient(to bottom, rgba(110,90,78,0.04) 0%, transparent 100%)",
+          height: "20px",
+          background: "linear-gradient(to bottom, rgba(110,90,78,0.025) 0%, transparent 100%)",
         }}
       />
 

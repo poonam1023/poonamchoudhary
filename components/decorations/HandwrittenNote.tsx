@@ -40,7 +40,7 @@ export default function HandwrittenNote({
         border: "0.5px solid rgba(110,90,78,0.18)",
         transform: `rotate(${rotation}deg) scale(${scale})`,
         clipPath: scrapPath,
-        boxShadow: "1px 2px 6px rgba(0,0,0,0.06)",
+        boxShadow: "1px 2px 6px rgba(58,44,30,0.04)",
         zIndex: 22,
         ...style,
       }}

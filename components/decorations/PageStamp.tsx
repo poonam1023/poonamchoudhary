@@ -36,7 +36,7 @@ export default function PageStamp({
         transform: `rotate(${rotation}deg)`,
         opacity,
         zIndex: 22,
-        boxShadow: "1px 2px 5px rgba(0,0,0,0.12)",
+        boxShadow: "1px 2px 5px rgba(58,44,30,0.06)",
         // Standard stamp perforations via CSS mask-image (using radial gradients)
         background: "#FAF7EE",
         border: "4px solid #FAF7EE",

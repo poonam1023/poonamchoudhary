@@ -30,7 +30,7 @@ export default function WatercolorBlob({
       case "cream":
         return "#EAD8B2";
       case "gold":
-        return "#C4A35A";
+        return "#C4A882";
       case "sage":
       default:
         return "#A8B29A";

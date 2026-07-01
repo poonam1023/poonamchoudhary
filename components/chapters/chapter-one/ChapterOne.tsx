@@ -144,7 +144,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
           width: "1px",
           zIndex: 25,
           background:
-            "linear-gradient(to bottom, transparent 0%, rgba(110,90,78,0.10) 15%, rgba(110,90,78,0.18) 50%, rgba(110,90,78,0.10) 85%, transparent 100%)",
+            "linear-gradient(to bottom, transparent 0%, rgba(110,90,78,0.06) 15%, rgba(110,90,78,0.10) 50%, rgba(110,90,78,0.06) 85%, transparent 100%)",
         }}
       />
 
@@ -183,8 +183,8 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
           // Multi-layer paper stack appearance:
           // darker at top (compressed edge), lighter toward page face
           background:
-            "linear-gradient(to bottom, #BDB09C 0%, #CEC2A8 20%, #DAD0B8 45%, #E4DBC8 70%, #EEE4D4 100%)",
-          boxShadow: "0 3px 10px rgba(0,0,0,0.13), 0 1px 3px rgba(0,0,0,0.08)",
+            "linear-gradient(to bottom, #EDE6DC 0%, #F0EAE0 20%, #F5F0E8 45%, #F7F3EC 70%, #FAF7F2 100%)",
+          boxShadow: "0 3px 10px rgba(58,44,30,0.06), 0 1px 3px rgba(58,44,30,0.03)",
         }}
       >
         {/* Vertical page-count lines — dozens of thin paper sheets */}
@@ -192,7 +192,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(0,0,0,0.035) 2px, rgba(0,0,0,0.035) 3px)",
+              "repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(58,44,30,0.020) 2px, rgba(58,44,30,0.020) 3px)",
           }}
         />
       </div>
@@ -244,32 +244,32 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
             <div 
               className="absolute inset-0 w-full h-full backface-hidden rounded-r-md border-y border-r border-[#6E5A4E]/10"
               style={{
-                background: "linear-gradient(198deg, #F6ECC8 0%, #F2E7C4 42%, #EBE0B8 100%)",
-                boxShadow: "inset 22px 0 38px -4px rgba(0,0,0,0.09), inset 4px 0 8px rgba(110,90,78,0.12)",
+                background: "linear-gradient(198deg, #FAF7F2 0%, #F7F3EC 42%, #F5F0E8 100%)",
+                boxShadow: "inset 22px 0 38px -4px rgba(58,44,30,0.05), inset 4px 0 8px rgba(58,44,30,0.05)",
                 transform: "rotateY(0deg)",
               }}
             >
               {/* Paper textures */}
               <div className="absolute inset-0 paper-grain-overlay opacity-[0.12] mix-blend-multiply" />
               <div className="absolute inset-0 paper-grain-light opacity-[0.10] mix-blend-color-burn" />
-              <div className="absolute top-0 bottom-0 right-0 w-[3px] bg-gradient-to-l from-rgba(110,90,78,0.18) to-rgba(110,90,78,0.06)" />
-              <div className="absolute left-0 top-0 bottom-0 w-[6px] bg-gradient-to-r from-black/15 to-transparent filter blur-[1px]" />
+              <div className="absolute top-0 bottom-0 right-0 w-[2px] bg-gradient-to-l from-rgba(110,90,78,0.10) to-rgba(110,90,78,0.03)" />
+              <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-r from-[#3A2C1E]/8 to-transparent filter blur-[1px]" />
             </div>
 
             {/* Back of the flipping page (facing left at end) */}
             <div 
               className="absolute inset-0 w-full h-full backface-hidden rounded-l-md border-y border-l border-[#6E5A4E]/10"
               style={{
-                background: "linear-gradient(162deg, #F5EAC6 0%, #F1E4C2 38%, #EAD8B2 100%)",
-                boxShadow: "inset -22px 0 38px -4px rgba(0,0,0,0.09), inset -4px 0 8px rgba(110,90,78,0.12)",
+                background: "linear-gradient(162deg, #FAF7F2 0%, #F7F3EC 38%, #F5F0E8 100%)",
+                boxShadow: "inset -22px 0 38px -4px rgba(58,44,30,0.05), inset -4px 0 8px rgba(58,44,30,0.05)",
                 transform: "rotateY(180deg)",
               }}
             >
               {/* Paper textures */}
               <div className="absolute inset-0 paper-grain-overlay opacity-[0.12] mix-blend-multiply" />
               <div className="absolute inset-0 paper-grain-light opacity-[0.10] mix-blend-color-burn" />
-              <div className="absolute top-0 bottom-0 left-0 w-[3px] bg-gradient-to-r from-rgba(110,90,78,0.18) to-rgba(110,90,78,0.06)" />
-              <div className="absolute right-0 top-0 bottom-0 w-[6px] bg-gradient-to-l from-black/15 to-transparent filter blur-[1px]" />
+              <div className="absolute top-0 bottom-0 left-0 w-[2px] bg-gradient-to-r from-rgba(110,90,78,0.10) to-rgba(110,90,78,0.03)" />
+              <div className="absolute right-0 top-0 bottom-0 w-[4px] bg-gradient-to-l from-[#3A2C1E]/8 to-transparent filter blur-[1px]" />
             </div>
           </motion.div>
         )}

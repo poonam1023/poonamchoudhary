@@ -55,14 +55,14 @@ export default function BookOpeningAnimation() {
   const isFlipped = bookState === "open" || bookState === "flipping";
 
   return (
-    <div className="relative w-screen h-screen flex items-center justify-center overflow-hidden" style={{ background: "radial-gradient(ellipse 120% 100% at 50% 0%, #F5EFE4 0%, #E8DDD0 40%, #DDD0C0 80%, #D4C5B0 100%)" }}>
+    <div className="relative w-screen h-screen flex items-center justify-center overflow-hidden" style={{ background: "radial-gradient(ellipse 120% 100% at 50% 0%, #FAF7F2 0%, #F5F0E8 40%, #F0EADF 80%, #EBE5D8 100%)" }}>
       {/* Warm ambient paper texture overlay */}
       <div
         className="absolute inset-0 pointer-events-none select-none z-0"
         style={{
           backgroundImage: `
-            repeating-linear-gradient(45deg, rgba(160,140,115,0.022) 0px, rgba(160,140,115,0.022) 1px, transparent 1px, transparent 6px),
-            repeating-linear-gradient(-45deg, rgba(160,140,115,0.018) 0px, rgba(160,140,115,0.018) 1px, transparent 1px, transparent 6px)
+            repeating-linear-gradient(45deg, rgba(168,178,154,0.010) 0px, rgba(168,178,154,0.010) 1px, transparent 1px, transparent 6px),
+            repeating-linear-gradient(-45deg, rgba(168,178,154,0.008) 0px, rgba(168,178,154,0.008) 1px, transparent 1px, transparent 6px)
           `,
         }}
       />
@@ -70,7 +70,7 @@ export default function BookOpeningAnimation() {
       <div
         className="absolute inset-0 pointer-events-none select-none z-0"
         style={{
-          background: "radial-gradient(ellipse 80% 60% at 20% 5%, rgba(255,242,215,0.30) 0%, transparent 65%)",
+          background: "radial-gradient(ellipse 80% 60% at 20% 5%, rgba(255,248,230,0.20) 0%, transparent 65%)",
         }}
       />
       {/* Pressed Leaf SVG lying on the dark desk to the left of the book */}
@@ -96,7 +96,7 @@ export default function BookOpeningAnimation() {
 
       {/* Cinematic Page Load: Screen starts almost black, fades out */}
       <motion.div
-        className="absolute inset-0 bg-[#0c0807] z-50 pointer-events-none"
+        className="absolute inset-0 bg-[#1A1410]/90 z-50 pointer-events-none"
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
         transition={{ duration: 1.8, ease: "easeInOut", delay: 0.2 }}
@@ -152,11 +152,11 @@ export default function BookOpeningAnimation() {
            ======================================================== */}
         {!isOpened && (
           <div 
-            className="absolute right-0 top-0 h-full bg-[#E8DCCB] border border-[#6E5A4E]/10 rounded-md pointer-events-none transition-opacity duration-300"
+            className="absolute right-0 top-0 h-full bg-[#FAF7F2] border border-[#6E5A4E]/6 rounded-md pointer-events-none transition-opacity duration-300"
             style={{
               width: isMobile ? "100%" : "50%",
               transform: "translate3d(4px, 4px, -10px) rotate(-0.7deg)",
-              boxShadow: "0 35px 80px rgba(26, 20, 18, 0.45)",
+              boxShadow: "0 35px 80px rgba(58, 44, 30, 0.18)",
             }}
           />
         )}
@@ -166,11 +166,11 @@ export default function BookOpeningAnimation() {
            ======================================================== */}
         {!isOpened && (
           <div 
-            className="absolute right-0 top-0 h-full bg-[#F7F1E8] border-y border-r border-[#6E5A4E]/10 rounded-r-sm pointer-events-none overflow-hidden transition-opacity duration-300"
+            className="absolute right-0 top-0 h-full bg-[#FAF7F2] border-y border-r border-[#6E5A4E]/6 rounded-r-sm pointer-events-none overflow-hidden transition-opacity duration-300"
             style={{
               width: isMobile ? "100%" : "50%",
               transform: "translate3d(2px, 2px, -5px) rotate(-0.7deg)",
-              backgroundImage: "repeating-linear-gradient(to bottom, #F7F1E8, #F7F1E8 2px, #E8DCCB 2px, #E8DCCB 3px)",
+              backgroundImage: "repeating-linear-gradient(to bottom, #FAF7F2, #FAF7F2 2px, #F7F1E8 2px, #F7F1E8 3px)",
             }}
           />
         )}
@@ -185,11 +185,11 @@ export default function BookOpeningAnimation() {
               : "w-1/2"
           } ${isOpened ? "opacity-100 z-20" : "opacity-0 z-0"}`}
           style={{
-            boxShadow: "0 25px 60px rgba(26, 20, 18, 0.45), 0 5px 20px rgba(26, 20, 18, 0.15)",
+            boxShadow: "0 25px 60px rgba(58, 44, 30, 0.18), 0 5px 20px rgba(58, 44, 30, 0.08)",
           }}
         >
           {/* Subtle inside cover spine crease */}
-          {!isMobile && <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-r from-black/10 to-transparent z-30" />}
+          {!isMobile && <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-r from-[#3A2C1E]/8 to-transparent z-30" />}
           <div className="book-board-edge" />
           
           {bookState === "open" && (
@@ -221,7 +221,7 @@ export default function BookOpeningAnimation() {
             style={{
               transform: "rotateY(0deg)",
               pointerEvents: isOpened ? "none" : "auto",
-              boxShadow: "0 30px 70px rgba(26, 20, 18, 0.5), 0 10px 25px rgba(26, 20, 18, 0.2)",
+                boxShadow: "0 30px 70px rgba(58, 44, 30, 0.14), 0 10px 25px rgba(58, 44, 30, 0.07)",
             }}
           >
             <PaperBackground />
@@ -237,7 +237,7 @@ export default function BookOpeningAnimation() {
               <div 
                 className="absolute left-0 top-0 bottom-0 w-[44px] flex flex-col items-center justify-between py-12 z-20 pointer-events-none select-none"
                 style={{
-                  background: "linear-gradient(to right, rgba(110, 90, 78, 0.04), rgba(110, 90, 78, 0.01) 85%, rgba(110, 90, 78, 0.12) 100%)",
+                  background: "linear-gradient(to right, rgba(110, 90, 78, 0.02), rgba(110, 90, 78, 0.005) 85%, rgba(110, 90, 78, 0.06) 100%)",
                 }}
               >
                 <div 
@@ -315,7 +315,7 @@ export default function BookOpeningAnimation() {
               className="absolute inset-0 w-full h-full backface-hidden rounded-md border border-[#6E5A4E]/10"
               style={{
                 transform: "rotateY(180deg)",
-                boxShadow: "0 30px 70px rgba(26, 20, 18, 0.5), 0 10px 25px rgba(26, 20, 18, 0.2)",
+              boxShadow: "0 30px 70px rgba(58, 44, 30, 0.14), 0 10px 25px rgba(58, 44, 30, 0.07)",
               }}
             >
               <LeftPage>
@@ -323,7 +323,7 @@ export default function BookOpeningAnimation() {
               </LeftPage>
 
               {/* Inside Left Cover Spine Crease (mirrored) */}
-              <div className="absolute right-0 top-0 bottom-0 w-[4px] bg-gradient-to-l from-black/10 to-transparent z-30" />
+              <div className="absolute right-0 top-0 bottom-0 w-[4px] bg-gradient-to-l from-[#3A2C1E]/8 to-transparent z-30" />
               <div className="book-board-edge" />
             </div>
           )}
@@ -335,14 +335,14 @@ export default function BookOpeningAnimation() {
         <div
           className="absolute bottom-0 left-0 right-0 h-[18vh] z-30 pointer-events-none select-none overflow-visible flex items-end justify-center"
           style={{
-            background: "linear-gradient(to top, rgba(196,176,148,0.55) 0%, rgba(220,205,180,0) 100%)",
+            background: "linear-gradient(to top, rgba(200,185,160,0.30) 0%, rgba(220,205,180,0) 100%)",
           }}
         >
           {/* Vase with leaves on the left, sitting on the desk */}
           <div
             className="absolute bottom-[-10px] left-[4%] w-32 h-56 z-40 pointer-events-auto"
             style={{
-              filter: "drop-shadow(4px 12px 20px rgba(90,65,40,0.30))",
+              filter: "drop-shadow(4px 12px 20px rgba(58,44,30,0.12))",
             }}
           >
             {/* Simple elegant SVG Vase */}
@@ -350,31 +350,31 @@ export default function BookOpeningAnimation() {
               {/* Vase body */}
               <path
                 d="M 50 190 Q 25 185 22 140 Q 20 100 35 85 Q 40 80 40 70 L 40 50 L 60 50 L 60 70 Q 60 80 65 85 Q 80 100 78 140 Q 75 185 50 190 Z"
-                fill="#EADFC9"
+                fill="#F5F0E8"
                 stroke="#6E5A4E"
                 strokeWidth="0.5"
               />
               {/* Vase highlight */}
               <path
                 d="M 32 120 Q 30 145 42 170"
-                stroke="#FFF"
+                stroke="#FAF7F2"
                 strokeWidth="2.5"
                 strokeLinecap="round"
-                opacity="0.35"
+                opacity="0.25"
               />
               {/* Plant branches growing out of the vase */}
-              <g stroke="#6E7A66" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none">
+              <g stroke="#A8B29A" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" fill="none">
                 {/* Branch 1 */}
                 <path d="M 50 50 Q 42 20 28 -20" />
-                <path d="M 45 35 Q 22 28 15 32" fill="#798A72" />
-                <path d="M 40 18 Q 20 5 12 12" fill="#798A72" />
-                <path d="M 35 0 Q 15 -15 8 -5" fill="#798A72" />
+                <path d="M 45 35 Q 22 28 15 32" fill="#B8C4A8" />
+                <path d="M 40 18 Q 20 5 12 12" fill="#B8C4A8" />
+                <path d="M 35 0 Q 15 -15 8 -5" fill="#B8C4A8" />
 
                 {/* Branch 2 */}
                 <path d="M 50 50 Q 58 10 74 -30" />
-                <path d="M 54 38 Q 78 35 85 40" fill="#798A72" />
-                <path d="M 58 22 Q 82 15 88 22" fill="#798A72" />
-                <path d="M 64 2 Q 88 -8 92 0" fill="#798A72" />
+                <path d="M 54 38 Q 78 35 85 40" fill="#B8C4A8" />
+                <path d="M 58 22 Q 82 15 88 22" fill="#B8C4A8" />
+                <path d="M 64 2 Q 88 -8 92 0" fill="#B8C4A8" />
               </g>
             </svg>
           </div>
@@ -385,15 +385,15 @@ export default function BookOpeningAnimation() {
             style={{
               width: "480px",
               transform: "rotate(-0.8deg)",
-              filter: "drop-shadow(2px 6px 12px rgba(0,0,0,0.28))",
+              filter: "drop-shadow(2px 6px 12px rgba(58,44,30,0.10))",
             }}
           >
             {/* Torn Paper effect */}
             <div
               className="relative"
               style={{
-                background: "#FAF6ED",
-                border: "0.5px solid rgba(110,90,78,0.2)",
+                background: "#FAF7F2",
+                border: "0.5px solid rgba(110,90,78,0.10)",
                 padding: "8px 16px 10px",
                 clipPath: "polygon(0% 10%, 15% 0%, 35% 8%, 55% 2%, 75% 9%, 100% 0%, 98% 90%, 80% 100%, 50% 92%, 20% 98%, 0% 90%)",
                 display: "flex",
@@ -418,7 +418,7 @@ export default function BookOpeningAnimation() {
                   fontSize: "6.5px",
                   fontWeight: 700,
                   letterSpacing: "0.22em",
-                  color: "#8E7A6C",
+                  color: "#6E5A4E",
                   textTransform: "uppercase",
                 }}
               >
@@ -426,11 +426,11 @@ export default function BookOpeningAnimation() {
               </span>
               {/* Logos list */}
               <div className="flex items-center justify-between w-full px-4 mt-1 opacity-75">
-                <span style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: "bold", color: "#3A2E26" }}>THE HINDU</span>
-                <span style={{ fontFamily: "Arial, sans-serif", fontSize: "11.5px", fontWeight: "black", letterSpacing: "-0.04em", color: "#3A2E26" }}>Forbes</span>
-                <span style={{ fontFamily: "var(--font-sans), sans-serif", fontSize: "9px", fontWeight: 700, color: "#3A2E26" }}>YOURSTORY</span>
-                <span style={{ fontFamily: "serif", fontStyle: "italic", fontSize: "12px", fontWeight: "bold", color: "#3A2E26" }}>FEMINA</span>
-                <span style={{ fontFamily: "var(--font-sans), sans-serif", fontSize: "9px", fontWeight: 800, color: "#3A2E26" }}>INDIA TODAY</span>
+                <span style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: "bold", color: "#3A2C1E" }}>THE HINDU</span>
+                <span style={{ fontFamily: "Arial, sans-serif", fontSize: "11.5px", fontWeight: "black", letterSpacing: "-0.04em", color: "#3A2C1E" }}>Forbes</span>
+                <span style={{ fontFamily: "var(--font-sans), sans-serif", fontSize: "9px", fontWeight: 700, color: "#3A2C1E" }}>YOURSTORY</span>
+                <span style={{ fontFamily: "serif", fontStyle: "italic", fontSize: "12px", fontWeight: "bold", color: "#3A2C1E" }}>FEMINA</span>
+                <span style={{ fontFamily: "var(--font-sans), sans-serif", fontSize: "9px", fontWeight: 800, color: "#3A2C1E" }}>INDIA TODAY</span>
               </div>
             </div>
           </div>
@@ -439,7 +439,7 @@ export default function BookOpeningAnimation() {
           <div
             className="absolute bottom-[-5px] right-[4%] w-24 h-24 z-40 pointer-events-auto"
             style={{
-              filter: "drop-shadow(3px 8px 14px rgba(90,65,40,0.28))",
+              filter: "drop-shadow(3px 8px 14px rgba(58,44,30,0.10))",
             }}
           >
             {/* Ceramic Coffee Cup SVG */}
@@ -448,20 +448,20 @@ export default function BookOpeningAnimation() {
               <path
                 d="M 68 38 C 82 38 88 58 68 58"
                 stroke="#FAF7F2"
-                strokeWidth="5"
+                strokeWidth="4"
                 strokeLinecap="round"
               />
               {/* Cup body */}
               <path
                 d="M 22 25 L 72 25 L 67 65 C 65 78 29 78 27 65 Z"
-                fill="#EAE3D2"
-                stroke="#C6BBA3"
-                strokeWidth="1.5"
+                fill="#F5F0E8"
+                stroke="#DCCBB3"
+                strokeWidth="1"
               />
               {/* Coffee inside */}
-              <ellipse cx="47" cy="27" rx="22" ry="4" fill="#5C4230" />
+              <ellipse cx="47" cy="27" rx="22" ry="4" fill="#C4A882" />
               {/* Latte art or cream swirl */}
-              <path d="M 40 27 Q 45 29 48 26 T 54 28" stroke="#FAF7F2" strokeWidth="0.8" strokeLinecap="round" opacity="0.6" />
+              <path d="M 40 27 Q 45 29 48 26 T 54 28" stroke="#FAF7F2" strokeWidth="0.6" strokeLinecap="round" opacity="0.5" />
             </svg>
           </div>
 
@@ -469,13 +469,13 @@ export default function BookOpeningAnimation() {
           <div
             className="absolute bottom-[-30px] right-[2%] w-32 h-14 rounded-sm z-30"
             style={{
-              background: "linear-gradient(135deg, #7A5C42, #5A3E2B)",
+              background: "linear-gradient(135deg, #C4A882, #B89A70)",
               transform: "rotate(-1deg)",
-              border: "0.5px solid rgba(90,65,40,0.3)",
-              boxShadow: "inset 0 1px 2px rgba(255,240,210,0.12), 2px 4px 12px rgba(90,65,40,0.22)",
+              border: "0.5px solid rgba(58,44,30,0.15)",
+              boxShadow: "inset 0 1px 2px rgba(255,248,240,0.08), 2px 4px 12px rgba(58,44,30,0.08)",
             }}
           >
-            <span className="absolute inset-0 flex items-center justify-center font-sans uppercase text-[6px] tracking-widest text-[#FAF7F2]/50 font-bold">
+            <span className="absolute inset-0 flex items-center justify-center font-sans uppercase text-[6px] tracking-widest text-[#FAF7F2]/70 font-bold">
               Parenting Guide
             </span>
           </div>
@@ -484,13 +484,13 @@ export default function BookOpeningAnimation() {
           <div
             className="absolute bottom-[-25px] left-[1%] w-36 h-12 rounded-sm z-30"
             style={{
-              background: "linear-gradient(135deg, #4A5A40, #384530)",
+              background: "linear-gradient(135deg, #A8B29A, #8FA088)",
               transform: "rotate(1.5deg)",
-              border: "0.5px solid rgba(60,80,50,0.3)",
-              boxShadow: "inset 0 1px 2px rgba(200,220,180,0.10), -2px 4px 12px rgba(60,80,50,0.20)",
+              border: "0.5px solid rgba(58,44,30,0.12)",
+              boxShadow: "inset 0 1px 2px rgba(255,248,240,0.08), -2px 4px 12px rgba(58,44,30,0.08)",
             }}
           >
-            <span className="absolute inset-0 flex items-center justify-center font-sans uppercase text-[6px] tracking-widest text-[#FAF7F2]/45 font-bold">
+            <span className="absolute inset-0 flex items-center justify-center font-sans uppercase text-[6px] tracking-widest text-[#FAF7F2]/70 font-bold">
               Conscious Parenting
             </span>
           </div>

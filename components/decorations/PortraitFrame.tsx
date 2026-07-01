@@ -59,7 +59,7 @@ export default function PortraitFrame({
           borderRadius: isOval ? "50%" : "2px",
           background: "#FAF7EE",
           border: "0.75px solid rgba(110,90,78,0.22)",
-          boxShadow: "2px 5px 15px rgba(0,0,0,0.12), inset 0 1px 2px rgba(255,255,255,0.4)",
+          boxShadow: "2px 5px 15px rgba(58,44,30,0.06), inset 0 1px 2px rgba(255,255,255,0.4)",
         }}
       >
         <PaperTexture variant="parchment" opacity={0.4} />
@@ -73,14 +73,14 @@ export default function PortraitFrame({
           }}
         >
           {/* Portrait Image Layer with sepia & grain filters */}
-          <div className="absolute inset-0 z-2 pointer-events-none" style={{ boxShadow: "inset 0 0 16px rgba(0,0,0,0.18)" }} />
+          <div className="absolute inset-0 z-2 pointer-events-none" style={{ boxShadow: "inset 0 0 16px rgba(58,44,30,0.06)" }} />
           <Image
             src={src}
             alt={alt}
             fill
             className="object-cover"
             style={{
-              filter: "grayscale(100%) sepia(38%) contrast(1.05) brightness(0.96)",
+              filter: "grayscale(60%) sepia(15%) contrast(0.95) brightness(1.04)",
             }}
             priority
           />

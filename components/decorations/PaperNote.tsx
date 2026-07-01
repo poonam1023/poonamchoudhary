@@ -68,7 +68,7 @@ export default function PaperNote({
         border: "0.5px solid rgba(110,90,78,0.18)",
         transform: `rotate(${rotation}deg)`,
         clipPath,
-        boxShadow: shadow ? "2px 5px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05)" : "none",
+        boxShadow: shadow ? "2px 5px 12px rgba(58,44,30,0.04), 0 2px 4px rgba(58,44,30,0.03)" : "none",
         zIndex: 22,
         ...style,
       }}
@@ -88,12 +88,12 @@ export default function PaperNote({
       {pin && !tape && (
         <div
           className="absolute -top-1.5 left-1/2 -translate-x-1/2 z-30 pointer-events-none"
-          style={{ filter: "drop-shadow(1px 2px 2px rgba(0,0,0,0.22))" }}
+          style={{ filter: "drop-shadow(1px 2px 2px rgba(58,44,30,0.10))" }}
         >
           <svg width="12" height="16" viewBox="0 0 12 16" fill="none">
             <circle cx="6" cy="5" r="4" fill="#B38A58" stroke="#7A5A35" strokeWidth="0.6" />
             <circle cx="4.5" cy="3.5" r="1.2" fill="#fff" opacity={0.4} />
-            <line x1="6" y1="9" x2="6.5" y2="16" stroke="rgba(0,0,0,0.45)" strokeWidth="0.8" />
+            <line x1="6" y1="9" x2="6.5" y2="16" stroke="rgba(58,44,30,0.20)" strokeWidth="0.8" />
           </svg>
         </div>
       )}
