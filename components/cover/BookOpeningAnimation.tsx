@@ -55,7 +55,7 @@ export default function BookOpeningAnimation() {
   const isFlipped = bookState === "open" || bookState === "flipping";
 
   return (
-    <div className="relative w-screen h-screen flex items-center justify-center overflow-hidden" style={{ background: "radial-gradient(ellipse 120% 100% at 50% 0%, #F5EFE4 0%, #E8DDD0 40%, #DDD0C0 80%, #D4C5B0 100%)" }}>
+    <div suppressHydrationWarning className="relative w-screen h-screen flex items-center justify-center overflow-hidden" style={{ background: "radial-gradient(ellipse 120% 100% at 50% 0%, #F5EFE4 0%, #E8DDD0 40%, #DDD0C0 80%, #D4C5B0 100%)" }}>
       {/* Warm ambient paper texture overlay */}
       <div
         className="absolute inset-0 pointer-events-none select-none z-0"
