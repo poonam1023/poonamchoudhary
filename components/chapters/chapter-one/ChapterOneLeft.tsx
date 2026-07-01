@@ -1,149 +1,295 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import {
-  WatercolorSplash,
-  BotanicalIllustration,
-  VintageStamp,
-  InkSplash,
-  PressedFlower,
-  MaskingTape,
-  PaperNote,
-} from "@/components/decorations";
+import { BotanicalIllustration } from "@/components/decorations";
 
+
+/**
+ * ChapterOneLeft — The Storytelling Page
+ *
+ * Implements the left page of the book spread matching the reference image.
+ * Features:
+ *   - Brand identity (emblem logo + "Poonam Choudhary")
+ *   - Top label "PARENTING ISN'T PERFECT."
+ *   - Massive editorial headline "But presence changes everything."
+ *   - Supporting paragraph
+ *   - Solid olive button CTA & play link CTA
+ *   - Left margin botanical branches
+ *   - Spine crease scroll hint
+ */
 export default function ChapterOneLeft() {
   return (
-    <div className="absolute inset-0 overflow-hidden select-none">
-      {/* ── 1. BACKGROUND LAYER (WATERCOLOR & INK) ── */}
-      <WatercolorSplash
-        variant="sage"
-        opacity={0.16}
-        position={{ top: "8%", left: "-10%" }}
-        width={380}
-        height={320}
-      />
-      <WatercolorSplash
-        variant="cream"
-        opacity={0.15}
-        position={{ bottom: "15%", right: "-8%" }}
-        width={300}
-        height={260}
-      />
+    <div className="absolute inset-0 overflow-hidden select-text" style={{ background: "transparent" }}>
       
-      {/* ── 2. HERO PORTRAIT COMPOSITION (DOMINATES LEFT PAGE) ── */}
-      {/* Scale is dramatically larger to dominate the page canvas */}
-      <div 
-        className="absolute top-[10%] left-[14%] w-[72%] h-[72%] z-10"
+      {/* ── BACKGROUND WASHS ── */}
+      <div
+        className="absolute pointer-events-none select-none"
         style={{
-          transform: "rotate(-1.5deg)",
-          filter: "drop-shadow(12px 24px 42px rgba(26, 20, 18, 0.22)) drop-shadow(0 4px 12px rgba(26, 20, 18, 0.12))"
+          top: "-5%",
+          left: "-10%",
+          width: "70%",
+          height: "60%",
+          background: "radial-gradient(circle, rgba(245,235,215,0.25) 0%, transparent 70%)",
+          filter: "blur(20px)",
+          zIndex: 0,
         }}
+      />
+
+      {/* ── Left margin branch framing ── */}
+      <BotanicalIllustration
+        variant="fern"
+        scale={1.2}
+        opacity={0.15}
+        position={{ top: "18%", left: "-4%" }}
+        rotation={-15}
+        animation={true}
+        className="pointer-events-none"
+        style={{ zIndex: 1 }}
+      />
+
+      {/* ── 1. BRAND IDENTITY ── */}
+      <div
+        className="absolute flex items-center gap-3 select-none pointer-events-none"
+        style={{ top: "8%", left: "10%", zIndex: 10 }}
       >
-        {/* Matte Paper Backing & Frame */}
-        <div className="relative w-full h-full p-4 bg-[#FAF7EE] border border-[#6E5A4E]/22 flex flex-col justify-between">
-          <div className="w-full h-full border border-[#6E5A4E]/12 p-1.5 flex flex-col justify-between relative bg-[#FAF7EE]">
-            <div className="relative w-full h-full overflow-hidden">
-              <div className="absolute inset-0 z-10 pointer-events-none" style={{ boxShadow: "inset 0 0 24px rgba(0,0,0,0.2)" }} />
-              <Image
-                src="/author-portrait.png"
-                alt="Poonam Choudhary"
-                fill
-                className="object-cover object-top"
-                style={{
-                  filter: "grayscale(100%) sepia(35%) contrast(1.06) brightness(0.96)",
-                }}
-                priority
-              />
-            </div>
-          </div>
+        {/* Circle Emblem with leaf */}
+        <div
+          className="rounded-full flex items-center justify-center border border-[#8E7A6C]/30 bg-[#FAF7F2]"
+          style={{ width: "38px", height: "38px", boxShadow: "inset 0 1px 2px rgba(0,0,0,0.04)" }}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6E7A66" strokeWidth="1.2">
+            <path d="M12 2c5.5 0 10 4.5 10 10S17.5 22 12 2 2 6.5 2 12s4.5 10 10 10z" strokeDasharray="1 1" opacity="0.4" />
+            <path d="M12 22C12 17 8 13 8 8c0-3 2-5 4-5s4 2 4 5c0 5-4 9-4 14z" />
+            <path d="M12 8c-1.5 2-2 4-2 6" strokeDasharray="1 1" />
+            <path d="M12 11c1.5 1.5 2 3.5 2 5.5" strokeDasharray="1 1" />
+          </svg>
         </div>
 
-        {/* Washi tape securing the portrait top center */}
-        <MaskingTape
-          variant="washi-sage"
-          rotation={3}
-          width={90}
-          height={18}
-          style={{ top: "-10px", left: "50%", transform: "translateX(-50%) rotate(3deg)", zIndex: 25 }}
-        />
+        {/* Brand text */}
+        <div className="flex flex-col">
+          <h1
+            style={{
+              fontFamily: "var(--font-cormorant), serif",
+              fontSize: "19px",
+              fontWeight: 700,
+              lineHeight: 1.1,
+              color: "#3A2E26",
+            }}
+          >
+            Poonam Choudhary
+          </h1>
+          <span
+            style={{
+              fontFamily: "var(--font-sans), sans-serif",
+              fontSize: "7px",
+              fontWeight: 600,
+              letterSpacing: "0.14em",
+              color: "#8E7A6C",
+              textTransform: "uppercase",
+              marginTop: "2px",
+            }}
+          >
+            Author • Speaker • Parenting Guide
+          </span>
+        </div>
       </div>
 
-      {/* ── 3. OVERLAPPING BOTANICAL & FLORAL COMPOSITION ── */}
-      {/* Botanical leaves belong to the portrait frame and overlap it */}
-      <BotanicalIllustration
-        variant="olive"
-        scale={1.3}
-        opacity={0.4}
-        position={{ bottom: "6%", left: "6%" }}
-        rotation={32}
-        animation={true}
-        className="z-20 pointer-events-none"
-      />
-      <BotanicalIllustration
-        variant="branch"
-        scale={1.0}
-        opacity={0.3}
-        position={{ top: "4%", right: "8%" }}
-        rotation={-18}
-        animation={true}
-        className="z-20 pointer-events-none"
-      />
-      <PressedFlower
-        variant="pansy"
-        scale={1.15}
-        rotation={14}
-        opacity={0.7}
-        position={{ bottom: "12%", right: "8%" }}
-        className="z-20"
-      />
-
-      {/* ── 4. TACTILE OVERLAPPING CARDS (MUSEUM TYPE CAPTION) ── */}
-      <div 
-        className="absolute bottom-[4%] left-[10%] z-20 bg-[#FAF7EE] border border-[#6E5A4E]/20 p-3 w-[210px]"
-        style={{ 
-          clipPath: "polygon(1% 0%, 99% 1.5%, 98% 97%, 1% 99%)",
-          boxShadow: "2px 6px 16px rgba(0,0,0,0.06)"
-        }}
+      {/* ── 2. TOP SUB-LABEL ── */}
+      <div
+        className="absolute pointer-events-none select-none"
+        style={{ top: "25%", left: "10%", zIndex: 10 }}
       >
-        <span className="font-sans uppercase text-[6px] tracking-widest text-[#6E5A4E]/45 font-bold block mb-1">Plate I.</span>
-        <h4 className="font-display font-bold text-[13px] text-[#3A2C1E] leading-tight">
-          Poonam Choudhary
-        </h4>
-        <span className="font-sans uppercase text-[6.5px] tracking-wider text-[#6E5A4E]/60 block mt-0.5">
-          Author · Speaker · Parenting Guide
+        <span
+          style={{
+            fontFamily: "var(--font-sans), sans-serif",
+            fontSize: "8.5px",
+            fontWeight: 600,
+            letterSpacing: "0.18em",
+            color: "#8E7A6C",
+            textTransform: "uppercase",
+          }}
+        >
+          Parenting isn't perfect.
         </span>
       </div>
 
-      <PaperNote
-        text='"Every child deserves a story worth growing inside."'
-        paperColor="rose"
-        rotation={3.5}
-        width={160}
-        position={{ bottom: "8%", right: "10%" }}
-        tape={true}
-        className="z-20"
-      />
+      {/* ── 3. MASSIVE EDITORIAL HEADLINE ── */}
+      <div
+        className="absolute select-none pointer-events-none flex flex-col"
+        style={{ top: "29%", left: "10%", right: "8%", zIndex: 10 }}
+      >
+        <h2
+          style={{
+            fontFamily: "var(--font-cormorant), serif",
+            fontSize: "clamp(34px, 5.8vh, 52px)",
+            fontWeight: 500,
+            lineHeight: 1.12,
+            letterSpacing: "-0.02em",
+            color: "#2C221A",
+          }}
+        >
+          But presence
+          <br />
+          changes{" "}
+          <span
+            style={{
+              fontFamily: "Georgia, serif", // Fallback for script/handwriting style
+              fontStyle: "italic",
+              fontWeight: 400,
+              color: "#A47E53", // Warm golden-brown
+            }}
+          >
+            everything.
+          </span>
+        </h2>
 
-      {/* ── 5. STAMPS & INK DETAILS ── */}
-      <VintageStamp
-        text="ARCHIVAL PRINT"
-        scale={0.9}
-        rotation={-15}
-        position={{ top: "6%", left: "8%" }}
-        className="z-20"
-      />
-      <InkSplash
-        variant="droplet"
-        scale={0.8}
-        opacity={0.15}
-        position={{ top: "45%", right: "8%" }}
-        className="z-20"
-      />
+        {/* Small Decorative leaf divider below headline */}
+        <div className="flex items-center gap-2 mt-4 select-none pointer-events-none opacity-40">
+          <div style={{ width: "30px", height: "0.5px", background: "#8E7A6C" }} />
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8E7A6C" strokeWidth="1.5">
+            <path d="M12 2C12 10 6 14 6 18c0 2 2 3 6 3s6-1 6-3c0-4-6-8-6-16z" />
+          </svg>
+          <div style={{ width: "30px", height: "0.5px", background: "#8E7A6C" }} />
+        </div>
+      </div>
 
-      {/* ── 6. PAGE NUMBER ── */}
-      <div className="absolute bottom-[3%] left-1/2 -translate-x-1/2 select-none pointer-events-none z-20">
-        <span className="font-display tracking-[0.3em] text-[#6E5A4E] text-[8px] opacity-25">
+      {/* ── 4. SUPPORTING PARAGRAPH ── */}
+      <div
+        className="absolute"
+        style={{
+          top: "60%",
+          left: "10%",
+          right: "12%",
+          zIndex: 10,
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "var(--font-cormorant), serif",
+            fontSize: "clamp(11.5px, 1.9vh, 14.5px)",
+            lineHeight: 1.76,
+            color: "#5C4D44",
+            textAlign: "left",
+          }}
+        >
+          I help parents build stronger relationships with their children through understanding,
+          empathy and everyday moments that matter.
+        </p>
+      </div>
+
+      {/* ── 5. CALL TO ACTION BUTTONS ── */}
+      <div
+        className="absolute flex items-center gap-6"
+        style={{
+          top: "76%",
+          left: "10%",
+          zIndex: 20,
+        }}
+      >
+        {/* Solid Olive Button */}
+        <button
+          className="flex items-center gap-2 px-5 py-2.5 rounded-sm transition-all duration-300 pointer-events-auto"
+          style={{
+            backgroundColor: "#6E7A66", // Olive green
+            color: "#FAF7F2",
+            fontFamily: "var(--font-sans), sans-serif",
+            fontSize: "8.5px",
+            fontWeight: 700,
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            border: "none",
+            cursor: "pointer",
+            boxShadow: "0 4px 10px rgba(110,122,102,0.22)",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "#5A6653";
+            e.currentTarget.style.transform = "translateY(-1px)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "#6E7A66";
+            e.currentTarget.style.transform = "translateY(0)";
+          }}
+        >
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+          </svg>
+          Explore My Book
+          <span className="ml-1">→</span>
+        </button>
+
+        {/* Outline Play Button */}
+        <button
+          className="flex items-center gap-2 py-2.5 transition-all duration-300 pointer-events-auto"
+          style={{
+            backgroundColor: "transparent",
+            color: "#5C4D44",
+            fontFamily: "var(--font-sans), sans-serif",
+            fontSize: "8.5px",
+            fontWeight: 700,
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            border: "none",
+            cursor: "pointer",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = "#2C221A";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = "#5C4D44";
+          }}
+        >
+          {/* Play Icon Outline */}
+          <div
+            className="flex items-center justify-center rounded-full border border-[#5C4D44]/35"
+            style={{ width: "20px", height: "20px" }}
+          >
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: "1px" }}>
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+          </div>
+          Watch My Story
+        </button>
+      </div>
+
+      {/* ── 6. SPINE CREASE SCROLL HINT ── */}
+      <div
+        className="absolute flex flex-col items-center gap-1.5 select-none pointer-events-none opacity-45"
+        style={{ bottom: "6%", right: "8%", zIndex: 10 }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-sans), sans-serif",
+            fontSize: "6.5px",
+            fontWeight: 700,
+            letterSpacing: "0.22em",
+            color: "#6E5A4E",
+            writingMode: "vertical-rl",
+            textTransform: "uppercase",
+          }}
+        >
+          Scroll
+        </span>
+        <svg width="8" height="12" viewBox="0 0 24 24" fill="none" stroke="#6E5A4E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <polyline points="19 12 12 19 5 12" />
+        </svg>
+      </div>
+
+      {/* Page number */}
+      <div
+        className="absolute select-none pointer-events-none"
+        style={{ bottom: "3%", left: "50%", transform: "translateX(-50%)", zIndex: 10 }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-cormorant), serif",
+            fontSize: "8px",
+            letterSpacing: "0.3em",
+            color: "#6E5A4E",
+            opacity: 0.22,
+          }}
+        >
           i
         </span>
       </div>

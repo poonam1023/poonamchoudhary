@@ -15,6 +15,7 @@ interface PortraitFrameProps {
   variant?: "oval" | "rectangular";
   watercolorVariant?: "sage" | "rose" | "lavender" | "terracotta" | "cream";
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export default function PortraitFrame({
@@ -27,6 +28,7 @@ export default function PortraitFrame({
   variant = "oval",
   watercolorVariant = "sage",
   className = "",
+  style = {},
 }: PortraitFrameProps) {
   const isOval = variant === "oval";
 
@@ -38,6 +40,7 @@ export default function PortraitFrame({
         height,
         opacity,
         transform: `rotate(${rotation}deg)`,
+        ...style,
       }}
     >
       {/* ── 1. WATERCOLOR BACKGROUND BLEED ── */}

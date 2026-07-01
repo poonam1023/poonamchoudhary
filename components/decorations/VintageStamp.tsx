@@ -9,6 +9,7 @@ interface VintageStampProps {
   scale?: number;
   opacity?: number;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export default function VintageStamp({
@@ -18,6 +19,7 @@ export default function VintageStamp({
   scale = 1,
   opacity = 0.28,
   className = "",
+  style = {},
 }: VintageStampProps) {
   return (
     <div
@@ -27,6 +29,7 @@ export default function VintageStamp({
         transform: `rotate(${rotation}deg) scale(${scale})`,
         opacity,
         zIndex: 2,
+        ...style,
       }}
     >
       {/* Box borders with ink distressing */}

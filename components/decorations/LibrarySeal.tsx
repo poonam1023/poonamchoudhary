@@ -11,6 +11,7 @@ interface LibrarySealProps {
   text1?: string;
   text2?: string;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export default function LibrarySeal({
@@ -22,6 +23,7 @@ export default function LibrarySeal({
   text1 = "PROJECT POONAM",
   text2 = "LITERARY JOURNAL",
   className = "",
+  style = {},
 }: LibrarySealProps) {
   return (
     <div
@@ -33,6 +35,7 @@ export default function LibrarySeal({
         transform: `rotate(${rotation}deg)`,
         opacity,
         zIndex: 22,
+        ...style,
       }}
     >
       {variant === "ink" ? (

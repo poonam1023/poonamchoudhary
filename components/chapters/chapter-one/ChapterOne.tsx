@@ -62,9 +62,17 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
     if (isFlipping && pendingPage !== null) {
       const timer = setTimeout(() => {
         setCurrentPage(pendingPage);
-        setPendingPage(null);
       }, 450); // 450ms represents the peak transition point of a 900ms flip
-      return () => clearTimeout(timer);
+
+      const doneTimer = setTimeout(() => {
+        setIsFlipping(false);
+        setPendingPage(null);
+      }, 900); // 900ms represents the full duration of the flip
+
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(doneTimer);
+      };
     }
   }, [isFlipping, pendingPage]);
 

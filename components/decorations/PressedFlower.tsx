@@ -11,6 +11,7 @@ interface PressedFlowerProps {
   variant?: "pansy" | "fern-leaf" | "wildflower";
   animation?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export default function PressedFlower({
@@ -21,6 +22,7 @@ export default function PressedFlower({
   variant = "wildflower",
   animation = false,
   className = "",
+  style = {},
 }: PressedFlowerProps) {
   // Delicate breathing float for organic feel
   const animateConfig = animation
@@ -126,6 +128,7 @@ export default function PressedFlower({
         opacity,
         zIndex: 21,
         filter: "drop-shadow(1px 2px 2px rgba(110,90,78,0.12))",
+        ...style,
       }}
       {...animateConfig}
     >

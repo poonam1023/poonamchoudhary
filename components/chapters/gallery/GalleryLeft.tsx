@@ -10,73 +10,109 @@ import {
   PressedFlower,
 } from "@/components/decorations";
 
+/**
+ * GalleryLeft — Voices of the Community Canvas
+ *
+ * Replaces the webpage-like flexbox container with a handcrafted editorial spread canvas.
+ * Elements are placed with precise absolute values.
+ */
 export default function GalleryLeft() {
   return (
-    <div className="relative w-full h-full overflow-hidden p-8 flex flex-col justify-between">
+    <div className="absolute inset-0 overflow-hidden" style={{ background: "transparent" }}>
       {/* ── 1. BACKGROUND WATERCOLOR WASHS ── */}
       <WatercolorSplash
         variant="rose"
-        opacity={0.08}
-        position={{ top: "10%", left: "10%" }}
+        opacity={0.12}
+        position={{ top: "12%", left: "10%" }}
         width={230}
         height={180}
       />
       <WatercolorSplash
         variant="lavender"
-        opacity={0.10}
-        position={{ bottom: "10%", right: "15%" }}
+        opacity={0.14}
+        position={{ bottom: "12%", right: "15%" }}
         width={180}
         height={140}
       />
 
       {/* ── 2. EDITORIAL TOP HEADER ── */}
-      <div className="relative z-10 flex flex-col items-center mt-6">
+      <div
+        className="absolute flex flex-col items-center pointer-events-none select-none"
+        style={{ top: "10%", left: "10%", right: "10%", zIndex: 10 }}
+      >
         <EditorialLabel text="Scrapbook Notes" />
-        <h3 className="font-display text-[15px] font-bold text-[#3A2C1E] mt-2 tracking-wide text-center">
+        <h3
+          style={{
+            fontFamily: "var(--font-cormorant), serif",
+            fontSize: "clamp(16px, 2.8vh, 24px)",
+            fontWeight: 700,
+            color: "#2A1E16",
+            letterSpacing: "0.02em",
+            textAlign: "center",
+            marginTop: "10px",
+          }}
+        >
           Voices of the Community
         </h3>
-        <DecorativeDivider variant="fleuron" opacity={0.3} className="my-2 w-16" />
+        <DecorativeDivider variant="fleuron" opacity={0.25} className="my-2 w-16" />
       </div>
 
       {/* ── 3. SCRAPBOOK COLLAGE (OVERLAPPING PORTRAIT AND CARD) ── */}
-      <div className="relative flex-1 w-full my-4 flex items-center justify-center z-10">
-        {/* Underlay portrait frame */}
-        <div className="absolute top-[8%] left-[8%]">
-          <PortraitFrame
-            src="/author-portrait.png"
-            alt="Poonam Choudhary"
-            width={120}
-            height={150}
-            variant="oval"
-            watercolorVariant="sage"
-            rotation={-3}
-          />
-        </div>
-
-        {/* Overlay quote card */}
-        <QuoteCard
-          quote="Poonam's guides have brought a sense of peace and wonder into our daily routines. Her visual stories are magical."
-          author="A Grateful Parent"
-          variant="rose"
-          rotation={4}
-          scale={0.9}
-          width={180}
-          style={{ position: "absolute", bottom: "12%", right: "10%", zIndex: 12 }}
-        />
-
-        {/* Pressed Pansy overlapping the quote card */}
-        <PressedFlower
-          variant="pansy"
-          scale={0.8}
-          rotation={10}
-          opacity={0.65}
-          position={{ bottom: "8%", right: "6%" }}
+      {/* Underlay portrait frame */}
+      <div
+        className="absolute"
+        style={{
+          top: "32%",
+          left: "10%",
+          zIndex: 15,
+        }}
+      >
+        <PortraitFrame
+          src="/author-portrait.png"
+          alt="Poonam Choudhary"
+          width={130}
+          height={160}
+          variant="oval"
+          watercolorVariant="sage"
+          rotation={-3.5}
         />
       </div>
 
+      {/* Overlay quote card */}
+      <QuoteCard
+        quote="Poonam's guides have brought a sense of peace and wonder into our daily routines. Her visual stories are magical."
+        author="A Grateful Parent"
+        variant="rose"
+        rotation={3.5}
+        scale={0.9}
+        width={190}
+        style={{ position: "absolute", bottom: "16%", right: "10%", zIndex: 20 }}
+      />
+
+      {/* Pressed Pansy overlapping the quote card */}
+      <PressedFlower
+        variant="pansy"
+        scale={0.8}
+        rotation={10}
+        opacity={0.7}
+        position={{ bottom: "12%", right: "6%" }}
+        style={{ zIndex: 22 }}
+      />
+
       {/* ── 4. PAGE NUMBER ── */}
-      <div className="relative z-10 flex justify-center pb-2">
-        <span className="font-display tracking-[0.3em] text-[#6E5A4E] text-[8px] opacity-25 select-none">
+      <div
+        className="absolute pointer-events-none select-none"
+        style={{ bottom: "3%", left: "50%", transform: "translateX(-50%)", zIndex: 10 }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-cormorant), serif",
+            fontSize: "8px",
+            letterSpacing: "0.3em",
+            color: "#6E5A4E",
+            opacity: 0.22,
+          }}
+        >
           iv
         </span>
       </div>

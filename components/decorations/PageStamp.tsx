@@ -10,6 +10,7 @@ interface PageStampProps {
   opacity?: number;
   variant?: "botanical" | "portrait" | "crest";
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export default function PageStamp({
@@ -19,6 +20,7 @@ export default function PageStamp({
   opacity = 0.8,
   variant = "botanical",
   className = "",
+  style = {},
 }: PageStampProps) {
   // SVG pattern for perforated stamp edges
   const stampWidth = 60 * scale;
@@ -40,6 +42,7 @@ export default function PageStamp({
         border: "4px solid #FAF7EE",
         boxSizing: "content-box",
         clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", // fallback
+        ...style,
       }}
     >
       {/* We can use CSS masks for stamp edge simulation */}

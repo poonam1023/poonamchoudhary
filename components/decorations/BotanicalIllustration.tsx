@@ -11,6 +11,7 @@ interface BotanicalIllustrationProps {
   variant?: "fern" | "olive" | "lavender" | "branch";
   animation?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export default function BotanicalIllustration({
@@ -21,6 +22,7 @@ export default function BotanicalIllustration({
   variant = "olive",
   animation = false,
   className = "",
+  style = {},
 }: BotanicalIllustrationProps) {
   // Gentle wind sway animation
   const animateConfig = animation
@@ -176,6 +178,7 @@ export default function BotanicalIllustration({
         height: 240 * scale,
         opacity,
         zIndex: 1,
+        ...style,
       }}
       {...animateConfig}
     >

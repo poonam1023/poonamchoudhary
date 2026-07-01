@@ -55,7 +55,24 @@ export default function BookOpeningAnimation() {
   const isFlipped = bookState === "open" || bookState === "flipping";
 
   return (
-    <div className="relative w-screen h-screen flex items-center justify-center bg-[#110D0C] overflow-hidden">
+    <div className="relative w-screen h-screen flex items-center justify-center overflow-hidden" style={{ background: "radial-gradient(ellipse 120% 100% at 50% 0%, #F5EFE4 0%, #E8DDD0 40%, #DDD0C0 80%, #D4C5B0 100%)" }}>
+      {/* Warm ambient paper texture overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none select-none z-0"
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(45deg, rgba(160,140,115,0.022) 0px, rgba(160,140,115,0.022) 1px, transparent 1px, transparent 6px),
+            repeating-linear-gradient(-45deg, rgba(160,140,115,0.018) 0px, rgba(160,140,115,0.018) 1px, transparent 1px, transparent 6px)
+          `,
+        }}
+      />
+      {/* Top ambient light cast (warm directional light from top-left) */}
+      <div
+        className="absolute inset-0 pointer-events-none select-none z-0"
+        style={{
+          background: "radial-gradient(ellipse 80% 60% at 20% 5%, rgba(255,242,215,0.30) 0%, transparent 65%)",
+        }}
+      />
       {/* Pressed Leaf SVG lying on the dark desk to the left of the book */}
       <svg 
         className="hidden md:block absolute left-[14%] bottom-[12%] w-28 h-28 text-accent-sage/12 select-none pointer-events-none rotate-[-45deg] filter desaturate-[50%] blur-[0.3px] z-0" 
@@ -312,6 +329,173 @@ export default function BookOpeningAnimation() {
           )}
         </motion.div>
       </motion.div>
+
+      {/* ── DESK FOOTER STORYTELLING SECTION (visible when book is open on desktop) ── */}
+      {isOpened && !isMobile && (
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[18vh] z-30 pointer-events-none select-none overflow-visible flex items-end justify-center"
+          style={{
+            background: "linear-gradient(to top, rgba(196,176,148,0.55) 0%, rgba(220,205,180,0) 100%)",
+          }}
+        >
+          {/* Vase with leaves on the left, sitting on the desk */}
+          <div
+            className="absolute bottom-[-10px] left-[4%] w-32 h-56 z-40 pointer-events-auto"
+            style={{
+              filter: "drop-shadow(4px 12px 20px rgba(90,65,40,0.30))",
+            }}
+          >
+            {/* Simple elegant SVG Vase */}
+            <svg viewBox="0 0 100 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+              {/* Vase body */}
+              <path
+                d="M 50 190 Q 25 185 22 140 Q 20 100 35 85 Q 40 80 40 70 L 40 50 L 60 50 L 60 70 Q 60 80 65 85 Q 80 100 78 140 Q 75 185 50 190 Z"
+                fill="#EADFC9"
+                stroke="#6E5A4E"
+                strokeWidth="0.5"
+              />
+              {/* Vase highlight */}
+              <path
+                d="M 32 120 Q 30 145 42 170"
+                stroke="#FFF"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                opacity="0.35"
+              />
+              {/* Plant branches growing out of the vase */}
+              <g stroke="#6E7A66" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none">
+                {/* Branch 1 */}
+                <path d="M 50 50 Q 42 20 28 -20" />
+                <path d="M 45 35 Q 22 28 15 32" fill="#798A72" />
+                <path d="M 40 18 Q 20 5 12 12" fill="#798A72" />
+                <path d="M 35 0 Q 15 -15 8 -5" fill="#798A72" />
+
+                {/* Branch 2 */}
+                <path d="M 50 50 Q 58 10 74 -30" />
+                <path d="M 54 38 Q 78 35 85 40" fill="#798A72" />
+                <path d="M 58 22 Q 82 15 88 22" fill="#798A72" />
+                <path d="M 64 2 Q 88 -8 92 0" fill="#798A72" />
+              </g>
+            </svg>
+          </div>
+
+          {/* Torn Paper "AS FEATURED IN" strip in the center */}
+          <div
+            className="absolute bottom-[2%] mx-auto z-45 pointer-events-auto"
+            style={{
+              width: "480px",
+              transform: "rotate(-0.8deg)",
+              filter: "drop-shadow(2px 6px 12px rgba(0,0,0,0.28))",
+            }}
+          >
+            {/* Torn Paper effect */}
+            <div
+              className="relative"
+              style={{
+                background: "#FAF6ED",
+                border: "0.5px solid rgba(110,90,78,0.2)",
+                padding: "8px 16px 10px",
+                clipPath: "polygon(0% 10%, 15% 0%, 35% 8%, 55% 2%, 75% 9%, 100% 0%, 98% 90%, 80% 100%, 50% 92%, 20% 98%, 0% 90%)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "4px",
+              }}
+            >
+              {/* Paper Texture overlay */}
+              <div
+                className="absolute inset-0 opacity-[0.1] pointer-events-none"
+                style={{
+                  backgroundImage: `
+                    repeating-linear-gradient(45deg, #fff, #fff 1px, transparent 1px, transparent 4px),
+                    repeating-linear-gradient(-45deg, #000, #000 1px, transparent 1px, transparent 4px)
+                  `,
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: "var(--font-sans), sans-serif",
+                  fontSize: "6.5px",
+                  fontWeight: 700,
+                  letterSpacing: "0.22em",
+                  color: "#8E7A6C",
+                  textTransform: "uppercase",
+                }}
+              >
+                As Featured In
+              </span>
+              {/* Logos list */}
+              <div className="flex items-center justify-between w-full px-4 mt-1 opacity-75">
+                <span style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: "bold", color: "#3A2E26" }}>THE HINDU</span>
+                <span style={{ fontFamily: "Arial, sans-serif", fontSize: "11.5px", fontWeight: "black", letterSpacing: "-0.04em", color: "#3A2E26" }}>Forbes</span>
+                <span style={{ fontFamily: "var(--font-sans), sans-serif", fontSize: "9px", fontWeight: 700, color: "#3A2E26" }}>YOURSTORY</span>
+                <span style={{ fontFamily: "serif", fontStyle: "italic", fontSize: "12px", fontWeight: "bold", color: "#3A2E26" }}>FEMINA</span>
+                <span style={{ fontFamily: "var(--font-sans), sans-serif", fontSize: "9px", fontWeight: 800, color: "#3A2E26" }}>INDIA TODAY</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Coffee cup on the right */}
+          <div
+            className="absolute bottom-[-5px] right-[4%] w-24 h-24 z-40 pointer-events-auto"
+            style={{
+              filter: "drop-shadow(3px 8px 14px rgba(90,65,40,0.28))",
+            }}
+          >
+            {/* Ceramic Coffee Cup SVG */}
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+              {/* Cup handle */}
+              <path
+                d="M 68 38 C 82 38 88 58 68 58"
+                stroke="#FAF7F2"
+                strokeWidth="5"
+                strokeLinecap="round"
+              />
+              {/* Cup body */}
+              <path
+                d="M 22 25 L 72 25 L 67 65 C 65 78 29 78 27 65 Z"
+                fill="#EAE3D2"
+                stroke="#C6BBA3"
+                strokeWidth="1.5"
+              />
+              {/* Coffee inside */}
+              <ellipse cx="47" cy="27" rx="22" ry="4" fill="#5C4230" />
+              {/* Latte art or cream swirl */}
+              <path d="M 40 27 Q 45 29 48 26 T 54 28" stroke="#FAF7F2" strokeWidth="0.8" strokeLinecap="round" opacity="0.6" />
+            </svg>
+          </div>
+
+          {/* Stacks of books under the coffee cup */}
+          <div
+            className="absolute bottom-[-30px] right-[2%] w-32 h-14 rounded-sm z-30"
+            style={{
+              background: "linear-gradient(135deg, #7A5C42, #5A3E2B)",
+              transform: "rotate(-1deg)",
+              border: "0.5px solid rgba(90,65,40,0.3)",
+              boxShadow: "inset 0 1px 2px rgba(255,240,210,0.12), 2px 4px 12px rgba(90,65,40,0.22)",
+            }}
+          >
+            <span className="absolute inset-0 flex items-center justify-center font-sans uppercase text-[6px] tracking-widest text-[#FAF7F2]/50 font-bold">
+              Parenting Guide
+            </span>
+          </div>
+
+          {/* Book Stack on the left side under the vase */}
+          <div
+            className="absolute bottom-[-25px] left-[1%] w-36 h-12 rounded-sm z-30"
+            style={{
+              background: "linear-gradient(135deg, #4A5A40, #384530)",
+              transform: "rotate(1.5deg)",
+              border: "0.5px solid rgba(60,80,50,0.3)",
+              boxShadow: "inset 0 1px 2px rgba(200,220,180,0.10), -2px 4px 12px rgba(60,80,50,0.20)",
+            }}
+          >
+            <span className="absolute inset-0 flex items-center justify-center font-sans uppercase text-[6px] tracking-widest text-[#FAF7F2]/45 font-bold">
+              Conscious Parenting
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

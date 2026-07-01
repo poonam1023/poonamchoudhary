@@ -9,6 +9,7 @@ interface PaperClipProps {
   opacity?: number;
   variant?: "silver" | "bronze";
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export default function PaperClip({
@@ -18,6 +19,7 @@ export default function PaperClip({
   opacity = 0.9,
   variant = "bronze",
   className = "",
+  style = {},
 }: PaperClipProps) {
   const getColors = () => {
     switch (variant) {
@@ -50,6 +52,7 @@ export default function PaperClip({
         opacity,
         zIndex: 26,
         filter: "drop-shadow(1px 2px 2px rgba(0,0,0,0.22))",
+        ...style,
       }}
     >
       <svg viewBox="0 0 20 50" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">

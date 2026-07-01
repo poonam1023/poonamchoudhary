@@ -7,34 +7,89 @@ import {
   EditorialLabel,
   DecorativeDivider,
   HandwrittenNote,
+  BotanicalIllustration,
 } from "@/components/decorations";
 
+/**
+ * ChapterTwoLeft — Creative Core Canvas
+ *
+ * Replaces the webpage-like flexbox container with a handcrafted editorial spread canvas.
+ * Elements are placed with precise absolute values.
+ */
 export default function ChapterTwoLeft() {
   return (
-    <div className="relative w-full h-full overflow-hidden p-8 flex flex-col justify-between">
-      {/* ── 1. VINTAGE BORDER & WATERCOLOR WASHS ── */}
-      <VintageBorder opacity={0.18} color="#5A4C40" />
+    <div className="absolute inset-0 overflow-hidden" style={{ background: "transparent" }}>
+      {/* ── 1. VINTAGE FRAME & WASHS ── */}
+      <VintageBorder opacity={0.16} color="#5A4C40" />
       <WatercolorSplash
         variant="sage"
-        opacity={0.14}
-        position={{ top: "15%", left: "10%" }}
+        opacity={0.15}
+        position={{ top: "18%", left: "8%" }}
         width={220}
         height={180}
       />
 
+      {/* Decorative leaf decoration framing the top left */}
+      <BotanicalIllustration
+        variant="olive"
+        scale={0.8}
+        opacity={0.18}
+        position={{ top: "4%", left: "4%" }}
+        rotation={-30}
+      />
+
       {/* ── 2. EDITORIAL TOP HEADER ── */}
-      <div className="relative z-10 flex flex-col items-center mt-6">
+      <div
+        className="absolute flex flex-col items-center pointer-events-none select-none"
+        style={{ top: "10%", left: "10%", right: "10%", zIndex: 10 }}
+      >
         <EditorialLabel text="Creative Core" />
-        <h3 className="font-display text-[15px] font-bold text-[#3A2C1E] mt-2 tracking-wide text-center">
+        <h3
+          style={{
+            fontFamily: "var(--font-cormorant), serif",
+            fontSize: "clamp(16px, 2.8vh, 24px)",
+            fontWeight: 700,
+            color: "#2A1E16",
+            letterSpacing: "0.02em",
+            textAlign: "center",
+            marginTop: "10px",
+          }}
+        >
           The Craft of Living Stories
         </h3>
-        <DecorativeDivider variant="fleuron" opacity={0.3} className="my-2 w-16" />
+        <DecorativeDivider variant="fleuron" opacity={0.25} className="my-2 w-16" />
       </div>
 
       {/* ── 3. CORE ESSAY BODY ── */}
-      <div className="relative z-10 px-8 flex-1 flex flex-col justify-center my-4">
-        <p className="font-display text-[#4A3728] text-[11px] leading-[1.8] text-justify hyphens-auto">
-          <span className="font-display float-left text-[38px] font-bold text-[#8EA98C] leading-[0.8] mr-1.5 mt-1 select-none">
+      <div
+        className="absolute select-text"
+        style={{
+          top: "34%",
+          left: "12%",
+          right: "12%",
+          zIndex: 10,
+        }}
+      >
+        {/* Top rule */}
+        <div
+          style={{
+            width: "24px",
+            height: "0.5px",
+            background: "rgba(110,90,78,0.22)",
+            marginBottom: "12px",
+          }}
+        />
+        <p
+          style={{
+            fontFamily: "var(--font-cormorant), serif",
+            fontSize: "clamp(10px, 1.65vh, 12.5px)",
+            lineHeight: 1.88,
+            color: "#4A3728",
+            textAlign: "justify",
+            hyphens: "auto",
+          }}
+        >
+          <span className="drop-cap-letter" style={{ color: "#9EA88A" }}>
             T
           </span>
           o design is to listen. Whether laying out a page of typography or guiding
@@ -49,14 +104,25 @@ export default function ChapterTwoLeft() {
       {/* ── 4. TACTILE LAYERED HANDWRITTEN SCRAP ── */}
       <HandwrittenNote
         text="A line of code, like a boundary for a child, is an act of deep care."
-        rotation={-2}
-        width={140}
-        position={{ bottom: "12%", left: "12%" }}
+        rotation={-3.5}
+        width={142}
+        position={{ bottom: "11%", left: "14%" }}
       />
 
       {/* ── 5. PAGE NUMBER ── */}
-      <div className="relative z-10 flex justify-center pb-2">
-        <span className="font-display tracking-[0.3em] text-[#6E5A4E] text-[8px] opacity-25 select-none">
+      <div
+        className="absolute pointer-events-none select-none"
+        style={{ bottom: "3%", left: "50%", transform: "translateX(-50%)", zIndex: 10 }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-cormorant), serif",
+            fontSize: "8px",
+            letterSpacing: "0.3em",
+            color: "#6E5A4E",
+            opacity: 0.22,
+          }}
+        >
           ii
         </span>
       </div>

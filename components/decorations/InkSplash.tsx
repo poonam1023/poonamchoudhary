@@ -10,6 +10,7 @@ interface InkSplashProps {
   variant?: "splash" | "droplet" | "smudge";
   color?: string;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export default function InkSplash({
@@ -20,6 +21,7 @@ export default function InkSplash({
   variant = "splash",
   color = "#5A4C40", // Ink brown
   className = "",
+  style = {},
 }: InkSplashProps) {
   const getSplashSVG = () => {
     switch (variant) {
@@ -86,6 +88,7 @@ export default function InkSplash({
         transform: `rotate(${rotation}deg)`,
         opacity,
         zIndex: 2,
+        ...style,
       }}
     >
       {getSplashSVG()}

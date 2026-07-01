@@ -9,6 +9,7 @@ interface WaxSealProps {
   opacity?: number;
   variant?: "terracotta" | "burgundy" | "bronze";
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export default function WaxSeal({
@@ -18,6 +19,7 @@ export default function WaxSeal({
   opacity = 0.95,
   variant = "terracotta",
   className = "",
+  style = {},
 }: WaxSealProps) {
   const getColors = () => {
     switch (variant) {
@@ -59,6 +61,7 @@ export default function WaxSeal({
         opacity,
         zIndex: 25,
         filter: "drop-shadow(1px 3px 5px rgba(0,0,0,0.22))",
+        ...style,
       }}
     >
       <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
