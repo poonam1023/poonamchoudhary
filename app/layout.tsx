@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${cormorant.variable} antialiased`}>
+    <html lang="en" className={`${inter.variable} ${cormorant.variable} antialiased`} suppressHydrationWarning>
       <body className="overflow-hidden bg-[#2C221A]">
         {/* Hidden SVG Filter for Paper Grain */}
         <svg

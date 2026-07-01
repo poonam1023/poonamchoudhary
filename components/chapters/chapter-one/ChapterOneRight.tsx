@@ -4,169 +4,194 @@ import React from "react";
 import Image from "next/image";
 
 /**
- * ChapterOneRight — Chapter Opening / Hero Spread
+ * ChapterOneRight — Chapter Hero Page (Right side of spread)
  *
- * COMPOSITION FIRST — two large visual masses anchor the layout.
+ * PURPOSE: Immediate visual dominance. Attracts 65-70% of attention on the spread.
+ * ONE hero composition — portrait + headline as a unified visual mass.
  *
- * HIERARCHY:
- *   HERO       (40%) — Large chapter headline. Takes up left column space.
- *   CO-HERO    (40%) — Large portrait image, right-aligned, overlapping watercolor.
- *   SECONDARY  (30%) — Visible sage watercolor behind portrait.
- *   SUPPORTING (15%) — Opening body paragraph beneath headline.
- *   MICRO      (10%) — Labels, dividers, page number.
+ * RULES:
+ *  - Portrait is 48% wide — the largest image in the entire spread.
+ *  - Watercolor is a genuine large color mass (opacity 0.40+), not a hint.
+ *  - Headline and portrait share the SAME visual zone (upper page).
+ *  - They overlap the same watercolor — they belong together.
+ *  - Eye enters top-right (portrait), reads headline left, drops to paragraph.
  *
- * LAYOUT LOGIC:
- *   - The page is divided into two vertical bands, top and bottom.
- *   - Top half: Large headline (left) + Portrait (right) — they share the same row.
- *   - Portrait overlaps the watercolor and slightly overlaps the text zone.
- *   - Bottom half: Opening paragraph + editorial footer.
- *   - Nothing is stacked in equal isolation — elements overlap and relate.
+ * RECTANGLE SKELETON:
+ *   [watercolor — top 62%, full width, visible sage mass]
+ *   [portrait — 48% wide, right column, upper zone, overlaps watercolor]
+ *   [headline — left column, upper zone, same height as portrait]
+ *   [paragraph — lower half, full width]
+ *   [footer rule + page number]
  */
 export default function ChapterOneRight() {
   return (
     <div className="relative w-full h-full overflow-hidden">
 
       {/* ═══════════════════════════════════════════════════════════════
-          SECONDARY MASS — Sage watercolor behind right-side portrait.
-          Large enough to be a real visual presence (not a hint of color).
+          WATERCOLOR MASS
+          The second-largest shape on the right page.
+          Fills the entire top zone behind both the portrait and headline.
+          Visible, warm, organic — a real color presence.
          ═══════════════════════════════════════════════════════════════ */}
       <div
         className="absolute pointer-events-none select-none"
         style={{
-          top: "5%",
+          top: 0,
+          left: "-5%",
           right: "-5%",
-          width: "65%",
-          height: "68%",
+          height: "64%",
+          // Primary mass: wide sage ellipse
           background:
-            "radial-gradient(ellipse 75% 85% at 55% 40%, rgba(163,181,153,0.42) 0%, rgba(142,169,140,0.20) 55%, transparent 78%)," +
-            "radial-gradient(ellipse 45% 50% at 75% 70%, rgba(130,155,120,0.18) 0%, transparent 70%)",
-          filter: "blur(22px)",
+            "radial-gradient(ellipse 80% 75% at 60% 38%, rgba(163,181,153,0.44) 0%, rgba(142,169,140,0.22) 52%, transparent 78%)," +
+            // Secondary pocket: darker concentrate on the right (behind portrait)
+            "radial-gradient(ellipse 45% 55% at 80% 30%, rgba(120,148,112,0.24) 0%, transparent 65%)," +
+            // Soft left bleed — connects to left page across the spine
+            "radial-gradient(ellipse 30% 40% at 5% 50%, rgba(163,181,153,0.12) 0%, transparent 70%)",
+          filter: "blur(20px)",
+          zIndex: 0,
+        }}
+      />
+      {/* Wet edge — slight darkening at the peak of the watercolor (simulates pooling) */}
+      <div
+        className="absolute pointer-events-none select-none"
+        style={{
+          top: "15%",
+          right: "8%",
+          width: "55%",
+          height: "35%",
+          background:
+            "radial-gradient(ellipse 60% 65% at 55% 40%, rgba(100,130,95,0.16) 0%, transparent 70%)",
+          filter: "blur(30px)",
           zIndex: 0,
         }}
       />
 
       {/* ═══════════════════════════════════════════════════════════════
-          MICRO — Chapter label (top-left)
+          CHAPTER LABEL — minimal, top of page
          ═══════════════════════════════════════════════════════════════ */}
       <div
         className="absolute select-none pointer-events-none"
-        style={{ top: "5%", left: "7%", zIndex: 20 }}
+        style={{ top: "4.5%", left: "7%", zIndex: 20 }}
       >
         <span
-          className="font-sans uppercase tracking-[0.32em] text-[#6E5A4E] opacity-35"
-          style={{ fontSize: "6.5px" }}
+          className="font-sans uppercase tracking-[0.32em] text-[#4A3728]"
+          style={{ fontSize: "6px", opacity: 0.32 }}
         >
-          Chapter I &ensp;—&ensp; Field Notes
+          Chapter I
         </span>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════
-          HERO ZONE — Upper 58% of the page.
-          Left side: headline typography.
-          Right side: portrait image.
-          They share the same vertical zone — one composition, not two sections.
+          UPPER ZONE — headline (left) + portrait (right) share this space.
+          They are one composition, not two sections.
+          The spine between them is 0 — they are adjacent in one zone.
          ═══════════════════════════════════════════════════════════════ */}
       <div
         className="absolute left-0 right-0"
-        style={{ top: "10%", height: "55%", zIndex: 10 }}
+        style={{ top: "9%", height: "56%", zIndex: 10 }}
       >
 
-        {/* ── HERO: Chapter headline (left column) ── */}
+        {/* ── LEFT COLUMN: Chapter Headline ── */}
+        {/* Occupies left 50% of the right page, vertically centered in the zone */}
         <div
           className="absolute top-0 bottom-0 flex flex-col justify-center"
-          style={{
-            left: "7%",
-            width: "52%",        // Left column — headline territory
-            paddingRight: "4%",
-          }}
+          style={{ left: "7%", width: "48%", paddingRight: "3%" }}
         >
-          {/* Thin rule above chapter numeral */}
+          {/* Thin rule — marks the top of the text block */}
           <div
             style={{
-              width: "32px",
-              height: "1px",
-              background: "rgba(110,90,78,0.35)",
-              marginBottom: "10px",
+              width: "28px",
+              height: "0.75px",
+              background: "rgba(74,55,40,0.35)",
+              marginBottom: "12px",
             }}
           />
-          <span
-            className="font-sans uppercase tracking-[0.28em] text-[#6E5A4E] opacity-40 select-none"
-            style={{ fontSize: "7px", display: "block", marginBottom: "8px" }}
-          >
-            I
-          </span>
 
-          {/* Large headline — the biggest type on the page */}
+          {/* Large chapter headline — the typographic hero */}
           <h2
             className="font-display text-[#3A2C1E] select-text"
             style={{
-              fontSize: "clamp(22px, 4.8vh, 38px)",
+              fontSize: "clamp(24px, 5.2vh, 42px)",
               fontWeight: 700,
-              lineHeight: 1.1,
-              letterSpacing: "-0.01em",
+              lineHeight: 1.05,
+              letterSpacing: "-0.02em",
             }}
           >
             The
             <br />
             Architect
-            <br />
-            <em
-              className="font-display"
-              style={{
-                fontWeight: 400,
-                fontSize: "0.72em",
-                opacity: 0.65,
-                letterSpacing: "0.01em",
-              }}
-            >
-              of Imagined
-              <br />
-              Spaces.
-            </em>
           </h2>
 
-          {/* Thin rule below headline */}
+          {/* Subtitle — smaller, gives typographic rhythm */}
+          <h3
+            className="font-display text-[#3A2C1E] select-text mt-1"
+            style={{
+              fontSize: "clamp(14px, 2.8vh, 22px)",
+              fontWeight: 400,
+              fontStyle: "italic",
+              lineHeight: 1.2,
+              opacity: 0.6,
+              letterSpacing: "0.01em",
+            }}
+          >
+            of Imagined
+            <br />
+            Spaces.
+          </h3>
+
+          {/* Rule below headline */}
           <div
             style={{
-              width: "80px",
+              width: "52px",
               height: "0.5px",
-              background: "rgba(110,90,78,0.28)",
+              background: "rgba(74,55,40,0.25)",
               marginTop: "14px",
             }}
           />
         </div>
 
-        {/* ── CO-HERO: Portrait (right column, overlaps left slightly) ── */}
+        {/* ── RIGHT COLUMN: Portrait — HERO of the spread ── */}
+        {/*
+          48% of page width. This is the largest image in the entire spread.
+          The left page portrait (38%) deliberately stays smaller.
+          Drop shadow gives depth — portrait lifts off the watercolor.
+          Slight clockwise rotation: feels placed by hand, not pasted.
+        */}
         <div
-          className="absolute top-0 bottom-0 select-none"
+          className="absolute select-none"
           style={{
+            top: "-2%",        // starts slightly above the zone — bleeds upward
+            bottom: "-8%",     // bleeds downward — connects to paragraph zone
             right: "4%",
-            width: "44%",        // Right column — portrait territory
-            // slight top offset so portrait top aligns with headline mid
-            top: "-4%",
-            bottom: "-4%",
-            filter: "drop-shadow(0 8px 24px rgba(0,0,0,0.16)) drop-shadow(0 2px 6px rgba(0,0,0,0.10))",
+            width: "47%",
             zIndex: 12,
+            filter:
+              "drop-shadow(0 10px 28px rgba(0,0,0,0.18)) drop-shadow(0 3px 8px rgba(0,0,0,0.12))",
+            transform: "rotate(1.2deg)",
           }}
         >
+          {/* Paper matte border */}
           <div
-            className="w-full h-full"
             style={{
+              width: "100%",
+              height: "100%",
               background: "#F5F0E8",
-              border: "1px solid rgba(110,90,78,0.14)",
+              border: "1px solid rgba(110,90,78,0.16)",
               padding: "7px",
-              // Slight rotation for natural placement
-              transform: "rotate(1.5deg)",
+              boxSizing: "border-box",
             }}
           >
-            <div className="relative w-full h-full overflow-hidden">
+            <div
+              className="relative overflow-hidden"
+              style={{ width: "100%", height: "100%" }}
+            >
               <Image
                 src="/author-portrait.png"
                 alt="Poonam Choudhary"
                 fill
                 className="object-cover object-top"
                 style={{
-                  filter: "sepia(12%) contrast(1.04) brightness(0.97)",
+                  filter: "sepia(10%) contrast(1.06) brightness(0.96)",
                   mixBlendMode: "multiply",
                 }}
                 priority
@@ -174,74 +199,89 @@ export default function ChapterOneRight() {
               {/* Inner vignette */}
               <div
                 className="absolute inset-0 pointer-events-none"
-                style={{ boxShadow: "inset 0 0 24px rgba(0,0,0,0.10)" }}
+                style={{ boxShadow: "inset 0 0 28px rgba(0,0,0,0.12)" }}
               />
             </div>
           </div>
         </div>
 
-      </div>{/* end hero zone */}
+      </div>{/* end upper zone */}
 
       {/* ═══════════════════════════════════════════════════════════════
-          SUPPORTING — Opening paragraph.
-          Anchored beneath the headline, left-aligned.
-          Visual weight: medium. Dense enough to feel like a block.
+          OPENING PARAGRAPH — lower half of the page
+          Dense enough to be a visual block.
+          Drop cap anchors the entry point.
          ═══════════════════════════════════════════════════════════════ */}
       <div
         className="absolute left-0 right-0"
         style={{
           top: "67%",
-          bottom: "12%",
+          bottom: "11%",
           padding: "0 7%",
           zIndex: 15,
-          overflowY: "hidden",
+          overflow: "hidden",
         }}
       >
+        {/* Thin rule above paragraph — separates hero zone from supporting text */}
+        <div
+          style={{
+            width: "100%",
+            height: "0.5px",
+            background:
+              "linear-gradient(to right, rgba(110,90,78,0.20), transparent)",
+            marginBottom: "12px",
+          }}
+        />
+
         <p
           className="font-display text-[#4A3728] select-text"
           style={{
-            fontSize: "clamp(10px, 1.8vh, 13px)",
-            lineHeight: 1.85,
+            fontSize: "clamp(10px, 1.75vh, 12.5px)",
+            lineHeight: 1.88,
             textAlign: "justify",
             hyphens: "auto",
           }}
         >
+          {/* Drop cap — large initial anchors the entry, matches sage color */}
           <span
-            className="font-display float-left leading-none select-none"
+            className="font-display float-left select-none leading-none"
             style={{
-              fontSize: "clamp(38px, 6.5vh, 58px)",
+              fontSize: "clamp(40px, 7vh, 60px)",
               fontWeight: 700,
               color: "#8EA98C",
-              lineHeight: 0.82,
-              marginRight: "6px",
-              marginTop: "3px",
+              lineHeight: 0.8,
+              marginRight: "5px",
+              marginTop: "4px",
             }}
           >
             E
           </span>
           very line of code is a sentence waiting to be written. To Poonam,
           the screen was paper, dried ink, and binding glue — a space where
-          design and engineering did not merely function, but breathed.
+          design and engineering did not merely function, but breathed together.
           This is the ledger of her creations.
         </p>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════
-          MICRO — Footer rule + page number
+          FOOTER — thin rule + page number
          ═══════════════════════════════════════════════════════════════ */}
       <div
-        className="absolute left-0 right-0 bottom-[3.5%] flex flex-col items-center gap-1.5"
-        style={{ zIndex: 20, padding: "0 7%" }}
+        className="absolute left-0 right-0 bottom-[3%]"
+        style={{ padding: "0 7%", zIndex: 20 }}
       >
         <div
           style={{
             width: "100%",
             height: "0.5px",
-            background: "linear-gradient(to right, transparent, rgba(110,90,78,0.22), transparent)",
+            background:
+              "linear-gradient(to right, rgba(110,90,78,0.18), transparent)",
+            marginBottom: "5px",
           }}
         />
         <span
-          className="font-display text-[8px] tracking-[0.3em] text-[#6E5A4E] opacity-25 select-none"
+          className="font-display tracking-[0.3em] text-[#6E5A4E] select-none"
+          style={{ fontSize: "8px", opacity: 0.22 }}
         >
           1
         </span>
