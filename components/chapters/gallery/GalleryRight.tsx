@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import {
   EditorialLabel,
   DecorativeDivider,
@@ -72,10 +73,16 @@ export default function GalleryRight() {
       {/* POLAROID-STYLE PHOTO PLACEHOLDER */}
       <div className="absolute pointer-events-none select-none" style={{ bottom: "12%", right: "7%", zIndex: 12, transform: "rotate(3deg)" }}>
         <div style={{ width: "60px", height: "72px", background: "#F5F0E8", padding: "4px 4px 14px 4px", boxShadow: "1px 3px 8px rgba(58,44,30,0.06), 0 1px 2px rgba(58,44,30,0.03)", borderRadius: "1px" }}>
-          <div style={{ width: "100%", height: "100%", background: "rgba(200,190,175,0.2)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(110,90,78,0.12)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
-            </svg>
+          <div className="relative" style={{ width: "100%", height: "100%", overflow: "hidden" }}>
+            <Image
+              src="/journal-photo.png"
+              alt="Cozy childhood memory"
+              fill
+              className="object-cover"
+              style={{
+                filter: "contrast(0.95) brightness(1.02) sepia(0.1)",
+              }}
+            />
           </div>
         </div>
       </div>
