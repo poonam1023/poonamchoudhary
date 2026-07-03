@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${cormorant.variable} antialiased`} suppressHydrationWarning>
       <body className="overflow-hidden bg-paper-primary">
-        {/* Hidden SVG Filter for Paper Grain */}
+        {/* Hidden SVG Filter for premium handmade paper grain */}
         <svg
           style={{
             position: "absolute",
@@ -39,21 +39,11 @@ export default function RootLayout({
           aria-hidden="true"
         >
           <defs>
-            <filter id="paper-grain">
+            <filter id="paper-grain" x="-20%" y="-20%" width="140%" height="140%">
               <feTurbulence
                 type="fractalNoise"
-                baseFrequency="0.04"
-                numOctaves="4"
-                stitchTiles="stitch"
-              />
-              <feColorMatrix type="saturate" values="0" />
-            </filter>
-            <filter id="paper-noise-light">
-              <feTurbulence
-                type="fractalNoise"
-                baseFrequency="0.4"
+                baseFrequency="0.003"
                 numOctaves="3"
-                stitchTiles="stitch"
               />
               <feColorMatrix type="saturate" values="0" />
             </filter>

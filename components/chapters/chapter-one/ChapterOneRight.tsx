@@ -5,7 +5,7 @@ import Image from "next/image";
 import {
   BotanicalIllustration,
   PressedFlower,
-  WatercolorSplash,
+  HeroWatercolor,
 } from "@/components/decorations";
 
 /**
@@ -23,42 +23,10 @@ export default function ChapterOneRight() {
   return (
     <div className="absolute inset-0 overflow-hidden select-none" style={{ background: "transparent" }}>
 
-      {/* ── 1. MASSIVE ORGANIC WATERCOLOR WASH ──
-          Multiple overlapping blobs simulate a real, hand-painted green wash behind the portrait.
-          60-70% page coverage with irregular edges fading into cream. */}
-      <WatercolorSplash
-        variant="sage"
-        position={{ top: "5%", left: "-8%" }}
-        width="75%"
-        height="68%"
-        opacity={0.55}
-        style={{ zIndex: 1, filter: "blur(22px)" }}
-      />
-      <WatercolorSplash
-        variant="olive"
-        position={{ top: "20%", left: "8%" }}
-        width="58%"
-        height="50%"
-        opacity={0.32}
-        style={{ zIndex: 2, filter: "blur(16px)" }}
-      />
-      <WatercolorSplash
-        variant="sage"
-        position={{ top: "38%", left: "-5%" }}
-        width="50%"
-        height="44%"
-        opacity={0.28}
-        style={{ zIndex: 2, filter: "blur(28px)" }}
-      />
-      {/* Feathered edge bleed to the right */}
-      <WatercolorSplash
-        variant="olive"
-        position={{ top: "8%", left: "30%" }}
-        width="40%"
-        height="55%"
-        opacity={0.16}
-        style={{ zIndex: 2, filter: "blur(32px)" }}
-      />
+      {/* ── 1. ENVIRONMENT HERO WATERCOLOR ──
+          Irregular, hand-painted watercolor composition that frames and supports the portrait.
+          It extends leftward towards the spine and has its visual hotspot behind her face. */}
+      <HeroWatercolor />
 
       {/* ── 2. BOTANICALS BEHIND PORTRAIT ── */}
       <BotanicalIllustration
@@ -93,29 +61,36 @@ export default function ChapterOneRight() {
       />
 
       {/* ── 3. HERO PORTRAIT ──
-          Large scale, borderless — portrait sits directly on the page like a printed photo.
-          Image is 1536×1024 landscape — use object-cover to fill the frame, showing the subject. */}
+          Portrait sits on the page at full strength, cropped to frame her face and shoulders.
+          Container is positioned to align her face with the watercolor hotspot. */}
       <div
-        className="absolute"
+        className="absolute animate-fade-in"
         style={{
-          left: "2%",
-          right: "2%",
+          left: "14%",
+          right: "14%",
           bottom: "2%",
-          height: "70%",
+          height: "82%",
           zIndex: 10,
           pointerEvents: "none",
-          borderRadius: "2px",
-          overflow: "hidden",
         }}
       >
-        <div className="relative w-full h-full">
+        <div
+          className="relative w-full h-full"
+          style={{
+            WebkitMaskImage:
+              "radial-gradient(ellipse 98% 96% at 50% 48%, black 99%, transparent 100%)",
+            maskImage:
+              "radial-gradient(ellipse 98% 96% at 50% 48%, black 99%, transparent 100%)",
+          }}
+        >
           <Image
             src="/author-portrait.png"
             alt="Poonam Choudhary"
             fill
-            className="object-cover object-center"
+            className="object-cover"
             style={{
-              filter: "contrast(0.98) brightness(1.06) saturate(0.88) sepia(0.04)",
+              objectPosition: "center 22%",
+              filter: "contrast(1.02) brightness(1.02) saturate(0.92) sepia(0.03)",
             }}
             priority
           />
@@ -125,10 +100,10 @@ export default function ChapterOneRight() {
       {/* ── 4. BOTANICALS OVERLAPPING PORTRAIT (zIndex > portrait) ── */}
       <BotanicalIllustration
         variant="lavender"
-        scale={0.95}
-        opacity={0.32}
-        position={{ bottom: "6%", left: "38%" }}
-        rotation={-10}
+        scale={0.70}
+        opacity={0.28}
+        position={{ bottom: "4%", right: "24%" }}
+        rotation={-8}
         animation={true}
         style={{ zIndex: 14 }}
         className="pointer-events-none"
@@ -150,6 +125,27 @@ export default function ChapterOneRight() {
         rotation={-8}
         animation={true}
         style={{ zIndex: 14 }}
+      />
+      {/* Tiny sage sprig crossing lower right shoulder — creates depth */}
+      <BotanicalIllustration
+        variant="olive"
+        scale={0.55}
+        opacity={0.20}
+        position={{ bottom: "22%", right: "6%" }}
+        rotation={-25}
+        animation={true}
+        style={{ zIndex: 15 }}
+        className="pointer-events-none"
+      />
+      {/* Pressed fern tip overlapping left side — soft edge integration */}
+      <PressedFlower
+        variant="fern-leaf"
+        scale={0.60}
+        opacity={0.30}
+        position={{ top: "58%", left: "-2%" }}
+        rotation={35}
+        animation={true}
+        style={{ zIndex: 15 }}
       />
 
       {/* ── 5. FLOATING TILTED QUOTE CARD ──

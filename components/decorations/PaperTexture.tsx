@@ -50,47 +50,67 @@ export default function PaperTexture({
       className={`absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden rounded-md ${className}`}
       style={{ opacity }}
     >
-      {/* Base Hue Blend */}
+      {/* Base Hue Blend — center light, edges darkened like aged handmade paper */}
       <div className={`absolute inset-0 bg-gradient-to-tr ${styles.gradient}`} />
 
-      {/* Layer of fibers: repeating micro-grid simulating fine woven book cover fibers */}
+      {/* Paper color variation: center warm, edges darker/cooler (aged archival paper) */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0"
         style={{
-          backgroundImage: `
-            linear-gradient(90deg, rgba(110,90,78,0.15) 1px, transparent 1px),
-            linear-gradient(0deg, rgba(110,90,78,0.15) 1px, transparent 1px)
+          background: `
+            radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(110,90,78,0.025) 100%),
+            radial-gradient(ellipse at 100% 0%, rgba(110,90,78,0.018) 0%, transparent 50%),
+            radial-gradient(ellipse at 0% 100%, rgba(110,90,78,0.015) 0%, transparent 50%),
+            radial-gradient(ellipse at 0% 0%, rgba(160,130,90,0.012) 0%, transparent 40%),
+            radial-gradient(ellipse at 100% 100%, rgba(160,130,90,0.010) 0%, transparent 40%)
           `,
-          backgroundSize: "4px 4px",
+        }}
+      />
+
+      {/* Spine-side darkening (subtle) */}
+      <div
+        className="absolute top-0 bottom-0 left-0"
+        style={{
+          width: "30%",
+          background: "linear-gradient(to right, rgba(110,90,78,0.015) 0%, transparent 100%)",
         }}
       />
 
       {/* Organic Age Spots & Stains */}
       <div
-        className="absolute top-[15%] left-[20%] w-[200px] h-[160px] rounded-full blur-[40px]"
+        className="absolute top-[15%] left-[20%] w-[200px] h-[160px] rounded-full"
         style={{
           background: `radial-gradient(circle, ${styles.stain1} 0%, rgba(0,0,0,0) 75%)`,
+          filter: "blur(40px)",
         }}
       />
       <div
-        className="absolute bottom-[20%] right-[15%] w-[240px] h-[200px] rounded-full blur-[45px]"
+        className="absolute bottom-[20%] right-[15%] w-[240px] h-[200px] rounded-full"
         style={{
           background: `radial-gradient(circle, ${styles.stain2} 0%, rgba(0,0,0,0) 80%)`,
+          filter: "blur(45px)",
         }}
       />
 
-      {/* Subtle foxing/spores */}
-      <div
-        className="absolute top-[40%] left-[80%] w-[3px] h-[3px] rounded-full opacity-30"
-        style={{ background: "#8A6D56", filter: "blur(0.5px)" }}
-      />
-      <div
-        className="absolute top-[75%] left-[25%] w-[2px] h-[4px] rounded-full opacity-20 rotate-45"
-        style={{ background: "#8A6D56", filter: "blur(0.5px)" }}
-      />
+      {/* Foxing — tiny aged brown dots, opacity under 3% */}
+      <div className="absolute top-[40%] left-[80%] w-[3px] h-[3px] rounded-full"
+        style={{ background: "#8A6D56", opacity: "0.025", filter: "blur(0.5px)" }} />
+      <div className="absolute top-[75%] left-[25%] w-[2px] h-[4px] rounded-full"
+        style={{ background: "#8A6D56", opacity: "0.02", filter: "blur(0.5px)", transform: "rotate(45deg)" }} />
+      <div className="absolute top-[20%] left-[55%] w-[1.5px] h-[2px] rounded-full"
+        style={{ background: "#9A8060", opacity: "0.02", filter: "blur(0.3px)" }} />
+      <div className="absolute top-[60%] left-[10%] w-[2px] h-[2px] rounded-full"
+        style={{ background: "#7A6050", opacity: "0.015", filter: "blur(0.3px)" }} />
+      <div className="absolute top-[85%] left-[70%] w-[1.5px] h-[1.5px] rounded-full"
+        style={{ background: "#8A6D56", opacity: "0.02", filter: "blur(0.3px)" }} />
 
-      {/* Edge Vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle,transparent_75%,rgba(110,90,78,0.06)_100%)]" />
+      {/* Edge Vignette — soft, paper absorbs light at edges */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "radial-gradient(ellipse at 50% 50%, transparent 65%, rgba(110,90,78,0.035) 100%)",
+        }}
+      />
     </div>
   );
 }

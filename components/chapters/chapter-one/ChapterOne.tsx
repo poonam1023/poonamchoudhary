@@ -250,8 +250,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
               }}
             >
               {/* Paper textures */}
-              <div className="absolute inset-0 paper-grain-overlay opacity-[0.12] mix-blend-multiply" />
-              <div className="absolute inset-0 paper-grain-light opacity-[0.10] mix-blend-color-burn" />
+              <div className="absolute inset-0 paper-grain-overlay opacity-[0.03] mix-blend-multiply" />
               <div className="absolute top-0 bottom-0 right-0 w-[2px] bg-gradient-to-l from-rgba(110,90,78,0.10) to-rgba(110,90,78,0.03)" />
               <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-r from-[#3A2C1E]/8 to-transparent filter blur-[1px]" />
             </div>
@@ -266,8 +265,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
               }}
             >
               {/* Paper textures */}
-              <div className="absolute inset-0 paper-grain-overlay opacity-[0.12] mix-blend-multiply" />
-              <div className="absolute inset-0 paper-grain-light opacity-[0.10] mix-blend-color-burn" />
+              <div className="absolute inset-0 paper-grain-overlay opacity-[0.03] mix-blend-multiply" />
               <div className="absolute top-0 bottom-0 left-0 w-[2px] bg-gradient-to-r from-rgba(110,90,78,0.10) to-rgba(110,90,78,0.03)" />
               <div className="absolute right-0 top-0 bottom-0 w-[4px] bg-gradient-to-l from-[#3A2C1E]/8 to-transparent filter blur-[1px]" />
             </div>

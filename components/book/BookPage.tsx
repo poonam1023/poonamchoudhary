@@ -45,32 +45,8 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
           : "inset 22px 0 38px -4px rgba(58,44,30,0.05), inset 4px 0 8px rgba(58,44,30,0.06)",
       }}
     >
-      {/* ── 1. Paper Fibre Weave ─────────────────────────────────────────── */}
-      <div
-        className="absolute inset-0 pointer-events-none select-none"
-        style={{
-          backgroundImage: `
-            repeating-linear-gradient(
-              87deg,
-              rgba(110,90,78,0.026) 0px,
-              rgba(110,90,78,0.026) 1px,
-              transparent 1px,
-              transparent 3px
-            ),
-            repeating-linear-gradient(
-              1deg,
-              rgba(110,90,78,0.017) 0px,
-              rgba(110,90,78,0.017) 1px,
-              transparent 1px,
-              transparent 4px
-            )
-          `,
-        }}
-      />
-
-      {/* ── 2–3. SVG Turbulence Grain ────────────────────────────────────── */}
+      {/* ── 1. Premium hand-made paper grain (non-repeating, ultra-subtle) ── */}
       <div className="absolute inset-0 paper-grain-overlay pointer-events-none select-none" />
-      <div className="absolute inset-0 paper-grain-light pointer-events-none select-none" />
 
       {/* ── 4. Aged Yellowing — warm corner discoloration ────────────────── */}
       <div

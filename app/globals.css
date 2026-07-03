@@ -36,18 +36,14 @@
 
 @layer utilities {
   /* ─────────────────────────────────────────────────────────────────
-     Paper grain overlays — reused across BookPage, BookmarkItem, etc.
+     Premium handmade paper grain — non-repeating, ultra-subtle
+     Single large noise texture stretched across entire spread.
+     Only visible when zoomed in; mimics cold-pressed watercolor paper.
      ───────────────────────────────────────────────────────────────── */
   .paper-grain-overlay {
     filter: url(#paper-grain);
-    opacity: 0.13;
+    opacity: 0.03;
     mix-blend-mode: multiply;
-  }
-
-  .paper-grain-light {
-    filter: url(#paper-noise-light);
-    opacity: 0.10;
-    mix-blend-mode: color-burn;
   }
 
   /* ─────────────────────────────────────────────────────────────────
@@ -116,28 +112,6 @@
       -0.4px -0.4px 0px rgba(110,90,78,0.10),
       0px 1.5px 3px rgba(58,44,30,0.06),
       0px 0px 1px rgba(168,178,154,0.20);
-  }
-
-  /* ─────────────────────────────────────────────────────────────────
-     Ribbon Bookmark — fabric linen weave texture
-     Applied to the ribbon body div.
-     ───────────────────────────────────────────────────────────────── */
-  .ribbon-weave {
-    background-image:
-      repeating-linear-gradient(
-         90deg,
-         rgba(58,44,30,0.015) 0px,
-         rgba(58,44,30,0.015) 1px,
-         transparent 1px,
-         transparent 4px
-       ),
-       repeating-linear-gradient(
-         0deg,
-         rgba(58,44,30,0.010) 0px,
-         rgba(58,44,30,0.010) 1px,
-         transparent 1px,
-         transparent 4px
-       );
   }
 
   /* ─────────────────────────────────────────────────────────────────
