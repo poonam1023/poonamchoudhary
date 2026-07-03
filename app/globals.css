@@ -41,8 +41,15 @@
      Only visible when zoomed in; mimics cold-pressed watercolor paper.
      ───────────────────────────────────────────────────────────────── */
   .paper-grain-overlay {
+    background-image:
+      repeating-linear-gradient(7deg, rgba(110,90,78,0.018) 0px, rgba(110,90,78,0.018) 0.45px, transparent 0.45px, transparent 8px),
+      repeating-linear-gradient(96deg, rgba(255,255,255,0.22) 0px, rgba(255,255,255,0.22) 0.5px, transparent 0.5px, transparent 11px),
+      radial-gradient(circle at 18% 28%, rgba(138,106,52,0.028) 0 0.7px, transparent 1.5px),
+      radial-gradient(circle at 72% 66%, rgba(148,118,82,0.024) 0 0.8px, transparent 1.8px),
+      radial-gradient(circle at 42% 78%, rgba(110,90,78,0.020) 0 0.6px, transparent 1.6px);
+    background-size: 160px 160px, 180px 180px, 210px 210px, 260px 260px, 190px 190px;
     filter: url(#paper-grain);
-    opacity: 0.03;
+    opacity: 0.065;
     mix-blend-mode: multiply;
   }
 

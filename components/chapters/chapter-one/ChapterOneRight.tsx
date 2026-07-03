@@ -4,9 +4,26 @@ import React from "react";
 import Image from "next/image";
 import {
   BotanicalIllustration,
-  PressedFlower,
   HeroWatercolor,
 } from "@/components/decorations";
+
+function EditorialMarks() {
+  return (
+    <div className="absolute inset-0 pointer-events-none select-none" style={{ zIndex: 4 }}>
+      <svg className="absolute" style={{ top: "9%", left: "7%", width: 96, height: 62, opacity: 0.12, transform: "rotate(-7deg)" }} viewBox="0 0 150 95" fill="none">
+        <path d="M14 15 C30 10 49 16 66 12 C91 7 111 14 135 11 L130 78 C107 75 91 82 68 77 C49 73 31 79 17 74 Z" fill="#6E5A4E" opacity="0.08" />
+        <path d="M30 34 H111 M29 48 H104 M32 62 H88" stroke="#6E5A4E" strokeWidth="1.1" strokeLinecap="round" />
+        <path d="M124 25 L135 16 M126 34 L140 31" stroke="#C4A882" strokeWidth="1.2" strokeLinecap="round" />
+      </svg>
+      <svg className="absolute" style={{ bottom: "18%", left: "5%", width: 82, height: 58, opacity: 0.10, transform: "rotate(5deg)" }} viewBox="0 0 120 84" fill="none">
+        <path d="M18 62 C30 44 44 44 55 60 C66 42 82 43 94 61" stroke="#6E5A4E" strokeWidth="1.4" strokeLinecap="round" />
+        <circle cx="39" cy="31" r="9" stroke="#6E5A4E" strokeWidth="1.2" />
+        <circle cx="72" cy="29" r="10" stroke="#6E5A4E" strokeWidth="1.2" />
+        <path d="M12 18 C24 7 37 9 49 18" stroke="#6E5A4E" strokeWidth="0.9" strokeLinecap="round" opacity="0.55" />
+      </svg>
+    </div>
+  );
+}
 
 /**
  * ChapterOneRight — The Visual Hero Page
@@ -31,34 +48,25 @@ export default function ChapterOneRight() {
       {/* ── 2. BOTANICALS BEHIND PORTRAIT ── */}
       <BotanicalIllustration
         variant="branch"
-        scale={1.4}
-        opacity={0.28}
-        position={{ top: "6%", right: "6%" }}
+        scale={0.92}
+        opacity={0.11}
+        position={{ top: "7%", right: "4%" }}
         rotation={12}
-        animation={true}
+        animation={false}
         style={{ zIndex: 3 }}
         className="pointer-events-none"
       />
       <BotanicalIllustration
         variant="olive"
-        scale={1.2}
-        opacity={0.22}
-        position={{ bottom: "20%", left: "-4%" }}
+        scale={0.72}
+        opacity={0.09}
+        position={{ bottom: "24%", left: "-5%" }}
         rotation={55}
-        animation={true}
+        animation={false}
         style={{ zIndex: 3 }}
         className="pointer-events-none"
       />
-      <BotanicalIllustration
-        variant="fern"
-        scale={1.0}
-        opacity={0.18}
-        position={{ top: "55%", right: "2%" }}
-        rotation={-20}
-        animation={true}
-        style={{ zIndex: 3 }}
-        className="pointer-events-none"
-      />
+      <EditorialMarks />
 
       {/* ── 3. HERO PORTRAIT ──
           Portrait sits on the page at full strength, cropped to frame her face and shoulders.
@@ -66,12 +74,13 @@ export default function ChapterOneRight() {
       <div
         className="absolute animate-fade-in"
         style={{
-          left: "14%",
-          right: "14%",
-          bottom: "2%",
-          height: "82%",
+          left: "10%",
+          right: "11%",
+          bottom: "-1%",
+          height: "86%",
           zIndex: 10,
           pointerEvents: "none",
+          filter: "drop-shadow(0 18px 32px rgba(58,44,30,0.13))",
         }}
       >
         <div
@@ -89,7 +98,7 @@ export default function ChapterOneRight() {
             fill
             className="object-cover"
             style={{
-              objectPosition: "center 22%",
+              objectPosition: "center 20%",
               filter: "contrast(1.02) brightness(1.02) saturate(0.92) sepia(0.03)",
             }}
             priority
@@ -98,67 +107,32 @@ export default function ChapterOneRight() {
       </div>
 
       {/* ── 4. BOTANICALS OVERLAPPING PORTRAIT (zIndex > portrait) ── */}
-      <BotanicalIllustration
-        variant="lavender"
-        scale={0.70}
-        opacity={0.28}
-        position={{ bottom: "4%", right: "24%" }}
-        rotation={-8}
-        animation={true}
-        style={{ zIndex: 14 }}
-        className="pointer-events-none"
-      />
-      <PressedFlower
-        variant="fern-leaf"
-        scale={0.85}
-        opacity={0.46}
-        position={{ top: "30%", left: "0%" }}
-        rotation={22}
-        animation={true}
-        style={{ zIndex: 14 }}
-      />
-      <PressedFlower
-        variant="wildflower"
-        scale={0.65}
-        opacity={0.38}
-        position={{ top: "12%", right: "18%" }}
-        rotation={-8}
-        animation={true}
-        style={{ zIndex: 14 }}
-      />
+      <svg
+        className="absolute pointer-events-none select-none"
+        style={{ bottom: "15%", left: "8%", width: 58, height: 22, opacity: 0.16, zIndex: 15, transform: "rotate(-8deg)" }}
+        viewBox="0 0 92 32"
+        fill="none"
+      >
+        <path d="M7 22 C26 10 44 27 64 16 C74 11 82 12 88 15" stroke="#C4A882" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M11 24 L6 28 M84 16 L90 12" stroke="#6E5A4E" strokeWidth="0.8" strokeLinecap="round" />
+      </svg>
+      
       {/* Tiny sage sprig crossing lower right shoulder — creates depth */}
-      <BotanicalIllustration
-        variant="olive"
-        scale={0.55}
-        opacity={0.20}
-        position={{ bottom: "22%", right: "6%" }}
-        rotation={-25}
-        animation={true}
-        style={{ zIndex: 15 }}
-        className="pointer-events-none"
-      />
+      
       {/* Pressed fern tip overlapping left side — soft edge integration */}
-      <PressedFlower
-        variant="fern-leaf"
-        scale={0.60}
-        opacity={0.30}
-        position={{ top: "58%", left: "-2%" }}
-        rotation={35}
-        animation={true}
-        style={{ zIndex: 15 }}
-      />
+      
 
       {/* ── 5. FLOATING TILTED QUOTE CARD ──
           Torn paper note pinned with washi tape, tilted naturally. */}
       <div
         className="absolute"
         style={{
-          top: "18%",
-          right: "3%",
-          width: "42%",
+          top: "12%",
+          right: "4.5%",
+          width: "34%",
           zIndex: 22,
-          transform: "rotate(-3.5deg)",
-          filter: "drop-shadow(2px 6px 18px rgba(58,44,30,0.08))",
+          transform: "rotate(-2.2deg)",
+          filter: "drop-shadow(2px 7px 18px rgba(58,44,30,0.10))",
           position: "absolute",
         }}
       >
@@ -194,7 +168,7 @@ export default function ChapterOneRight() {
           style={{
             background: "#FAF7F2",
             border: "0.5px solid rgba(110,90,78,0.10)",
-            padding: "18px 16px 22px",
+            padding: "15px 14px 18px",
             clipPath: "polygon(0.5% 1.5%, 98.8% 0%, 100% 98%, 1.5% 99.5%)",
             boxShadow: "inset 0 1px 8px rgba(58,44,30,0.02), 0 4px 14px rgba(58,44,30,0.04)",
             position: "relative",
@@ -215,7 +189,7 @@ export default function ChapterOneRight() {
           <span
             style={{
               fontFamily: "var(--font-cormorant), serif",
-              fontSize: "38px",
+              fontSize: "32px",
               fontWeight: 700,
               lineHeight: 0.5,
               color: "#C4A882",
@@ -224,7 +198,7 @@ export default function ChapterOneRight() {
               opacity: 0.9,
             }}
           >
-            "
+            &ldquo;
           </span>
 
           {/* Quote body text — italic Cormorant for handwritten editorial feel */}
@@ -232,7 +206,7 @@ export default function ChapterOneRight() {
             style={{
               fontFamily: "var(--font-cormorant), serif",
               fontStyle: "italic",
-              fontSize: "clamp(12px, 1.9vh, 14px)",
+              fontSize: "clamp(11.5px, 1.7vh, 13px)",
               lineHeight: 1.72,
               color: "#4A3728",
               paddingLeft: "4px",
@@ -271,11 +245,12 @@ export default function ChapterOneRight() {
       <div
         className="absolute"
         style={{
-          bottom: "5%",
-          right: "3%",
-          width: "38%",
-          zIndex: 22,
+          bottom: "6%",
+          right: "5%",
+          width: "34%",
+          zIndex: 23,
           transform: "rotate(0.8deg)",
+          filter: "drop-shadow(0 8px 14px rgba(58,44,30,0.10))",
         }}
       >
         {/* Outer mat border */}

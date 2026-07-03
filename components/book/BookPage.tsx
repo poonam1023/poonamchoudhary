@@ -38,11 +38,11 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
       className={`relative w-full h-full overflow-hidden ${className}`}
       style={{
         background: isLeft
-          ? "linear-gradient(162deg, #FAF7F2 0%, #F7F3EC 38%, #F5F0E8 100%)"
-          : "linear-gradient(198deg, #FAF7F2 0%, #F7F3EC 42%, #F5F0E8 100%)",
+          ? "linear-gradient(162deg, #FFFDF8 0%, #FAF7F2 42%, #F6EFE5 100%)"
+          : "linear-gradient(198deg, #FFFDF8 0%, #FAF7F2 44%, #F6EFE5 100%)",
         boxShadow: isLeft
-          ? "inset -22px 0 38px -4px rgba(58,44,30,0.05), inset -4px 0 8px rgba(58,44,30,0.06)"
-          : "inset 22px 0 38px -4px rgba(58,44,30,0.05), inset 4px 0 8px rgba(58,44,30,0.06)",
+          ? "inset -26px 0 42px -4px rgba(58,44,30,0.065), inset -5px 0 10px rgba(58,44,30,0.075), 0 0 18px rgba(255,255,255,0.08)"
+          : "inset 26px 0 42px -4px rgba(58,44,30,0.065), inset 5px 0 10px rgba(58,44,30,0.075), 0 0 18px rgba(255,255,255,0.08)",
       }}
     >
       {/* ── 1. Premium hand-made paper grain (non-repeating, ultra-subtle) ── */}

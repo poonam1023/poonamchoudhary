@@ -22,16 +22,16 @@ export default function Book3D({ children }: Book3DProps) {
       {/* ── 1. LAYERED DROP SHADOWS (Floating Book on Desk Effect) ── */}
       {/* Ambient shadow (large, soft spread) */}
       <div 
-        className="absolute inset-x-[-4%] inset-y-[-2%] rounded-[24px] pointer-events-none z-0 opacity-25 blur-[36px]"
+        className="absolute inset-x-[-7%] inset-y-[-4%] rounded-[28px] pointer-events-none z-0 opacity-45 blur-[44px]"
         style={{
-          background: "radial-gradient(circle, rgba(58,44,30,0.40) 0%, rgba(58,44,30,0) 80%)",
+          background: "radial-gradient(circle, rgba(14,8,4,0.68) 0%, rgba(14,8,4,0) 78%)",
         }}
       />
       {/* Contact shadow (tight underneath the book boards) */}
       <div 
-        className="absolute inset-x-[-1%] bottom-[-15px] h-[35px] rounded-full pointer-events-none z-0 opacity-50 blur-[8px]"
+        className="absolute inset-x-[-3%] bottom-[-19px] h-[42px] rounded-full pointer-events-none z-0 opacity-65 blur-[10px]"
         style={{
-          background: "radial-gradient(ellipse at center, rgba(58,44,30,0.60) 0%, rgba(58,44,30,0) 75%)",
+          background: "radial-gradient(ellipse at center, rgba(14,8,4,0.78) 0%, rgba(14,8,4,0) 75%)",
         }}
       />
       {/* Soft edge shadow mapping to page curl */}
@@ -49,8 +49,8 @@ export default function Book3D({ children }: Book3DProps) {
         style={{
           right: "50%",
           left: "-100.8%",
-          background: "linear-gradient(135deg, #F0EAE0 0%, #E8E0D0 100%)",
-          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.3), 2px 4px 10px rgba(58,44,30,0.12)",
+          background: "linear-gradient(135deg, #F8F3EA 0%, #EEE5D8 100%)",
+          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.42), 2px 6px 16px rgba(20,12,7,0.24)",
         }}
       >
         {/* Canvas texture simulation */}
@@ -68,8 +68,8 @@ export default function Book3D({ children }: Book3DProps) {
         style={{
           left: "50%",
           right: "-0.8%",
-          background: "linear-gradient(225deg, #F0EAE0 0%, #E8E0D0 100%)",
-          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.3), -2px 4px 10px rgba(58,44,30,0.12)",
+          background: "linear-gradient(225deg, #F8F3EA 0%, #EEE5D8 100%)",
+          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.42), -2px 6px 16px rgba(20,12,7,0.24)",
         }}
       >
         {/* Canvas texture simulation */}

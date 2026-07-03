@@ -33,26 +33,19 @@ export default function BookmarkTab({
   const HOVER_DROP = 4;
   const TOP_OFFSET = -6;
 
-  const height = isActive ? baseHeight + 8 : hovered ? baseHeight + 3 : baseHeight;
+  const height = isActive ? baseHeight + 8 : baseHeight;
   const targetY = isActive ? ACTIVE_DROP : hovered ? HOVER_DROP : 0;
 
-  const isInactive = !isActive && !hovered;
-
-  const paperHue = isActive
-    ? `hsl(102, ${12 + tintOffset}%, ${64 + tintOffset * 0.5}%)`
-    : `hsl(38, ${8 + tintOffset}%, ${94 + tintOffset * 0.3}%)`;
-
-  const paperColor = isActive ? "#A8B29A" : "#F7F1E8";
   const textColor = isActive ? "#FAF7F2" : "#4A3728";
   const iconColor = isActive ? "#FAF7F2" : "#5A3A2C";
   const notchWidth = isActive ? 2 : 1.5;
 
   const bgGradient = isActive
-    ? "linear-gradient(180deg, #B0BCA2 0%, #A8B29A 40%, #9EA898 100%)"
-    : `linear-gradient(180deg, rgba(255,255,255,0.6) 0%, rgba(247,241,232,1) 15%, rgba(247,241,232,1) 85%, rgba(235,228,218,1) 100%)`;
+    ? "linear-gradient(180deg, #B6C1AA 0%, #A8B29A 36%, #98A58B 100%)"
+    : "linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(250,247,242,1) 18%, rgba(247,241,232,1) 80%, rgba(231,222,209,1) 100%)";
 
   const ambientShadow = isActive
-    ? "drop-shadow(0 6px 14px rgba(50,35,20,0.09)) drop-shadow(0 3px 6px rgba(50,35,20,0.04))"
+    ? "drop-shadow(0 9px 18px rgba(50,35,20,0.12)) drop-shadow(0 2px 5px rgba(50,35,20,0.08))"
     : hovered
     ? "drop-shadow(0 4px 10px rgba(50,35,20,0.07)) drop-shadow(0 2px 4px rgba(50,35,20,0.03))"
     : "drop-shadow(0 3px 8px rgba(50,35,20,0.05)) drop-shadow(0 1px 3px rgba(50,35,20,0.02))";
@@ -61,12 +54,12 @@ export default function BookmarkTab({
   const notchTip = 92 - Math.abs(notchOffset) * 0.5;
 
   const clipPath = `polygon(
-    0% 0%, 100% 0%,
+    0.8% 0.4%, 99.2% 0%,
     100% calc(100% - ${notchDepth}px),
     ${53 + notchOffset * 0.3}% 100%,
     50% ${notchTip}%,
     ${47 - notchOffset * 0.3}% 100%,
-    0% calc(100% - ${notchDepth}px)
+    0% calc(100% - ${notchDepth + 1}px)
   )`;
 
   // ── Deterministic texture elements based on index ──
@@ -151,6 +144,7 @@ export default function BookmarkTab({
         left: xOffset,
         width: WIDTH,
         height: height,
+        rotate: `${rotation}deg`,
         filter: ambientShadow,
         zIndex: isActive ? 30 : 24 + (5 - index),
       }}
@@ -198,8 +192,8 @@ export default function BookmarkTab({
           clipPath,
           background: bgGradient,
           boxShadow: isActive
-            ? "inset 0 1px 0.5px rgba(255,255,255,0.3), inset 0 -1px 1.5px rgba(50,35,20,0.05)"
-            : "inset 0 1px 0.5px rgba(255,255,255,0.4), inset 0 -1px 1.5px rgba(50,35,20,0.02)",
+            ? "inset 0 1px 0.5px rgba(255,255,255,0.34), inset 0 -2px 3px rgba(50,35,20,0.08), inset 7px 0 10px rgba(255,255,255,0.06)"
+            : "inset 0 1px 0.5px rgba(255,255,255,0.46), inset 0 -1px 1.5px rgba(50,35,20,0.025)",
           overflow: "hidden",
         }}
       >
@@ -234,6 +228,17 @@ export default function BookmarkTab({
             }}
           />
         ))}
+
+        <div
+          className="absolute inset-0 pointer-events-none select-none mix-blend-multiply"
+          style={{
+            opacity: isActive ? 0.08 : 0.10,
+            backgroundImage: `
+              repeating-linear-gradient(88deg, rgba(110,90,78,0.055) 0px, rgba(110,90,78,0.055) 0.5px, transparent 0.5px, transparent 9px),
+              repeating-linear-gradient(2deg, rgba(255,255,255,0.35) 0px, rgba(255,255,255,0.35) 0.5px, transparent 0.5px, transparent 13px)
+            `,
+          }}
+        />
 
         {/* ── AGING STAINS ── */}
         {stainSpots.map((s, i) => (
@@ -272,8 +277,10 @@ export default function BookmarkTab({
         <div
           className="absolute top-0 left-0 right-0 pointer-events-none select-none"
           style={{
-            height: "11px",
-            background: "linear-gradient(to bottom, rgba(50,35,20,0.08) 0%, rgba(50,35,20,0.03) 40%, transparent 100%)",
+            height: isActive ? "15px" : "11px",
+            background: isActive
+              ? "linear-gradient(to bottom, rgba(50,35,20,0.16) 0%, rgba(50,35,20,0.055) 48%, transparent 100%)"
+              : "linear-gradient(to bottom, rgba(50,35,20,0.08) 0%, rgba(50,35,20,0.03) 40%, transparent 100%)",
             zIndex: 3,
           }}
         />

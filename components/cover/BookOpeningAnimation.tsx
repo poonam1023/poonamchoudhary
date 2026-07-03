@@ -55,7 +55,7 @@ export default function BookOpeningAnimation() {
   const isFlipped = bookState === "open" || bookState === "flipping";
 
   return (
-    <div className="relative w-screen h-screen flex items-center justify-center overflow-hidden" style={{ background: "radial-gradient(ellipse 120% 100% at 50% 0%, #FAF7F2 0%, #F5F0E8 40%, #F0EADF 80%, #EBE5D8 100%)" }}>
+    <div className="relative w-screen h-screen flex items-center justify-center overflow-hidden" style={{ background: "radial-gradient(ellipse 120% 100% at 50% 0%, #5A3E2C 0%, #332015 42%, #1F140E 100%)" }}>
       {/* Warm ambient paper texture overlay */}
       <div
         className="absolute inset-0 pointer-events-none select-none z-0"
@@ -185,7 +185,7 @@ export default function BookOpeningAnimation() {
               : "w-1/2"
           } ${isOpened ? "opacity-100 z-20" : "opacity-0 z-0"}`}
           style={{
-            boxShadow: "0 25px 60px rgba(58, 44, 30, 0.18), 0 5px 20px rgba(58, 44, 30, 0.08)",
+                boxShadow: "0 38px 95px rgba(16, 9, 5, 0.40), 0 14px 32px rgba(16, 9, 5, 0.24)",
           }}
         >
           {/* Subtle inside cover spine crease */}
@@ -335,7 +335,7 @@ export default function BookOpeningAnimation() {
         <div
           className="absolute bottom-0 left-0 right-0 h-[18vh] z-30 pointer-events-none select-none overflow-visible flex items-end justify-center"
           style={{
-            background: "linear-gradient(to top, rgba(200,185,160,0.30) 0%, rgba(220,205,180,0) 100%)",
+            background: "linear-gradient(to top, rgba(40,24,15,0.58) 0%, rgba(72,48,32,0.18) 58%, rgba(72,48,32,0) 100%)",
           }}
         >
           {/* Vase with leaves on the left, sitting on the desk */}
@@ -437,7 +437,7 @@ export default function BookOpeningAnimation() {
 
           {/* Coffee cup on the right */}
           <div
-            className="absolute bottom-[-5px] right-[4%] w-24 h-24 z-40 pointer-events-auto"
+            className="absolute bottom-[10px] right-[4%] w-24 h-24 z-40 pointer-events-auto"
             style={{
               filter: "drop-shadow(3px 8px 14px rgba(58,44,30,0.10))",
             }}
@@ -467,7 +467,7 @@ export default function BookOpeningAnimation() {
 
           {/* Stacks of books under the coffee cup */}
           <div
-            className="absolute bottom-[-30px] right-[2%] w-32 h-14 rounded-sm z-30"
+            className="absolute bottom-[-12px] right-[2%] w-32 h-14 rounded-sm z-30"
             style={{
               background: "linear-gradient(135deg, #C4A882, #B89A70)",
               transform: "rotate(-1deg)",

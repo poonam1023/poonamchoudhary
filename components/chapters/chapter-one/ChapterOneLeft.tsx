@@ -3,6 +3,53 @@
 import React from "react";
 import { BotanicalIllustration } from "@/components/decorations";
 
+function StationeryArtwork() {
+  return (
+    <div className="absolute inset-0 pointer-events-none select-none" style={{ zIndex: 2 }}>
+      <svg className="absolute" style={{ top: "17%", right: "13%", width: 86, height: 58, opacity: 0.12, transform: "rotate(4deg)" }} viewBox="0 0 120 80" fill="none">
+        <path d="M8 8 C24 5 32 11 45 7 C62 3 72 9 89 6 C101 4 109 8 113 11 L108 72 C90 70 77 75 61 71 C44 67 30 73 12 70 Z" fill="#6E5A4E" opacity="0.08" />
+        <path d="M22 24 H93 M21 39 H88 M25 54 H76" stroke="#6E5A4E" strokeWidth="1.1" strokeLinecap="round" />
+        <path d="M17 14 C15 28 15 45 18 65" stroke="#6E5A4E" strokeWidth="0.8" strokeDasharray="2 4" opacity="0.7" />
+      </svg>
+      <svg className="absolute" style={{ top: "48%", right: "10%", width: 26, height: 88, opacity: 0.11, transform: "rotate(-5deg)" }} viewBox="0 0 36 120" fill="none">
+        <path d="M7 2 H29 V114 L18 101 L7 114 Z" fill="#6E5A4E" opacity="0.18" />
+        <path d="M13 16 H23 M13 27 H23 M13 38 H23" stroke="#6E5A4E" strokeWidth="1" strokeLinecap="round" />
+      </svg>
+      <svg className="absolute" style={{ bottom: "21%", right: "18%", width: 95, height: 60, opacity: 0.10, transform: "rotate(-2deg)" }} viewBox="0 0 130 82" fill="none">
+        <path d="M18 64 C28 47 42 43 54 59 C63 43 78 43 87 60 C96 48 110 49 117 65" stroke="#6E5A4E" strokeWidth="1.4" strokeLinecap="round" />
+        <circle cx="38" cy="31" r="9" stroke="#6E5A4E" strokeWidth="1.2" />
+        <circle cx="70" cy="28" r="10" stroke="#6E5A4E" strokeWidth="1.2" />
+        <circle cx="99" cy="36" r="7" stroke="#6E5A4E" strokeWidth="1.2" />
+        <path d="M17 19 Q29 5 43 18 M86 18 Q99 4 116 19" stroke="#6E5A4E" strokeWidth="1" strokeLinecap="round" opacity="0.7" />
+      </svg>
+      <svg className="absolute" style={{ top: "58%", left: "10%", width: 152, height: 22, opacity: 0.18 }} viewBox="0 0 180 28" fill="none">
+        <path d="M3 17 C36 8 61 23 95 14 C121 7 145 8 177 13" stroke="#C4A882" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M120 18 C132 25 146 24 156 19" stroke="#C4A882" strokeWidth="1" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+}
+
+function LowerLeftVase() {
+  return (
+    <div className="absolute pointer-events-none select-none" style={{ left: "1%", bottom: "-6%", width: 70, height: 90, zIndex: 3, opacity: 0.62, filter: "drop-shadow(7px 16px 18px rgba(58,44,30,0.10))" }}>
+      <svg viewBox="0 0 120 150" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+        <path d="M58 138 C35 136 29 119 31 91 C32 73 45 67 45 52 L45 38 H73 L73 52 C73 67 87 73 88 91 C91 119 81 136 58 138 Z" fill="#F4EFE6" stroke="#9B856B" strokeWidth="0.8" />
+        <path d="M42 88 C39 105 43 121 53 130" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" opacity="0.22" />
+        <path d="M46 38 H72" stroke="#7B6654" strokeWidth="1" strokeLinecap="round" />
+        <g stroke="#7D866F" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" opacity="0.72">
+          <path d="M58 38 C51 25 41 20 29 16" />
+          <path d="M59 38 C67 24 79 18 91 13" />
+          <path d="M57 38 C56 25 58 18 61 10" />
+          <path d="M43 25 C35 24 29 27 24 31" />
+          <path d="M73 24 C81 23 87 26 93 31" />
+          <path d="M59 18 C53 16 49 15 44 16" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
 
 /**
  * ChapterOneLeft — The Storytelling Page
@@ -25,27 +72,30 @@ export default function ChapterOneLeft() {
       <div
         className="absolute pointer-events-none select-none"
         style={{
-          top: "-5%",
-          left: "-10%",
-          width: "70%",
-          height: "60%",
-          background: "radial-gradient(circle, rgba(168,178,154,0.08) 0%, transparent 70%)",
-          filter: "blur(20px)",
+          top: "3%",
+          left: "-8%",
+          width: "58%",
+          height: "42%",
+          background: "linear-gradient(124deg, rgba(226,216,198,0.16), rgba(168,178,154,0.06) 54%, transparent 78%)",
+          filter: "blur(18px)",
           zIndex: 0,
         }}
       />
 
       {/* ── Left margin branch framing ── */}
       <BotanicalIllustration
-        variant="fern"
-        scale={1.2}
-        opacity={0.15}
-        position={{ top: "18%", left: "-4%" }}
-        rotation={-15}
-        animation={true}
+        variant="branch"
+        scale={0.72}
+        opacity={0.075}
+        position={{ top: "18%", left: "-3%" }}
+        rotation={-9}
+        animation={false}
         className="pointer-events-none"
         style={{ zIndex: 1 }}
       />
+
+      <StationeryArtwork />
+      <LowerLeftVase />
 
       {/* ── 1. BRAND IDENTITY ── */}
       <div
@@ -97,7 +147,7 @@ export default function ChapterOneLeft() {
       {/* ── 2. TOP SUB-LABEL ── */}
       <div
         className="absolute pointer-events-none select-none"
-        style={{ top: "25%", left: "10%", zIndex: 10 }}
+        style={{ top: "22%", left: "10%", zIndex: 10 }}
       >
         <span
           style={{
@@ -109,14 +159,14 @@ export default function ChapterOneLeft() {
             textTransform: "uppercase",
           }}
         >
-          Parenting isn't perfect.
+          Parenting isn&apos;t perfect.
         </span>
       </div>
 
       {/* ── 3. MASSIVE EDITORIAL HEADLINE ── */}
       <div
         className="absolute select-none pointer-events-none flex flex-col"
-        style={{ top: "29%", left: "10%", right: "8%", zIndex: 10 }}
+        style={{ top: "27%", left: "10%", right: "8%", zIndex: 10 }}
       >
         <h2
           style={{
@@ -144,12 +194,12 @@ export default function ChapterOneLeft() {
         </h2>
 
         {/* Small Decorative leaf divider below headline */}
-        <div className="flex items-center gap-2 mt-4 select-none pointer-events-none opacity-40">
-          <div style={{ width: "30px", height: "0.5px", background: "#6E5A4E" }} />
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6E5A4E" strokeWidth="1.5">
-            <circle cx="12" cy="12" r="9" />
+        <div className="flex items-center gap-2 mt-5 select-none pointer-events-none opacity-35">
+          <div style={{ width: "34px", height: "0.5px", background: "#6E5A4E" }} />
+          <svg width="13" height="8" viewBox="0 0 32 18" fill="none" stroke="#6E5A4E" strokeWidth="1.2">
+            <path d="M2 9 C9 1 15 1 22 9 C25 12 28 13 31 10" strokeLinecap="round" />
           </svg>
-          <div style={{ width: "30px", height: "0.5px", background: "#6E5A4E" }} />
+          <div style={{ width: "34px", height: "0.5px", background: "#6E5A4E" }} />
         </div>
       </div>
 
@@ -157,7 +207,7 @@ export default function ChapterOneLeft() {
       <div
         className="absolute"
         style={{
-          top: "60%",
+          top: "58%",
           left: "10%",
           right: "12%",
           zIndex: 10,
@@ -181,7 +231,7 @@ export default function ChapterOneLeft() {
       <div
         className="absolute flex items-center gap-6"
         style={{
-          top: "76%",
+          top: "75%",
           left: "10%",
           zIndex: 20,
         }}
