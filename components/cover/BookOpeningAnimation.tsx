@@ -16,11 +16,17 @@ import WritingDeskBackground from "./WritingDeskBackground";
 import LeftPage from "@/components/book/LeftPage";
 import ChapterOneLeft from "@/components/chapters/chapter-one/ChapterOneLeft";
 import Book3D from "@/components/book/Book3D";
+import { NavigationProvider, useNavigation } from "@/hooks/useNavigation";
 
-export default function BookOpeningAnimation() {
+function BookOpeningAnimationInner() {
   const [isHovered, setIsHovered] = useState(false);
-  const [bookState, setBookState] = useState<"closed" | "pressing" | "flipping" | "open">("closed");
-  const [isMobile, setIsMobile] = useState(false);
+  const {
+    state,
+    openingPhase,
+    isMobile,
+    openBook,
+    closeBook,
+  } = useNavigation();
   const [mountPhase, setMountPhase] = useState<"black" | "windowLight" | "desk" | "book" | "details" | "cta">("black");
 
   // Mouse position for 3D parallax
@@ -35,14 +41,7 @@ export default function BookOpeningAnimation() {
   // Breathing animation value
   const breatheScale = useMotionValue(1);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+
 
   // Cinematic mount sequence
   useEffect(() => {
@@ -94,21 +93,9 @@ export default function BookOpeningAnimation() {
     [isMobile, mouseX, mouseY]
   );
 
-  const handleOpenBook = async () => {
-    if (bookState !== "closed") return;
-    setBookState("pressing");
-    await new Promise((resolve) => setTimeout(resolve, 350));
-    setBookState("flipping");
-    await new Promise((resolve) => setTimeout(resolve, 850));
-    setBookState("open");
-  };
-
-  const handleCloseBook = () => {
-    setBookState("closed");
-  };
-
-  const isOpened = bookState === "open" || bookState === "flipping";
-  const isFlipped = bookState === "open" || bookState === "flipping";
+  const isOpened = state === "open" || state === "transitioning" || (state === "opening" && openingPhase === "flipping");
+  const isFlipped = state === "open" || state === "transitioning" || (state === "opening" && openingPhase === "flipping");
+  const isPressing = state === "opening" && openingPhase === "pressing";
 
   return (
     <div
@@ -192,10 +179,10 @@ export default function BookOpeningAnimation() {
           animate={{
             x: isMobile ? 0 : isOpened ? 0 : "-25%",
             rotate: isOpened ? 0 : -0.7,
-            scale: bookState === "pressing" ? 0.985 : isMobile ? 1 : 1,
+            scale: isPressing ? 0.985 : isMobile ? 1 : 1,
           }}
           transition={{
-            duration: bookState === "pressing" ? 0.3 : 0.9,
+            duration: isPressing ? 0.35 : 0.9,
             ease: [0.25, 1, 0.5, 1],
           }}
         >
@@ -245,7 +232,7 @@ export default function BookOpeningAnimation() {
               <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-r from-[#3A2C1E]/8 to-transparent z-30" />
             )}
             <div className="book-board-edge" />
-            {bookState === "open" && <ChapterOne onClose={handleCloseBook} />}
+            {(state === "open" || state === "transitioning") && <ChapterOne onClose={closeBook} />}
           </div>
 
           {/* Flip card: Cover Page */}
@@ -254,8 +241,8 @@ export default function BookOpeningAnimation() {
             style={{ width: isMobile ? "100%" : "50%" }}
             animate={{
               rotateY: isFlipped ? -180 : 0,
-              opacity: isMobile && bookState === "open" ? 0 : 1,
-              zIndex: bookState === "open" ? 10 : 30,
+              opacity: isMobile && (state === "open" || state === "transitioning") ? 0 : 1,
+              zIndex: (state === "open" || state === "transitioning") ? 10 : 30,
             }}
             transition={{
               duration: 0.9,
@@ -360,7 +347,7 @@ export default function BookOpeningAnimation() {
                     <OpenBookButton
                       onHoverStart={() => setIsHovered(true)}
                       onHoverEnd={() => setIsHovered(false)}
-                      onClick={handleOpenBook}
+                      onClick={openBook}
                     />
                   </motion.div>
                 </div>
@@ -368,7 +355,7 @@ export default function BookOpeningAnimation() {
 
               <PageCurl
                 isHovered={isHovered}
-                isOpening={bookState === "pressing" || bookState === "flipping"}
+                isOpening={state === "opening"}
               />
             </div>
 
@@ -571,5 +558,13 @@ export default function BookOpeningAnimation() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function BookOpeningAnimation() {
+  return (
+    <NavigationProvider>
+      <BookOpeningAnimationInner />
+    </NavigationProvider>
   );
 }

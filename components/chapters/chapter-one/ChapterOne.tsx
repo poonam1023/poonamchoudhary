@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import LeftPage from "@/components/book/LeftPage";
 import RightPage from "@/components/book/RightPage";
@@ -15,6 +15,7 @@ import GalleryLeft from "../gallery/GalleryLeft";
 import GalleryRight from "../gallery/GalleryRight";
 import ConnectLeft from "../connect/ConnectLeft";
 import ConnectRight from "../connect/ConnectRight";
+import { useNavigation } from "@/hooks/useNavigation";
 
 interface ChapterOneProps {
   /**
@@ -25,14 +26,8 @@ interface ChapterOneProps {
   onClose: () => void;
 }
 
-// ─── Flip Engine Types ────────────────────────────────────────────────────────
-type FlipStep   = { to: number; direction: "forward" | "backward" };
-type ActiveFlip = { to: number; direction: "forward" | "backward"; id: number } | null;
-
 /** Duration of a single page flip in milliseconds. */
 const FLIP_DURATION = 450;
-/** Pause between consecutive flips in milliseconds (feels like brisk page turning). */
-const FLIP_GAP      = 60;
 
 /**
  * ChapterOne — Book chapter orchestrator with physical page-flip engine (V6).
@@ -40,93 +35,14 @@ const FLIP_GAP      = 60;
  * Architecture:
  *  - Left page:  extends leftward via `position: absolute; right: 100%`
  *  - Right page: fills this container
- *
- * Flip Engine (replaces the single isFlipping boolean):
- *  - flipQueue:   ordered queue of FlipStep objects to execute sequentially
- *  - activeFlip:  the step currently animating (acts as a mutex)
- *  - currentPage: what is rendered on screen (switches at each flip's midpoint)
- *  - displayPage: what the bookmarks highlight (jumps to final target immediately)
- *
- * Forward flip  (target > current):
- *   origin-left,  rotateY  0 → -180 — right page sweeps left across the spine
- *
- * Backward flip (target < current):
- *   origin-right, rotateY  0 → +180 — left page sweeps right across the spine
- *   Overlay is positioned at left: -100% to sit over the left page area.
  */
 export default function ChapterOne({ onClose }: ChapterOneProps) {
-  // What is rendered on screen — updates at each flip's midpoint
-  const [currentPage, setCurrentPage] = useState(1);
-  // What the bookmarks highlight — jumps to the final destination immediately
-  const [displayPage, setDisplayPage] = useState(1);
-  // Ordered queue of upcoming individual flips
-  const [flipQueue,   setFlipQueue]   = useState<FlipStep[]>([]);
-  // The flip currently being animated (null = idle)
-  const [activeFlip,  setActiveFlip]  = useState<ActiveFlip>(null);
-  // Monotonically increasing ID so AnimatePresence always gets a unique key
-  const flipIdRef = useRef(0);
-
-  // ── Navigate: build the ordered flip queue ─────────────────────────────────
-  const handleNavigate = (page: number) => {
-    if (page === 0) { onClose(); return; }
-    if (page === displayPage) return;
-    // Ignore clicks while a sequence is already in progress
-    if (flipQueue.length > 0 || activeFlip !== null) return;
-
-    const direction: "forward" | "backward" = page > displayPage ? "forward" : "backward";
-    const steps: FlipStep[] = [];
-
-    if (direction === "forward") {
-      // e.g. current=1 target=4 → steps to: [2, 3, 4]
-      for (let i = displayPage + 1; i <= page; i++) {
-        steps.push({ to: i, direction: "forward" });
-      }
-    } else {
-      // e.g. current=5 target=2 → steps to: [4, 3, 2]
-      for (let i = displayPage - 1; i >= page; i--) {
-        steps.push({ to: i, direction: "backward" });
-      }
-    }
-
-    setDisplayPage(page); // bookmarks jump to destination immediately
-    setFlipQueue(steps);
-  };
-
-  // ── Queue runner: start next flip whenever the engine is idle ──────────────
-  useEffect(() => {
-    if (activeFlip !== null) return;    // animation running — wait for completion
-    if (flipQueue.length === 0) return; // queue empty — nothing to do
-
-    const [next, ...rest] = flipQueue;
-    setActiveFlip({
-      to:        next.to,
-      direction: next.direction,
-      id:        ++flipIdRef.current,   // unique key for AnimatePresence
-    });
-    setFlipQueue(rest);
-  }, [activeFlip, flipQueue]);
-
-  // ── Completion handler: drive timers for the current active flip ───────────
-  useEffect(() => {
-    if (!activeFlip) return;
-
-    // Content switches at midpoint — the blank paper face is fully visible,
-    // so swapping the underlying page content is invisible to the user.
-    const contentSwitch = setTimeout(() => {
-      setCurrentPage(activeFlip.to);
-    }, FLIP_DURATION / 2);
-
-    // Clear the mutex; FLIP_GAP ms after the animation finishes.
-    // Setting activeFlip to null re-triggers the queue runner above.
-    const done = setTimeout(() => {
-      setActiveFlip(null);
-    }, FLIP_DURATION + FLIP_GAP);
-
-    return () => {
-      clearTimeout(contentSwitch);
-      clearTimeout(done);
-    };
-  }, [activeFlip]);
+  const {
+    currentPage,
+    displayPage,
+    activeFlip,
+    goToChapter,
+  } = useNavigation();
 
   // ── Page content renderers (unchanged) ────────────────────────────────────
   const renderLeftPage = () => {
@@ -266,9 +182,9 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
           overflow: "visible",
         }}
       >
-        <BookmarkNavigation
+         <BookmarkNavigation
           currentPage={displayPage}
-          onNavigate={handleNavigate}
+          onNavigate={goToChapter}
         />
       </div>
 
