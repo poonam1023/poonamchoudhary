@@ -13,6 +13,7 @@ export const CHAPTERS: ChapterEntry[] = [
   { id: "chapter-2", title: "Chapter II", numeral: "Ⅱ",  page: 2 },
   { id: "library",   title: "Library",    numeral: "Ⅲ",  page: 3 },
   { id: "gallery",   title: "Gallery",    numeral: "Ⅳ",  page: 4 },
+  { id: "connect",   title: "Connect",    numeral: "Ⅴ",  page: 5 },
 ];
 
 interface BookmarkNavigationProps {

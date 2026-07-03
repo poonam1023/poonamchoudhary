@@ -13,6 +13,8 @@ import LibraryLeft from "../library/LibraryLeft";
 import LibraryRight from "../library/LibraryRight";
 import GalleryLeft from "../gallery/GalleryLeft";
 import GalleryRight from "../gallery/GalleryRight";
+import ConnectLeft from "../connect/ConnectLeft";
+import ConnectRight from "../connect/ConnectRight";
 
 interface ChapterOneProps {
   /**
@@ -86,6 +88,8 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
         return <LibraryLeft />;
       case 4:
         return <GalleryLeft />;
+      case 5:
+        return <ConnectLeft />;
       default:
         return <ChapterOneLeft />;
     }
@@ -101,6 +105,8 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
         return <LibraryRight />;
       case 4:
         return <GalleryRight />;
+      case 5:
+        return <ConnectRight />;
       default:
         return <ChapterOneRight />;
     }

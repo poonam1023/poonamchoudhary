@@ -1,212 +1,99 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import {
-  WatercolorSplash,
   EditorialLabel,
   DecorativeDivider,
-  WaxSeal,
+  WatercolorSplash,
   PressedFlower,
   InkSplash,
 } from "@/components/decorations";
 
-/**
- * CoffeeStain
- *
- * Renders an organic coffee cup stain ring using SVG pathing,
- * mimicking a coffee-table book surface.
- */
-function CoffeeStain({ style }: { style?: React.CSSProperties }) {
-  return (
-    <div
-      className="absolute pointer-events-none select-none"
-      style={{
-        width: 80,
-        height: 80,
-        opacity: 0.15,
-        mixBlendMode: "multiply",
-        filter: "blur(0.5px)",
-        ...style,
-      }}
-    >
-      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        {/* Main irregular ring */}
-        <path
-          d="M 50 12 C 73 10, 89 28, 88 50 C 87 72, 70 88, 50 88 C 28 88, 12 72, 12 50 C 12 28, 28 14, 50 12 Z M 50 16 C 30 18, 16 32, 16 50 C 16 68, 30 84, 50 84 C 68 84, 83 68, 84 50 C 85 32, 70 18, 50 16 Z"
-          fill="#6E5A4E"
-        />
-        {/* Inner drips / splatters */}
-        <circle cx="50" cy="50" r="1.5" fill="#6E5A4E" opacity="0.7" />
-        <circle cx="62" cy="38" r="1" fill="#6E5A4E" opacity="0.6" />
-        <path d="M 50 80 Q 52 83 55 81" stroke="#6E5A4E" strokeWidth="0.8" opacity="0.8" />
-        <path d="M 22 45 Q 20 42 18 46" stroke="#6E5A4E" strokeWidth="0.6" opacity="0.5" />
-      </svg>
-    </div>
-  );
-}
+const ENTRIES = [
+  { date: "Feb 28", text: "Today we planted seeds in tiny pots on the windowsill. She named each one. I hope she always names her dreams before she plants them." },
+  { date: "Mar 4", text: "He fell and scraped his knee. Before I could say anything, he looked up and said, 'It's OK, Mama. Falling is how we learn.' Out of the mouth of my teacher." },
+  { date: "Mar 11", text: "The rain came suddenly. We danced in it. No agenda, no schedule. Just wet hair and laughter. These are the pages I want to remember." },
+];
 
-/**
- * GalleryRight — Closing Signature Canvas
- *
- * Replaces the webpage-like flexbox container with a handcrafted editorial spread canvas.
- * Elements are placed with precise absolute values.
- */
 export default function GalleryRight() {
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ background: "transparent" }}>
-      {/* ── 1. BACKGROUND WATERCOLOR WASHS ── */}
-      <WatercolorSplash
-        variant="cream"
-        opacity={0.16}
-        position={{ top: "12%", right: "10%" }}
-        width={240}
-        height={180}
-      />
-      <WatercolorSplash
-        variant="sage"
-        opacity={0.14}
-        position={{ bottom: "14%", left: "5%" }}
-        width={200}
-        height={160}
-      />
+      <WatercolorSplash variant="cream" opacity={0.16} position={{ top: "8%", right: "8%" }} width={240} height={190} />
+      <WatercolorSplash variant="sage" opacity={0.10} position={{ bottom: "10%", left: "6%" }} width={190} height={150} />
 
-      {/* Coffee ring stain at the bottom left */}
-      <CoffeeStain style={{ bottom: "8%", left: "8%", zIndex: 5 }} />
-
-      {/* ── 2. EDITORIAL TOP HEADER ── */}
-      <div
-        className="absolute flex flex-col items-center pointer-events-none select-none"
-        style={{ top: "10%", left: "10%", right: "10%", zIndex: 10 }}
-      >
-        <EditorialLabel text="Closing Signature" />
-        <h3
-          style={{
-            fontFamily: "var(--font-cormorant), serif",
-            fontSize: "clamp(16px, 2.8vh, 24px)",
-            fontWeight: 700,
-            color: "#2A1E16",
-            letterSpacing: "0.02em",
-            textAlign: "center",
-            marginTop: "10px",
-          }}
-        >
-          In Gratitude
+      {/* HEADER */}
+      <div className="absolute flex flex-col items-center pointer-events-none select-none" style={{ top: "7%", left: "10%", right: "10%", zIndex: 10 }}>
+        <EditorialLabel text="Scrapbook" />
+        <h3 style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "clamp(16px, 2.7vh, 23px)", fontWeight: 700, color: "#2A1E16", letterSpacing: "0.02em", textAlign: "center", marginTop: "8px" }}>
+          Moments from the Journey
         </h3>
-        <DecorativeDivider variant="fleuron" opacity={0.25} className="my-2 w-16" />
+        <DecorativeDivider variant="fleuron" opacity={0.22} className="my-1.5 w-12" />
       </div>
 
-      {/* ── 3. LETTER & SIGNATURE ── */}
-      <div
-        className="absolute text-center select-text"
-        style={{
-          top: "34%",
-          left: "12%",
-          right: "12%",
-          zIndex: 10,
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "var(--font-cormorant), serif",
-            fontSize: "clamp(11px, 1.8vh, 14px)",
-            lineHeight: 1.88,
-            color: "#4A3728",
-            fontStyle: "italic",
-            marginBottom: "16px",
-          }}
-        >
-          "Every story is an architect of tomorrow. Thank you for joining me on this journey of
-          design, code, and guiding the hearts of our next generation."
-        </p>
-
-        {/* Signature graphic from public/ */}
-        <div className="relative w-36 h-14 mx-auto my-2 select-none pointer-events-none">
-          <Image
-            src="/signature.png"
-            alt="Poonam Choudhary Signature"
-            fill
-            className="object-contain"
+      {/* SCRAPBOOK ENTRIES */}
+      <div className="absolute" style={{ top: "30%", left: "8%", right: "8%", zIndex: 10 }}>
+        <div style={{ width: "24px", height: "0.5px", background: "rgba(110,90,78,0.18)", marginBottom: "10px" }} />
+        {ENTRIES.map((e, i) => (
+          <div
+            key={i}
+            className="mb-2.5 last:mb-0"
             style={{
-              filter: "contrast(1.1) brightness(0.9) sepia(20%) opacity(0.75)",
-              mixBlendMode: "multiply",
-            }}
-            priority
-          />
-        </div>
-
-        <div className="flex flex-col items-center">
-          <span
-            style={{
-              fontFamily: "var(--font-inter), sans-serif",
-              fontSize: "6.5px",
-              fontWeight: 700,
-              letterSpacing: "0.22em",
-              color: "#6E5A4E",
-              textTransform: "uppercase",
-              display: "block",
+              padding: "8px 10px 8px 12px",
+              background: i === 1 ? "rgba(247,241,232,0.6)" : "rgba(250,247,242,0.4)",
+              borderLeft: `2px solid ${i === 0 ? "rgba(168,178,154,0.25)" : i === 1 ? "rgba(196,168,130,0.20)" : "rgba(110,90,78,0.12)"}`,
+              borderRadius: "1px",
+              transform: i === 1 ? "rotate(-0.8deg)" : i === 2 ? "rotate(0.6deg)" : "none",
+              position: "relative",
+              overflow: "hidden",
             }}
           >
-            Poonam Choudhary
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-inter), sans-serif",
-              fontSize: "5px",
-              letterSpacing: "0.16em",
-              color: "#6E5A4E",
-              textTransform: "uppercase",
-              display: "block",
-              marginTop: "4px",
-            }}
-          >
-            New Delhi, India
-          </span>
+            {/* Coffee stain on first entry */}
+            {i === 0 && (
+              <div className="absolute pointer-events-none select-none" style={{ right: "-4px", bottom: "-4px", width: "28px", height: "28px", opacity: 0.10, mixBlendMode: "multiply" }}>
+                <svg viewBox="0 0 30 30" fill="none">
+                  <circle cx="15" cy="15" r="10" stroke="#6E5A4E" strokeWidth="1.5" opacity="0.5" />
+                  <circle cx="15" cy="15" r="8" stroke="#6E5A4E" strokeWidth="0.8" opacity="0.3" />
+                </svg>
+              </div>
+            )}
+            <div className="flex items-center gap-1.5 mb-1">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#9EA88A" strokeWidth="1.5" strokeLinecap="round" style={{ opacity: 0.5, flexShrink: 0 }}>
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              <span style={{ fontFamily: "var(--font-sans), sans-serif", fontSize: "6.5px", fontWeight: 600, letterSpacing: "0.08em", color: "#6E5A4E", opacity: 0.6 }}>{e.date}</span>
+            </div>
+            <p style={{ fontFamily: "var(--font-cormorant), serif", fontWeight: 500, fontSize: "clamp(9.5px, 1.4vh, 11px)", lineHeight: 1.7, color: "#4A3728" }}>
+              &ldquo;{e.text}&rdquo;
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* POLAROID-STYLE PHOTO PLACEHOLDER */}
+      <div className="absolute pointer-events-none select-none" style={{ bottom: "12%", right: "7%", zIndex: 12, transform: "rotate(3deg)" }}>
+        <div style={{ width: "60px", height: "72px", background: "#F5F0E8", padding: "4px 4px 14px 4px", boxShadow: "1px 3px 8px rgba(58,44,30,0.06), 0 1px 2px rgba(58,44,30,0.03)", borderRadius: "1px" }}>
+          <div style={{ width: "100%", height: "100%", background: "rgba(200,190,175,0.2)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(110,90,78,0.12)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
+            </svg>
+          </div>
         </div>
       </div>
 
-      {/* ── 4. TACTILE SEALS & PRESSED FLOWERS ── */}
-      <WaxSeal
-        variant="terracotta"
-        scale={0.9}
-        rotation={-12}
-        position={{ bottom: "12%", right: "12%" }}
-        style={{ zIndex: 25 }}
-      />
+      <PressedFlower variant="fern-leaf" scale={0.65} opacity={0.45} position={{ bottom: "6%", left: "4%" }} style={{ zIndex: 11 }} />
 
-      <PressedFlower
-        variant="wildflower"
-        scale={0.8}
-        rotation={20}
-        opacity={0.55}
-        position={{ bottom: "14%", left: "15%" }}
-        style={{ zIndex: 25 }}
-      />
+      <InkSplash variant="splash" scale={0.5} opacity={0.08} position={{ top: "22%", right: "12%" }} style={{ zIndex: 6 }} />
 
-      <InkSplash
-        variant="droplet"
-        scale={0.8}
-        opacity={0.14}
-        position={{ top: "25%", right: "15%" }}
-        style={{ zIndex: 12 }}
-      />
+      {/* Dried leaf accent */}
+      <div className="absolute pointer-events-none select-none" style={{ bottom: "26%", left: "2%", zIndex: 8, opacity: 0.06, transform: "rotate(40deg)" }}>
+        <svg width="30" height="50" viewBox="0 0 30 50" fill="none">
+          <path d="M15 48 Q5 30 10 12 Q15 2 20 12 Q25 30 15 48 Z" stroke="#6E5A4E" strokeWidth="0.6" />
+          <path d="M15 48 L15 12" stroke="#6E5A4E" strokeWidth="0.4" opacity="0.5" />
+        </svg>
+      </div>
 
-      {/* ── 5. FOOTER PAGE NUMBER ── */}
-      <div
-        className="absolute pointer-events-none select-none"
-        style={{ bottom: "3%", left: "50%", transform: "translateX(-50%)", zIndex: 10 }}
-      >
-        <span
-          style={{
-            fontFamily: "var(--font-cormorant), serif",
-            fontSize: "8px",
-            letterSpacing: "0.3em",
-            color: "#6E5A4E",
-            opacity: 0.22,
-          }}
-        >
-          4
-        </span>
+      <div className="absolute pointer-events-none select-none" style={{ bottom: "3%", left: "50%", transform: "translateX(-50%)", zIndex: 10 }}>
+        <span style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "8px", letterSpacing: "0.3em", color: "#6E5A4E", opacity: 0.22 }}>4</span>
       </div>
     </div>
   );

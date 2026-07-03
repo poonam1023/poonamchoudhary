@@ -2,130 +2,64 @@
 
 import React from "react";
 import {
-  WatercolorSplash,
   EditorialLabel,
   DecorativeDivider,
+  WatercolorSplash,
   PaperNote,
-  PressedFlower,
-  LibrarySeal,
   InkSplash,
+  BotanicalIllustration,
 } from "@/components/decorations";
 
-/**
- * ChapterTwoRight — Methodology Canvas
- *
- * Replaces the webpage-like flexbox container with a handcrafted editorial spread canvas.
- * Elements are placed with precise absolute values.
- */
+const PRINCIPLES = [
+  { numeral: "I",   title: "Presence before perfection", body: "Perfection is an illusion that steals the moment. Presence is the gift that fills it. Children remember who showed up, not who performed flawlessly." },
+  { numeral: "II",  title: "Connection before correction", body: "A child who feels connected is a child who can learn. Discipline without relationship is just control. Lead with warmth, then guide." },
+  { numeral: "III", title: "Empathy creates resilience", body: "When a child feels understood, they develop the inner strength to face the world. Empathy is not softness. It is the bedrock of courage." },
+  { numeral: "IV",  title: "Boundaries with love", body: "Clear, kind limits teach safety and respect. A boundary set with love is not a wall. It is a doorway the child can trust." },
+  { numeral: "V",   title: "Growth is lifelong", body: "We are not raising children. We are raising adults. And we, too, are still growing. The journey of conscious parenting never ends, and it transforms us as much as it transforms them." },
+];
+
 export default function ChapterTwoRight() {
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ background: "transparent" }}>
-      {/* ── 1. BACKGROUND WATERCOLOR WASHS ── */}
-      <WatercolorSplash
-        variant="rose"
-        opacity={0.12}
-        position={{ top: "12%", right: "8%" }}
-        width={250}
-        height={200}
-      />
-      <WatercolorSplash
-        variant="cream"
-        opacity={0.14}
-        position={{ bottom: "14%", left: "5%" }}
-        width={200}
-        height={160}
-      />
+      <WatercolorSplash variant="rose" opacity={0.10} position={{ top: "8%", right: "5%" }} width={260} height={210} />
+      <WatercolorSplash variant="cream" opacity={0.12} position={{ bottom: "10%", left: "8%" }} width={200} height={160} />
 
-      {/* ── 2. EDITORIAL TOP HEADER ── */}
-      <div
-        className="absolute flex flex-col items-center pointer-events-none select-none"
-        style={{ top: "10%", left: "10%", right: "10%", zIndex: 10 }}
-      >
-        <EditorialLabel text="Methodology" />
-        <h3
-          style={{
-            fontFamily: "var(--font-cormorant), serif",
-            fontSize: "clamp(16px, 2.8vh, 24px)",
-            fontWeight: 700,
-            color: "#2A1E16",
-            letterSpacing: "0.02em",
-            textAlign: "center",
-            marginTop: "10px",
-          }}
-        >
-          Pillars of the Practice
+      <BotanicalIllustration variant="branch" scale={0.6} opacity={0.09} position={{ bottom: "2%", right: "2%" }} rotation={15} />
+
+      <div className="absolute flex flex-col items-center pointer-events-none select-none" style={{ top: "8%", left: "10%", right: "10%", zIndex: 10 }}>
+        <EditorialLabel text="The Principles I Live By" />
+        <h3 style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "clamp(16px, 2.7vh, 23px)", fontWeight: 700, color: "#2A1E16", letterSpacing: "0.02em", textAlign: "center", marginTop: "10px" }}>
+          Five Pillars of Mindful Parenting
         </h3>
-        <DecorativeDivider variant="fleuron" opacity={0.25} className="my-2 w-16" />
+        <DecorativeDivider variant="fleuron" opacity={0.22} className="my-2 w-16" />
       </div>
 
-      {/* ── 3. TACTILE LAYERED CARDS (OVERLAPPING COMPOSITION) ── */}
-      {/* Card 1: Empathy & Intention (taped down) */}
-      <PaperNote
-        text="EMPATHY & INTENTION: Listening to the unspoken needs of the user, or the silent signals of a child. Design begins in silence."
-        paperColor="cream"
-        rotation={-2.2}
-        width={155}
-        position={{ top: "27%", left: "12%" }}
-        tape={true}
-        style={{ zIndex: 20 }}
-      />
+      {/* PRINCIPLES LIST */}
+      <div className="absolute" style={{ top: "32%", left: "10%", right: "10%", zIndex: 10 }}>
+        <div style={{ width: "24px", height: "0.5px", background: "rgba(110,90,78,0.18)", marginBottom: "10px" }} />
+        {PRINCIPLES.map((p, i) => (
+          <div key={i} className="flex gap-3 mb-3 last:mb-0">
+            <div style={{ flexShrink: 0, width: "28px", textAlign: "center", paddingTop: "1px" }}>
+              <span style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "16px", fontWeight: 700, color: "#9EA88A", opacity: 0.7, lineHeight: 1 }}>{p.numeral}</span>
+            </div>
+            <div>
+              <h4 style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "clamp(11px, 1.6vh, 12.5px)", fontWeight: 600, color: "#3A2C1E", marginBottom: "2px" }}>
+                {p.title}
+              </h4>
+              <p style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "clamp(9px, 1.35vh, 10.5px)", lineHeight: 1.6, color: "#5A4A38", opacity: 0.85 }}>
+                {p.body}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
 
-      {/* Card 2: Precision & Structure (pinned down, overlapping Card 1 slightly) */}
-      <PaperNote
-        text="PRECISION & STRUCTURE: The architectural grid of layout, the syntax of code, the clear boundaries of a home. Freedom thrives inside form."
-        paperColor="sage"
-        rotation={2.8}
-        width={155}
-        position={{ bottom: "16%", right: "12%" }}
-        pin={true}
-        tape={false}
-        style={{ zIndex: 22 }}
-      />
+      <PaperNote text="These principles are not rules. They are reminders. Print them, pin them, return to them." paperColor="sage" rotation={1.8} width={130} position={{ bottom: "9%", right: "8%" }} tape={true} style={{ zIndex: 20 }} />
 
-      {/* Pressed Fern leaf tucked under Card 2 */}
-      <PressedFlower
-        variant="fern-leaf"
-        scale={0.75}
-        rotation={15}
-        opacity={0.45}
-        position={{ bottom: "32%", right: "7%" }}
-        style={{ zIndex: 21 }}
-      />
+      <InkSplash variant="droplet" scale={0.6} opacity={0.12} position={{ top: "22%", right: "18%" }} style={{ zIndex: 8 }} />
 
-      {/* Embossed Library Seal in the margins */}
-      <LibrarySeal
-        variant="emboss"
-        scale={0.8}
-        rotation={12}
-        position={{ top: "36%", right: "44%" }}
-        style={{ zIndex: 23 }}
-      />
-
-      {/* Subtle Ink Spot */}
-      <InkSplash
-        variant="droplet"
-        scale={0.7}
-        opacity={0.16}
-        position={{ top: "20%", right: "22%" }}
-        style={{ zIndex: 12 }}
-      />
-
-      {/* ── 4. FOOTER PAGE NUMBER ── */}
-      <div
-        className="absolute pointer-events-none select-none"
-        style={{ bottom: "3%", left: "50%", transform: "translateX(-50%)", zIndex: 10 }}
-      >
-        <span
-          style={{
-            fontFamily: "var(--font-cormorant), serif",
-            fontSize: "8px",
-            letterSpacing: "0.3em",
-            color: "#6E5A4E",
-            opacity: 0.22,
-          }}
-        >
-          2
-        </span>
+      <div className="absolute pointer-events-none select-none" style={{ bottom: "3%", left: "50%", transform: "translateX(-50%)", zIndex: 10 }}>
+        <span style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "8px", letterSpacing: "0.3em", color: "#6E5A4E", opacity: 0.22 }}>2</span>
       </div>
     </div>
   );
