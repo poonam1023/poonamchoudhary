@@ -5,7 +5,9 @@ import MaskingTape from "./MaskingTape";
 import PaperTexture from "./PaperTexture";
 
 interface HandwrittenNoteProps {
-  text: string;
+  text?: string;
+  children?: React.ReactNode;
+  fontSize?: string | number;
   position?: { top?: number | string; left?: number | string; right?: number | string; bottom?: number | string };
   rotation?: number;
   scale?: number;
@@ -15,7 +17,9 @@ interface HandwrittenNoteProps {
 }
 
 export default function HandwrittenNote({
-  text,
+  text = "",
+  children,
+  fontSize,
   position = { bottom: "8%", right: "12%" },
   rotation = 3,
   scale = 1,
@@ -56,15 +60,22 @@ export default function HandwrittenNote({
 
       <PaperTexture variant="parchment" opacity={0.6} />
 
-      <p
-        className="text-center font-display italic leading-tight text-[11px] text-[#4A392F]"
-        style={{
-          fontFamily: "Georgia, serif", // Fallback for handwriting
-          textShadow: "0.2px 0.2px 0px rgba(255,255,255,0.6)",
-        }}
-      >
-        {text}
-      </p>
+      {children ? (
+        <div className="relative z-10 w-full h-full text-[#4A392F]">
+          {children}
+        </div>
+      ) : (
+        <p
+          className="text-center font-display italic leading-tight text-[#4A392F]"
+          style={{
+            fontFamily: "Georgia, serif", // Fallback for handwriting
+            textShadow: "0.2px 0.2px 0px rgba(255,255,255,0.6)",
+            fontSize: fontSize || "11px",
+          }}
+        >
+          {text}
+        </p>
+      )}
     </div>
   );
 }

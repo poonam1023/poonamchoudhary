@@ -5,7 +5,9 @@ import MaskingTape from "./MaskingTape";
 import PaperTexture from "./PaperTexture";
 
 interface PaperNoteProps {
-  text: string;
+  text?: string;
+  children?: React.ReactNode;
+  fontSize?: string | number;
   rotation?: number;
   paperColor?: "cream" | "sage" | "rose" | "tan";
   shadow?: boolean;
@@ -21,7 +23,9 @@ interface PaperNoteProps {
 }
 
 export default function PaperNote({
-  text,
+  text = "",
+  children,
+  fontSize,
   rotation = 3,
   paperColor = "cream",
   shadow = true,
@@ -101,13 +105,22 @@ export default function PaperNote({
       {/* Texture overlays */}
       <PaperTexture variant={paperColor === "cream" ? "antique" : paperColor === "tan" ? "parchment" : paperColor} opacity={0.6} />
 
-      {/* Text */}
-      <p
-        className="relative z-10 text-center italic leading-relaxed text-[11.5px] text-[#4A392F]"
-        style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-      >
-        {text}
-      </p>
+      {/* Text or custom children */}
+      {children ? (
+        <div className="relative z-10 w-full h-full text-[#4A392F]">
+          {children}
+        </div>
+      ) : (
+        <p
+          className="relative z-10 text-center italic leading-relaxed text-[#4A392F]"
+          style={{
+            fontFamily: "var(--font-cormorant), Georgia, serif",
+            fontSize: fontSize || "11.5px",
+          }}
+        >
+          {text}
+        </p>
+      )}
     </div>
   );
 }
