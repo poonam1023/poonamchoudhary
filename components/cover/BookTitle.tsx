@@ -34,7 +34,7 @@ function BookTitle() {
             "2.5px 2.5px 5px rgba(45,30,20,0.12)",
         }}
       >
-        PROJECT POONAM
+        POONAM CHOUDHARY
       </h1>
       {/* Gold foil sheen overlay */}
       <motion.span
@@ -50,7 +50,7 @@ function BookTitle() {
         } as any}
         aria-hidden="true"
       >
-        PROJECT POONAM
+        POONAM CHOUDHARY
       </motion.span>
     </div>
   );
