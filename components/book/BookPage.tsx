@@ -30,7 +30,7 @@ interface BookPageProps {
  *  15. Foxing spots — 5 tiny aged brown dots at seeded positions
  *  16. Very subtle top-edge darkening (moisture absorption)
  */
-export default function BookPage({ side, children, className = "" }: BookPageProps) {
+function BookPage({ side, children, className = "" }: BookPageProps) {
   const isLeft = side === "left";
 
   return (
@@ -191,3 +191,5 @@ export default function BookPage({ side, children, className = "" }: BookPagePro
     </div>
   );
 }
+
+export default React.memo(BookPage);

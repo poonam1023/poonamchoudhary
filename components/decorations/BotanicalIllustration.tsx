@@ -14,7 +14,7 @@ interface BotanicalIllustrationProps {
   style?: React.CSSProperties;
 }
 
-export default function BotanicalIllustration({
+function BotanicalIllustration({
   position = { top: "10%", right: "5%" },
   rotation = 0,
   scale = 1,
@@ -186,3 +186,5 @@ export default function BotanicalIllustration({
     </motion.div>
   );
 }
+
+export default React.memo(BotanicalIllustration);

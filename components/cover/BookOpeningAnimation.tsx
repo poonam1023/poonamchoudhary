@@ -41,7 +41,9 @@ function BookOpeningAnimationInner() {
   // Breathing animation value
   const breatheScale = useMotionValue(1);
 
-
+  const isAnimating = ["opening", "closing", "transitioning"].includes(state);
+  const handleHoverStart = useCallback(() => setIsHovered(true), []);
+  const handleHoverEnd = useCallback(() => setIsHovered(false), []);
 
   // Cinematic mount sequence
   useEffect(() => {
@@ -99,7 +101,9 @@ function BookOpeningAnimationInner() {
 
   return (
     <div
-      className="relative w-screen h-screen flex items-center justify-center overflow-hidden"
+      className={`relative w-screen h-screen flex items-center justify-center overflow-hidden ${
+        isAnimating ? "book-animating" : ""
+      }`}
       onMouseMove={handleMouseMove}
       style={{ background: "#1A1410" }}
     >
@@ -169,13 +173,22 @@ function BookOpeningAnimationInner() {
                 perspective: "1500px",
                 rotateX: rotateX,
                 rotateY: rotateY,
+                willChange: "transform",
               }
         }
       >
         {/* Book Spread Container */}
         <motion.div
           className="relative flex items-center justify-center w-full h-full"
-          style={isMobile ? {} : { translateZ: translateZ, scale: breatheScale }}
+          style={
+            isMobile
+              ? {}
+              : {
+                  translateZ: translateZ,
+                  scale: breatheScale,
+                  willChange: isAnimating ? "transform" : "auto",
+                }
+          }
           animate={{
             x: isMobile ? 0 : isOpened ? 0 : "-25%",
             rotate: isOpened ? 0 : -0.7,
@@ -238,7 +251,10 @@ function BookOpeningAnimationInner() {
           {/* Flip card: Cover Page */}
           <motion.div
             className="absolute right-0 top-0 h-full preserve-3d origin-left"
-            style={{ width: isMobile ? "100%" : "50%" }}
+            style={{
+              width: isMobile ? "100%" : "50%",
+              willChange: isAnimating ? "transform, opacity" : "auto",
+            }}
             animate={{
               rotateY: isFlipped ? -180 : 0,
               opacity: isMobile && (state === "open" || state === "transitioning") ? 0 : 1,
@@ -345,8 +361,8 @@ function BookOpeningAnimationInner() {
                     className="mt-12"
                   >
                     <OpenBookButton
-                      onHoverStart={() => setIsHovered(true)}
-                      onHoverEnd={() => setIsHovered(false)}
+                      onHoverStart={handleHoverStart}
+                      onHoverEnd={handleHoverEnd}
                       onClick={openBook}
                     />
                   </motion.div>

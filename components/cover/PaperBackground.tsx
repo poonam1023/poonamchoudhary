@@ -2,7 +2,7 @@ import React from "react";
 import PaperTexture from "./PaperTexture";
 import PaperGrain from "./PaperGrain";
 
-export default function PaperBackground() {
+function PaperBackground() {
   return (
     <div className="absolute inset-0 w-full h-full bg-[#F7F1E8] overflow-hidden select-none pointer-events-none rounded-md">
       {/* 1. Base color stains and blends */}
@@ -16,3 +16,5 @@ export default function PaperBackground() {
     </div>
   );
 }
+
+export default React.memo(PaperBackground);

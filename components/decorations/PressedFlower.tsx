@@ -14,7 +14,7 @@ interface PressedFlowerProps {
   style?: React.CSSProperties;
 }
 
-export default function PressedFlower({
+function PressedFlower({
   position = { bottom: "10%", left: "5%" },
   rotation = 12,
   scale = 1,
@@ -136,3 +136,5 @@ export default function PressedFlower({
     </motion.div>
   );
 }
+
+export default React.memo(PressedFlower);

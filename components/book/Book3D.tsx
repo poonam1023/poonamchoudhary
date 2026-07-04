@@ -16,7 +16,7 @@ interface Book3DProps {
  *  4. Layered ambient + contact shadows under the book spread.
  *  5. Rounded page corners and page bevel edges.
  */
-export default function Book3D({ children }: Book3DProps) {
+function Book3D({ children }: Book3DProps) {
   return (
     <div className="relative w-full h-full select-none">
       {/* ── 1. LAYERED DROP SHADOWS (Floating Book on Desk Effect) ── */}
@@ -156,3 +156,5 @@ export default function Book3D({ children }: Book3DProps) {
     </div>
   );
 }
+
+export default React.memo(Book3D);

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function BookSubtitle() {
+function BookSubtitle() {
   return (
     <div className="flex flex-col items-center justify-center space-y-4 select-none">
       {/* Decorative star ornament between Title and Subtitle */}
@@ -11,3 +11,5 @@ export default function BookSubtitle() {
     </div>
   );
 }
+
+export default React.memo(BookSubtitle);

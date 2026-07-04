@@ -52,8 +52,14 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
   const stateRef = useRef(state);
   const currentPageRef = useRef(currentPage);
   const displayPageRef = useRef(displayPage);
+  const isTransitioningRef = useRef(false);
 
-  useEffect(() => { stateRef.current = state; }, [state]);
+  useEffect(() => {
+    stateRef.current = state;
+    if (state === "open" || state === "closed") {
+      isTransitioningRef.current = false;
+    }
+  }, [state]);
   useEffect(() => { currentPageRef.current = currentPage; }, [currentPage]);
   useEffect(() => { displayPageRef.current = displayPage; }, [displayPage]);
 
@@ -68,7 +74,8 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
   }, []);
 
   const openBook = useCallback(async () => {
-    if (stateRef.current !== "closed") return;
+    if (stateRef.current !== "closed" || isTransitioningRef.current) return;
+    isTransitioningRef.current = true;
     setState("opening");
     setOpeningPhase("pressing");
 
@@ -83,7 +90,8 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
   }, []);
 
   const closeBook = useCallback(() => {
-    if (stateRef.current !== "open" && stateRef.current !== "transitioning") return;
+    if ((stateRef.current !== "open" && stateRef.current !== "transitioning") || isTransitioningRef.current) return;
+    isTransitioningRef.current = true;
     setState("closing");
     setDisplayPage(0);
     setFlipQueue([]);
@@ -96,14 +104,14 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
   }, []);
 
   const goToChapter = useCallback((page: number) => {
-    if (stateRef.current !== "open" && stateRef.current !== "transitioning") return;
+    if (stateRef.current !== "open" || isTransitioningRef.current) return;
     if (page === 0) {
       closeBook();
       return;
     }
     if (page === displayPageRef.current) return;
-    if (stateRef.current === "transitioning") return;
 
+    isTransitioningRef.current = true;
     const direction: "forward" | "backward" = page > displayPageRef.current ? "forward" : "backward";
     const steps: FlipStep[] = [];
     if (direction === "forward") {
@@ -144,6 +152,8 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
   }, [closeBook, goToChapter]);
 
   const openAndGoToPage = useCallback(async (page: number) => {
+    if (stateRef.current !== "closed" || isTransitioningRef.current) return;
+    isTransitioningRef.current = true;
     setState("opening");
     setOpeningPhase("pressing");
     await new Promise((resolve) => setTimeout(resolve, 350));
@@ -266,6 +276,11 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
 
+      if (isTransitioningRef.current) {
+        wheelAccumulator = 0;
+        return;
+      }
+
       const currentState = stateRef.current;
       if (currentState !== "closed" && currentState !== "open") {
         wheelAccumulator = 0;
@@ -304,6 +319,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
+      if (isTransitioningRef.current) return;
       const currentState = stateRef.current;
       if (currentState !== "closed" && currentState !== "open") {
         return;
@@ -323,6 +339,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (isTransitioningRef.current) return;
       const currentState = stateRef.current;
       if (currentState !== "closed" && currentState !== "open") return;
 

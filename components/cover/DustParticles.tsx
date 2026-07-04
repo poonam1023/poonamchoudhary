@@ -33,11 +33,18 @@ export default function DustParticles() {
     const numFibers = 15;
     let time = 0;
 
+    let resizeTimeout: NodeJS.Timeout;
+
     const resizeCanvas = () => {
       if (typeof window !== "undefined") {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        initParticles();
+        
+        // Debounce particle re-initialization to avoid GC/object allocation thrashing
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          initParticles();
+        }, 150);
       }
     };
 
@@ -157,6 +164,7 @@ export default function DustParticles() {
       if (typeof window !== "undefined") {
         window.removeEventListener("resize", resizeCanvas);
       }
+      clearTimeout(resizeTimeout);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function AuthorName() {
+function AuthorName() {
   return (
     <div className="flex flex-col items-center justify-center select-none">
       {/* Decorative fleuron divider */}
@@ -16,3 +16,5 @@ export default function AuthorName() {
     </div>
   );
 }
+
+export default React.memo(AuthorName);

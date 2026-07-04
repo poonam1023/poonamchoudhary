@@ -6,7 +6,8 @@ import { motion } from "framer-motion";
 interface BookmarkTabProps {
   label: string;
   isActive: boolean;
-  onClick: () => void;
+  onNavigate: (page: number) => void;
+  page: number;
   index: number;
   xOffset: number;
   rotation: number;
@@ -15,10 +16,11 @@ interface BookmarkTabProps {
   notchOffset: number;
 }
 
-export default function BookmarkTab({
+function BookmarkTab({
   label,
   isActive,
-  onClick,
+  onNavigate,
+  page,
   index,
   xOffset,
   rotation,
@@ -27,6 +29,10 @@ export default function BookmarkTab({
   notchOffset,
 }: BookmarkTabProps) {
   const [hovered, setHovered] = React.useState(false);
+
+  const handleClick = React.useCallback(() => {
+    onNavigate(page);
+  }, [onNavigate, page]);
 
   const WIDTH = 62;
   const ACTIVE_DROP = 9;
@@ -296,7 +302,7 @@ export default function BookmarkTab({
 
         {/* ── CONTENT ── */}
         <button
-          onClick={onClick}
+          onClick={handleClick}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           className="relative w-full h-full flex flex-col items-center justify-center focus:outline-none z-10"
@@ -347,3 +353,5 @@ export default function BookmarkTab({
     </motion.div>
   );
 }
+
+export default React.memo(BookmarkTab);

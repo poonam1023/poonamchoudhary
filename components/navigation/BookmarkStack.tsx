@@ -53,7 +53,8 @@ export default function BookmarkStack({
             key={tab.label}
             label={tab.label}
             isActive={isActive}
-            onClick={() => onNavigate(tab.page)}
+            onNavigate={onNavigate}
+            page={tab.page}
             index={index}
             xOffset={tab.xOffset}
             rotation={tab.rotation}

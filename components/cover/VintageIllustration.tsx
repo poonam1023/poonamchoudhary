@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-export default function VintageIllustration() {
+function VintageIllustration() {
   return (
     <div className="absolute top-[8%] left-1/2 -translate-x-1/2 w-[280px] h-[280px] md:w-[360px] md:h-[360px] pointer-events-none select-none mix-blend-multiply opacity-[0.08] filter contrast-[1.35] saturate-[3%] brightness-[0.97] z-0">
       <Image
@@ -15,3 +15,5 @@ export default function VintageIllustration() {
     </div>
   );
 }
+
+export default React.memo(VintageIllustration);

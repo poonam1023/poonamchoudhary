@@ -175,3 +175,21 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #E8DCCB;
   color: #4A3728;
 }
+
+/* Optimization: Turn off heavy SVG filters during book animations (opening, closing, page turns) */
+.book-animating .paper-grain-overlay {
+  filter: none !important;
+}
+
+.book-animating [filter*="watercolor-filter"],
+.book-animating [filter="url(#premium-watercolor-filter)"] {
+  filter: none !important;
+}
+
+/* Optimization: promote animated layers to GPU */
+.book-board-edge,
+.paper-grain-overlay,
+.book-spine-crease {
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}

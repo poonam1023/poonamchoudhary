@@ -2,7 +2,7 @@
 
 import React from "react";
 
-export default function WritingDeskBackground() {
+function WritingDeskBackground() {
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden select-none pointer-events-none">
       {/* Walnut wood desk surface */}
@@ -289,3 +289,5 @@ export default function WritingDeskBackground() {
     </div>
   );
 }
+
+export default React.memo(WritingDeskBackground);

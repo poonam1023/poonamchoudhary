@@ -211,6 +211,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
             style={{
               width: "100%",
               transformStyle: "preserve-3d",
+              willChange: "transform",
             }}
             initial={{ rotateY: 0 }}
             animate={{ rotateY: -180 }}
@@ -275,6 +276,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
               left: "-100%",
               width: "100%",
               transformStyle: "preserve-3d",
+              willChange: "transform",
             }}
             initial={{ rotateY: 0 }}
             animate={{ rotateY: 180 }}
