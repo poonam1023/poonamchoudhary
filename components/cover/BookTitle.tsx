@@ -36,7 +36,7 @@ export default function BookTitle() {
       <span
         className="absolute inset-0 font-display font-bold text-3xl md:text-[38px] tracking-[0.26em] uppercase text-center leading-[1.4] pointer-events-none"
         style={{
-          background:
+          backgroundImage:
             `radial-gradient(circle 50px at ${mouseX * 100}% ${mouseY * 100}%, rgba(234,216,178,0.5) 0%, rgba(234,216,178,0.15) 30%, transparent 60%)`,
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
