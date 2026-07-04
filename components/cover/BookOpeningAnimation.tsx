@@ -4,7 +4,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import PaperBackground from "./PaperBackground";
 import DustParticles from "./DustParticles";
-import VintageIllustration from "./VintageIllustration";
 import BookTitle from "./BookTitle";
 import BookSubtitle from "./BookSubtitle";
 import AuthorName from "./AuthorName";
@@ -13,6 +12,10 @@ import PageCurl from "./PageCurl";
 import ChapterOne from "./ChapterOne";
 import CoverSection from "./CoverSection";
 import WritingDeskBackground from "./WritingDeskBackground";
+import BotanicalIllustration from "@/components/decorations/BotanicalIllustration";
+import FloatingLeaves from "@/components/decorations/FloatingLeaves";
+import QuoteCard from "@/components/decorations/QuoteCard";
+import PressedFlower from "@/components/decorations/PressedFlower";
 import LeftPage from "@/components/book/LeftPage";
 import ChapterOneLeft from "@/components/chapters/chapter-one/ChapterOneLeft";
 import Book3D from "@/components/book/Book3D";
@@ -209,11 +212,11 @@ function BookOpeningAnimationInner() {
           {/* Back cover board */}
           {!isOpened && (
             <div
-              className="absolute right-0 top-0 h-full bg-[#FAF7F2] border border-[#6E5A4E]/6 rounded-md pointer-events-none"
+              className="absolute right-0 top-0 h-full bg-[#FAF7F2] border border-[#6E5A4E]/6 rounded-none pointer-events-none"
               style={{
                 width: isMobile ? "100%" : "50%",
                 transform: "translate3d(4px, 4px, -10px) rotate(-0.7deg)",
-                boxShadow: "0 35px 80px rgba(58, 44, 30, 0.18)",
+                boxShadow: "0 42px 96px rgba(58, 44, 30, 0.22)",
               }}
             />
           )}
@@ -221,7 +224,7 @@ function BookOpeningAnimationInner() {
           {/* Page stack edge */}
           {!isOpened && (
             <div
-              className="absolute right-0 top-0 h-full bg-[#FAF7F2] border-y border-r border-[#6E5A4E]/6 rounded-r-sm pointer-events-none overflow-hidden"
+              className="absolute right-0 top-0 h-full bg-[#FAF7F2] border-y border-r border-[#6E5A4E]/6 rounded-none pointer-events-none overflow-hidden"
               style={{
                 width: isMobile ? "100%" : "50%",
                 transform: "translate3d(2px, 2px, -5px) rotate(-0.7deg)",
@@ -233,12 +236,12 @@ function BookOpeningAnimationInner() {
 
           {/* Right page / Chapter One */}
           <div
-            className={`absolute right-0 top-0 h-full bg-[#F7F1E8] transition-opacity duration-500 rounded-r-md ${
+            className={`absolute right-0 top-0 h-full bg-[#F7F1E8] transition-opacity duration-500 rounded-none ${
               isMobile ? "left-0 w-full" : "w-1/2"
             } ${isOpened ? "opacity-100 z-20" : "opacity-0 z-0"}`}
             style={{
               boxShadow:
-                "0 38px 95px rgba(16, 9, 5, 0.40), 0 14px 32px rgba(16, 9, 5, 0.24)",
+                "0 46px 115px rgba(16, 9, 5, 0.48), 0 18px 40px rgba(16, 9, 5, 0.28)",
             }}
           >
             {!isMobile && (
@@ -267,12 +270,12 @@ function BookOpeningAnimationInner() {
           >
             {/* FRONT: Book Cover */}
             <div
-              className="absolute inset-0 w-full h-full backface-hidden rounded-md flex flex-col justify-between overflow-hidden border border-[#6E5A4E]/10"
+              className="absolute inset-0 w-full h-full backface-hidden rounded-none flex flex-col justify-between overflow-hidden border border-[#6E5A4E]/10"
               style={{
                 transform: "rotateY(0deg)",
                 pointerEvents: isOpened ? "none" : "auto",
                 boxShadow:
-                  "0 30px 70px rgba(58, 44, 30, 0.14), 0 10px 25px rgba(58, 44, 30, 0.07)",
+                  "0 36px 84px rgba(58, 44, 30, 0.18), 0 14px 32px rgba(58, 44, 30, 0.09)",
               }}
             >
               <PaperBackground />
@@ -285,7 +288,14 @@ function BookOpeningAnimationInner() {
                   className="absolute left-0 top-0 bottom-0 w-[44px] flex flex-col items-center justify-between py-12 z-20 pointer-events-none select-none"
                   style={{
                     background:
-                      "linear-gradient(to right, rgba(110, 90, 78, 0.02), rgba(110, 90, 78, 0.005) 85%, rgba(110, 90, 78, 0.06) 100%)",
+                      "linear-gradient(to right, rgba(78, 60, 48, 0.12) 0%, rgba(110, 90, 78, 0.02) 20%, rgba(110, 90, 78, 0.01) 80%, rgba(58, 44, 30, 0.28) 100%)",
+                    backgroundImage: `
+                      linear-gradient(to right, rgba(78, 60, 48, 0.12) 0%, rgba(110, 90, 78, 0.02) 20%, rgba(110, 90, 78, 0.01) 80%, rgba(58, 44, 30, 0.28) 100%),
+                      repeating-linear-gradient(90deg, rgba(58, 44, 30, 0.03) 0px, rgba(58, 44, 30, 0.03) 1px, transparent 1px, transparent 4px),
+                      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0px, rgba(255, 255, 255, 0.04) 1px, transparent 1px, transparent 4px)
+                    `,
+                    backgroundSize: "auto, 4px 4px, 4px 4px",
+                    boxShadow: "inset -2px 0 5px rgba(0, 0, 0, 0.15), 1px 0 3px rgba(255, 255, 255, 0.1)",
                   }}
                 >
                   <div
@@ -304,7 +314,25 @@ function BookOpeningAnimationInner() {
                 </div>
               )}
 
-              <VintageIllustration />
+              {/* Cover illustrations */}
+              <BotanicalIllustration
+                variant="branch"
+                scale={1.5}
+                opacity={0.55}
+                position={{ top: "-8%", right: "-8%" }}
+                rotation={35}
+              />
+              <FloatingLeaves count={4} opacity={0.25} />
+              
+              {/* Single loved-object imperfection */}
+              <PressedFlower
+                variant="fern-leaf"
+                scale={0.4}
+                opacity={0.7}
+                position={{ bottom: "4%", left: "10%" }}
+                rotation={-15}
+                style={{ zIndex: 25 }}
+              />
 
               <CoverSection>
                 <div className="w-full flex flex-col items-center justify-center text-center pl-0 md:pl-[44px]">
@@ -349,6 +377,28 @@ function BookOpeningAnimationInner() {
                     <AuthorName />
                   </motion.div>
 
+                  {/* Epigraph Line / Quote Card */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 1.4,
+                      ease: [0.25, 1, 0.5, 1],
+                      delay: 3.2,
+                    }}
+                    className="mt-6 z-20"
+                  >
+                    {/* TODO: confirm final epigraph with Poonam */}
+                    <QuoteCard
+                      quote="We do not raise our children; we raise ourselves to meet them."
+                      author="Poonam Choudhary"
+                      width="230px"
+                      rotation={-1.5}
+                      scale={0.78}
+                      className="mx-auto"
+                    />
+                  </motion.div>
+
                   {/* CTA Button — invitation card, fades in last */}
                   <motion.div
                     initial={{ opacity: 0, y: 8 }}
@@ -358,7 +408,7 @@ function BookOpeningAnimationInner() {
                       ease: [0.25, 1, 0.5, 1],
                       delay: 0.4,
                     }}
-                    className="mt-12"
+                    className="mt-8"
                   >
                     <OpenBookButton
                       onHoverStart={handleHoverStart}
@@ -378,11 +428,11 @@ function BookOpeningAnimationInner() {
             {/* BACK: Inside Left Cover */}
             {!isMobile && (
               <div
-                className="absolute inset-0 w-full h-full backface-hidden rounded-md border border-[#6E5A4E]/10"
+                className="absolute inset-0 w-full h-full backface-hidden rounded-none border border-[#6E5A4E]/10"
                 style={{
                   transform: "rotateY(180deg)",
                   boxShadow:
-                    "0 30px 70px rgba(58, 44, 30, 0.14), 0 10px 25px rgba(58, 44, 30, 0.07)",
+                    "0 36px 84px rgba(58, 44, 30, 0.18), 0 14px 32px rgba(58, 44, 30, 0.09)",
                 }}
               >
                 <LeftPage>
@@ -396,183 +446,6 @@ function BookOpeningAnimationInner() {
         </motion.div>
       </motion.div>
 
-      {/* Desk footer storytelling section */}
-      {isOpened && !isMobile && (
-        <div
-          className="absolute bottom-0 left-0 right-0 h-[18vh] z-30 pointer-events-none select-none overflow-visible flex items-end justify-center"
-          style={{
-            background:
-              "linear-gradient(to top, rgba(40,24,15,0.58) 0%, rgba(72,48,32,0.18) 58%, rgba(72,48,32,0) 100%)",
-          }}
-        >
-          {/* Vase with leaves */}
-          <div
-            className="absolute bottom-[-10px] left-[4%] w-32 h-56 z-40 pointer-events-auto"
-            style={{
-              filter: "drop-shadow(4px 12px 20px rgba(58,44,30,0.12))",
-            }}
-          >
-            <svg
-              viewBox="0 0 100 200"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-full h-full"
-            >
-              <path
-                d="M 50 190 Q 25 185 22 140 Q 20 100 35 85 Q 40 80 40 70 L 40 50 L 60 50 L 60 70 Q 60 80 65 85 Q 80 100 78 140 Q 75 185 50 190 Z"
-                fill="#F5F0E8"
-                stroke="#6E5A4E"
-                strokeWidth="0.5"
-              />
-              <path
-                d="M 32 120 Q 30 145 42 170"
-                stroke="#FAF7F2"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                opacity="0.25"
-              />
-              <g
-                stroke="#A8B29A"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                fill="none"
-              >
-                <path d="M 50 50 Q 42 20 28 -20" />
-                <path d="M 45 35 Q 22 28 15 32" fill="#B8C4A8" />
-                <path d="M 40 18 Q 20 5 12 12" fill="#B8C4A8" />
-                <path d="M 35 0 Q 15 -15 8 -5" fill="#B8C4A8" />
-                <path d="M 50 50 Q 58 10 74 -30" />
-                <path d="M 54 38 Q 78 35 85 40" fill="#B8C4A8" />
-                <path d="M 58 22 Q 82 15 88 22" fill="#B8C4A8" />
-                <path d="M 64 2 Q 88 -8 92 0" fill="#B8C4A8" />
-              </g>
-            </svg>
-          </div>
-
-          {/* "As Featured In" strip */}
-          <div
-            className="absolute bottom-[2%] mx-auto z-45 pointer-events-auto"
-            style={{
-              width: "480px",
-              transform: "rotate(-0.8deg)",
-              filter: "drop-shadow(2px 6px 12px rgba(58,44,30,0.10))",
-            }}
-          >
-            <div
-              className="relative"
-              style={{
-                background: "#FAF7F2",
-                border: "0.5px solid rgba(110,90,78,0.10)",
-                padding: "8px 16px 10px",
-                clipPath:
-                  "polygon(0% 10%, 15% 0%, 35% 8%, 55% 2%, 75% 9%, 100% 0%, 98% 90%, 80% 100%, 50% 92%, 20% 98%, 0% 90%)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "4px",
-              }}
-            >
-              <div
-                className="absolute inset-0 opacity-[0.1] pointer-events-none"
-                style={{
-                  backgroundImage: `
-                    repeating-linear-gradient(45deg, #fff, #fff 1px, transparent 1px, transparent 4px),
-                    repeating-linear-gradient(-45deg, #000, #000 1px, transparent 1px, transparent 4px)
-                  `,
-                }}
-              />
-              <span
-                style={{
-                  fontFamily: "var(--font-sans), sans-serif",
-                  fontSize: "6.5px",
-                  fontWeight: 700,
-                  letterSpacing: "0.22em",
-                  color: "#6E5A4E",
-                  textTransform: "uppercase",
-                }}
-              >
-                As Featured In
-              </span>
-              <div className="flex items-center justify-between w-full px-4 mt-1 opacity-75">
-                <span style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: "bold", color: "#3A2C1E" }}>THE HINDU</span>
-                <span style={{ fontFamily: "Arial, sans-serif", fontSize: "11.5px", fontWeight: "black", letterSpacing: "-0.04em", color: "#3A2C1E" }}>Forbes</span>
-                <span style={{ fontFamily: "var(--font-sans), sans-serif", fontSize: "9px", fontWeight: 700, color: "#3A2C1E" }}>YOURSTORY</span>
-                <span style={{ fontFamily: "serif", fontStyle: "italic", fontSize: "12px", fontWeight: "bold", color: "#3A2C1E" }}>FEMINA</span>
-                <span style={{ fontFamily: "var(--font-sans), sans-serif", fontSize: "9px", fontWeight: 800, color: "#3A2C1E" }}>INDIA TODAY</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Coffee cup */}
-          <div
-            className="absolute bottom-[10px] right-[4%] w-24 h-24 z-40 pointer-events-auto"
-            style={{
-              filter: "drop-shadow(3px 8px 14px rgba(58,44,30,0.10))",
-            }}
-          >
-            <svg
-              viewBox="0 0 100 100"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-full h-full"
-            >
-              <path
-                d="M 68 38 C 82 38 88 58 68 58"
-                stroke="#FAF7F2"
-                strokeWidth="4"
-                strokeLinecap="round"
-              />
-              <path
-                d="M 22 25 L 72 25 L 67 65 C 65 78 29 78 27 65 Z"
-                fill="#F5F0E8"
-                stroke="#DCCBB3"
-                strokeWidth="1"
-              />
-              <ellipse cx="47" cy="27" rx="22" ry="4" fill="#C4A882" />
-              <path
-                d="M 40 27 Q 45 29 48 26 T 54 28"
-                stroke="#FAF7F2"
-                strokeWidth="0.6"
-                strokeLinecap="round"
-                opacity="0.5"
-              />
-            </svg>
-          </div>
-
-          {/* Book stack under coffee */}
-          <div
-            className="absolute bottom-[-12px] right-[2%] w-32 h-14 rounded-sm z-30"
-            style={{
-              background: "linear-gradient(135deg, #C4A882, #B89A70)",
-              transform: "rotate(-1deg)",
-              border: "0.5px solid rgba(58,44,30,0.15)",
-              boxShadow:
-                "inset 0 1px 2px rgba(255,248,240,0.08), 2px 4px 12px rgba(58,44,30,0.08)",
-            }}
-          >
-            <span className="absolute inset-0 flex items-center justify-center font-sans uppercase text-[6px] tracking-widest text-[#FAF7F2]/70 font-bold">
-              Parenting Guide
-            </span>
-          </div>
-
-          {/* Book stack under vase */}
-          <div
-            className="absolute bottom-[-25px] left-[1%] w-36 h-12 rounded-sm z-30"
-            style={{
-              background: "linear-gradient(135deg, #A8B29A, #8FA088)",
-              transform: "rotate(1.5deg)",
-              border: "0.5px solid rgba(58,44,30,0.12)",
-              boxShadow:
-                "inset 0 1px 2px rgba(255,248,240,0.08), -2px 4px 12px rgba(58,44,30,0.08)",
-            }}
-          >
-            <span className="absolute inset-0 flex items-center justify-center font-sans uppercase text-[6px] tracking-widest text-[#FAF7F2]/70 font-bold">
-              Conscious Parenting
-            </span>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

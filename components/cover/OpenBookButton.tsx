@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import WaxSeal from "@/components/decorations/WaxSeal";
 
 interface OpenBookButtonProps {
   onHoverStart: () => void;
@@ -9,7 +10,7 @@ interface OpenBookButtonProps {
   onClick: () => void;
 }
 
-export default function OpenBookButton({
+function OpenBookButton({
   onHoverStart,
   onHoverEnd,
   onClick,
@@ -40,19 +41,22 @@ export default function OpenBookButton({
           border: "0.5px solid rgba(200,185,160,0.3)",
         }}
       >
-        {/* Envelope icon */}
-        <svg
-          viewBox="0 0 24 24"
-          className="w-5 h-5 md:w-6 md:h-6 mb-3 text-ink-muted/50 group-hover:text-accent-sage/60 transition-colors duration-700"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect x="2" y="4" width="20" height="16" rx="1" />
-          <path d="M2 4l10 8 10-8" />
-        </svg>
+        {/* Terracotta Wax Seal CTA */}
+        <WaxSeal
+          variant="terracotta"
+          scale={0.9}
+          position={{}}
+          rotation={-5}
+          style={{
+            position: "relative",
+            margin: "0 auto 12px",
+            left: "auto",
+            right: "auto",
+            top: "auto",
+            bottom: "auto",
+            pointerEvents: "none",
+          }}
+        />
 
         {/* Script heading */}
         <span
@@ -73,3 +77,5 @@ export default function OpenBookButton({
     </motion.button>
   );
 }
+
+export default React.memo(OpenBookButton);

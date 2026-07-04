@@ -220,7 +220,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
           >
             {/* FRONT FACE — right-side paper, faces the viewer at the start */}
             <div
-              className="absolute inset-0 w-full h-full backface-hidden rounded-r-md border-y border-r border-[#6E5A4E]/10"
+              className="absolute inset-0 w-full h-full backface-hidden rounded-none border-y border-r border-[#6E5A4E]/10"
               style={{
                 background: "linear-gradient(198deg, #FAF7F2 0%, #F7F3EC 42%, #F5F0E8 100%)",
                 boxShadow: "inset 22px 0 38px -4px rgba(58,44,30,0.05), inset 4px 0 8px rgba(58,44,30,0.05)",
@@ -236,7 +236,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
 
             {/* BACK FACE — left-side paper, faces the viewer at the end */}
             <div
-              className="absolute inset-0 w-full h-full backface-hidden rounded-l-md border-y border-l border-[#6E5A4E]/10"
+              className="absolute inset-0 w-full h-full backface-hidden rounded-none border-y border-l border-[#6E5A4E]/10"
               style={{
                 background: "linear-gradient(162deg, #FAF7F2 0%, #F7F3EC 38%, #F5F0E8 100%)",
                 boxShadow: "inset -22px 0 38px -4px rgba(58,44,30,0.05), inset -4px 0 8px rgba(58,44,30,0.05)",
@@ -285,7 +285,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
           >
             {/* FRONT FACE — left-side paper, faces the viewer at the start of backward sweep */}
             <div
-              className="absolute inset-0 w-full h-full backface-hidden rounded-l-md border-y border-l border-[#6E5A4E]/10"
+              className="absolute inset-0 w-full h-full backface-hidden rounded-none border-y border-l border-[#6E5A4E]/10"
               style={{
                 background: "linear-gradient(162deg, #FAF7F2 0%, #F7F3EC 38%, #F5F0E8 100%)",
                 boxShadow: "inset -22px 0 38px -4px rgba(58,44,30,0.05), inset -4px 0 8px rgba(58,44,30,0.05)",
@@ -301,7 +301,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
 
             {/* BACK FACE — right-side paper, faces the viewer at the end of backward sweep */}
             <div
-              className="absolute inset-0 w-full h-full backface-hidden rounded-r-md border-y border-r border-[#6E5A4E]/10"
+              className="absolute inset-0 w-full h-full backface-hidden rounded-none border-y border-r border-[#6E5A4E]/10"
               style={{
                 background: "linear-gradient(198deg, #FAF7F2 0%, #F7F3EC 42%, #F5F0E8 100%)",
                 boxShadow: "inset 22px 0 38px -4px rgba(58,44,30,0.05), inset 4px 0 8px rgba(58,44,30,0.05)",

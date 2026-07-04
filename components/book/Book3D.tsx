@@ -45,12 +45,12 @@ function Book3D({ children }: Book3DProps) {
       {/* ── 2. HARDCOVER BOARD BACKING ── */}
       {/* Left board cover backing */}
       <div 
-        className="absolute top-[-4px] bottom-[-6px] rounded-l-[8px] pointer-events-none z-0 border border-[#C4A882]/20"
+        className="absolute top-[-4px] bottom-[-6px] rounded-none pointer-events-none z-0 border border-[#C4A882]/20"
         style={{
           right: "50%",
           left: "-100.8%",
           background: "linear-gradient(135deg, #F8F3EA 0%, #EEE5D8 100%)",
-          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.42), 2px 6px 16px rgba(20,12,7,0.24)",
+          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.42), 2px 8px 20px rgba(20,12,7,0.29)",
         }}
       >
         {/* Canvas texture simulation */}
@@ -64,12 +64,12 @@ function Book3D({ children }: Book3DProps) {
 
       {/* Right board cover backing */}
       <div 
-        className="absolute top-[-4px] bottom-[-6px] rounded-r-[8px] pointer-events-none z-0 border border-[#C4A882]/20"
+        className="absolute top-[-4px] bottom-[-6px] rounded-none pointer-events-none z-0 border border-[#C4A882]/20"
         style={{
           left: "50%",
           right: "-0.8%",
           background: "linear-gradient(225deg, #F8F3EA 0%, #EEE5D8 100%)",
-          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.42), -2px 6px 16px rgba(20,12,7,0.24)",
+          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.42), -2px 8px 20px rgba(20,12,7,0.29)",
         }}
       >
         {/* Canvas texture simulation */}

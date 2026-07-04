@@ -29,9 +29,9 @@ function BookTitle() {
           color: "#3A2C1E",
           textShadow:
             "0.5px 0.5px 0px rgba(255,255,255,0.45), " +
-            "-0.5px -0.5px 0px rgba(110,90,78,0.2), " +
-            "1.5px 1.5px 2px rgba(58,44,30,0.12), " +
-            "2.5px 2.5px 4px rgba(58,44,30,0.06)",
+            "-0.5px -0.5px 0px rgba(90,70,58,0.38), " +
+            "1.5px 1.5px 2.5px rgba(45,30,20,0.24), " +
+            "2.5px 2.5px 5px rgba(45,30,20,0.12)",
         }}
       >
         PROJECT POONAM
