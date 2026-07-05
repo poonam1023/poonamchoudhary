@@ -47,21 +47,13 @@ export default function ConnectRight() {
     <div className="absolute inset-0 overflow-hidden" style={{ background: "linear-gradient(198deg, #FFFDF8 0%, #FAF7F2 44%, #F6EFE5 100%)" }}>
       <InkSplash variant="splash" scale={0.6} opacity={0.08} position={{ top: "18%", right: "10%" }} style={{ zIndex: 1 }} />
 
-      <div className="absolute flex flex-col items-center pointer-events-none select-none" style={{ top: "7%", left: "10%", right: "10%", zIndex: 10 }}>
-        <EditorialLabel text="Write to Me" />
-        <h3 style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "clamp(16px, 2.7vh, 23px)", fontWeight: 700, color: "#2A1E16", letterSpacing: "0.02em", textAlign: "center", marginTop: "8px" }}>
-          A Letter, Handwritten
-        </h3>
-        <DecorativeDivider variant="fleuron" opacity={0.22} className="my-1.5 w-12" />
-      </div>
-
       <AnimatePresence mode="wait">
         {/* ── LETTER WRITING PHASE ── */}
         {phase === "letter" && (
           <motion.div
             key="letter"
             className="absolute select-text"
-            style={{ top: "28%", left: "10%", right: "8%", bottom: "8%", zIndex: 10 }}
+            style={{ top: "20%", left: "10%", right: "8%", bottom: "10%", zIndex: 10 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scaleY: 0.01, y: "50%", transition: { duration: 1.2, ease: [0.4, 0, 0.2, 1] } }}
@@ -246,7 +238,7 @@ export default function ConnectRight() {
           <motion.div
             key="envelope"
             className="absolute"
-            style={{ top: "32%", left: "15%", right: "15%", zIndex: 20 }}
+            style={{ top: "24%", left: "15%", right: "15%", zIndex: 20 }}
             initial={{ opacity: 0 }}
             animate={{
               opacity: 1,
@@ -328,7 +320,7 @@ export default function ConnectRight() {
           <motion.div
             key="thanks"
             className="absolute flex flex-col items-center justify-center select-text"
-            style={{ top: "30%", left: "12%", right: "12%", bottom: "12%", zIndex: 20 }}
+            style={{ top: "22%", left: "12%", right: "12%", bottom: "12%", zIndex: 20 }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
