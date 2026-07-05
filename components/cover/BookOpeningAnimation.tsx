@@ -11,7 +11,7 @@ import PageCurl from "./PageCurl";
 import ChapterOne from "./ChapterOne";
 import CoverSection from "./CoverSection";
 import WritingDeskBackground from "./WritingDeskBackground";
-import BotanicalIllustration from "@/components/decorations/BotanicalIllustration";
+
 import QuoteCard from "@/components/decorations/QuoteCard";
 import PressedFlower from "@/components/decorations/PressedFlower";
 import LeftPage from "@/components/book/LeftPage";
@@ -215,136 +215,118 @@ function BookOpeningAnimationInner() {
               {/* Spine graphics */}
               {!isMobile && (
                 <div
-                  className="absolute left-0 top-0 bottom-0 w-[44px] flex flex-col items-center justify-between py-12 z-20 pointer-events-none select-none"
+                  className="absolute left-0 top-0 bottom-0 w-[44px] flex flex-col items-center justify-between py-10 z-20 pointer-events-none select-none"
                   style={{
-                    background:
-                      "linear-gradient(to right, rgba(78, 60, 48, 0.12) 0%, rgba(110, 90, 78, 0.02) 20%, rgba(110, 90, 78, 0.01) 80%, rgba(58, 44, 30, 0.28) 100%)",
                     backgroundImage: `
                       linear-gradient(to right, rgba(78, 60, 48, 0.12) 0%, rgba(110, 90, 78, 0.02) 20%, rgba(110, 90, 78, 0.01) 80%, rgba(58, 44, 30, 0.28) 100%),
-                      repeating-linear-gradient(90deg, rgba(58, 44, 30, 0.03) 0px, rgba(58, 44, 30, 0.03) 1px, transparent 1px, transparent 4px),
-                      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0px, rgba(255, 255, 255, 0.04) 1px, transparent 1px, transparent 4px)
+                      repeating-linear-gradient(90deg, rgba(58, 44, 30, 0.025) 0px, rgba(58, 44, 30, 0.025) 1px, transparent 1px, transparent 4px),
+                      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0px, rgba(255, 255, 255, 0.035) 1px, transparent 1px, transparent 4px)
                     `,
                     backgroundSize: "auto, 4px 4px, 4px 4px",
                     boxShadow: "inset -2px 0 5px rgba(0, 0, 0, 0.15), 1px 0 3px rgba(255, 255, 255, 0.1)",
                   }}
                 >
+                  {/* Spine title — book philosophy */}
                   <div
-                    className="font-display font-bold text-[8px] tracking-[0.24em] text-ink/55 uppercase"
+                    className="font-sans text-[6px] tracking-[0.20em] text-ink/45 uppercase"
+                    style={{
+                      writingMode: "vertical-rl",
+                      transform: "rotate(180deg)",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    Raising Ourselves Before We Raise Our Children
+                  </div>
+                  {/* Author at bottom of spine */}
+                  <div
+                    className="font-display text-[7px] tracking-[0.16em] text-ink/55"
                     style={{
                       writingMode: "vertical-rl",
                       transform: "rotate(180deg)",
                     }}
                   >
-                    PROJECT POONAM
-                  </div>
-                  <span className="text-[10px] text-ink/35 my-auto">❦</span>
-                  <div className="font-sans text-[7px] tracking-widest text-ink/45 uppercase">
-                    2026
+                    Poonam Choudhary
                   </div>
                 </div>
               )}
 
-              {/* Cover illustrations */}
-              <BotanicalIllustration
-                variant="branch"
-                scale={1.5}
-                opacity={0.55}
-                position={{ top: "-8%", right: "-8%" }}
-                rotation={35}
-              />
-              
-              {/* Single loved-object imperfection */}
+              {/* Botanical element — elegant eucalyptus bleeding off top-right corner.
+                   Feels like a real dried sprig pressed inside the book. */}
               <PressedFlower
-                variant="fern-leaf"
-                scale={0.4}
-                opacity={0.7}
-                position={{ bottom: "4%", left: "10%" }}
-                rotation={-15}
-                style={{ zIndex: 25 }}
+                variant="eucalyptus"
+                scale={2.1}
+                opacity={0.42}
+                position={{ top: "-18%", right: "-12%" }}
+                rotation={18}
+                style={{ zIndex: 2, width: "200px", height: "400px", filter: "drop-shadow(2px 5px 8px rgba(60,70,55,0.16))" }}
               />
 
+              {/* ─────────────────────────────────────────────────────────
+                   EDITORIAL COVER — Vertical Rhythm Layout
+                   ─────────────────────────────────────────────────────── */}
               <CoverSection>
-                <div className="w-full flex flex-col items-center justify-center text-center pl-0 md:pl-[44px]">
-                  {/* Book title — animated in */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 1.4,
-                      ease: [0.25, 1, 0.5, 1],
-                      delay: 2.2,
-                    }}
-                  >
-                    <BookTitle />
-                  </motion.div>
+                <div className="w-full h-full flex flex-col justify-between pl-0 md:pl-[44px]" style={{ padding: "clamp(28px, 4vh, 52px) clamp(20px, 3vw, 44px)" }}>
 
-                  {/* Subtitle */}
+                  {/* ── TOP: Philosophy line — quiet, wide-tracked ── */}
                   <motion.div
-                    initial={{ opacity: 0, y: 8 }}
+                    initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 1.4,
-                      ease: [0.25, 1, 0.5, 1],
-                      delay: 2.6,
-                    }}
-                    className="mt-6"
+                    transition={{ duration: 1.6, ease: [0.25, 1, 0.5, 1], delay: 2.0 }}
+                    className="text-left"
                   >
                     <BookSubtitle />
                   </motion.div>
 
-                  {/* Author */}
+                  {/* ── CENTER: Author name — the hero ── */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1], delay: 2.4 }}
+                    className="flex flex-col items-center"
+                  >
+                    <BookTitle />
+                  </motion.div>
+
+                  {/* ── IDENTITY STRIP: Professional icons ── */}
                   <motion.div
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 1.4,
-                      ease: [0.25, 1, 0.5, 1],
-                      delay: 3.0,
-                    }}
-                    className="mt-8"
+                    transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 2.9 }}
+                    className="flex justify-center"
                   >
                     <AuthorName />
                   </motion.div>
 
-                  {/* Epigraph Line / Quote Card */}
+                  {/* ── QUOTE CARD — torn paper, masking tape ── */}
                   <motion.div
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 1.4,
-                      ease: [0.25, 1, 0.5, 1],
-                      delay: 3.2,
-                    }}
-                    className="mt-6 z-20"
+                    transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 3.2 }}
+                    className="flex flex-col items-center gap-5 z-20"
                   >
-                    {/* TODO: confirm final epigraph with Poonam */}
                     <QuoteCard
                       quote="We do not raise our children; we raise ourselves to meet them."
                       author="Poonam Choudhary"
-                      width="230px"
-                      rotation={-1.5}
-                      scale={0.78}
+                      width="clamp(180px, 28vw, 260px)"
+                      rotation={-1.2}
+                      scale={0.85}
                       className="mx-auto"
                     />
+
+                    {/* ── CTA Button ── */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1], delay: 3.6 }}
+                    >
+                      <OpenBookButton
+                        onHoverStart={handleHoverStart}
+                        onHoverEnd={handleHoverEnd}
+                        onClick={openBook}
+                      />
+                    </motion.div>
                   </motion.div>
 
-                  {/* CTA Button — invitation card, fades in last */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 1.2,
-                      ease: [0.25, 1, 0.5, 1],
-                      delay: 0.4,
-                    }}
-                    className="mt-8"
-                  >
-                    <OpenBookButton
-                      onHoverStart={handleHoverStart}
-                      onHoverEnd={handleHoverEnd}
-                      onClick={openBook}
-                    />
-                  </motion.div>
                 </div>
               </CoverSection>
 

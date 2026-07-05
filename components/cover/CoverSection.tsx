@@ -4,9 +4,13 @@ interface CoverSectionProps {
   children: React.ReactNode;
 }
 
+/**
+ * CoverSection — Full-bleed cover layout wrapper.
+ * Uses h-full so the inner flex layout can use justify-between for editorial rhythm.
+ */
 export default function CoverSection({ children }: CoverSectionProps) {
   return (
-    <section className="relative w-full h-full flex flex-col justify-between items-center py-8 px-8 md:py-12 md:px-[72px] lg:px-[120px] max-w-[900px] mx-auto select-none z-10">
+    <section className="relative w-full h-full flex flex-col z-10 select-none overflow-hidden">
       {children}
     </section>
   );
