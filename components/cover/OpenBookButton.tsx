@@ -2,7 +2,6 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import WaxSeal from "@/components/decorations/WaxSeal";
 
 interface OpenBookButtonProps {
   onHoverStart: () => void;
@@ -10,11 +9,14 @@ interface OpenBookButtonProps {
   onClick: () => void;
 }
 
-function OpenBookButton({
-  onHoverStart,
-  onHoverEnd,
-  onClick,
-}: OpenBookButtonProps) {
+/**
+ * OpenBookButton — Minimal gold foil CTA on clothbound cover.
+ *
+ * No paper card, no wax seal, no torn edges.
+ * Just elegant floating typography that belongs on a premium hardcover.
+ * Inspired by Assouline invitation design.
+ */
+function OpenBookButton({ onHoverStart, onHoverEnd, onClick }: OpenBookButtonProps) {
   return (
     <motion.button
       onClick={onClick}
@@ -22,58 +24,66 @@ function OpenBookButton({
       onMouseLeave={onHoverEnd}
       onFocus={onHoverStart}
       onBlur={onHoverEnd}
-      className="group relative cursor-pointer focus:outline-none select-none z-20"
-      initial={{ opacity: 0, y: 10 }}
+      className="group relative cursor-pointer focus:outline-none select-none z-20 flex flex-col items-center gap-3"
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1], delay: 0.5 }}
       whileHover={{ y: -2 }}
       aria-label="Begin Reading"
     >
-      {/* Physical invitation card */}
-      <div
-        className="relative px-8 py-5 md:px-10 md:py-6 flex flex-col items-center"
+      {/* Small gold fleuron ornament */}
+      <motion.div
+        className="opacity-60 group-hover:opacity-90 transition-opacity duration-700"
+        style={{ color: "#C8A56A" }}
+      >
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Simple 4-petal fleuron */}
+          <path d="M10 2 Q12 6 10 10 Q8 6 10 2Z" fill="#C8A56A" opacity="0.8"/>
+          <path d="M18 10 Q14 12 10 10 Q14 8 18 10Z" fill="#C8A56A" opacity="0.8"/>
+          <path d="M10 18 Q8 14 10 10 Q12 14 10 18Z" fill="#C8A56A" opacity="0.8"/>
+          <path d="M2 10 Q6 8 10 10 Q6 12 2 10Z" fill="#C8A56A" opacity="0.8"/>
+          <circle cx="10" cy="10" r="1.5" fill="#C8A56A" opacity="0.6"/>
+        </svg>
+      </motion.div>
+
+      {/* Main CTA text */}
+      <span
+        className="font-display transition-all duration-700"
         style={{
-          background: "#FAF7F2",
-          clipPath:
-            "polygon(2% 4%, 4% 0%, 10% 3%, 16% 0%, 22% 4%, 28% 1%, 34% 4%, 40% 0%, 46% 3%, 52% 0%, 58% 4%, 64% 1%, 70% 3%, 76% 0%, 82% 4%, 88% 1%, 94% 3%, 98% 0%, 100% 4%, 97% 10%, 100% 16%, 97% 22%, 100% 28%, 97% 34%, 100% 40%, 97% 46%, 100% 52%, 97% 58%, 100% 64%, 97% 70%, 100% 76%, 97% 82%, 100% 88%, 97% 94%, 100% 100%, 94% 97%, 88% 100%, 82% 97%, 76% 100%, 70% 97%, 64% 100%, 58% 97%, 52% 100%, 46% 97%, 40% 100%, 34% 97%, 28% 100%, 22% 97%, 16% 100%, 10% 97%, 4% 100%, 0% 97%, 3% 94%, 0% 88%, 3% 82%, 0% 76%, 3% 70%, 0% 64%, 3% 58%, 0% 52%, 3% 46%, 0% 40%, 3% 34%, 0% 28%, 3% 22%, 0% 16%, 3% 10%, 0% 4%)",
-          boxShadow:
-            "0 2px 4px rgba(58,44,30,0.08), 0 4px 12px rgba(58,44,30,0.06), inset 0 1px 0 rgba(255,255,255,0.6)",
-          border: "0.5px solid rgba(200,185,160,0.3)",
+          fontStyle: "italic",
+          fontSize: "clamp(0.75rem, 1.4vw, 1.0rem)",
+          letterSpacing: "0.10em",
+          color: "#C8A56A",
+          textShadow:
+            "0.4px 0.4px 0px rgba(240,215,160,0.60), " +
+            "-0.4px -0.4px 0px rgba(80,60,20,0.35), " +
+            "0.8px 1.5px 3px rgba(30,20,8,0.20)",
         }}
       >
-        {/* Terracotta Wax Seal CTA */}
-        <WaxSeal
-          variant="terracotta"
-          scale={0.9}
-          position={{}}
-          rotation={-5}
-          style={{
-            position: "relative",
-            margin: "0 auto 12px",
-            left: "auto",
-            right: "auto",
-            top: "auto",
-            bottom: "auto",
-            pointerEvents: "none",
-          }}
-        />
+        Begin Reading
+      </span>
 
-        {/* Script heading */}
-        <span
-          className="font-display text-sm md:text-[15px] tracking-[0.08em] text-ink-muted group-hover:text-ink transition-colors duration-700"
-          style={{ fontStyle: "italic" }}
-        >
-          Begin Reading
-        </span>
+      {/* Thin dashed gold separator line */}
+      <div
+        className="transition-all duration-700 group-hover:w-10"
+        style={{
+          width: "24px",
+          height: "0.5px",
+          background: "rgba(200, 165, 106, 0.50)",
+        }}
+      />
 
-        {/* Handwritten-style subtext */}
-        <span className="mt-2 font-sans text-[7px] md:text-[8px] tracking-[0.12em] text-ink-muted/40 group-hover:text-ink-muted/60 transition-colors duration-700">
-          — a letter awaits —
-        </span>
-
-        {/* Card bottom decorative line */}
-        <div className="mt-3 w-16 h-px bg-ink-muted/15 group-hover:bg-accent-sage/30 transition-colors duration-700" />
-      </div>
+      {/* Ultra-small invitation subtext */}
+      <span
+        className="font-sans uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+        style={{
+          fontSize: "clamp(0.34rem, 0.6vw, 0.45rem)",
+          letterSpacing: "0.26em",
+          color: "rgba(200, 165, 106, 0.50)",
+        }}
+      >
+        Open Cover
+      </span>
     </motion.button>
   );
 }

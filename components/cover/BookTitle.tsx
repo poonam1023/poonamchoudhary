@@ -3,27 +3,26 @@ import React from "react";
 /**
  * BookTitle — Hero author name treatment.
  *
- * Editorial luxury design: the author name IS the title.
- * Two-line layout with generous kerning and gold-foil letterpress effect.
- * Inspired by Thames & Hudson / Assouline hardcover design.
+ * Clothbound hardcover edition: warm antique gold foil emboss.
+ * The author name remains the typographic hero of the cover.
+ * Inspired by Penguin Clothbound Classics gold-stamped cloth covers.
  */
 function BookTitle() {
   return (
     <div className="relative w-full select-none z-20 flex flex-col items-center">
       <h1
-        className="font-display font-bold uppercase text-center leading-[1.18]"
+        className="font-display font-bold uppercase text-center leading-[1.22]"
         style={{
-          // Fluid type that scales with the available book cover width
-          fontSize: "clamp(1.8rem, 3.8vw, 3.2rem)",
-          color: "#2E2218",
-          letterSpacing: "0.18em",
-          // Gold foil letterpress: warm highlight top-left, deep shadow, subtle gold gloss
+          fontSize: "clamp(1.9rem, 3.8vw, 3.3rem)",
+          color: "#C8A56A",
+          letterSpacing: "0.20em",
+          // Gold foil emboss: bright highlight top-left, deep shadow bottom-right
           textShadow:
-            "0.5px 0.5px 0px rgba(255,248,220,0.65), " +
-            "-0.5px -0.5px 0px rgba(80,60,40,0.30), " +
-            "1px 1px 0px rgba(196,168,100,0.18), " +
-            "2px 2px 4px rgba(45,30,18,0.16), " +
-            "0 0 20px rgba(196,168,100,0.06)",
+            "0.5px 0.5px 0px rgba(240,215,160,0.80), " +   // highlight
+            "-0.5px -0.5px 0px rgba(80,60,20,0.50), " +    // deep shadow
+            "0px 1px 0px rgba(90,65,20,0.40), " +           // lower shadow
+            "1px 2px 4px rgba(30,20,8,0.30), " +            // ambient drop
+            "0 0 28px rgba(200,165,106,0.10)",               // subtle gold glow
         }}
       >
         POONAM

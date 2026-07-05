@@ -2,18 +2,16 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import PaperBackground from "./PaperBackground";
+import LinenCoverBackground from "./LinenCoverBackground";
+import EndpaperPattern from "./EndpaperPattern";
 import BookTitle from "./BookTitle";
 import BookSubtitle from "./BookSubtitle";
 import AuthorName from "./AuthorName";
 import OpenBookButton from "./OpenBookButton";
-import PageCurl from "./PageCurl";
 import ChapterOne from "./ChapterOne";
 import CoverSection from "./CoverSection";
 import WritingDeskBackground from "./WritingDeskBackground";
 
-import QuoteCard from "@/components/decorations/QuoteCard";
-import PressedFlower from "@/components/decorations/PressedFlower";
 import LeftPage from "@/components/book/LeftPage";
 import { NavigationProvider, useNavigation } from "@/hooks/useNavigation";
 
@@ -41,19 +39,20 @@ function BookOpeningAnimationInner() {
       { name: "details" as const, delay: 3200 },
       { name: "cta" as const, delay: 4200 },
     ];
-    phases.forEach(({ name, delay }) => {
-      const timer = setTimeout(() => setMountPhase(name), delay);
-      return () => clearTimeout(timer);
-    });
-    // Cleanup
-    const cleanup = setTimeout(() => {
-      // nothing extra needed
-    }, 5000);
-    return () => clearTimeout(cleanup);
+    const timers = phases.map(({ name, delay }) =>
+      setTimeout(() => setMountPhase(name), delay)
+    );
+    return () => timers.forEach(clearTimeout);
   }, []);
 
-  const isOpened = state === "open" || state === "transitioning" || (state === "opening" && openingPhase === "flipping");
-  const isFlipped = state === "open" || state === "transitioning" || (state === "opening" && openingPhase === "flipping");
+  const isOpened =
+    state === "open" ||
+    state === "transitioning" ||
+    (state === "opening" && openingPhase === "flipping");
+  const isFlipped =
+    state === "open" ||
+    state === "transitioning" ||
+    (state === "opening" && openingPhase === "flipping");
   const isPressing = state === "opening" && openingPhase === "pressing";
 
   return (
@@ -81,7 +80,7 @@ function BookOpeningAnimationInner() {
         <WritingDeskBackground />
       </motion.div>
 
-      {/* Layer 2: Window light beam (trapezoid parallelogram, warm, static) */}
+      {/* Layer 2: Window light beam */}
       <motion.div
         className="absolute inset-0 z-5 pointer-events-none select-none"
         initial={{ opacity: 0 }}
@@ -98,7 +97,6 @@ function BookOpeningAnimationInner() {
             background:
               "linear-gradient(135deg, rgba(255,248,230,0.12) 0%, rgba(255,240,215,0.06) 50%, transparent 80%)",
             clipPath: "polygon(10% 0%, 90% 0%, 70% 100%, 20% 100%)",
-            transformOrigin: "center center",
           }}
         />
       </motion.div>
@@ -130,7 +128,7 @@ function BookOpeningAnimationInner() {
           animate={{
             x: isMobile ? 0 : isOpened ? 0 : "-25%",
             rotate: isOpened ? 0 : -0.7,
-            scale: isPressing ? 0.985 : isMobile ? 1 : 1,
+            scale: isPressing ? 0.985 : 1,
           }}
           transition={{
             duration: isPressing ? 0.35 : 0.9,
@@ -138,33 +136,46 @@ function BookOpeningAnimationInner() {
           }}
         >
 
-
-          {/* Back cover board */}
+          {/* ── BACK COVER BOARD (sage linen) ── */}
           {!isOpened && (
             <div
-              className="absolute right-0 top-0 h-full bg-[#FAF7F2] border border-[#6E5A4E]/6 rounded-none pointer-events-none"
+              className="absolute right-0 top-0 h-full rounded-none pointer-events-none"
               style={{
                 width: isMobile ? "100%" : "50%",
                 transform: "translate3d(4px, 4px, -10px) rotate(-0.7deg)",
-                boxShadow: "0 42px 96px rgba(58, 44, 30, 0.22)",
+                background: "linear-gradient(160deg, #9FADA0 0%, #8E9B84 35%, #7F8E76 100%)",
+                boxShadow: "0 42px 96px rgba(20,30,15,0.28)",
+                borderLeft: "1px solid rgba(62,76,56,0.25)",
               }}
-            />
+            >
+              {/* Linen weave */}
+              <div
+                className="absolute inset-0 opacity-55"
+                style={{
+                  backgroundImage: `
+                    repeating-linear-gradient(0deg, transparent, transparent 1.5px, rgba(80,95,72,0.12) 1.5px, rgba(80,95,72,0.12) 2px),
+                    repeating-linear-gradient(90deg, transparent, transparent 1.5px, rgba(80,95,72,0.08) 1.5px, rgba(80,95,72,0.08) 2px)
+                  `,
+                  backgroundSize: "2px 2px",
+                }}
+              />
+            </div>
           )}
 
-          {/* Page stack edge */}
+          {/* ── PAGE STACK EDGE (warm gold-tinted ivory) ── */}
           {!isOpened && (
             <div
-              className="absolute right-0 top-0 h-full bg-[#FAF7F2] border-y border-r border-[#6E5A4E]/6 rounded-none pointer-events-none overflow-hidden"
+              className="absolute right-0 top-0 h-full rounded-none pointer-events-none overflow-hidden"
               style={{
                 width: isMobile ? "100%" : "50%",
                 transform: "translate3d(2px, 2px, -5px) rotate(-0.7deg)",
                 backgroundImage:
-                  "repeating-linear-gradient(to bottom, #FAF7F2, #FAF7F2 2px, #F7F1E8 2px, #F7F1E8 3px)",
+                  "repeating-linear-gradient(to bottom, #F5EED8, #F5EED8 2px, #EDE5C8 2px, #EDE5C8 3px)",
               }}
             />
           )}
 
-          {/* Right page / Chapter One */}
+          {/* ── RIGHT PAGE / CHAPTER ONE ── */}
           <div
             className={`absolute right-0 top-0 h-full bg-[#F7F1E8] transition-opacity duration-500 rounded-none ${
               isMobile ? "left-0 w-full" : "w-1/2"
@@ -178,10 +189,12 @@ function BookOpeningAnimationInner() {
               <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-r from-[#3A2C1E]/8 to-transparent z-30" />
             )}
             <div className="book-board-edge" />
-            {(state === "open" || state === "transitioning") && <ChapterOne onClose={closeBook} />}
+            {(state === "open" || state === "transitioning") && (
+              <ChapterOne onClose={closeBook} />
+            )}
           </div>
 
-          {/* Flip card: Cover Page */}
+          {/* ── FLIP CARD: COVER (front) + ENDPAPER (back) ── */}
           <motion.div
             className="absolute right-0 top-0 h-full preserve-3d origin-left"
             style={{
@@ -190,59 +203,98 @@ function BookOpeningAnimationInner() {
             }}
             animate={{
               rotateY: isFlipped ? -180 : 0,
-              opacity: isMobile && (state === "open" || state === "transitioning") ? 0 : 1,
-              zIndex: (state === "open" || state === "transitioning") ? 10 : 30,
+              opacity:
+                isMobile && (state === "open" || state === "transitioning") ? 0 : 1,
+              zIndex:
+                state === "open" || state === "transitioning" ? 10 : 30,
             }}
             transition={{
               duration: 0.9,
               ease: [0.25, 1, 0.5, 1],
             }}
           >
-            {/* FRONT: Book Cover */}
+            {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                FRONT: Sage Linen Clothbound Cover
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
             <div
-              className="absolute inset-0 w-full h-full backface-hidden rounded-none flex flex-col justify-between overflow-hidden border border-[#6E5A4E]/10"
+              className="absolute inset-0 w-full h-full backface-hidden rounded-none flex flex-col justify-between overflow-hidden"
               style={{
                 transform: "rotateY(0deg)",
                 pointerEvents: isOpened ? "none" : "auto",
                 boxShadow:
-                  "0 36px 84px rgba(58, 44, 30, 0.18), 0 14px 32px rgba(58, 44, 30, 0.09)",
+                  "0 36px 84px rgba(20,30,15,0.28), 0 14px 32px rgba(20,30,15,0.14)",
+                borderLeft: "1px solid rgba(62,76,56,0.20)",
+                borderRight: "1px solid rgba(62,76,56,0.20)",
               }}
             >
-              <PaperBackground />
-              <div className="book-spine-crease" />
-              <div className="book-board-edge" />
+              {/* ── LINEN BACKGROUND ── */}
+              <LinenCoverBackground />
 
-              {/* Spine graphics */}
+              {/* ── SPINE (left panel, 44px) ── */}
               {!isMobile && (
                 <div
                   className="absolute left-0 top-0 bottom-0 w-[44px] flex flex-col items-center justify-between py-10 z-20 pointer-events-none select-none"
                   style={{
-                    backgroundImage: `
-                      linear-gradient(to right, rgba(78, 60, 48, 0.12) 0%, rgba(110, 90, 78, 0.02) 20%, rgba(110, 90, 78, 0.01) 80%, rgba(58, 44, 30, 0.28) 100%),
-                      repeating-linear-gradient(90deg, rgba(58, 44, 30, 0.025) 0px, rgba(58, 44, 30, 0.025) 1px, transparent 1px, transparent 4px),
-                      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0px, rgba(255, 255, 255, 0.035) 1px, transparent 1px, transparent 4px)
-                    `,
-                    backgroundSize: "auto, 4px 4px, 4px 4px",
-                    boxShadow: "inset -2px 0 5px rgba(0, 0, 0, 0.15), 1px 0 3px rgba(255, 255, 255, 0.1)",
+                    background:
+                      "linear-gradient(to right, rgba(55,68,50,0.55) 0%, rgba(80,95,72,0.20) 30%, rgba(80,95,72,0.08) 100%)",
+                    borderRight: "1px solid rgba(55,68,50,0.30)",
+                    boxShadow: "inset -2px 0 6px rgba(30,40,25,0.20), 1px 0 2px rgba(174,184,161,0.08)",
                   }}
                 >
-                  {/* Spine title — book philosophy */}
+                  {/* Spine linen weave */}
                   <div
-                    className="font-sans text-[6px] tracking-[0.20em] text-ink/45 uppercase"
+                    className="absolute inset-0 opacity-50"
+                    style={{
+                      backgroundImage: `
+                        repeating-linear-gradient(0deg, transparent, transparent 1.5px, rgba(55,68,50,0.18) 1.5px, rgba(55,68,50,0.18) 2px),
+                        repeating-linear-gradient(90deg, transparent, transparent 1.5px, rgba(55,68,50,0.12) 1.5px, rgba(55,68,50,0.12) 2px)
+                      `,
+                      backgroundSize: "2px 2px",
+                    }}
+                  />
+                  {/* Spine title */}
+                  <div
+                    className="relative z-10"
                     style={{
                       writingMode: "vertical-rl",
                       transform: "rotate(180deg)",
+                      fontSize: "6px",
+                      letterSpacing: "0.22em",
+                      fontFamily: "var(--font-sans), sans-serif",
+                      color: "rgba(200,165,106,0.70)",
+                      textShadow:
+                        "0.3px 0.3px 0px rgba(240,215,160,0.40), " +
+                        "-0.3px -0.3px 0px rgba(40,30,10,0.35)",
+                      textTransform: "uppercase",
                       lineHeight: 1.5,
                     }}
                   >
                     Raising Ourselves Before We Raise Our Children
                   </div>
+
+                  {/* Spine botanical ornament */}
+                  <div className="relative z-10" style={{ opacity: 0.55 }}>
+                    <svg width="18" height="22" viewBox="0 0 20 26" fill="none">
+                      <path d="M10 24 C10 18 8 12 10 6 C11 2 10 0 10 0" stroke="rgba(200,165,106,0.65)" strokeWidth="0.7" strokeLinecap="round"/>
+                      <ellipse cx="6" cy="16" rx="5" ry="2.5" transform="rotate(-25 6 16)" fill="rgba(200,165,106,0.25)" stroke="rgba(200,165,106,0.40)" strokeWidth="0.4"/>
+                      <ellipse cx="14" cy="13" rx="5" ry="2.5" transform="rotate(25 14 13)" fill="rgba(200,165,106,0.20)" stroke="rgba(200,165,106,0.35)" strokeWidth="0.4"/>
+                      <circle cx="10" cy="0.5" r="1" fill="rgba(200,165,106,0.45)"/>
+                    </svg>
+                  </div>
+
                   {/* Author at bottom of spine */}
                   <div
-                    className="font-display text-[7px] tracking-[0.16em] text-ink/55"
+                    className="relative z-10"
                     style={{
                       writingMode: "vertical-rl",
                       transform: "rotate(180deg)",
+                      fontSize: "7px",
+                      letterSpacing: "0.16em",
+                      fontFamily: "var(--font-display), serif",
+                      color: "rgba(200,165,106,0.75)",
+                      textShadow:
+                        "0.3px 0.3px 0px rgba(240,215,160,0.40), " +
+                        "-0.3px -0.3px 0px rgba(40,30,10,0.35)",
                     }}
                   >
                     Poonam Choudhary
@@ -250,102 +302,113 @@ function BookOpeningAnimationInner() {
                 </div>
               )}
 
-              {/* Botanical element — elegant eucalyptus bleeding off top-right corner.
-                   Feels like a real dried sprig pressed inside the book. */}
-              <PressedFlower
-                variant="eucalyptus"
-                scale={2.1}
-                opacity={0.42}
-                position={{ top: "-18%", right: "-12%" }}
-                rotation={18}
-                style={{ zIndex: 2, width: "200px", height: "400px", filter: "drop-shadow(2px 5px 8px rgba(60,70,55,0.16))" }}
-              />
-
-              {/* ─────────────────────────────────────────────────────────
-                   EDITORIAL COVER — Vertical Rhythm Layout
-                   ─────────────────────────────────────────────────────── */}
+              {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                  EDITORIAL COVER — Centered typographic layout
+                  Inspired by Penguin Clothbound / Assouline
+              ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
               <CoverSection>
-                <div className="w-full h-full flex flex-col justify-between pl-0 md:pl-[44px]" style={{ padding: "clamp(28px, 4vh, 52px) clamp(20px, 3vw, 44px)" }}>
+                <div
+                  className="w-full h-full flex flex-col items-center justify-center gap-0"
+                  style={{
+                    paddingLeft: isMobile ? "clamp(20px,3vw,44px)" : "calc(44px + clamp(20px,3vw,44px))",
+                    paddingRight: "clamp(20px,3vw,44px)",
+                    paddingTop: "clamp(28px,4vh,52px)",
+                    paddingBottom: "clamp(28px,4vh,52px)",
+                  }}
+                >
 
-                  {/* ── TOP: Philosophy line — quiet, wide-tracked ── */}
+                  {/* ── TOP: Book Title ── */}
                   <motion.div
-                    initial={{ opacity: 0, y: 6 }}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1.6, ease: [0.25, 1, 0.5, 1], delay: 2.0 }}
-                    className="text-left"
+                    className="text-center mb-[clamp(16px,3vh,28px)]"
                   >
                     <BookSubtitle />
                   </motion.div>
 
-                  {/* ── CENTER: Author name — the hero ── */}
+                  {/* ── Thin gold rule ── */}
+                  <motion.div
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    animate={{ opacity: 1, scaleX: 1 }}
+                    transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1], delay: 2.3 }}
+                    style={{
+                      width: "clamp(40px,5vw,60px)",
+                      height: "0.5px",
+                      background: "rgba(200,165,106,0.40)",
+                      marginBottom: "clamp(16px,3vh,28px)",
+                    }}
+                  />
+
+                  {/* ── CENTER: Author Name (hero) ── */}
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1], delay: 2.4 }}
-                    className="flex flex-col items-center"
+                    transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1], delay: 2.5 }}
+                    className="flex flex-col items-center mb-[clamp(16px,3vh,28px)]"
                   >
                     <BookTitle />
                   </motion.div>
 
-                  {/* ── IDENTITY STRIP: Professional icons ── */}
+                  {/* ── Small botanical fleuron ── */}
                   <motion.div
-                    initial={{ opacity: 0, y: 8 }}
+                    initial={{ opacity: 0, scale: 0.6 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1.0, ease: [0.25, 1, 0.5, 1], delay: 2.8 }}
+                    className="mb-[clamp(12px,2vh,20px)]"
+                    style={{ color: "#C8A56A" }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      {/* 4-petal fleuron */}
+                      <path d="M12 2 Q14 7 12 12 Q10 7 12 2Z" fill="rgba(200,165,106,0.70)"/>
+                      <path d="M22 12 Q17 14 12 12 Q17 10 22 12Z" fill="rgba(200,165,106,0.70)"/>
+                      <path d="M12 22 Q10 17 12 12 Q14 17 12 22Z" fill="rgba(200,165,106,0.70)"/>
+                      <path d="M2 12 Q7 10 12 12 Q7 14 2 12Z" fill="rgba(200,165,106,0.70)"/>
+                      <circle cx="12" cy="12" r="1.8" fill="rgba(200,165,106,0.55)"/>
+                    </svg>
+                  </motion.div>
+
+                  {/* ── IDENTITY: Author · Speaker · Parenting Guide ── */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 2.9 }}
-                    className="flex justify-center"
+                    transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 3.0 }}
+                    className="flex justify-center mb-[clamp(24px,4vh,40px)]"
                   >
                     <AuthorName />
                   </motion.div>
 
-                  {/* ── QUOTE CARD — torn paper, masking tape ── */}
+                  {/* ── CTA: Begin Reading ── */}
                   <motion.div
-                    initial={{ opacity: 0, y: 8 }}
+                    initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 3.2 }}
-                    className="flex flex-col items-center gap-5 z-20"
+                    transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1], delay: 3.5 }}
+                    className="flex justify-center"
                   >
-                    <QuoteCard
-                      quote="We do not raise our children; we raise ourselves to meet them."
-                      author="Poonam Choudhary"
-                      width="clamp(180px, 28vw, 260px)"
-                      rotation={-1.2}
-                      scale={0.85}
-                      className="mx-auto"
+                    <OpenBookButton
+                      onHoverStart={handleHoverStart}
+                      onHoverEnd={handleHoverEnd}
+                      onClick={openBook}
                     />
-
-                    {/* ── CTA Button ── */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1], delay: 3.6 }}
-                    >
-                      <OpenBookButton
-                        onHoverStart={handleHoverStart}
-                        onHoverEnd={handleHoverEnd}
-                        onClick={openBook}
-                      />
-                    </motion.div>
                   </motion.div>
 
                 </div>
               </CoverSection>
-
-              <PageCurl
-                isHovered={isHovered}
-                isOpening={state === "opening"}
-              />
             </div>
 
-            {/* BACK: Inside Left Cover */}
+            {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                BACK: Inside Front Cover — Endpaper
+            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
             {!isMobile && (
               <div
-                className="absolute inset-0 w-full h-full backface-hidden rounded-none border border-[#6E5A4E]/10"
+                className="absolute inset-0 w-full h-full backface-hidden rounded-none"
                 style={{
                   transform: "rotateY(180deg)",
                   boxShadow:
                     "0 36px 84px rgba(58, 44, 30, 0.18), 0 14px 32px rgba(58, 44, 30, 0.09)",
                 }}
               >
+                <EndpaperPattern />
                 <LeftPage>
                   <></>
                 </LeftPage>
@@ -356,7 +419,6 @@ function BookOpeningAnimationInner() {
           </motion.div>
         </motion.div>
       </motion.div>
-
     </div>
   );
 }
