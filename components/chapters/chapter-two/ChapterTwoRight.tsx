@@ -1,12 +1,8 @@
-"use client";
-
 import React from "react";
 import {
-  EditorialLabel,
-  DecorativeDivider,
   PaperNote,
   InkSplash,
-  BotanicalIllustration,
+  TreeOfValues,
 } from "@/components/decorations";
 
 export default function ChapterTwoRight() {
@@ -26,24 +22,8 @@ export default function ChapterTwoRight() {
         }}
       />
 
-      {/* DOMINANT BOTANICAL ILLUSTRATION (Sole Visual Hero) */}
-      <BotanicalIllustration
-        variant="branch"
-        scale={2.3}
-        opacity={0.38}
-        position={{ top: "12%", left: "8%" }}
-        rotation={22}
-        style={{ zIndex: 3 }}
-      />
-
-      <BotanicalIllustration
-        variant="olive"
-        scale={1.1}
-        opacity={0.12}
-        position={{ bottom: "8%", left: "-5%" }}
-        rotation={45}
-        style={{ zIndex: 2 }}
-      />
+      {/* ANNOTATED TREE OF VALUES ILLUSTRATION (Naturalist Field-Guide Hero) */}
+      <TreeOfValues />
 
       {/* FLOATING REMINDER CARD (About-style supporting card) */}
       <PaperNote

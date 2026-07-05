@@ -33,4 +33,5 @@ export { default as MarginIllustration } from "./MarginIllustration";
 export { default as PortraitFrame } from "./PortraitFrame";
 export { default as WatercolorWash } from "./WatercolorWash";
 export { default as HeroWatercolor } from "./HeroWatercolor";
+export { default as TreeOfValues } from "./TreeOfValues";
 

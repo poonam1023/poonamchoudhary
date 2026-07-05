@@ -13,14 +13,7 @@ import {
 export default function ChapterTwoLeft() {
   return (
     <div className="absolute inset-0 overflow-hidden select-none" style={{ background: "transparent" }}>
-      {/* LARGE BACKGROUND ILLUSTRATION — grows from spine/right edge */}
-      <BotanicalIllustration
-        variant="branch"
-        scale={1.6}
-        opacity={0.45}
-        position={{ top: "15%", right: "-25%" }}
-        rotation={35}
-      />
+
 
       {/* CHAPTER HEADER */}
       <div className="absolute flex flex-col items-center pointer-events-none select-none" style={{ top: "6%", left: "10%", right: "10%", zIndex: 10 }}>
