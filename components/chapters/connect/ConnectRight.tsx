@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EditorialLabel, DecorativeDivider, InkSplash } from "@/components/decorations";
 
@@ -11,6 +11,25 @@ export default function ConnectRight() {
   const [name, setName] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+
+  const nameSpanRef = useRef<HTMLSpanElement>(null);
+  const subjectSpanRef = useRef<HTMLSpanElement>(null);
+  const [nameWidth, setNameWidth] = useState(80);
+  const [subjectWidth, setSubjectWidth] = useState(80);
+
+  const useSafeLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+  useSafeLayoutEffect(() => {
+    if (nameSpanRef.current) {
+      setNameWidth(nameSpanRef.current.getBoundingClientRect().width + 4);
+    }
+  }, [name]);
+
+  useSafeLayoutEffect(() => {
+    if (subjectSpanRef.current) {
+      setSubjectWidth(subjectSpanRef.current.getBoundingClientRect().width + 4);
+    }
+  }, [subject]);
 
   const handleSend = () => {
     if (!name.trim() || !message.trim()) return;
@@ -25,7 +44,7 @@ export default function ConnectRight() {
   };
 
   return (
-    <div className="absolute inset-0 overflow-hidden" style={{ background: "transparent" }}>
+    <div className="absolute inset-0 overflow-hidden" style={{ background: "linear-gradient(198deg, #FFFDF8 0%, #FAF7F2 44%, #F6EFE5 100%)" }}>
       <InkSplash variant="splash" scale={0.6} opacity={0.08} position={{ top: "18%", right: "10%" }} style={{ zIndex: 1 }} />
 
       <div className="absolute flex flex-col items-center pointer-events-none select-none" style={{ top: "7%", left: "10%", right: "10%", zIndex: 10 }}>
@@ -53,31 +72,107 @@ export default function ConnectRight() {
               {/* Stationery ruled line background */}
               <div className="absolute inset-0 pointer-events-none select-none opacity-[0.04]" style={{ borderRadius: "1px", backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(110,90,78,0.10) 24px, rgba(110,90,78,0.10) 25px)" }} />
 
-              <p style={{ fontFamily: "var(--font-cormorant), serif", fontStyle: "italic", fontSize: "clamp(9.5px, 1.4vh, 11px)", color: "#6E5A4E", opacity: 0.6, marginBottom: "14px", position: "relative", zIndex: 1 }}>
-                Dear Poonam, my name is&hellip;
+              {/* Custom style for input placeholder styling */}
+              <style>{`
+                .inline-letter-input::placeholder {
+                  color: rgba(110, 90, 78, 0.65) !important;
+                  opacity: 1 !important;
+                  font-style: italic;
+                }
+                .message-textarea::placeholder {
+                  color: rgba(110, 90, 78, 0.65) !important;
+                  opacity: 0.8 !important;
+                  font-style: italic;
+                  font-size: clamp(13px, 1.8vh, 15px) !important;
+                }
+              `}</style>
+
+              <p
+                style={{
+                  fontFamily: "var(--font-cormorant), serif",
+                  fontStyle: "italic",
+                  fontSize: "clamp(13px, 1.8vh, 15px)",
+                  color: "rgba(110, 90, 78, 0.65)",
+                  lineHeight: 2.0,
+                  marginBottom: "18px",
+                  position: "relative",
+                  zIndex: 1,
+                }}
+              >
+                Dear Poonam, my name is{" "}
+                <span className="relative inline-block">
+                  <span
+                    ref={nameSpanRef}
+                    className="absolute invisible whitespace-pre"
+                    style={{
+                      fontFamily: "var(--font-cormorant), serif",
+                      fontSize: "clamp(13px, 1.8vh, 15px)",
+                      fontStyle: "italic",
+                      fontWeight: name ? 600 : 400,
+                      padding: "0 2px",
+                    }}
+                  >
+                    {name || "Your name"}
+                  </span>
+                  <input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Your name"
+                    className="outline-none bg-transparent inline-letter-input"
+                    style={{
+                      width: `${nameWidth}px`,
+                      fontFamily: "var(--font-cormorant), serif",
+                      fontSize: "clamp(13px, 1.8vh, 15px)",
+                      fontStyle: "italic",
+                      fontWeight: name ? 600 : 400,
+                      color: name ? "#2A1E16" : "rgba(110, 90, 78, 0.65)",
+                      border: "none",
+                      borderBottom: "1px solid rgba(110, 90, 78, 0.35)",
+                      paddingBottom: "1px",
+                      verticalAlign: "baseline",
+                      transition: "border-color 0.2s, color 0.2s, width 0.1s ease",
+                    }}
+                  />
+                </span>
+                {" "}and I&apos;m writing regarding{" "}
+                <span className="relative inline-block">
+                  <span
+                    ref={subjectSpanRef}
+                    className="absolute invisible whitespace-pre"
+                    style={{
+                      fontFamily: "var(--font-cormorant), serif",
+                      fontSize: "clamp(13px, 1.8vh, 15px)",
+                      fontStyle: "italic",
+                      fontWeight: subject ? 600 : 400,
+                      padding: "0 2px",
+                    }}
+                  >
+                    {subject || "a topic"}
+                  </span>
+                  <input
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    placeholder="a topic"
+                    className="outline-none bg-transparent inline-letter-input"
+                    style={{
+                      width: `${subjectWidth}px`,
+                      fontFamily: "var(--font-cormorant), serif",
+                      fontSize: "clamp(13px, 1.8vh, 15px)",
+                      fontStyle: "italic",
+                      fontWeight: subject ? 600 : 400,
+                      color: subject ? "#2A1E16" : "rgba(110, 90, 78, 0.65)",
+                      border: "none",
+                      borderBottom: "1px solid rgba(110, 90, 78, 0.35)",
+                      paddingBottom: "1px",
+                      verticalAlign: "baseline",
+                      transition: "border-color 0.2s, color 0.2s, width 0.1s ease",
+                    }}
+                  />
+                </span>
+                .
               </p>
 
-              <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Your name"
-                className="outline-none bg-transparent w-full"
-                style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "clamp(12px, 1.8vh, 14px)", color: "#3A2C1E", border: "none", borderBottom: "0.5px solid rgba(110,90,78,0.15)", paddingBottom: "6px", marginBottom: "14px", position: "relative", zIndex: 1 }}
-              />
-
-              <p style={{ fontFamily: "var(--font-cormorant), serif", fontStyle: "italic", fontSize: "clamp(9.5px, 1.4vh, 11px)", color: "#6E5A4E", opacity: 0.6, marginBottom: "14px", position: "relative", zIndex: 1 }}>
-                I am writing regarding&hellip;
-              </p>
-
-              <input
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-                placeholder="Subject"
-                className="outline-none bg-transparent w-full"
-                style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "clamp(12px, 1.8vh, 14px)", color: "#3A2C1E", border: "none", borderBottom: "0.5px solid rgba(110,90,78,0.15)", paddingBottom: "6px", marginBottom: "14px", position: "relative", zIndex: 1 }}
-              />
-
-              <p style={{ fontFamily: "var(--font-cormorant), serif", fontStyle: "italic", fontSize: "clamp(9.5px, 1.4vh, 11px)", color: "#6E5A4E", opacity: 0.6, marginBottom: "8px", position: "relative", zIndex: 1 }}>
+              <p style={{ fontFamily: "var(--font-cormorant), serif", fontStyle: "italic", fontSize: "clamp(13px, 1.8vh, 14.5px)", color: "#6E5A4E", opacity: 0.6, marginBottom: "8px", position: "relative", zIndex: 1 }}>
                 Here is my message&hellip;
               </p>
 
@@ -86,8 +181,20 @@ export default function ConnectRight() {
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Write your message..."
                 rows={5}
-                className="outline-none bg-transparent w-full resize-none"
-                style={{ fontFamily: "var(--font-cormorant), serif", fontSize: "clamp(11px, 1.6vh, 13px)", color: "#3A2C1E", border: "none", borderBottom: "0.5px solid rgba(110,90,78,0.15)", paddingBottom: "6px", marginBottom: "16px", lineHeight: 1.7, position: "relative", zIndex: 1 }}
+                className="outline-none bg-transparent w-full resize-none message-textarea"
+                style={{
+                  fontFamily: "var(--font-cormorant), serif",
+                  fontSize: "clamp(13px, 1.8vh, 15px)",
+                  fontStyle: "italic",
+                  color: "#2A1E16",
+                  border: "none",
+                  borderBottom: "1px solid rgba(110, 90, 78, 0.15)",
+                  paddingBottom: "6px",
+                  marginBottom: "16px",
+                  lineHeight: 1.75,
+                  position: "relative",
+                  zIndex: 1,
+                }}
               />
 
               {/* SEAL & SEND BUTTON */}
@@ -95,16 +202,36 @@ export default function ConnectRight() {
                 <button
                   onClick={handleSend}
                   disabled={!name.trim() || !message.trim()}
-                  className="flex items-center gap-2 cursor-pointer"
+                  className="flex items-center gap-2.5 cursor-pointer"
                   style={{
-                    background: "rgba(168,178,154,0.12)", border: "0.5px solid rgba(168,178,154,0.25)", padding: "7px 18px 8px", borderRadius: "2px",
-                    fontFamily: "var(--font-sans), sans-serif", fontSize: "7.5px", fontWeight: 700, letterSpacing: "0.14em", color: name.trim() && message.trim() ? "#3A2C1E" : "rgba(58,44,30,0.3)", textTransform: "uppercase",
-                    transition: "all 0.3s ease", opacity: name.trim() && message.trim() ? 1 : 0.5,
+                    background: name.trim() && message.trim() ? "#BA664A" : "rgba(186, 102, 74, 0.35)",
+                    border: name.trim() && message.trim() ? "0.5px solid #A0523A" : "0.5px solid rgba(186, 102, 74, 0.45)",
+                    padding: "8px 24px 9px",
+                    borderRadius: "2px",
+                    fontFamily: "var(--font-sans), sans-serif",
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    letterSpacing: "0.14em",
+                    color: name.trim() && message.trim() ? "#FAF7EE" : "rgba(250, 247, 238, 0.65)",
+                    textTransform: "uppercase",
+                    transition: "all 0.3s ease",
+                    opacity: name.trim() && message.trim() ? 1 : 0.7,
+                    boxShadow: name.trim() && message.trim() ? "0 2px 6px rgba(186, 102, 74, 0.15)" : "none",
                   }}
-                  onMouseEnter={(e) => { if (name.trim() && message.trim()) e.currentTarget.style.background = "rgba(168,178,154,0.20)"; }}
-                  onMouseLeave={(e) => e.currentTarget.style.background = "rgba(168,178,154,0.12)"}
+                  onMouseEnter={(e) => {
+                    if (name.trim() && message.trim()) {
+                      e.currentTarget.style.background = "#A0523A";
+                      e.currentTarget.style.boxShadow = "0 3px 8px rgba(160, 82, 58, 0.25)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (name.trim() && message.trim()) {
+                      e.currentTarget.style.background = "#BA664A";
+                      e.currentTarget.style.boxShadow = "0 2px 6px rgba(186, 102, 74, 0.15)";
+                    }
+                  }}
                 >
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 2 11 13" /><path d="m22 2-7 20-4-9-9-4 20-7z" />
                   </svg>
                   Seal &amp; Send My Letter

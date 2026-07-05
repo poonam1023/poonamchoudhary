@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { motion } from "framer-motion";
 import PaperBackground from "./PaperBackground";
-import DustParticles from "./DustParticles";
 import BookTitle from "./BookTitle";
 import BookSubtitle from "./BookSubtitle";
 import AuthorName from "./AuthorName";
@@ -13,7 +12,6 @@ import ChapterOne from "./ChapterOne";
 import CoverSection from "./CoverSection";
 import WritingDeskBackground from "./WritingDeskBackground";
 import BotanicalIllustration from "@/components/decorations/BotanicalIllustration";
-import FloatingLeaves from "@/components/decorations/FloatingLeaves";
 import QuoteCard from "@/components/decorations/QuoteCard";
 import PressedFlower from "@/components/decorations/PressedFlower";
 import LeftPage from "@/components/book/LeftPage";
@@ -32,18 +30,6 @@ function BookOpeningAnimationInner() {
   } = useNavigation();
   const [mountPhase, setMountPhase] = useState<"black" | "windowLight" | "desk" | "book" | "details" | "cta">("black");
 
-  // Mouse position for 3D parallax
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
-
-  // 3D transforms
-  const rotateX = useTransform(mouseY, [0, 1], [4, -4]);
-  const rotateY = useTransform(mouseX, [0, 1], [-6, 6]);
-  const translateZ = useTransform(mouseX, [0, 1], [20, 40]);
-
-  // Breathing animation value
-  const breatheScale = useMotionValue(1);
-
   const isAnimating = ["opening", "closing", "transitioning"].includes(state);
   const handleHoverStart = useCallback(() => setIsHovered(true), []);
   const handleHoverEnd = useCallback(() => setIsHovered(false), []);
@@ -61,42 +47,12 @@ function BookOpeningAnimationInner() {
       const timer = setTimeout(() => setMountPhase(name), delay);
       return () => clearTimeout(timer);
     });
-    // Cleanup — set to cta after all timeouts resolve
+    // Cleanup
     const cleanup = setTimeout(() => {
       // nothing extra needed
     }, 5000);
     return () => clearTimeout(cleanup);
   }, []);
-
-  // Breathing loop
-  useEffect(() => {
-    let running = true;
-    let controls: { stop: () => void } | null = null;
-    const breathe = async () => {
-      while (running) {
-        controls = animate(breatheScale, 1.003, { duration: 4, ease: "easeInOut" });
-        await controls;
-        if (!running) break;
-        controls = animate(breatheScale, 1, { duration: 4, ease: "easeInOut" });
-        await controls;
-      }
-    };
-    breathe();
-    return () => {
-      running = false;
-      controls?.stop();
-    };
-  }, [breatheScale]);
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent) => {
-      if (isMobile) return;
-      const rect = e.currentTarget.getBoundingClientRect();
-      mouseX.set((e.clientX - rect.left) / rect.width);
-      mouseY.set((e.clientY - rect.top) / rect.height);
-    },
-    [isMobile, mouseX, mouseY]
-  );
 
   const isOpened = state === "open" || state === "transitioning" || (state === "opening" && openingPhase === "flipping");
   const isFlipped = state === "open" || state === "transitioning" || (state === "opening" && openingPhase === "flipping");
@@ -107,7 +63,6 @@ function BookOpeningAnimationInner() {
       className={`relative w-screen h-screen flex items-center justify-center overflow-hidden ${
         isAnimating ? "book-animating" : ""
       }`}
-      onMouseMove={handleMouseMove}
       style={{ background: "#1A1410" }}
     >
       {/* Layer 0: Initial black screen (fades to reveal) */}
@@ -128,7 +83,7 @@ function BookOpeningAnimationInner() {
         <WritingDeskBackground />
       </motion.div>
 
-      {/* Layer 2: Window light beam (trapezoid parallelogram, warm, slow rotation) */}
+      {/* Layer 2: Window light beam (trapezoid parallelogram, warm, static) */}
       <motion.div
         className="absolute inset-0 z-5 pointer-events-none select-none"
         initial={{ opacity: 0 }}
@@ -137,7 +92,7 @@ function BookOpeningAnimationInner() {
         }}
         transition={{ duration: 2, ease: "easeOut", delay: 0.5 }}
       >
-        <motion.div
+        <div
           className="absolute w-[70%] h-[120%]"
           style={{
             top: "-10%",
@@ -147,21 +102,7 @@ function BookOpeningAnimationInner() {
             clipPath: "polygon(10% 0%, 90% 0%, 70% 100%, 20% 100%)",
             transformOrigin: "center center",
           }}
-          animate={{ rotate: [0, 2, 0, -1, 0] }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
         />
-      </motion.div>
-
-      {/* Layer 3: Dust particles (inside light beam area) */}
-      <motion.div
-        className="absolute inset-0 z-10"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: ["black", "windowLight", "desk"].includes(mountPhase) ? 0 : 1,
-        }}
-        transition={{ duration: 2, ease: "easeOut", delay: 0.3 }}
-      >
-        <DustParticles />
       </motion.div>
 
       {/* Layer 4: 3D Book Perspective Wrapper */}
@@ -174,8 +115,6 @@ function BookOpeningAnimationInner() {
                 width: "min(96vw, 1800px)",
                 height: "90vh",
                 perspective: "1500px",
-                rotateX: rotateX,
-                rotateY: rotateY,
                 willChange: "transform",
               }
         }
@@ -187,8 +126,6 @@ function BookOpeningAnimationInner() {
             isMobile
               ? {}
               : {
-                  translateZ: translateZ,
-                  scale: breatheScale,
                   willChange: isAnimating ? "transform" : "auto",
                 }
           }
@@ -322,7 +259,6 @@ function BookOpeningAnimationInner() {
                 position={{ top: "-8%", right: "-8%" }}
                 rotation={35}
               />
-              <FloatingLeaves count={4} opacity={0.25} />
               
               {/* Single loved-object imperfection */}
               <PressedFlower

@@ -14,7 +14,6 @@ export { default as PageStamp } from "./PageStamp";
 export { default as LibrarySeal } from "./LibrarySeal";
 export { default as WatercolorBlob } from "./WatercolorBlob";
 export { default as DecorativeFrame } from "./DecorativeFrame";
-export { default as FloatingLeaves } from "./FloatingLeaves";
 export { default as HandwrittenNote } from "./HandwrittenNote";
 export { default as PaperClip } from "./PaperClip";
 export { default as InkSplash } from "./InkSplash";
