@@ -161,7 +161,42 @@ function BookmarkTab({
         opacity: { duration: 0.4, delay: 0.04 * index },
       }}
     >
+      <div
+        className="absolute pointer-events-none select-none"
+        style={{
+          top: 5,
+          left: -7,
+          right: -7,
+          height: isActive ? 26 : 22,
+          zIndex: -1,
+          transform: "translateY(2px)",
+          background: isActive
+            ? "radial-gradient(ellipse at 50% 0%, rgba(45,28,15,0.24) 0%, rgba(45,28,15,0.15) 26%, rgba(45,28,15,0.065) 55%, transparent 82%)"
+            : "radial-gradient(ellipse at 50% 0%, rgba(45,28,15,0.17) 0%, rgba(45,28,15,0.095) 30%, rgba(45,28,15,0.040) 58%, transparent 84%)",
+          filter: "blur(5px)",
+          mixBlendMode: "multiply",
+        }}
+      />
+
       {/* ── 3D PAPER EDGE (thickness) ── */}
+      <div
+        className="absolute pointer-events-none select-none"
+        style={{
+          top: -2,
+          left: -4,
+          right: -4,
+          height: 18,
+          zIndex: 0,
+          transform: "perspective(120px) rotateX(18deg)",
+          transformOrigin: "top center",
+          background: isActive
+            ? "linear-gradient(to bottom, rgba(38,24,14,0.18) 0%, rgba(38,24,14,0.07) 54%, transparent 100%)"
+            : "linear-gradient(to bottom, rgba(38,24,14,0.11) 0%, rgba(38,24,14,0.04) 52%, transparent 100%)",
+          filter: "blur(0.5px)",
+          borderRadius: "2px 2px 0 0",
+        }}
+      />
+
       <div
         className="absolute pointer-events-none select-none"
         style={{

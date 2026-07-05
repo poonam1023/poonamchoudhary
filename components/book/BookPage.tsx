@@ -41,8 +41,8 @@ function BookPage({ side, children, className = "" }: BookPageProps) {
           ? "linear-gradient(162deg, #FFFDF8 0%, #FAF7F2 42%, #F6EFE5 100%)"
           : "linear-gradient(198deg, #FFFDF8 0%, #FAF7F2 44%, #F6EFE5 100%)",
         boxShadow: isLeft
-          ? "inset -26px 0 42px -4px rgba(58,44,30,0.065), inset -5px 0 10px rgba(58,44,30,0.075), 0 0 18px rgba(255,255,255,0.08)"
-          : "inset 26px 0 42px -4px rgba(58,44,30,0.065), inset 5px 0 10px rgba(58,44,30,0.075), 0 0 18px rgba(255,255,255,0.08)",
+          ? "inset -18px 0 36px -18px rgba(58,44,30,0.040), inset -2px 0 8px -3px rgba(58,44,30,0.036), 0 0 18px rgba(255,255,255,0.08)"
+          : "inset 18px 0 36px -18px rgba(58,44,30,0.040), inset 2px 0 8px -3px rgba(58,44,30,0.036), 0 0 18px rgba(255,255,255,0.08)",
       }}
     >
       {/* ── 1. Premium hand-made paper grain (non-repeating, ultra-subtle) ── */}
@@ -86,22 +86,37 @@ function BookPage({ side, children, className = "" }: BookPageProps) {
 
       {/* ── 7. Spine Gutter Shadow — wide feathered ─────────────────────── */}
       <div
-        className="absolute top-0 bottom-0 pointer-events-none select-none"
+        className="absolute pointer-events-none select-none"
         style={{
+          top: "-18px",
+          bottom: "-18px",
           [isLeft ? "right" : "left"]: 0,
-          width: "36px",
-          background: `linear-gradient(to ${isLeft ? "left" : "right"}, rgba(58,44,30,0.05) 0%, rgba(58,44,30,0.02) 50%, transparent 100%)`,
+          width: "76px",
+          background: `linear-gradient(to ${isLeft ? "left" : "right"}, rgba(58,44,30,0.060) 0%, rgba(58,44,30,0.052) 8%, rgba(58,44,30,0.040) 18%, rgba(58,44,30,0.028) 34%, rgba(58,44,30,0.017) 52%, rgba(58,44,30,0.008) 72%, rgba(58,44,30,0.003) 88%, transparent 100%)`,
+          filter: "blur(3px)",
+          mixBlendMode: "multiply",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0) 4%, rgba(0,0,0,0.45) 13%, #000 28%, #000 72%, rgba(0,0,0,0.45) 87%, rgba(0,0,0,0) 96%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0) 4%, rgba(0,0,0,0.45) 13%, #000 28%, #000 72%, rgba(0,0,0,0.45) 87%, rgba(0,0,0,0) 96%, transparent 100%)",
         }}
       />
 
       {/* ── 8. Tight spine crease line ──────────────────────────────────── */}
       <div
-        className="absolute top-4 bottom-4 pointer-events-none select-none"
+        className="absolute pointer-events-none select-none"
         style={{
+          top: "5%",
+          bottom: "5%",
           [isLeft ? "right" : "left"]: 0,
-          width: "4px",
-          background: `linear-gradient(to ${isLeft ? "left" : "right"}, rgba(58,44,30,0.08) 0%, rgba(58,44,30,0.03) 60%, transparent 100%)`,
-          filter: "blur(1px)",
+          width: "14px",
+          background: `linear-gradient(to ${isLeft ? "left" : "right"}, rgba(35,22,14,0.105) 0%, rgba(58,44,30,0.070) 18%, rgba(58,44,30,0.035) 45%, rgba(58,44,30,0.012) 72%, transparent 100%)`,
+          filter: "blur(2.25px)",
+          mixBlendMode: "multiply",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.22) 8%, #000 22%, #000 78%, rgba(0,0,0,0.22) 92%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.22) 8%, #000 22%, #000 78%, rgba(0,0,0,0.22) 92%, transparent 100%)",
         }}
       />
 

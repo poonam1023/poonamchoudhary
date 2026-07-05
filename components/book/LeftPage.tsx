@@ -10,5 +10,16 @@ interface LeftPageProps {
  * Keeps chapter components declarative.
  */
 export default function LeftPage({ children }: LeftPageProps) {
-  return <BookPage side="left">{children}</BookPage>;
+  return (
+    <div
+      className="relative w-full h-full"
+      style={{
+        transform: "rotateY(2.2deg) translateZ(1px)",
+        transformOrigin: "right center",
+        transformStyle: "preserve-3d",
+      }}
+    >
+      <BookPage side="left">{children}</BookPage>
+    </div>
+  );
 }

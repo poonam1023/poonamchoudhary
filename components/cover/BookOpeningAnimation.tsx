@@ -121,11 +121,14 @@ function BookOpeningAnimationInner() {
             isMobile
               ? {}
               : {
+                  perspective: "2200px",
+                  transformStyle: "preserve-3d",
                   willChange: isAnimating ? "transform" : "auto",
                 }
           }
           animate={{
             x: isMobile ? 0 : isOpened ? 0 : "-25%",
+            rotateX: isMobile ? 0 : isOpened ? 2.4 : 0,
             rotate: isOpened ? 0 : isHovered ? -0.2 : -0.7,
             scale: isOpened ? 1 : isPressing ? 0.985 : isHovered ? 1.015 : 1,
             y: isOpened ? 0 : isHovered ? -10 : 0,
@@ -168,17 +171,23 @@ function BookOpeningAnimationInner() {
               className="absolute right-0 top-0 h-full rounded-none pointer-events-none overflow-hidden"
               style={{
                 width: isMobile ? "100%" : "50%",
-                transform: "translate3d(2px, 2px, -5px) rotate(-0.7deg)",
+                transform: "translate3d(7px, 3px, -5px) rotate(-0.7deg)",
+                backgroundColor: "#CFAF6E",
                 backgroundImage: `
-                  repeating-linear-gradient(
-                    to bottom,
-                    #FAF5E8 0px,
-                    #FAF5E8 2px,
-                    #E5C38C 2.5px,
-                    #D2AD73 3.5px,
-                    #FAF5E8 5px
-                  )
+                  linear-gradient(
+                    90deg,
+                    #E7D192 0%,
+                    #D8BC78 18%,
+                    #CFAF6E 48%,
+                    #B99557 78%,
+                    #A87E46 100%
+                  ),
+                  radial-gradient(circle at 30% 18%, rgba(255,248,215,0.18) 0 0.7px, transparent 1.1px),
+                  radial-gradient(circle at 68% 72%, rgba(86,58,30,0.14) 0 0.6px, transparent 1px)
                 `,
+                backgroundSize: "100% 100%, 18px 18px, 22px 22px",
+                boxShadow:
+                  "inset 1px 0 1px rgba(255,245,205,0.45), inset -3px 0 5px rgba(72,45,24,0.22)",
               }}
             />
           )}
@@ -194,7 +203,22 @@ function BookOpeningAnimationInner() {
             }}
           >
             {!isMobile && (
-              <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-r from-[#3A2C1E]/8 to-transparent z-30" />
+              <div
+                className="absolute left-0 pointer-events-none z-30"
+                style={{
+                  top: "6%",
+                  bottom: "6%",
+                  width: "16px",
+                  background:
+                    "linear-gradient(to right, rgba(58,44,30,0.055) 0%, rgba(58,44,30,0.030) 34%, rgba(58,44,30,0.010) 68%, transparent 100%)",
+                  filter: "blur(3px)",
+                  mixBlendMode: "multiply",
+                  WebkitMaskImage:
+                    "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.28) 12%, #000 28%, #000 72%, rgba(0,0,0,0.28) 88%, transparent 100%)",
+                  maskImage:
+                    "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.28) 12%, #000 28%, #000 72%, rgba(0,0,0,0.28) 88%, transparent 100%)",
+                }}
+              />
             )}
             <div className="book-board-edge" />
             {(state === "open" || state === "transitioning") && (

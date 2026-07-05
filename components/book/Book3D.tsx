@@ -112,21 +112,20 @@ function Book3D({ children }: Book3DProps) {
         className="absolute top-0 bottom-0 pointer-events-none z-1"
         style={{
           right: "100%",
-          width: "10px",
-          left: "-100.4%",
-          background: "linear-gradient(to right, #DAB880 0%, #FAF5E8 30%, #E8C690 70%, #C4A26C 100%)",
-          borderLeft: "0.5px solid rgba(110,90,60,0.18)",
-          backgroundImage: `
-            repeating-linear-gradient(
+          width: "14px",
+          left: "-101%",
+          backgroundColor: "#CFAF6E",
+          background: `
+            linear-gradient(
               to right,
-              #FAF5E8 0px,
-              #FAF5E8 1px,
-              #E5C38C 1.5px,
-              #D2AD73 2.5px,
-              #FAF5E8 3px
+              #A87E46 0%,
+              #C49F60 24%,
+              #E5CB88 54%,
+              #D4B876 100%
             )
           `,
-          boxShadow: "inset 1px 0 3px rgba(45,26,18,0.10)",
+          borderLeft: "0.5px solid rgba(110,90,60,0.18)",
+          boxShadow: "inset 2px 0 4px rgba(255,245,205,0.28), inset -2px 0 5px rgba(72,45,24,0.18)",
         }}
       />
 
@@ -135,21 +134,20 @@ function Book3D({ children }: Book3DProps) {
         className="absolute top-0 bottom-0 pointer-events-none z-1"
         style={{
           left: "100%",
-          width: "10px",
-          right: "-0.4%",
-          background: "linear-gradient(to left, #DAB880 0%, #FAF5E8 30%, #E8C690 70%, #C4A26C 100%)",
-          borderRight: "0.5px solid rgba(110,90,60,0.18)",
-          backgroundImage: `
-            repeating-linear-gradient(
+          width: "14px",
+          right: "-1%",
+          backgroundColor: "#CFAF6E",
+          background: `
+            linear-gradient(
               to left,
-              #FAF5E8 0px,
-              #FAF5E8 1px,
-              #E5C38C 1.5px,
-              #D2AD73 2.5px,
-              #FAF5E8 3px
+              #A87E46 0%,
+              #C49F60 24%,
+              #E5CB88 54%,
+              #D4B876 100%
             )
           `,
-          boxShadow: "inset -1px 0 3px rgba(45,26,18,0.10)",
+          borderRight: "0.5px solid rgba(110,90,60,0.18)",
+          boxShadow: "inset -2px 0 4px rgba(255,245,205,0.28), inset 2px 0 5px rgba(72,45,24,0.18)",
         }}
       />
 
@@ -157,22 +155,13 @@ function Book3D({ children }: Book3DProps) {
       <div
         className="absolute bottom-[-5px] pointer-events-none z-1"
         style={{
-          left: "-100.4%",
-          right: "-0.4%",
-          height: "5px",
-          background: "linear-gradient(to bottom, #DAB880 0%, #FAF5E8 30%, #E8C690 70%, #C4A26C 100%)",
+          left: "-101%",
+          right: "-1%",
+          height: "7px",
+          backgroundColor: "#CFAF6E",
+          background: "linear-gradient(to bottom, #E7D192 0%, #D4B876 42%, #B99557 100%)",
           borderBottom: "0.5px solid rgba(110,90,60,0.18)",
-          backgroundImage: `
-            repeating-linear-gradient(
-              to bottom,
-              #FAF5E8 0px,
-              #FAF5E8 1px,
-              #E5C38C 1.5px,
-              #D2AD73 2.5px,
-              #FAF5E8 3px
-            )
-          `,
-          boxShadow: "inset 0 1px 3px rgba(45,26,18,0.10)",
+          boxShadow: "inset 0 1px 3px rgba(255,245,205,0.24), inset 0 -2px 4px rgba(72,45,24,0.16)",
         }}
       />
 
@@ -181,6 +170,7 @@ function Book3D({ children }: Book3DProps) {
         className="relative w-full h-full z-10"
         style={{
           boxShadow: "inset 0 0 100px rgba(45,26,18,0.03)",
+          transformStyle: "preserve-3d",
         }}
       >
         {children}
@@ -188,39 +178,86 @@ function Book3D({ children }: Book3DProps) {
 
       {/* ── 5. DEEP CENTER SPINE GUTTER ── */}
       <div
-        className="absolute top-0 bottom-0 pointer-events-none"
+        className="absolute pointer-events-none"
         style={{
+          top: "-24px",
+          bottom: "-24px",
           left: 0,
           transform: "translateX(-50%)",
-          width: "36px",
-          zIndex: 35,
+          width: "118px",
+          zIndex: 9,
           background:
-            "linear-gradient(to right, rgba(35,20,12,0.22) 0%, rgba(35,20,12,0.12) 30%, rgba(35,20,12,0.01) 46%, rgba(200,165,106,0.04) 50%, rgba(35,20,12,0.01) 54%, rgba(35,20,12,0.12) 70%, rgba(35,20,12,0.22) 100%)",
+            "linear-gradient(to right, transparent 0%, rgba(58,38,25,0.018) 12%, rgba(58,38,25,0.040) 24%, rgba(35,22,14,0.070) 36%, rgba(16,8,5,0.145) 47%, rgba(16,8,5,0.195) 50%, rgba(255,244,218,0.045) 51.5%, rgba(35,22,14,0.074) 59%, rgba(58,38,25,0.040) 74%, rgba(58,38,25,0.018) 88%, transparent 100%)",
+          filter: "blur(8px)",
+          mixBlendMode: "multiply",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0) 5%, rgba(0,0,0,0.32) 16%, #000 31%, #000 69%, rgba(0,0,0,0.32) 84%, rgba(0,0,0,0) 95%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0) 5%, rgba(0,0,0,0.32) 16%, #000 31%, #000 69%, rgba(0,0,0,0.32) 84%, rgba(0,0,0,0) 95%, transparent 100%)",
         }}
       >
         {/* Deepest central crevice line */}
         <div
-          className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[1.5px]"
+          className="absolute left-1/2 -translate-x-1/2 w-[3px]"
           style={{
+            top: "8%",
+            bottom: "8%",
             background:
-              "linear-gradient(to right, rgba(30,16,10,0.35), rgba(30,16,10,0.48) 50%, rgba(30,16,10,0.22))",
+              "linear-gradient(to right, transparent 0%, rgba(30,16,10,0.22) 35%, rgba(30,16,10,0.42) 50%, rgba(255,246,226,0.08) 68%, transparent 100%)",
+            filter: "blur(2.5px)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 12%, #000 28%, #000 72%, rgba(0,0,0,0.4) 88%, transparent 100%)",
+            maskImage:
+              "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 12%, #000 28%, #000 72%, rgba(0,0,0,0.4) 88%, transparent 100%)",
           }}
         />
       </div>
 
       {/* ── 6. BOOKMARK RIBBON (Dark brown satin ribbon draping onto desk) ── */}
+      {[
+        { key: "lt", left: "-100.2%", top: "-2px", rotate: 0 },
+        { key: "lb", left: "-100.2%", bottom: "-2px", rotate: -90 },
+        { key: "rt", right: "-0.2%", top: "-2px", rotate: 90 },
+        { key: "rb", right: "-0.2%", bottom: "-2px", rotate: 180 },
+      ].map(({ key, rotate, ...position }) => (
+        <div
+          key={key}
+          className="absolute pointer-events-none"
+          style={{
+            ...position,
+            width: "42px",
+            height: "42px",
+            zIndex: 6,
+            transform: `rotate(${rotate}deg)`,
+            transformOrigin: "center",
+          }}
+        >
+          <svg width="42" height="42" viewBox="0 0 42 42" fill="none" aria-hidden="true">
+            <path d="M4 3.5H31M4 3.5V31" stroke="#C8A56A" strokeWidth="2.2" strokeLinecap="square" />
+            <path d="M8 8H27M8 8V27" stroke="rgba(255,238,190,0.55)" strokeWidth="0.8" strokeLinecap="square" />
+            <path
+              d="M4 3.5H31M4 3.5V31"
+              stroke="rgba(80,48,22,0.28)"
+              strokeWidth="0.6"
+              strokeLinecap="square"
+              transform="translate(1.6 1.6)"
+            />
+          </svg>
+        </div>
+      ))}
+
       <div
-        className="absolute pointer-events-none z-0"
+        className="absolute pointer-events-none"
         style={{
-          bottom: "-74px",
-          left: "48%",
-          width: "22px",
-          height: "80px",
-          transform: "translateX(-50%) rotate(-3deg)",
-          zIndex: 0, // Behind the book, lying on the desk
-          background: "linear-gradient(to right, #1F100A 0%, #3B2117 30%, #46281C 50%, #3B2117 70%, #1F100A 100%)",
+          bottom: "-86px",
+          left: "50%",
+          width: "20px",
+          height: "96px",
+          transform: "translateX(-50%) rotate(1.8deg)",
+          zIndex: 8,
+          background: "linear-gradient(to right, #6B2E24 0%, #9D4735 30%, #B85A44 50%, #8E3B2F 72%, #5B241E 100%)",
           clipPath: "polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%)",
-          filter: "drop-shadow(2px 4px 5px rgba(10,5,3,0.60))",
+          filter: "drop-shadow(2px 5px 6px rgba(10,5,3,0.48))",
         }}
       >
         {/* Satin sheen highlight stripe */}
@@ -231,6 +268,22 @@ function Book3D({ children }: Book3DProps) {
           }}
         />
       </div>
+
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          left: "-101%",
+          right: "-1%",
+          top: "-1%",
+          bottom: "-1%",
+          zIndex: 50,
+          background: `
+            radial-gradient(circle at 22% 9%, rgba(255,252,236,0.24) 0%, rgba(255,252,236,0.08) 34%, transparent 58%),
+            linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 42%, rgba(58,34,18,0.09) 100%)
+          `,
+          mixBlendMode: "multiply",
+        }}
+      />
     </div>
   );
 }
