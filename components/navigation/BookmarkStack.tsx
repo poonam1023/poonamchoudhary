@@ -21,8 +21,8 @@ const TABS_CONFIG = [
   { label: "ABOUT",      page: 1, xOffset: 69,  rotation: 0.6,  height: 104, tintOffset: 2,  notchOffset: -1 },
   { label: "PHILOSOPHY", page: 2, xOffset: 128, rotation: -0.5, height: 102, tintOffset: -2, notchOffset: 2 },
   { label: "BOOKS",      page: 3, xOffset: 190, rotation: 0.9,  height: 105, tintOffset: 1,  notchOffset: -2 },
-  { label: "JOURNAL",    page: 4, xOffset: 252, rotation: -0.7, height: 100, tintOffset: -1, notchOffset: 1 },
-  { label: "CONNECT",    page: 5, xOffset: 314, rotation: 0.4,  height: 104, tintOffset: 2,  notchOffset: 0 },
+  // { label: "JOURNAL", page: 4, xOffset: 252, rotation: -0.7, height: 100, tintOffset: -1, notchOffset: 1 }, // JOURNAL — disabled
+  { label: "CONNECT",    page: 4, xOffset: 252, rotation: 0.4,  height: 104, tintOffset: 2,  notchOffset: 0 },
 ];
 
 export default function BookmarkStack({
@@ -35,8 +35,8 @@ export default function BookmarkStack({
       case "chapter-1": return 1;
       case "chapter-2": return 2;
       case "library":   return 3;
-      case "gallery":   return 4;
-      case "connect":   return 5;
+      // case "gallery": return 4; // JOURNAL — disabled
+      case "connect":   return 4;
       default:          return 1;
     }
   };

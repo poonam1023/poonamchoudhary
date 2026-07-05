@@ -12,8 +12,8 @@ export const CHAPTERS: ChapterEntry[] = [
   { id: "chapter-1", title: "Chapter I",  numeral: "Ⅰ",  page: 1 },
   { id: "chapter-2", title: "Chapter II", numeral: "Ⅱ",  page: 2 },
   { id: "library",   title: "Library",    numeral: "Ⅲ",  page: 3 },
-  { id: "gallery",   title: "Gallery",    numeral: "Ⅳ",  page: 4 },
-  { id: "connect",   title: "Connect",    numeral: "Ⅴ",  page: 5 },
+  // { id: "gallery", title: "Gallery", numeral: "Ⅳ", page: 4 }, // JOURNAL — disabled, restore to re-enable
+  { id: "connect",   title: "Connect",    numeral: "Ⅴ",  page: 4 },
 ];
 
 interface BookmarkNavigationProps {

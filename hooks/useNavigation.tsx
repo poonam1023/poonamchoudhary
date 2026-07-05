@@ -33,7 +33,7 @@ interface NavigationContextType {
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
-export const CHAPTER_SLUGS = ["home", "about", "philosophy", "books", "journal", "connect"];
+export const CHAPTER_SLUGS = ["home", "about", "philosophy", "books", "connect"];
 
 const FLIP_DURATION = 450;
 const FLIP_GAP = 60;
@@ -134,7 +134,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
     if (currentState === "closed") {
       openBook();
     } else if (currentState === "open") {
-      if (currentPageRef.current < 5) {
+      if (currentPageRef.current < 4) {
         goToChapter(currentPageRef.current + 1);
       }
     }
@@ -360,7 +360,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
           break;
         case "End":
           e.preventDefault();
-          goToChapterRef.current(5);
+          goToChapterRef.current(4);
           break;
         default:
           break;

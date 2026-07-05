@@ -12,8 +12,8 @@ import ChapterTwoLeft from "../chapter-two/ChapterTwoLeft";
 import ChapterTwoRight from "../chapter-two/ChapterTwoRight";
 import LibraryLeft from "../library/LibraryLeft";
 import LibraryRight from "../library/LibraryRight";
-import GalleryLeft from "../gallery/GalleryLeft";
-import GalleryRight from "../gallery/GalleryRight";
+// import GalleryLeft from "../gallery/GalleryLeft";   // JOURNAL — disabled, restore to re-enable
+// import GalleryRight from "../gallery/GalleryRight";  // JOURNAL — disabled, restore to re-enable
 import ConnectLeft from "../connect/ConnectLeft";
 import ConnectRight from "../connect/ConnectRight";
 import { useNavigation } from "@/hooks/useNavigation";
@@ -51,8 +51,8 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
       case 1:  return <ChapterOneLeft />;
       case 2:  return <ChapterTwoLeft />;
       case 3:  return <LibraryLeft />;
-      case 4:  return <GalleryLeft />;
-      case 5:  return <ConnectLeft />;
+      // case 4: return <GalleryLeft />;  // JOURNAL — disabled
+      case 4:  return <ConnectLeft />;
       default: return <ChapterOneLeft />;
     }
   };
@@ -62,8 +62,8 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
       case 1:  return <ChapterOneRight />;
       case 2:  return <ChapterTwoRight />;
       case 3:  return <LibraryRight />;
-      case 4:  return <GalleryRight />;
-      case 5:  return <ConnectRight />;
+      // case 4: return <GalleryRight />;  // JOURNAL — disabled
+      case 4:  return <ConnectRight />;
       default: return <ChapterOneRight />;
     }
   };
