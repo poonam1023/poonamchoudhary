@@ -1,26 +1,37 @@
 import React from "react";
 
-/**
- * LinenCoverBackground — Premium sage linen clothbound cover texture.
- *
- * Replaces PaperBackground on the front cover face.
- * Simulates:
- *  1. Muted sage woven linen base (#8E9B84)
- *  2. Fine crosshatch weave pattern (fine linen grain)
- *  3. Natural depth: darker edges, lighter center lighting
- *  4. Blind-emboss botanical motif (ultra-subtle, same-color linework)
- *  5. Soft ambient light catch from top-left
- */
-function LinenCoverBackground() {
-  return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden select-none pointer-events-none">
+interface LinenCoverBackgroundProps {
+  isHovered?: boolean;
+}
 
-      {/* ── 1. BASE LINEN COLOUR ── */}
+/**
+ * LinenCoverBackground — Premium Walnut Brown linen clothbound cover texture.
+ *
+ * Implements:
+ *  1. Deep Walnut Brown woven linen base (#4B2E20) with shadows (#3B2419) and highlights (#6A4630)
+ *  2. Fine woven fabric texture with visible fibers (crosshatch warp/weft simulation)
+ *  3. Inset debossed border frame with physical depth
+ *  4. Blind-embossed corner botanical leaf motifs at all four corners
+ *  5. Gold-foil publisher emblem (PC) in a circle at the bottom-left corner
+ *  6. Hover-triggered micro-sheen light reflection sweep across the cover
+ */
+function LinenCoverBackground({ isHovered = false }: LinenCoverBackgroundProps) {
+  return (
+    <div className="absolute inset-0 w-full h-full overflow-hidden select-none pointer-events-none z-0">
+
+      {/* ── 1. BASE WALNUT BROWN MATERIAL ── */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 transition-all duration-[1.2s] ease-[cubic-bezier(0.25,1,0.5,1)]"
         style={{
-          background:
-            "linear-gradient(160deg, #9FADA0 0%, #8E9B84 28%, #879680 55%, #8E9B84 72%, #7F8E76 100%)",
+          background: `
+            radial-gradient(
+              ellipse 95% 85% at 50% 40%,
+              #5E3D2B 0%,     /* Highlight */
+              #4B2E20 40%,    /* Primary Walnut */
+              #362016 85%,    /* Shadow */
+              #2D1A12 100%    /* Deep shadow */
+            )
+          `,
         }}
       />
 
@@ -33,24 +44,24 @@ function LinenCoverBackground() {
               0deg,
               transparent,
               transparent 1.5px,
-              rgba(80, 95, 72, 0.12) 1.5px,
-              rgba(80, 95, 72, 0.12) 2px
+              rgba(45, 26, 18, 0.22) 1.5px,
+              rgba(45, 26, 18, 0.22) 2px
             ),
             repeating-linear-gradient(
               90deg,
               transparent,
               transparent 1.5px,
-              rgba(80, 95, 72, 0.08) 1.5px,
-              rgba(80, 95, 72, 0.08) 2px
+              rgba(45, 26, 18, 0.18) 1.5px,
+              rgba(45, 26, 18, 0.18) 2px
             )
           `,
-          backgroundSize: "2px 2px",
+          backgroundSize: "2.2px 2.2px",
           mixBlendMode: "multiply",
-          opacity: 0.65,
+          opacity: 0.75,
         }}
       />
 
-      {/* ── 3. WOVEN CLOTH TEXTURE — diagonal warp lift (linen weave character) ── */}
+      {/* ── 3. WOVEN CLOTH TEXTURE — diagonal fibers (warp & weft lift) ── */}
       <div
         className="absolute inset-0"
         style={{
@@ -59,159 +70,190 @@ function LinenCoverBackground() {
               45deg,
               transparent,
               transparent 3px,
-              rgba(174, 184, 161, 0.07) 3px,
-              rgba(174, 184, 161, 0.07) 4px
+              rgba(106, 70, 48, 0.10) 3px,
+              rgba(106, 70, 48, 0.10) 4px
             ),
             repeating-linear-gradient(
               -45deg,
               transparent,
               transparent 3px,
-              rgba(80, 95, 72, 0.05) 3px,
-              rgba(80, 95, 72, 0.05) 4px
+              rgba(45, 26, 18, 0.08) 3px,
+              rgba(45, 26, 18, 0.08) 4px
             )
           `,
           backgroundSize: "4px 4px",
-          opacity: 0.7,
+          opacity: 0.8,
         }}
       />
 
-      {/* ── 4. LIGHTING — warm morning light catch from top-left ── */}
+      {/* ── 4. DEBOSSED BORDER FRAME (12-18mm from edge) ── */}
       <div
-        className="absolute inset-0"
+        className="absolute transition-all duration-[1.2s] ease-[cubic-bezier(0.25,1,0.5,1)]"
         style={{
-          background:
-            "radial-gradient(ellipse 90% 80% at 30% 20%, rgba(210,220,200,0.18) 0%, rgba(174,184,161,0.06) 45%, transparent 70%)",
-        }}
-      />
-
-      {/* ── 5. DEPTH VIGNETTE — darker at edges, lighter at center ── */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 85% 85% at 50% 48%, transparent 35%, rgba(80,95,72,0.22) 70%, rgba(62,76,56,0.40) 100%)",
-        }}
-      />
-
-      {/* ── 6. TOP EDGE DARKEN — simulates cloth wrapping over board ── */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[8%]"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(62,76,56,0.35) 0%, transparent 100%)",
-        }}
-      />
-
-      {/* ── 7. BOTTOM EDGE DARKEN ── */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-[6%]"
-        style={{
-          background:
-            "linear-gradient(to top, rgba(55,68,50,0.30) 0%, transparent 100%)",
-        }}
-      />
-
-      {/* ── 8. BLIND EMBOSS BOTANICAL — olive branch, bottom right ── */}
-      {/* Ultra-subtle: same color family, only visible with light angle */}
-      <div
-        className="absolute"
-        style={{
-          bottom: "6%",
-          right: "6%",
-          width: "28%",
-          height: "38%",
-          opacity: 1,
-          zIndex: 2,
+          inset: "clamp(12px, 3.8%, 22px)",
+          border: "1px solid rgba(45, 26, 18, 0.8)",
+          // Debossing: inner shadow + outer highlight lip
+          boxShadow: `
+            inset 1px 1px 2px rgba(10, 5, 3, 0.75), 
+            inset -0.5px -0.5px 1px rgba(106, 70, 48, 0.22),
+            0.5px 0.5px 0px rgba(255, 255, 255, 0.05)
+          `,
+          borderRadius: "1px",
         }}
       >
-        <svg
-          viewBox="0 0 120 180"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ width: "100%", height: "100%" }}
+        {/* ── 5. BLIND-EMBOSSED CORNER BOTANICAL MOTIFS ── */}
+        {/* Top-Left Corner Motif */}
+        <div className="absolute top-2 left-2 w-8 h-8 opacity-65">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M3 3 C12 3 20 8 20 18 M3 3 C3 12 8 20 18 20"
+              stroke="rgba(35, 18, 12, 0.8)"
+              strokeWidth="0.8"
+            />
+            {/* Highlights for debossed depth */}
+            <path
+              d="M3.5 3.5 C12 3.5 19.5 8.5 19.5 17.5"
+              stroke="rgba(106, 70, 48, 0.25)"
+              strokeWidth="0.4"
+            />
+            <circle cx="8" cy="8" r="1.5" fill="rgba(35, 18, 12, 0.6)" />
+            <circle cx="14" cy="14" r="1.2" fill="rgba(35, 18, 12, 0.5)" />
+          </svg>
+        </div>
+
+        {/* Top-Right Corner Motif */}
+        <div className="absolute top-2 right-2 w-8 h-8 opacity-65 transform rotate-90">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M3 3 C12 3 20 8 20 18 M3 3 C3 12 8 20 18 20"
+              stroke="rgba(35, 18, 12, 0.8)"
+              strokeWidth="0.8"
+            />
+            <path
+              d="M3.5 3.5 C12 3.5 19.5 8.5 19.5 17.5"
+              stroke="rgba(106, 70, 48, 0.25)"
+              strokeWidth="0.4"
+            />
+            <circle cx="8" cy="8" r="1.5" fill="rgba(35, 18, 12, 0.6)" />
+            <circle cx="14" cy="14" r="1.2" fill="rgba(35, 18, 12, 0.5)" />
+          </svg>
+        </div>
+
+        {/* Bottom-Left Corner Motif */}
+        <div className="absolute bottom-2 left-2 w-8 h-8 opacity-65 transform -rotate-90">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M3 3 C12 3 20 8 20 18 M3 3 C3 12 8 20 18 20"
+              stroke="rgba(35, 18, 12, 0.8)"
+              strokeWidth="0.8"
+            />
+            <path
+              d="M3.5 3.5 C12 3.5 19.5 8.5 19.5 17.5"
+              stroke="rgba(106, 70, 48, 0.25)"
+              strokeWidth="0.4"
+            />
+            <circle cx="8" cy="8" r="1.5" fill="rgba(35, 18, 12, 0.6)" />
+            <circle cx="14" cy="14" r="1.2" fill="rgba(35, 18, 12, 0.5)" />
+          </svg>
+        </div>
+
+        {/* Bottom-Right Corner Motif */}
+        <div className="absolute bottom-2 right-2 w-8 h-8 opacity-65 transform rotate-180">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M3 3 C12 3 20 8 20 18 M3 3 C3 12 8 20 18 20"
+              stroke="rgba(35, 18, 12, 0.8)"
+              strokeWidth="0.8"
+            />
+            <path
+              d="M3.5 3.5 C12 3.5 19.5 8.5 19.5 17.5"
+              stroke="rgba(106, 70, 48, 0.25)"
+              strokeWidth="0.4"
+            />
+            <circle cx="8" cy="8" r="1.5" fill="rgba(35, 18, 12, 0.6)" />
+            <circle cx="14" cy="14" r="1.2" fill="rgba(35, 18, 12, 0.5)" />
+          </svg>
+        </div>
+
+        {/* ── 6. GOLD-FOIL PUBLISHER EMBLEM (PC) ── */}
+        <div
+          className="absolute bottom-[4%] left-[4%] flex items-center justify-center pointer-events-none"
+          style={{
+            width: "clamp(24px, 6vw, 36px)",
+            height: "clamp(24px, 6vw, 36px)",
+          }}
         >
-          {/* Main stem */}
-          <path
-            d="M60 170 C58 140 55 110 60 80 C63 60 58 40 62 20"
-            stroke="rgba(80,95,72,0.22)"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-            fill="none"
-          />
-          {/* Left leaves */}
-          <path d="M60 145 C48 140 40 132 38 120 C50 122 58 132 60 145Z" fill="rgba(80,95,72,0.11)" stroke="rgba(80,95,72,0.16)" strokeWidth="0.6"/>
-          <path d="M60 120 C46 114 38 105 37 92 C50 95 58 107 60 120Z" fill="rgba(80,95,72,0.09)" stroke="rgba(80,95,72,0.14)" strokeWidth="0.5"/>
-          <path d="M60 95 C47 90 40 80 40 68 C52 72 59 84 60 95Z" fill="rgba(80,95,72,0.08)" stroke="rgba(80,95,72,0.12)" strokeWidth="0.5"/>
-          <path d="M60 70 C49 64 43 54 44 42 C55 47 60 59 60 70Z" fill="rgba(80,95,72,0.07)" stroke="rgba(80,95,72,0.11)" strokeWidth="0.4"/>
-          {/* Right leaves */}
-          <path d="M60 155 C72 148 80 138 80 126 C68 129 61 140 60 155Z" fill="rgba(80,95,72,0.10)" stroke="rgba(80,95,72,0.15)" strokeWidth="0.6"/>
-          <path d="M60 130 C73 124 81 113 80 100 C68 104 61 116 60 130Z" fill="rgba(80,95,72,0.08)" stroke="rgba(80,95,72,0.13)" strokeWidth="0.5"/>
-          <path d="M60 105 C72 100 78 90 77 78 C66 82 61 93 60 105Z" fill="rgba(80,95,72,0.07)" stroke="rgba(80,95,72,0.12)" strokeWidth="0.4"/>
-          <path d="M60 80 C71 75 76 65 74 53 C64 58 60 69 60 80Z" fill="rgba(80,95,72,0.07)" stroke="rgba(80,95,72,0.11)" strokeWidth="0.4"/>
-          {/* Tiny olive berries */}
-          <circle cx="37" cy="119" r="2.5" fill="rgba(80,95,72,0.12)"/>
-          <circle cx="80" cy="125" r="2.5" fill="rgba(80,95,72,0.10)"/>
-          <circle cx="39" cy="67" r="2" fill="rgba(80,95,72,0.09)"/>
-          {/* Tip bud */}
-          <ellipse cx="62" cy="20" rx="3" ry="5" fill="rgba(80,95,72,0.12)" stroke="rgba(80,95,72,0.16)" strokeWidth="0.5"/>
-        </svg>
+          <div
+            className="w-full h-full rounded-full flex items-center justify-center border border-[#C8A56A]/60"
+            style={{
+              background: "rgba(200, 165, 106, 0.05)",
+              boxShadow: `
+                0.5px 0.5px 0.5px rgba(240, 215, 160, 0.7),
+                inset -0.5px -0.5px 0.5px rgba(70, 50, 15, 0.5),
+                0 2px 4px rgba(0, 0, 0, 0.15)
+              `,
+            }}
+          >
+            <span
+              className="font-display font-bold italic"
+              style={{
+                fontSize: "clamp(8px, 1.8vw, 11px)",
+                color: "#C8A56A",
+                textShadow: "0.5px 0.5px 0px rgba(240, 215, 160, 0.5)",
+                letterSpacing: "-0.05em",
+                marginLeft: "-1px",
+              }}
+            >
+              PC
+            </span>
+          </div>
+        </div>
       </div>
 
-      {/* ── 9. BLIND EMBOSS BOTANICAL — eucalyptus sprig, top left ── */}
+      {/* ── 7. NATURAL LIGHTING GRADIENT ── */}
       <div
-        className="absolute"
-        style={{
-          top: "5%",
-          left: "5%",
-          width: "22%",
-          height: "30%",
-          opacity: 1,
-          zIndex: 2,
-        }}
-      >
-        <svg
-          viewBox="0 0 100 140"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ width: "100%", height: "100%", transform: "scaleX(-1) rotate(20deg)" }}
-        >
-          <path d="M50 130 C48 100 44 70 50 40 C53 22 49 10 51 2" stroke="rgba(80,95,72,0.18)" strokeWidth="1" strokeLinecap="round" fill="none"/>
-          {[0, 1, 2, 3, 4].map((i) => (
-            <g key={i}>
-              <ellipse
-                cx={42 - i * 2}
-                cy={115 - i * 22}
-                rx={10 - i}
-                ry={6}
-                transform={`rotate(-${25 + i * 5} ${42 - i * 2} ${115 - i * 22})`}
-                fill="rgba(80,95,72,0.09)"
-                stroke="rgba(80,95,72,0.13)"
-                strokeWidth="0.5"
-              />
-              <ellipse
-                cx={58 + i * 2}
-                cy={110 - i * 22}
-                rx={10 - i}
-                ry={6}
-                transform={`rotate(${25 + i * 5} ${58 + i * 2} ${110 - i * 22})`}
-                fill="rgba(80,95,72,0.08)"
-                stroke="rgba(80,95,72,0.12)"
-                strokeWidth="0.5"
-              />
-            </g>
-          ))}
-        </svg>
-      </div>
-
-      {/* ── 10. CLOTH SURFACE MICRO-SHEEN — very faint highlight stripe ── */}
-      <div
-        className="absolute inset-0"
+        className="absolute inset-0 transition-opacity duration-700"
         style={{
           background:
-            "linear-gradient(105deg, rgba(210,220,200,0.06) 0%, transparent 40%, rgba(80,95,72,0.04) 70%, transparent 100%)",
+            "radial-gradient(ellipse 75% 65% at 20% 15%, rgba(255, 245, 230, 0.12) 0%, rgba(106, 70, 48, 0.04) 50%, transparent 80%)",
+        }}
+      />
+
+      {/* ── 8. HOVER-TRIGGERED METALLIC SHEEN SWEEP ── */}
+      <div
+        className="absolute inset-0 transition-transform duration-[1.4s] ease-[cubic-bezier(0.25,1,0.5,1)]"
+        style={{
+          background: `
+            linear-gradient(
+              125deg,
+              transparent 25%,
+              rgba(255, 242, 220, 0.0) 35%,
+              rgba(255, 242, 220, 0.08) 45%,
+              rgba(255, 242, 220, 0.16) 50%,
+              rgba(255, 242, 220, 0.08) 55%,
+              rgba(255, 242, 220, 0.0) 65%,
+              transparent 100%
+            )
+          `,
+          transform: isHovered ? "translate3d(60%, 60%, 0)" : "translate3d(-60%, -60%, 0)",
           mixBlendMode: "screen",
+          pointerEvents: "none",
         }}
       />
+
+      {/* ── 9. CLOTH BEVEL HIGHLIGHTS (Thickness wrap at card edges) ── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          boxShadow: `
+            inset 0 1px 0px rgba(255, 255, 255, 0.08), 
+            inset 1px 0 0px rgba(255, 255, 255, 0.05),
+            inset -1px 0 0px rgba(0, 0, 0, 0.35),
+            inset 0 -1px 0px rgba(0, 0, 0, 0.45)
+          `,
+        }}
+      />
+
     </div>
   );
 }
