@@ -15,8 +15,6 @@ import BotanicalIllustration from "@/components/decorations/BotanicalIllustratio
 import QuoteCard from "@/components/decorations/QuoteCard";
 import PressedFlower from "@/components/decorations/PressedFlower";
 import LeftPage from "@/components/book/LeftPage";
-import ChapterOneLeft from "@/components/chapters/chapter-one/ChapterOneLeft";
-import Book3D from "@/components/book/Book3D";
 import { NavigationProvider, useNavigation } from "@/hooks/useNavigation";
 
 function BookOpeningAnimationInner() {
@@ -139,12 +137,7 @@ function BookOpeningAnimationInner() {
             ease: [0.25, 1, 0.5, 1],
           }}
         >
-          {/* Book3D wrapper */}
-          {isOpened && (
-            <div className="absolute inset-0 pointer-events-none z-0">
-              <Book3D><></></Book3D>
-            </div>
-          )}
+
 
           {/* Back cover board */}
           {!isOpened && (
@@ -372,7 +365,7 @@ function BookOpeningAnimationInner() {
                 }}
               >
                 <LeftPage>
-                  <ChapterOneLeft />
+                  <></>
                 </LeftPage>
                 <div className="absolute right-0 top-0 bottom-0 w-[4px] bg-gradient-to-l from-[#3A2C1E]/8 to-transparent z-30" />
                 <div className="book-board-edge" />
