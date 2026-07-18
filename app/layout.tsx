@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${cormorant.variable} antialiased`} suppressHydrationWarning>
-      <body className="overflow-hidden bg-paper-primary">
+      <body className="bg-paper-primary">
         {/* Hidden SVG Filter for premium handmade paper grain */}
         <svg
           style={{

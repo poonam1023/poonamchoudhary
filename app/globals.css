@@ -193,3 +193,43 @@ h1, h2, h3, h4, h5, h6 {
   backface-visibility: hidden;
   transform: translate3d(0, 0, 0);
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE EXPERIENCE — CSS custom properties & base utilities
+   Scoped so they do NOT affect the desktop book in any way.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Mobile palette */
+  --m-ivory:      #FAF8F4;
+  --m-cream:      #F4EFE6;
+  --m-beige:      #EDE5D8;
+  --m-sage:       #A8B29A;
+  --m-sage-muted: rgba(168, 178, 154, 0.14);
+  --m-brown:      #6E5A4E;
+  --m-ink:        #3A2C1E;
+  --m-terracotta: #C97C5D;
+  --m-gold:       #C4A882;
+}
+
+/* Smooth scroll — only activates on mobile (controlled by JS scroll snap or anchor links) */
+@media (max-width: 1023px) {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    overscroll-behavior-y: none;
+  }
+
+  /* Hide scrollbar inside horizontal snap containers */
+  .mobile-scroll-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .mobile-scroll-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+}
+
