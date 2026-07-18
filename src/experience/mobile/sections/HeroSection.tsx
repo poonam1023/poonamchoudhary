@@ -53,68 +53,7 @@ export default function HeroSection() {
         }}
       />
 
-      {/* ── Top bar: brand identity ── */}
-      <motion.div
-        initial={{ opacity: 0, y: -12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        style={{
-          position: "relative",
-          zIndex: 20,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "20px 24px 0",
-        }}
-      >
-        {/* Logo / Brand name */}
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <span
-            style={{
-              fontFamily: "var(--font-cormorant), serif",
-              fontSize: "20px",
-              fontWeight: 700,
-              lineHeight: 1.1,
-              color: "#3A2C1E",
-            }}
-          >
-            Poonam
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-cormorant), serif",
-              fontSize: "20px",
-              fontWeight: 700,
-              lineHeight: 1.1,
-              color: "#3A2C1E",
-            }}
-          >
-            Choudhary
-          </span>
-        </div>
-
-        {/* Hamburger / menu icon */}
-        <button
-          aria-label="Open menu"
-          style={{
-            width: "44px",
-            height: "44px",
-            borderRadius: "50%",
-            background: "rgba(168,178,154,0.18)",
-            border: "1px solid rgba(168,178,154,0.28)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-          }}
-        >
-          <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
-            <line x1="0" y1="1" x2="18" y2="1" stroke="#6E5A4E" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="0" y1="7" x2="18" y2="7" stroke="#6E5A4E" strokeWidth="1.5" strokeLinecap="round" />
-            <line x1="0" y1="13" x2="18" y2="13" stroke="#6E5A4E" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        </button>
-      </motion.div>
+      {/* Sticky global header is rendered at the root level in MobileExperience.tsx */}
 
       {/* ── Author portrait (full-bleed, bottom-anchored) ── */}
       <div
@@ -140,17 +79,16 @@ export default function HeroSection() {
               "radial-gradient(ellipse 95% 98% at 55% 42%, black 75%, transparent 100%)",
           }}
         >
-          <Image
-            src="/author-portrait.png"
+          <img
+            src="/author-portrait.png?v=3"
             alt="Poonam Choudhary"
-            fill
-            sizes="(max-width: 1023px) 72vw"
-            className="object-cover"
             style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
               objectPosition: "center 15%",
               filter: "contrast(1.01) brightness(1.02) saturate(0.95) sepia(0.03)",
             }}
-            priority
           />
         </div>
       </div>

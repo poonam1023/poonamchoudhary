@@ -88,13 +88,17 @@ export default function AboutSection() {
               pointerEvents: "none",
             }}
           />
-          <Image
-            src="/author-portrait.png"
+          <img
+            src="/author-portrait.png?v=3"
             alt="Poonam Choudhary — Author and Parenting Guide"
-            fill
-            sizes="(max-width: 1023px) 100vw"
-            className="object-cover"
-            style={{ objectPosition: "center 20%" }}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center 20%",
+              position: "absolute",
+              inset: 0,
+            }}
           />
           {/* Warm overlay */}
           <div

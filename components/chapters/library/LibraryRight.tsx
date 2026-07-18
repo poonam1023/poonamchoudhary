@@ -24,7 +24,7 @@ export default function LibraryRight() {
         <div style={{ position: "relative", width: "100%", aspectRatio: "3/4", boxShadow: "0 22px 52px rgba(58, 44, 30, 0.22), 0 10px 18px rgba(58, 44, 30, 0.14)", transform: "rotate(-1.5deg)", height: "92%" }}>
           {/* Cover image wrapper */}
           <div style={{ position: "absolute", inset: 0, right: "6px", overflow: "hidden", zIndex: 2 }}>
-            <Image src="/book-cover.png" alt="Conscious Parenting book cover" fill className="object-cover" priority />
+            <img src="/book-cover.png?v=3" alt="Conscious Parenting book cover" className="object-cover" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 1px 1px rgba(255,255,255,0.2), inset 0 -1px 2px rgba(58,44,30,0.15)" }} />
           </div>
           {/* Page stack edge simulation */}

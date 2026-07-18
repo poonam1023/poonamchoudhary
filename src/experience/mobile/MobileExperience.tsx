@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import MobileNav from "./components/MobileNav";
+import MobileHeader from "@/components/mobile/MobileHeader";
+import MobileMenu from "@/components/mobile/MobileMenu";
 import HeroSection from "./sections/HeroSection";
 import MissionSection from "./sections/MissionSection";
 import AboutSection from "./sections/AboutSection";
@@ -41,6 +42,7 @@ const SECTION_IDS = [
  */
 export default function MobileExperience() {
   const [activeSection, setActiveSection] = useState("home");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   // Track active section via IntersectionObserver
@@ -82,6 +84,9 @@ export default function MobileExperience() {
 
   return (
     <>
+      {/* Fixed global mobile header */}
+      <MobileHeader isOpen={isMenuOpen} toggle={() => setIsMenuOpen(!isMenuOpen)} />
+
       {/* Scrollable content */}
       <main
         id="mobile-main"
@@ -103,8 +108,8 @@ export default function MobileExperience() {
         <FooterSection />
       </main>
 
-      {/* Fixed bottom navigation */}
-      <MobileNav activeSection={activeSection} />
+      {/* Premium Full-screen Mobile Navigation Drawer overlay */}
+      <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </>
   );
 }

@@ -92,16 +92,17 @@ export default function ChapterOneRight() {
               "radial-gradient(ellipse 98% 96% at 50% 48%, black 99%, transparent 100%)",
           }}
         >
-          <Image
-            src="/author-portrait.png"
+          <img
+            src="/author-portrait.png?v=3"
             alt="Poonam Choudhary"
-            fill
             className="object-cover"
             style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
               objectPosition: "center 20%",
               filter: "contrast(1.02) brightness(1.02) saturate(0.92) sepia(0.03)",
             }}
-            priority
           />
         </div>
       </div>

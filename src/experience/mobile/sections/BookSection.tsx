@@ -104,14 +104,16 @@ export default function BookSection() {
             borderRadius: "4px",
           }}
         >
-          <Image
-            src="/book-cover.png"
+          <img
+            src="/book-cover.png?v=3"
             alt="The Little Guide to Parenting by Poonam Choudhary"
-            fill
-            sizes="(max-width: 1023px) 58vw"
             className="object-cover"
-            style={{ borderRadius: "4px" }}
-            priority
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              borderRadius: "4px",
+            }}
           />
           {/* Page stack edge */}
           <div

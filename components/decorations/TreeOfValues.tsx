@@ -17,10 +17,10 @@ const annotations = [
   {
     key: "growth",
     anchor: [770, 158],
-    end: [310, 118],
-    control: [525, 94],
+    end: [1226, 118],
+    control: [1011, 94],
     lines: ["V. GROWTH IS", "LIFELONG"],
-    align: "start",
+    align: "end",
     delay: 0.2,
   },
   {
