@@ -1,12 +1,22 @@
 import { getSessionAuthor, getAuthorizedAuthors } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function SettingsPage() {
   const session = await getSessionAuthor();
   const authorizedEmails = getAuthorizedAuthors();
-  const totalPosts = await prisma.blogPost.count();
-  const totalMedia = await prisma.mediaItem.count();
-  const totalAuthors = await prisma.author.count();
+  let totalPosts = 0;
+  let totalMedia = 0;
+  let totalAuthors = 0;
+
+  try {
+    totalPosts = await prisma.blogPost.count();
+    totalMedia = await prisma.mediaItem.count();
+    totalAuthors = await prisma.author.count();
+  } catch (err) {
+    console.warn("Prerender/build warning: Failed to count stats", err);
+  }
 
   return (
     <div className="p-6 lg:p-8 space-y-8 max-w-3xl" style={{ color: "#3A2C1E" }}>

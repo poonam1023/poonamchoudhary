@@ -2,15 +2,43 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { BookOpen, Eye, FileText, Star, PenSquare, Plus, TrendingUp } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
-  const [total, published, drafts, totalViews, recent, featured] = await Promise.all([
-    prisma.blogPost.count(),
-    prisma.blogPost.count({ where: { status: "PUBLISHED" } }),
-    prisma.blogPost.count({ where: { status: "DRAFT" } }),
-    prisma.blogPost.aggregate({ _sum: { views: true } }),
-    prisma.blogPost.findMany({ orderBy: { updatedAt: "desc" }, take: 5 }),
-    prisma.blogPost.findFirst({ where: { featured: true, status: "PUBLISHED" } }),
-  ]);
+  let total = 0;
+  let published = 0;
+  let drafts = 0;
+  let totalViews = { _sum: { views: 0 } };
+  let recent: Array<{
+    id: string;
+    title: string;
+    slug: string;
+    excerpt: string;
+    category: string;
+    status: string;
+    views: number;
+    updatedAt: Date;
+  }> = [];
+  let featured: { id: string; title: string; excerpt: string } | null = null;
+
+  try {
+    const res = await Promise.all([
+      prisma.blogPost.count(),
+      prisma.blogPost.count({ where: { status: "PUBLISHED" } }),
+      prisma.blogPost.count({ where: { status: "DRAFT" } }),
+      prisma.blogPost.aggregate({ _sum: { views: true } }),
+      prisma.blogPost.findMany({ orderBy: { updatedAt: "desc" }, take: 5 }),
+      prisma.blogPost.findFirst({ where: { featured: true, status: "PUBLISHED" } }),
+    ]);
+    total = res[0];
+    published = res[1];
+    drafts = res[2];
+    totalViews = res[3];
+    recent = res[4];
+    featured = res[5];
+  } catch (err) {
+    console.warn("Prerender/build warning: Failed to load author dashboard stats", err);
+  }
 
   const views = totalViews._sum.views ?? 0;
 

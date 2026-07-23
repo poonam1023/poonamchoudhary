@@ -1,10 +1,17 @@
 import MediaLibraryClient from "@/components/author/MediaLibraryClient";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function MediaPage() {
-  const media = await prisma.mediaItem.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  let media: Array<{ id: string; name: string; url: string; size: number; type: string; createdAt: Date }> = [];
+  try {
+    media = await prisma.mediaItem.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (err) {
+    console.warn("Prerender/build warning: Failed to fetch media items", err);
+  }
 
   return (
     <div className="p-6 lg:p-8 space-y-6" style={{ color: "#3A2C1E" }}>

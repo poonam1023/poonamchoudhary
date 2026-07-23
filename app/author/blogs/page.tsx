@@ -1,12 +1,29 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { Plus, Eye, Edit, Archive, Trash2, Search, Filter } from "lucide-react";
+import { Plus } from "lucide-react";
 import BlogsTable from "@/components/author/BlogsTable";
 
+export const dynamic = "force-dynamic";
+
 export default async function BlogsPage() {
-  const posts = await prisma.blogPost.findMany({
-    orderBy: { updatedAt: "desc" },
-  });
+  let posts: Array<{
+    id: string;
+    title: string;
+    slug: string;
+    excerpt: string;
+    category: string;
+    status: string;
+    views: number;
+    updatedAt: Date;
+  }> = [];
+
+  try {
+    posts = await prisma.blogPost.findMany({
+      orderBy: { updatedAt: "desc" },
+    });
+  } catch (err) {
+    console.warn("Prerender/build warning: Failed to fetch blog posts", err);
+  }
 
   return (
     <div className="p-6 lg:p-8 space-y-6" style={{ color: "#3A2C1E" }}>

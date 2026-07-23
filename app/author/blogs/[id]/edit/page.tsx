@@ -4,13 +4,22 @@ import BlogForm from "@/components/author/BlogForm";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function EditBlogPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const post = await prisma.blogPost.findUnique({ where: { id } });
+  let post = null;
+
+  try {
+    post = await prisma.blogPost.findUnique({ where: { id } });
+  } catch (err) {
+    console.warn("Prerender/build warning: Failed to fetch post for edit", err);
+  }
+
   if (!post) notFound();
 
   const initialData = {
