@@ -71,7 +71,7 @@ export default function BookSection() {
               }}
             >
               <img
-                src="/book-cover-3d.jpg?v=2"
+                src="/book-cover.png?v=3"
                 alt={bookContent.title}
                 className="w-full h-full object-cover rounded-r-lg"
               />
