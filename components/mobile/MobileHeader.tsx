@@ -6,9 +6,17 @@ import { motion } from "framer-motion";
 interface MobileHeaderProps {
   isOpen: boolean;
   toggle: () => void;
+  activeChapter?: string;
 }
 
-const Path = (props: any) => (
+interface PathProps {
+  d?: string;
+  variants?: Record<string, any>;
+  transition?: any;
+  animate?: string;
+}
+
+const Path: React.FC<PathProps> = (props) => (
   <motion.path
     fill="transparent"
     strokeWidth="1.8"
@@ -18,7 +26,7 @@ const Path = (props: any) => (
   />
 );
 
-export default function MobileHeader({ isOpen, toggle }: MobileHeaderProps) {
+export default function MobileHeader({ isOpen, toggle, activeChapter = "01" }: MobileHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -94,6 +102,14 @@ export default function MobileHeader({ isOpen, toggle }: MobileHeaderProps) {
           Choudhary
         </span>
       </a>
+
+      {/* Center Chapter Progress Counter */}
+      <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#A8B29A]/15 border border-[#A8B29A]/25 backdrop-blur-sm">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#A8B29A] animate-pulse" />
+        <span className="text-[9px] font-mono tracking-widest text-[#6E5A4E] font-semibold uppercase">
+          CH {activeChapter} / 08
+        </span>
+      </div>
 
       {/* Hamburger / Menu Morphing Toggle Button */}
       <button

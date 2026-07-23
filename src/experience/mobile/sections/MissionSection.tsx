@@ -2,223 +2,168 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
-import { useInView } from "@/src/shared/hooks/useInView";
+import ChapterHeader from "../components/ChapterHeader";
 import { missionContent, missionPillars } from "@/src/shared/data/content";
-import { EASE_OUT } from "@/src/shared/utils/animations";
-import SectionLabel from "../components/SectionLabel";
-import BotanicalAccent from "../components/BotanicalAccent";
 
-const icons: Record<string, React.ReactNode> = {
-  heart: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-    </svg>
-  ),
-  sprout: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7 20h10M12 20v-8M5 8c0-4 4-6 7-6s7 2 7 6c-3 0-7-1-7-4-0 3-4 4-7 4z" />
-    </svg>
-  ),
-  leaf: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z" />
-      <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
-    </svg>
-  ),
-};
+/** Icon component with distinct colored circular background */
+function PillarIcon({ icon, accentColor }: { icon: string; accentColor: string }) {
+  return (
+    <div
+      className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm shrink-0"
+      style={{ backgroundColor: accentColor, color: "#FAF8F4" }}
+    >
+      {icon === "heart" && (
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.684a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      )}
+      {icon === "sprout" && (
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 19V6m0 0l-3 3m3-3l3 3M5 12c3 0 5-2 5-5m9 5c-3 0-5-2-5-5" />
+        </svg>
+      )}
+      {icon === "leaf" && (
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </svg>
+      )}
+    </div>
+  );
+}
 
-const containerVariants: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.15, delayChildren: 0.1 } },
-};
+const ACCENT_COLORS = [
+  "#A8B29A", // Sage
+  "#C97C5D", // Terracotta
+  "#C4A882", // Gold
+];
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT } },
-};
+const CARD_OFFSETS = [
+  { x: 10, rotate: 1.2 },   // Card 1 offset right
+  { x: -10, rotate: -1.5 }, // Card 2 offset left
+  { x: 0, rotate: 0.6 },    // Card 3 centered
+];
 
+/**
+ * MissionSection — Chapter 02: Mission
+ *
+ * Architecture:
+ *  - Chapter header (CHAPTER 02 — MISSION)
+ *  - Large mission statement
+ *  - Stacked paper cards (desk layout, staggered rotation/offset)
+ *  - Distinct colored circular background icons (Sage, Terracotta, Gold)
+ *  - Soft sequential upward entrance
+ */
 export default function MissionSection() {
-  const [ref, inView] = useInView(0.15);
-
   return (
     <section
       id="mission"
       aria-labelledby="mission-heading"
-      ref={ref}
+      className="relative min-h-[100svh] flex flex-col justify-between overflow-hidden px-5 py-16 select-none"
       style={{
-        padding: "72px 24px 60px",
-        background: "linear-gradient(180deg, #F4EFE6 0%, #FAF8F4 100%)",
-        position: "relative",
-        overflow: "hidden",
+        background: "#F4EFE6", // Cream background for Chapter 02
       }}
     >
-      {/* Botanical background accent */}
-      <BotanicalAccent
-        variant="branch"
-        opacity={0.07}
-        color="#A8B29A"
+      {/* Background paper texture accents */}
+      <div
+        aria-hidden="true"
+        className="absolute top-1/3 right-0 w-72 h-72 rounded-full pointer-events-none"
         style={{
-          position: "absolute",
-          top: "8%",
-          right: "-5%",
-          width: "110px",
-          height: "110px",
-          pointerEvents: "none",
-        }}
-      />
-      <BotanicalAccent
-        variant="sprig"
-        opacity={0.06}
-        color="#C4A882"
-        style={{
-          position: "absolute",
-          bottom: "5%",
-          left: "-5%",
-          width: "80px",
-          height: "80px",
-          pointerEvents: "none",
+          background: "radial-gradient(circle, rgba(168,178,154,0.14) 0%, transparent 70%)",
+          filter: "blur(40px)",
         }}
       />
 
+      <div className="relative z-10 w-full mb-6">
+        <ChapterHeader
+          chapterNum={missionContent.chapterNum}
+          title={missionContent.chapterLabel}
+        />
+      </div>
+
+      {/* Mission Statement */}
       <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
+        className="relative z-10 max-w-sm mx-auto text-center mb-10"
       >
-        {/* Section label */}
-        <motion.div variants={itemVariants}>
-          <SectionLabel text={missionContent.label} className="mb-5" />
-        </motion.div>
-
-        {/* Headline */}
-        <motion.h2
+        <h3
           id="mission-heading"
-          variants={itemVariants}
-          style={{
-            fontFamily: "var(--font-cormorant), serif",
-            fontSize: "clamp(28px, 7vw, 36px)",
-            fontWeight: 600,
-            lineHeight: 1.22,
-            color: "#3A2C1E",
-            marginBottom: "40px",
-            letterSpacing: "-0.01em",
-          }}
+          className="text-2xl xs:text-3xl font-serif text-[#3A2C1E] leading-snug tracking-tight mb-4"
+          style={{ fontFamily: "var(--font-cormorant), serif" }}
         >
           {missionContent.headline}{" "}
-          <em style={{ fontStyle: "italic", color: "#C4A882" }}>confident, kind</em>{" "}
-          and emotionally strong children.
-        </motion.h2>
-
-        {/* Pillar cards */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "16px",
-            marginBottom: "36px",
-          }}
-        >
-          {missionPillars.map((pillar) => (
-            <motion.div
-              key={pillar.num}
-              variants={itemVariants}
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                gap: "16px",
-                background: "rgba(250,248,244,0.9)",
-                borderRadius: "16px",
-                border: "1px solid rgba(110,90,78,0.07)",
-                boxShadow: "0 2px 10px rgba(58,44,30,0.05)",
-                padding: "20px",
-              }}
-            >
-              {/* Icon circle */}
-              <div
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "14px",
-                  background: "rgba(168,178,154,0.14)",
-                  border: "1px solid rgba(168,178,154,0.2)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#A8B29A",
-                  flexShrink: 0,
-                }}
-              >
-                {icons[pillar.icon] || icons.leaf}
-              </div>
-              <div style={{ flex: 1 }}>
-                <h3
-                  style={{
-                    fontFamily: "var(--font-cormorant), serif",
-                    fontSize: "18px",
-                    fontWeight: 700,
-                    color: "#3A2C1E",
-                    marginBottom: "4px",
-                    lineHeight: 1.2,
-                  }}
-                >
-                  {pillar.title}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: "var(--font-inter), sans-serif",
-                    fontSize: "12.5px",
-                    lineHeight: 1.6,
-                    color: "#6E5A4E",
-                    margin: 0,
-                  }}
-                >
-                  {pillar.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* CTA link */}
-        <motion.div variants={itemVariants}>
-          <a
-            href="#about"
-            id="mission-more-about"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
-              fontFamily: "var(--font-inter), sans-serif",
-              fontSize: "12px",
-              fontWeight: 600,
-              color: "#A8B29A",
-              letterSpacing: "0.06em",
-              textDecoration: "none",
-              textTransform: "uppercase",
-              padding: "14px 24px",
-              borderRadius: "12px",
-              background: "rgba(168,178,154,0.1)",
-              border: "1px solid rgba(168,178,154,0.22)",
-            }}
-          >
-            {missionContent.cta}
-          </a>
-        </motion.div>
+          <span className="italic text-[#C97C5D] font-normal">
+            {missionContent.headlineHighlight}
+          </span>{" "}
+          {missionContent.headlineContinue}
+        </h3>
+        <p className="text-xs xs:text-sm font-sans text-[#6E5A4E] leading-relaxed">
+          {missionContent.statement}
+        </p>
       </motion.div>
 
-      {/* Botanical divider */}
-      <BotanicalAccent
-        variant="divider"
-        opacity={0.12}
-        color="#A8B29A"
-        style={{
-          display: "block",
-          width: "120px",
-          height: "20px",
-          margin: "40px auto 0",
-        }}
-      />
+      {/* Stacked Paper Cards (Desk arrangement) */}
+      <div className="relative z-10 max-w-sm mx-auto w-full flex flex-col gap-5 my-2">
+        {missionPillars.map((pillar, idx) => {
+          const accent = ACCENT_COLORS[idx % ACCENT_COLORS.length];
+          const styleOffset = CARD_OFFSETS[idx % CARD_OFFSETS.length];
+
+          return (
+            <motion.div
+              key={pillar.num}
+              initial={{ opacity: 0, y: 30, rotate: 0 }}
+              whileInView={{ opacity: 1, y: 0, rotate: styleOffset.rotate }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{
+                delay: idx * 0.15,
+                duration: 0.7,
+                ease: [0.25, 1, 0.5, 1],
+              }}
+              style={{
+                translateX: `${styleOffset.x}px`,
+                background: "linear-gradient(135deg, #FAF8F4 0%, #FAF7F2 100%)",
+                boxShadow:
+                  "0 12px 30px -6px rgba(58,44,30,0.09), 0 2px 6px rgba(58,44,30,0.04)",
+              }}
+              className="relative p-5 rounded-2xl border border-[#6E5A4E]/10 transition-transform duration-300 active:scale-[0.99]"
+            >
+              {/* Paper Corner Fold Line Detail */}
+              <div
+                aria-hidden="true"
+                className="absolute top-0 right-0 w-6 h-6 border-b border-l border-[#6E5A4E]/12 bg-[#EDE5D8]/40 rounded-bl-lg pointer-events-none"
+              />
+
+              <div className="flex items-start gap-4">
+                <PillarIcon icon={pillar.icon} accentColor={accent} />
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] font-mono tracking-widest text-[#A8B29A] font-semibold">
+                      PILLAR {pillar.num}
+                    </span>
+                  </div>
+                  <h4
+                    className="text-lg font-serif text-[#3A2C1E] font-medium leading-snug mb-1.5"
+                    style={{ fontFamily: "var(--font-cormorant), serif" }}
+                  >
+                    {pillar.title}
+                  </h4>
+                  <p className="text-xs font-sans text-[#6E5A4E] leading-relaxed">
+                    {pillar.description}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Section Footer */}
+      <div className="relative z-10 flex items-center justify-between text-[9px] uppercase tracking-widest text-[#6E5A4E]/40 font-sans pt-10 border-t border-[#6E5A4E]/10 mt-8">
+        <span>OUR CORE PURPOSE</span>
+        <span>CHAPTER 02</span>
+      </div>
     </section>
   );
 }

@@ -1,256 +1,153 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { motion, type Variants } from "framer-motion";
-import { useInView } from "@/src/shared/hooks/useInView";
-import { testimonials } from "@/src/shared/data/content";
-import { EASE_OUT } from "@/src/shared/utils/animations";
-import SectionLabel from "../components/SectionLabel";
+import React from "react";
+import { motion } from "framer-motion";
+import ChapterHeader from "../components/ChapterHeader";
+import { authorLetterContent, realTestimonials } from "@/src/shared/data/content";
 
-const Stars = ({ count = 5 }: { count?: number }) => (
-  <div style={{ display: "flex", gap: "3px" }}>
-    {Array.from({ length: count }).map((_, i) => (
-      <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill="#C4A882" stroke="none">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-      </svg>
-    ))}
-  </div>
-);
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT } },
-};
-
-
+/**
+ * TestimonialsSection — Chapter 06: Why I Wrote This Book (Authentic Letter & Excerpts)
+ *
+ * Compliance with Authenticity & Content Policy:
+ *  - Replaces dummy testimonials with an authentic stationery letter from Poonam
+ *  - Displays selected excerpts from the book pages
+ *  - Future-Ready CMS architecture: If `realTestimonials.length > 0`, renders real reader stories;
+ *    otherwise renders the author's letter and book excerpts.
+ */
 export default function TestimonialsSection() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [ref, inView] = useInView(0.1);
-
-  // Handle scroll to update active dot
-  const handleScroll = () => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const idx = Math.round(el.scrollLeft / (el.clientWidth * 0.82 + 16));
-    setActiveIdx(Math.max(0, Math.min(idx, testimonials.length - 1)));
-  };
+  const hasRealTestimonials = realTestimonials && realTestimonials.length > 0;
 
   return (
     <section
       id="testimonials"
       aria-labelledby="testimonials-heading"
-      ref={ref}
+      className="relative min-h-[100svh] flex flex-col justify-between overflow-hidden px-5 py-16 select-none"
       style={{
-        padding: "64px 0 72px",
-        background: "linear-gradient(180deg, #EDE5D8 0%, #F4EFE6 100%)",
-        overflow: "hidden",
+        background: "#F4EFE6", // Warm cream background for Chapter 06
       }}
     >
-      <div style={{ padding: "0 24px", marginBottom: "36px" }}>
-        <motion.div
-          custom={0}
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-        >
-          <SectionLabel text="TESTIMONIALS" className="mb-5" />
-        </motion.div>
+      {/* Background paper wash */}
+      <div
+        aria-hidden="true"
+        className="absolute top-1/4 left-0 w-72 h-72 rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(201,124,93,0.10) 0%, transparent 70%)",
+          filter: "blur(35px)",
+        }}
+      />
 
-        <motion.h2
-          id="testimonials-heading"
-          custom={1}
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          style={{
-            fontFamily: "var(--font-cormorant), serif",
-            fontSize: "clamp(28px, 7vw, 36px)",
-            fontWeight: 600,
-            lineHeight: 1.2,
-            color: "#3A2C1E",
-            letterSpacing: "-0.01em",
-          }}
-        >
-          Words from families I&rsquo;ve walked alongside.
-        </motion.h2>
+      <div className="relative z-10 w-full mb-4">
+        <ChapterHeader
+          chapterNum={authorLetterContent.chapterNum}
+          title={authorLetterContent.chapterLabel}
+        />
       </div>
 
-      {/* Horizontal scroll container */}
-      <div
-        ref={scrollRef}
-        onScroll={handleScroll}
-        role="list"
-        aria-label="Testimonials"
-        style={{
-          display: "flex",
-          overflowX: "auto",
-          scrollSnapType: "x mandatory",
-          scrollBehavior: "smooth",
-          WebkitOverflowScrolling: "touch",
-          gap: "16px",
-          paddingLeft: "24px",
-          paddingRight: "24px",
-          paddingBottom: "4px",
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-        }}
-      >
-        {testimonials.map((t, i) => (
+      <div className="relative z-10 max-w-sm mx-auto w-full flex flex-col items-center">
+        {!hasRealTestimonials ? (
+          /* ── OPTION 1: Personal Letter Stationery from Poonam ── */
           <motion.div
-            key={t.id}
-            role="listitem"
-            custom={i + 2}
-            variants={itemVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            style={{
-              flexShrink: 0,
-              width: "82vw",
-              maxWidth: "320px",
-              scrollSnapAlign: "start",
-              background: "linear-gradient(145deg, #FDFAF6 0%, #F7F2EA 100%)",
-              borderRadius: "24px",
-              border: "1px solid rgba(110,90,78,0.07)",
-              boxShadow: "0 4px 16px rgba(58,44,30,0.07), 0 12px 32px rgba(58,44,30,0.04)",
-              padding: "28px 24px 24px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "14px",
-            }}
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
+            className="relative w-full p-6 xs:p-7 rounded-3xl bg-[#FAF8F4] border border-[#6E5A4E]/12 shadow-xl my-2"
           >
-            {/* Open quote */}
-            <span
+            {/* Corner Fold Motif */}
+            <div
               aria-hidden="true"
-              style={{
-                fontFamily: "var(--font-cormorant), serif",
-                fontSize: "48px",
-                lineHeight: 0.6,
-                color: "#C4A882",
-                opacity: 0.6,
-                display: "block",
-              }}
+              className="absolute top-0 right-0 w-8 h-8 border-b border-l border-[#6E5A4E]/15 bg-[#EDE5D8] rounded-bl-xl pointer-events-none shadow-inner"
+            />
+
+            {/* Letter Title & Salutation */}
+            <h3
+              id="testimonials-heading"
+              className="text-2xl font-serif text-[#3A2C1E] mb-2"
+              style={{ fontFamily: "var(--font-cormorant), serif" }}
             >
-              &ldquo;
-            </span>
+              {authorLetterContent.title}
+            </h3>
 
-            {/* Stars */}
-            <Stars count={t.stars} />
-
-            {/* Quote text */}
             <p
-              style={{
-                fontFamily: "var(--font-cormorant), serif",
-                fontStyle: "italic",
-                fontSize: "17px",
-                lineHeight: 1.65,
-                color: "#4A3728",
-                margin: 0,
-                flex: 1,
-              }}
+              className="text-sm font-serif italic text-[#C97C5D] mb-4"
+              style={{ fontFamily: "var(--font-cormorant), serif" }}
             >
-              {t.quote}
+              {authorLetterContent.salutation}
             </p>
 
-            {/* Divider */}
-            <div style={{ height: "1px", background: "rgba(110,90,78,0.08)" }} />
+            {/* Letter Body Paragraphs */}
+            <div className="space-y-3.5 text-xs xs:text-sm font-sans text-[#6E5A4E] leading-relaxed mb-6">
+              {authorLetterContent.letterBody.map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
+            </div>
 
-            {/* Author */}
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              {/* Avatar monogram */}
-              <div
-                aria-hidden="true"
-                style={{
-                  width: "38px",
-                  height: "38px",
-                  borderRadius: "50%",
-                  background: "rgba(168,178,154,0.18)",
-                  border: "1px solid rgba(168,178,154,0.25)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
+            {/* Handwritten Sign-off Block */}
+            <div className="pt-4 border-t border-[#6E5A4E]/10 flex flex-col items-end text-right">
+              <span className="text-xs font-sans text-[#6E5A4E]/70 italic">
+                {authorLetterContent.signoff}
+              </span>
+              <span
+                className="text-xl font-serif font-bold text-[#3A2C1E] mt-1"
+                style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
               >
-                <span
-                  style={{
-                    fontFamily: "var(--font-cormorant), serif",
-                    fontSize: "16px",
-                    fontWeight: 600,
-                    color: "#A8B29A",
-                  }}
-                >
-                  {t.author[0]}
-                </span>
-              </div>
-              <div>
-                <p
-                  style={{
-                    fontFamily: "var(--font-inter), sans-serif",
-                    fontSize: "12px",
-                    fontWeight: 600,
-                    color: "#3A2C1E",
-                    margin: 0,
-                  }}
-                >
-                  {t.author}
-                </p>
-                <p
-                  style={{
-                    fontFamily: "var(--font-inter), sans-serif",
-                    fontSize: "10px",
-                    color: "#6E5A4E",
-                    margin: "2px 0 0",
-                  }}
-                >
-                  {t.role}
-                </p>
+                {authorLetterContent.authorName}
+              </span>
+              <span className="text-[9px] font-sans text-[#A8B29A] font-semibold tracking-widest uppercase mt-0.5">
+                AUTHOR
+              </span>
+            </div>
+
+            {/* Selected Book Excerpts Sub-block */}
+            <div className="mt-8 pt-6 border-t border-dashed border-[#6E5A4E]/15">
+              <h4 className="text-[10px] font-mono tracking-widest text-[#A8B29A] font-semibold uppercase mb-4 text-center">
+                {authorLetterContent.excerptsTitle}
+              </h4>
+
+              <div className="space-y-3">
+                {authorLetterContent.excerpts.map((excerpt, idx) => (
+                  <div
+                    key={idx}
+                    className="p-3.5 rounded-xl bg-[#F4EFE6]/70 border border-[#6E5A4E]/08"
+                  >
+                    <span className="text-[9px] font-mono text-[#C4A882] font-semibold tracking-wider uppercase block mb-1">
+                      {excerpt.page}
+                    </span>
+                    <p
+                      className="text-xs font-serif italic text-[#3A2C1E] leading-snug"
+                      style={{ fontFamily: "var(--font-cormorant), serif" }}
+                    >
+                      &ldquo;{excerpt.quote}&rdquo;
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
-        ))}
+        ) : (
+          /* Real Reader Stories (Shown dynamically when real feedback is populated) */
+          <div className="w-full flex flex-col gap-4">
+            {realTestimonials.map((testimonial) => (
+              <div
+                key={testimonial.id}
+                className="p-5 rounded-2xl bg-[#FAF8F4] border border-[#6E5A4E]/10 shadow-sm"
+              >
+                <p className="text-xs font-serif italic text-[#3A2C1E] leading-relaxed mb-3">
+                  &ldquo;{testimonial.quote}&rdquo;
+                </p>
+                <p className="text-[10px] font-sans font-semibold text-[#6E5A4E]">
+                  — {testimonial.author}, {testimonial.role}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Pagination dots */}
-      <div
-        role="tablist"
-        aria-label="Testimonial navigation"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "8px",
-          marginTop: "24px",
-          padding: "0 24px",
-        }}
-      >
-        {testimonials.map((_, i) => (
-          <button
-            key={i}
-            role="tab"
-            aria-selected={i === activeIdx}
-            aria-label={`Testimonial ${i + 1}`}
-            onClick={() => {
-              setActiveIdx(i);
-              const el = scrollRef.current;
-              if (el) {
-                el.scrollTo({
-                  left: i * (el.clientWidth * 0.82 + 16),
-                  behavior: "smooth",
-                });
-              }
-            }}
-            style={{
-              width: i === activeIdx ? "20px" : "6px",
-              height: "6px",
-              borderRadius: "3px",
-              background: i === activeIdx ? "#A8B29A" : "rgba(110,90,78,0.2)",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
-              transition: "width 0.3s ease, background 0.2s ease",
-            }}
-          />
-        ))}
+      {/* Section Footer */}
+      <div className="relative z-10 flex items-center justify-between text-[9px] uppercase tracking-widest text-[#6E5A4E]/40 font-sans pt-10 border-t border-[#6E5A4E]/10 mt-8">
+        <span>AUTHOR&apos;S LETTER & EXCERPTS</span>
+        <span>CHAPTER 06</span>
       </div>
     </section>
   );

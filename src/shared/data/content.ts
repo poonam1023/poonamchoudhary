@@ -1,30 +1,33 @@
 import type { Pillar, Testimonial, Article } from "../types";
 
-
-// ─── Hero ──────────────────────────────────────────────────────────────────
+// ─── Chapter 01: Hero / Introduction ──────────────────────────────────────
 
 export const heroContent = {
-  tagline: "Parenting isn't perfect.",
-  headline: "But presence changes everything.",
-  headlineItalic: "everything.",
+  chapterNum: "01",
+  chapterLabel: "INTRODUCTION",
+  tagline: "CONSCIOUS PARENTING GUIDE",
+  headline: "Guiding parents.",
+  headlineItalic: "Inspiring change.",
   subline:
-    "Practical guidance & heartfelt insights for raising confident, kind and emotionally strong children.",
-  primaryCta: "Explore My Book",
-  secondaryCta: "See My Blog",
+    "Practical guidance and heartfelt insights for raising confident, kind and emotionally strong children.",
+  primaryCta: "Explore The Book",
+  secondaryCta: "Read Articles",
   quote: "There is no perfect parent, only a present one.",
   quoteAuthor: "— Poonam Choudhary",
-  stats: "50,000+ Families Impacted",
-  rating: "4.9 / 5.0",
+  authorTitle: "AUTHOR · SPEAKER · PARENTING GUIDE",
 };
 
-// ─── Mission ───────────────────────────────────────────────────────────────
+// ─── Chapter 02: Mission ───────────────────────────────────────────────────
 
 export const missionContent = {
-  label: "MY MISSION",
+  chapterNum: "02",
+  chapterLabel: "MISSION",
   headline: "Helping parents raise",
   headlineHighlight: "confident, kind",
   headlineContinue: "and emotionally strong children.",
-  cta: "More About Me →",
+  statement:
+    "Parenting is not about shaping a child into who we think they should be. It is about creating the safe space and deep connection for them to become who they truly are.",
+  cta: "More About The Journey →",
 };
 
 export const missionPillars: Pillar[] = [
@@ -32,47 +35,62 @@ export const missionPillars: Pillar[] = [
     num: "01",
     title: "Stronger Connections",
     description:
-      "Build deeper bonds with your child based on trust and understanding.",
+      "Build deeper bonds with your child based on trust, presence, and genuine understanding.",
     icon: "heart",
   },
   {
     num: "02",
     title: "Emotional Growth",
     description:
-      "Help your child grow emotionally strong and resilient in today's world.",
+      "Help your child navigate big feelings and grow emotionally resilient in today's fast world.",
     icon: "sprout",
   },
   {
     num: "03",
     title: "Mindful Parenting",
     description:
-      "Simple, mindful approaches to handle everyday parenting challenges.",
+      "Simple, grounded approaches to handle daily parenting challenges with calm and grace.",
     icon: "leaf",
   },
 ];
 
-// ─── About Author ──────────────────────────────────────────────────────────
+// ─── Chapter 03: About Author ──────────────────────────────────────────────
 
 export const aboutContent = {
-  label: "ABOUT THE AUTHOR",
+  chapterNum: "03",
+  chapterLabel: "MEET THE AUTHOR",
   headline: "Poonam Choudhary",
-  role: "Author · Speaker · Parenting Guide",
-  bio: "I am a parenting educator, author and speaker who has guided thousands of families toward more conscious, compassionate relationships. Through my books, workshops and online community, I help parents move from survival mode to genuine connection.",
-  bio2:
-    "My work is rooted in the belief that every child deserves a parent who sees them fully — and every parent deserves support in becoming that person.",
+  role: "AUTHOR · SPEAKER · PARENTING GUIDE",
+  bioParagraph1:
+    "Poonam Choudhary is a dedicated parenting guide, author, and speaker passionate about helping families transition from daily survival mode into deep, conscious connection.",
+  bioQuote:
+    "Presence before perfection. Connection before correction.",
+  bioParagraph2:
+    "Rooted in empathy and practical wisdom, her work encourages parents to slow down, listen deeply, and cultivate an environment where children feel truly seen, heard, and valued.",
+  bioHighlight:
+    "Her writing bridges emotional intelligence with everyday parenting scenarios, giving parents actionable tools that build trust and lifelong resilience.",
   philosophy: "Presence before perfection. Connection before correction.",
+  authorBadge: ["AUTHOR", "SPEAKER", "PARENTING GUIDE"],
 };
 
-// ─── Featured Book ─────────────────────────────────────────────────────────
+// ─── Chapter 04: The Book ──────────────────────────────────────────────────
 
 export const bookContent = {
-  label: "MY BOOK",
+  chapterNum: "04",
+  chapterLabel: "THE BOOK",
   title: "The Little Guide to Parenting",
   subtitle: "Conscious · Intentional · Growth",
   description:
-    "A practical and heartfelt guide for parents who want to raise confident, happy and emotionally strong children.",
-  primaryCta: "Buy Now",
-  secondaryCta: "Learn More →",
+    "A practical and heartfelt guide for parents who want to cultivate authentic connection and raise emotionally confident children in a modern world.",
+  primaryCta: "BUY BOOK",
+  secondaryCta: "READ SAMPLE",
+  tertiaryCta: "LEARN MORE",
+  featurePills: [
+    "✓ Practical Advice",
+    "✓ Emotional Intelligence",
+    "✓ Everyday Parenting",
+    "✓ Real Stories",
+  ],
   highlights: [
     "Practical Advice — Real-life parenting solutions that actually work.",
     "Easy to Follow — Simple strategies for everyday parenting challenges.",
@@ -80,11 +98,12 @@ export const bookContent = {
   ],
 };
 
-// ─── Book Highlights / Five Pillars ───────────────────────────────────────
+// ─── Chapter 05: Book Philosophy ──────────────────────────────────────────
 
 export const philosophyContent = {
-  label: "PHILOSOPHY",
-  headline: "The Philosophy of Conscious Parenting",
+  chapterNum: "05",
+  chapterLabel: "INSIDE THE PHILOSOPHY",
+  headline: "The Five Pillars of Conscious Parenting",
   quote:
     "Parenting is not about shaping a child into who we think they should be. It is about creating the conditions for them to become who they already are.",
 };
@@ -93,73 +112,82 @@ export const fivePillars: Pillar[] = [
   {
     num: "I",
     title: "Presence before perfection",
-    description: "Presence is the gift, not perfection.",
+    description:
+      "Children do not need flawless parents. They need present, available, and emotionally grounded parents who show up in ordinary everyday moments.",
     icon: "sun",
   },
   {
     num: "II",
     title: "Connection before correction",
-    description: "Guidance through warm relationship.",
+    description:
+      "Behavioral guidance only works when built on a strong emotional bond. Connect with your child's heart before addressing their actions.",
     icon: "heart",
   },
   {
     num: "III",
     title: "Empathy creates resilience",
-    description: "Understanding builds inner strength.",
+    description:
+      "Validating a child's emotions does not spoil them; it gives them the psychological safety needed to handle life's challenges with confidence.",
     icon: "leaf",
   },
   {
     num: "IV",
     title: "Boundaries with love",
-    description: "Clear, kind limits build trust.",
+    description:
+      "Clear, calm limits are an act of love. Boundaries provide safety and structure without shame, anger, or harsh punishment.",
     icon: "circle",
   },
   {
     num: "V",
     title: "Growth is lifelong",
-    description: "Both parent and child grow together.",
+    description:
+      "Parenting is a continuous journey of self-discovery. As we guide our children, we also grow into calmer, more conscious individuals.",
     icon: "sprout",
   },
 ];
 
-// ─── Testimonials ──────────────────────────────────────────────────────────
+// ─── Chapter 06: Reader Stories / Author Letter ───────────────────────────
 
-export const testimonials: Testimonial[] = [
-  {
-    id: "1",
-    quote:
-      "Poonam's words feel like a warm hug for every parent. Her book is a must-read for anyone who wants to parent with more love and less guilt.",
-    author: "Neha Sharma",
-    role: "Mom of Two",
-    stars: 5,
-  },
-  {
-    id: "2",
-    quote:
-      "A beautiful blend of visual storytelling and heartfelt parenting wisdom. I return to these pages again and again.",
-    author: "Maya R.",
-    role: "Parent & Educator",
-    stars: 5,
-  },
-  {
-    id: "3",
-    quote:
-      "This book changed how I see my relationship with my daughter. Every parent should read it.",
-    author: "David L.",
-    role: "Father of One",
-    stars: 5,
-  },
-  {
-    id: "4",
-    quote:
-      "Thoughtful, elegant, and deeply moving. The principles are simple yet transformative.",
-    author: "Priya K.",
-    role: "Mom & Therapist",
-    stars: 5,
-  },
-];
+export const authorLetterContent = {
+  chapterNum: "06",
+  chapterLabel: "WHY I WROTE THIS BOOK",
+  title: "A Personal Letter from Poonam",
+  salutation: "Dear Reader & Fellow Parent,",
+  letterBody: [
+    "When I began writing 'The Little Guide to Parenting', I didn't set out to create an overwhelming manual filled with rigid rules. I wanted to write the book I wished I had in my earliest, most uncertain parenting moments.",
+    "So much of modern parenting advice feels loud, conflicting, and guilt-inducing. My hope with this book is to offer you a quiet sanctuary — a space to slow down, breathe, and remember that you already hold the wisdom needed to connect with your child.",
+    "This book is written with deep warmth and honesty. It is an invitation to choose presence over perfection, and to walk alongside your child with patience, curiosity, and love.",
+  ],
+  signoff: "With warmth & gratitude,",
+  authorName: "Poonam Choudhary",
+  excerptsTitle: "SELECTED EXCERPTS FROM THE BOOK",
+  excerpts: [
+    {
+      page: "Page 24",
+      quote: "When your child is having a hard moment, remember: they are not giving you a hard time. They are having a hard time.",
+    },
+    {
+      page: "Page 68",
+      quote: "Listen to the small things your child tells you when they are young. To them, those small things were never small.",
+    },
+    {
+      page: "Page 112",
+      quote: "The quietest moments of genuine presence are often the ones that echo loudest in a child's memory.",
+    },
+  ],
+};
 
-// ─── Articles ──────────────────────────────────────────────────────────────
+/** CMS / Future-Ready: Real reviews collected after launch will be populated here */
+export const realTestimonials: Testimonial[] = [];
+
+// ─── Chapter 07: Articles ──────────────────────────────────────────────────
+
+export const articlesContent = {
+  chapterNum: "07",
+  chapterLabel: "ARTICLES & ESSAYS",
+  headline: "Reflections on Conscious Living & Parenting",
+  subline: "Explore thoughtful writings, practical guides, and essays on raising grounded children.",
+};
 
 export const articles: Article[] = [
   {
@@ -167,7 +195,7 @@ export const articles: Article[] = [
     category: "PARENTING",
     title: "How to Build Unshakeable Confidence in Your Child",
     excerpt:
-      "Small daily rituals that nurture your child's inner belief in themselves.",
+      "Small daily rituals and intentional listening that nurture your child's inner belief in themselves.",
     readTime: "4 min read",
   },
   {
@@ -175,7 +203,7 @@ export const articles: Article[] = [
     category: "MINDSET",
     title: "5 Gentle Ways to Handle Your Child's Big Emotions",
     excerpt:
-      "When feelings overflow, these grounded responses create safety and trust.",
+      "When feelings overflow, these grounded responses create emotional safety and deep trust.",
     readTime: "5 min read",
   },
   {
@@ -183,7 +211,7 @@ export const articles: Article[] = [
     category: "FAMILY",
     title: "Creating Meaningful Family Moments Every Day",
     excerpt:
-      "You don't need weekends or trips — connection happens in small ordinary moments.",
+      "You don't need grand trips — deep connection happens in small, quiet, ordinary moments.",
     readTime: "3 min read",
   },
   {
@@ -191,19 +219,24 @@ export const articles: Article[] = [
     category: "LIFE",
     title: "Mindful Parenting: Slow Down to Connect",
     excerpt:
-      "The pause between reaction and response is where real parenting lives.",
+      "The pause between reaction and response is where transformational parenting lives.",
     readTime: "6 min read",
   },
 ];
 
-// ─── Newsletter ────────────────────────────────────────────────────────────
+// ─── Chapter 08: Contact ───────────────────────────────────────────────────
 
-export const newsletterContent = {
-  label: "STAY CONNECTED",
-  headline: "Let's build a beautiful journey of parenting together.",
-  subline: "Join my newsletter for tips, stories and updates.",
-  placeholder: "Enter your email",
-  cta: "Subscribe",
+export const contactContent = {
+  chapterNum: "08",
+  chapterLabel: "CONTACT & INQUIRIES",
+  headline: "Let's Start a Conversation",
+  subline:
+    "Whether you have a question about the book, speaking engagements, or simply wish to share your thoughts, I would love to hear from you.",
+  formIntro: "Write a letter to Poonam:",
+  placeholderName: "Your Name",
+  placeholderEmail: "Your Email Address",
+  placeholderMessage: "Dear Poonam, I wanted to reach out regarding...",
+  submitCta: "SEND MESSAGE",
 };
 
 // ─── Footer ────────────────────────────────────────────────────────────────
@@ -215,11 +248,15 @@ export const footerContent = {
   email: "Purechimes@gmail.com",
   social: "@poonam.choudhary",
   copyright: `© ${new Date().getFullYear()} Poonam Choudhary. All rights reserved.`,
-  navLinks: [
-    { label: "Home", href: "#home" },
-    { label: "About Me", href: "#about" },
-    { label: "My Book", href: "#book" },
-    { label: "Articles", href: "#articles" },
-    { label: "Contact", href: "#contact" },
+  chapters: [
+    { label: "01 · Introduction", href: "#home" },
+    { label: "02 · Mission", href: "#mission" },
+    { label: "03 · Meet the Author", href: "#about" },
+    { label: "04 · The Book", href: "#book" },
+    { label: "05 · Inside Philosophy", href: "#highlights" },
+    { label: "06 · Why I Wrote This", href: "#testimonials" },
+    { label: "07 · Articles", href: "#articles" },
+    { label: "08 · Contact", href: "#contact" },
   ],
 };
+

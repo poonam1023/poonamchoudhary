@@ -1,206 +1,208 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
-import { useInView } from "@/src/shared/hooks/useInView";
-import { articles } from "@/src/shared/data/content";
-import { EASE_OUT } from "@/src/shared/utils/animations";
-import SectionLabel from "../components/SectionLabel";
+import ChapterHeader from "../components/ChapterHeader";
+import { articlesContent, articles } from "@/src/shared/data/content";
 
-const ArrowIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="5" y1="12" x2="19" y2="12" />
-    <polyline points="12 5 19 12 12 19" />
-  </svg>
-);
+/** Thumbnail placeholder gradient generator */
+const ARTICLE_THUMBNAILS = [
+  "linear-gradient(135deg, #A8B29A 0%, #6E5A4E 100%)",
+  "linear-gradient(135deg, #C97C5D 0%, #3A2C1E 100%)",
+  "linear-gradient(135deg, #C4A882 0%, #A8B29A 100%)",
+  "linear-gradient(135deg, #6E5A4E 0%, #EDE5D8 100%)",
+];
 
-const categoryColors: Record<string, { bg: string; text: string }> = {
-  PARENTING: { bg: "rgba(168,178,154,0.14)", text: "#6A7A5A" },
-  MINDSET:   { bg: "rgba(196,168,130,0.14)", text: "#7A6240" },
-  FAMILY:    { bg: "rgba(201,124,93,0.10)",  text: "#8A4E34" },
-  LIFE:      { bg: "rgba(168,178,154,0.10)", text: "#5A6A4A" },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT } },
-};
-
-
+/**
+ * ArticlesSection — Chapter 07: Articles
+ *
+ * Architecture:
+ *  - Chapter Header (CHAPTER 07 — ARTICLES)
+ *  - Featured Article: Large card with thumbnail, category, title, excerpt, read time, sliding arrow
+ *  - 3 Secondary Articles: Compact cards with thumbnail, category, title, read time
+ *  - Interactive micro-interactions: Image scale, arrow slide on press/hover
+ */
 export default function ArticlesSection() {
-  const [ref, inView] = useInView(0.1);
+  const featuredArticle = articles[0];
+  const secondaryArticles = articles.slice(1);
 
   return (
     <section
       id="articles"
       aria-labelledby="articles-heading"
-      ref={ref}
+      className="relative min-h-[100svh] flex flex-col justify-between overflow-hidden px-5 py-16 select-none"
       style={{
-        padding: "64px 24px 72px",
-        background: "#FAF8F4",
-        position: "relative",
+        background: "#FAF7F2", // Paper background for Chapter 07
       }}
     >
-      {/* Header row */}
+      {/* Background accent wash */}
       <div
+        aria-hidden="true"
+        className="absolute bottom-1/4 -right-12 w-64 h-64 rounded-full pointer-events-none"
         style={{
-          display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "space-between",
-          marginBottom: "32px",
+          background: "radial-gradient(circle, rgba(168,178,154,0.12) 0%, transparent 70%)",
+          filter: "blur(35px)",
         }}
-      >
-        <div>
-          <motion.div
-            custom={0}
-            variants={itemVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-          >
-            <SectionLabel text="INSIGHTS & ARTICLES" className="mb-4" />
-          </motion.div>
-          <motion.h2
-            id="articles-heading"
-            custom={1}
-            variants={itemVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            style={{
-              fontFamily: "var(--font-cormorant), serif",
-              fontSize: "clamp(26px, 6.5vw, 34px)",
-              fontWeight: 600,
-              lineHeight: 1.2,
-              color: "#3A2C1E",
-              letterSpacing: "-0.01em",
-              margin: 0,
-            }}
-          >
-            Thoughts on
-            <br />
-            Parenting &amp; Life
-          </motion.h2>
-        </div>
-        <motion.a
-          custom={2}
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          href="#"
-          id="articles-view-all"
-          style={{
-            fontFamily: "var(--font-inter), sans-serif",
-            fontSize: "10px",
-            fontWeight: 600,
-            color: "#A8B29A",
-            letterSpacing: "0.1em",
-            textDecoration: "none",
-            textTransform: "uppercase",
-            whiteSpace: "nowrap",
-            paddingBottom: "4px",
-          }}
-        >
-          View All →
-        </motion.a>
+      />
+
+      <div className="relative z-10 w-full mb-4">
+        <ChapterHeader
+          chapterNum={articlesContent.chapterNum}
+          title={articlesContent.chapterLabel}
+        />
       </div>
 
-      {/* Article cards — 2-column grid on wider mobile, single col on narrow */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "14px",
-        }}
-      >
-        {articles.map((article, i) => {
-          const cat = categoryColors[article.category] || categoryColors.PARENTING;
-          return (
-            <motion.article
-              key={article.id}
-              custom={i + 3}
-              variants={itemVariants}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              aria-labelledby={`article-title-${article.id}`}
-              style={{
-                background: "linear-gradient(145deg, #FDFAF6 0%, #F7F2EA 100%)",
-                borderRadius: "18px",
-                border: "1px solid rgba(110,90,78,0.07)",
-                boxShadow: "0 2px 10px rgba(58,44,30,0.05), 0 6px 20px rgba(58,44,30,0.04)",
-                padding: "18px 16px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-              }}
+      <div className="relative z-10 max-w-sm mx-auto w-full flex flex-col gap-6">
+        {/* Section Intro */}
+        <div className="text-center mb-2">
+          <h3
+            id="articles-heading"
+            className="text-2xl font-serif text-[#3A2C1E] mb-1"
+            style={{ fontFamily: "var(--font-cormorant), serif" }}
+          >
+            {articlesContent.headline}
+          </h3>
+          <p className="text-xs font-sans text-[#6E5A4E] leading-relaxed">
+            {articlesContent.subline}
+          </p>
+        </div>
+
+        {/* ── Featured Article Card ── */}
+        {featuredArticle && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <Link
+              href="/blog"
+              className="group block relative w-full rounded-2xl overflow-hidden bg-[#FAF8F4] border border-[#6E5A4E]/12 shadow-md transition-all duration-300 active:scale-[0.99]"
             >
-              {/* Category badge */}
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignSelf: "flex-start",
-                  padding: "3px 8px",
-                  borderRadius: "6px",
-                  background: cat.bg,
-                  fontFamily: "var(--font-inter), sans-serif",
-                  fontSize: "8px",
-                  fontWeight: 700,
-                  letterSpacing: "0.12em",
-                  color: cat.text,
-                  textTransform: "uppercase",
-                }}
-              >
-                {article.category}
-              </span>
-
-              {/* Title */}
-              <h3
-                id={`article-title-${article.id}`}
-                style={{
-                  fontFamily: "var(--font-cormorant), serif",
-                  fontSize: "16px",
-                  fontWeight: 700,
-                  lineHeight: 1.3,
-                  color: "#3A2C1E",
-                  margin: 0,
-                  flex: 1,
-                }}
-              >
-                {article.title}
-              </h3>
-
-              {/* Read time + arrow */}
+              {/* Large Thumbnail Header */}
               <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
+                className="w-full h-40 relative overflow-hidden flex items-center justify-center p-4"
+                style={{ background: ARTICLE_THUMBNAILS[0] }}
               >
-                <span
-                  style={{
-                    fontFamily: "var(--font-inter), sans-serif",
-                    fontSize: "9.5px",
-                    color: "#6E5A4E",
-                    opacity: 0.7,
-                  }}
-                >
-                  {article.readTime}
-                </span>
-                <a
-                  href="#"
-                  aria-label={`Read ${article.title}`}
-                  style={{
-                    color: "#A8B29A",
-                    textDecoration: "none",
-                    display: "flex",
-                  }}
-                >
-                  <ArrowIcon />
-                </a>
+                <div className="w-full h-full border border-white/20 rounded-xl flex items-center justify-center p-3 text-center">
+                  <span
+                    className="text-lg font-serif italic text-[#FAF8F4] leading-snug drop-shadow-sm"
+                    style={{ fontFamily: "var(--font-cormorant), serif" }}
+                  >
+                    &ldquo;{featuredArticle.title}&rdquo;
+                  </span>
+                </div>
               </div>
-            </motion.article>
-          );
-        })}
+
+              {/* Card Body Content */}
+              <div className="p-5">
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[9px] font-mono tracking-widest text-[#A8B29A] font-semibold uppercase">
+                    {featuredArticle.category}
+                  </span>
+                  <span className="text-[10px] font-sans text-[#6E5A4E]/60">
+                    {featuredArticle.readTime}
+                  </span>
+                </div>
+
+                <h4
+                  className="text-lg font-serif font-semibold text-[#3A2C1E] leading-snug mb-2 group-hover:text-[#A8B29A] transition-colors duration-200"
+                  style={{ fontFamily: "var(--font-cormorant), serif" }}
+                >
+                  {featuredArticle.title}
+                </h4>
+
+                <p className="text-xs font-sans text-[#6E5A4E] leading-relaxed mb-4">
+                  {featuredArticle.excerpt}
+                </p>
+
+                {/* Read Full Article CTA with Sliding Arrow */}
+                <div className="flex items-center gap-2 text-xs font-sans font-semibold text-[#3A2C1E] group-hover:text-[#A8B29A] transition-colors duration-200">
+                  <span>READ ESSAY</span>
+                  <svg
+                    className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+        )}
+
+        {/* ── 3 Secondary Articles ── */}
+        <div className="flex flex-col gap-3">
+          {secondaryArticles.map((article, idx) => (
+            <motion.div
+              key={article.id}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.5 }}
+            >
+              <Link
+                href="/blog"
+                className="group flex items-center gap-3.5 p-3.5 rounded-2xl bg-[#FAF8F4] border border-[#6E5A4E]/10 shadow-sm transition-all duration-300 active:scale-[0.99]"
+              >
+                {/* Compact Thumbnail */}
+                <div
+                  className="w-16 h-16 rounded-xl shrink-0 overflow-hidden flex items-center justify-center p-1.5 text-center shadow-inner"
+                  style={{ background: ARTICLE_THUMBNAILS[(idx + 1) % ARTICLE_THUMBNAILS.length] }}
+                >
+                  <span
+                    className="text-[9px] font-serif italic text-[#FAF8F4] leading-none"
+                    style={{ fontFamily: "var(--font-cormorant), serif" }}
+                  >
+                    ESSAY
+                  </span>
+                </div>
+
+                {/* Article Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[8px] font-mono tracking-widest text-[#A8B29A] font-semibold uppercase">
+                      {article.category}
+                    </span>
+                    <span className="text-[9px] font-sans text-[#6E5A4E]/50">• {article.readTime}</span>
+                  </div>
+
+                  <h5
+                    className="text-sm font-serif font-semibold text-[#3A2C1E] leading-tight truncate group-hover:text-[#A8B29A] transition-colors duration-200"
+                    style={{ fontFamily: "var(--font-cormorant), serif" }}
+                  >
+                    {article.title}
+                  </h5>
+
+                  <p className="text-[11px] font-sans text-[#6E5A4E] leading-snug truncate mt-0.5">
+                    {article.excerpt}
+                  </p>
+                </div>
+
+                {/* Sliding Arrow */}
+                <svg
+                  className="w-4 h-4 text-[#6E5A4E]/60 shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-[#3A2C1E]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Section Footer */}
+      <div className="relative z-10 flex items-center justify-between text-[9px] uppercase tracking-widest text-[#6E5A4E]/40 font-sans pt-10 border-t border-[#6E5A4E]/10 mt-8">
+        <span>ESSAYS & WRITINGS</span>
+        <span>CHAPTER 07</span>
       </div>
     </section>
   );

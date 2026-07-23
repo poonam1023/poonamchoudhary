@@ -1,293 +1,174 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
-import { useInView } from "@/src/shared/hooks/useInView";
+import ChapterHeader from "../components/ChapterHeader";
 import { aboutContent } from "@/src/shared/data/content";
-import { EASE_OUT } from "@/src/shared/utils/animations";
-import SectionLabel from "../components/SectionLabel";
-import BotanicalAccent from "../components/BotanicalAccent";
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE_OUT } },
-};
-
-
+/**
+ * AboutSection — Chapter 03: Meet the Author
+ *
+ * Architecture:
+ *  - Chapter Header (CHAPTER 03 — MEET THE AUTHOR)
+ *  - Portrait with rounded editorial frame & soft shadow
+ *  - Floating capsule badge (AUTHOR · SPEAKER · PARENTING GUIDE)
+ *  - Editorial biography in structured blocks: Paragraph -> Quote -> Paragraph -> Highlight
+ *  - Centered personal quote with large breathing quotation marks
+ *  - Zero fabricated stats (Authenticity Policy)
+ */
 export default function AboutSection() {
-  const [ref, inView] = useInView(0.12);
-
   return (
     <section
       id="about"
       aria-labelledby="about-heading"
-      ref={ref}
+      className="relative min-h-[100svh] flex flex-col justify-between overflow-hidden px-5 py-16 select-none"
       style={{
-        padding: "64px 0 72px",
-        background: "#FAF8F4",
-        position: "relative",
-        overflow: "hidden",
+        background: "#FAF7F2", // Paper background for Chapter 03
       }}
     >
-      {/* Warm wash */}
+      {/* Background glow accent */}
       <div
         aria-hidden="true"
+        className="absolute top-1/4 -left-12 w-64 h-64 rounded-full pointer-events-none"
         style={{
-          position: "absolute",
-          top: 0,
-          left: "-10%",
-          right: "-10%",
-          height: "50%",
-          background:
-            "linear-gradient(180deg, rgba(196,168,130,0.07) 0%, transparent 100%)",
-          pointerEvents: "none",
+          background: "radial-gradient(circle, rgba(196,168,130,0.12) 0%, transparent 70%)",
+          filter: "blur(35px)",
         }}
       />
 
-      <div style={{ padding: "0 24px" }}>
-        {/* Section label */}
-        <motion.div
-          custom={0}
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-        >
-          <SectionLabel text={aboutContent.label} className="mb-6" />
-        </motion.div>
+      <div className="relative z-10 w-full mb-6">
+        <ChapterHeader
+          chapterNum={aboutContent.chapterNum}
+          title={aboutContent.chapterLabel}
+        />
+      </div>
 
-        {/* Portrait image — editorial full-width */}
+      <div className="relative z-10 max-w-sm mx-auto w-full flex flex-col items-center">
+        {/* ── Portrait with Rounded Editorial Frame ── */}
         <motion.div
-          custom={1}
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          style={{
-            position: "relative",
-            width: "100%",
-            aspectRatio: "4/3",
-            borderRadius: "24px",
-            overflow: "hidden",
-            marginBottom: "32px",
-            boxShadow: "0 12px 40px rgba(58,44,30,0.13)",
-          }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
+          className="relative w-48 aspect-[3/4] mb-6"
         >
-          {/* Botanical overlay */}
-          <BotanicalAccent
-            variant="branch"
-            opacity={0.09}
-            color="#A8B29A"
-            style={{
-              position: "absolute",
-              bottom: "8%",
-              right: "-4%",
-              width: "90px",
-              height: "90px",
-              zIndex: 2,
-              pointerEvents: "none",
-            }}
-          />
-          <img
-            src="/author-portrait.png?v=3"
-            alt="Poonam Choudhary — Author and Parenting Guide"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center 20%",
-              position: "absolute",
-              inset: 0,
-            }}
-          />
-          {/* Warm overlay */}
           <div
+            className="w-full h-full rounded-3xl overflow-hidden p-1.5 shadow-xl"
             style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(180deg, transparent 50%, rgba(58,44,30,0.18) 100%)",
-            }}
-          />
-          {/* Role badge */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: "16px",
-              left: "16px",
-              zIndex: 3,
-              background: "rgba(250,248,244,0.88)",
-              backdropFilter: "blur(8px)",
-              borderRadius: "10px",
-              padding: "8px 14px",
+              background: "linear-gradient(145deg, #FAF8F4 0%, #EDE5D8 100%)",
+              border: "1px solid rgba(110,90,78,0.12)",
             }}
           >
-            <p
+            <img
+              src="/author-portrait.png?v=3"
+              alt="Poonam Choudhary"
+              className="w-full h-full object-cover object-center rounded-[20px]"
               style={{
-                fontFamily: "var(--font-inter), sans-serif",
-                fontSize: "9px",
-                fontWeight: 600,
-                letterSpacing: "0.18em",
-                color: "#A8B29A",
-                textTransform: "uppercase",
-                margin: 0,
+                filter: "contrast(1.02) saturate(0.95)",
               }}
-            >
-              {aboutContent.role}
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Heading */}
-        <motion.h2
-          id="about-heading"
-          custom={2}
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          style={{
-            fontFamily: "var(--font-cormorant), serif",
-            fontSize: "clamp(32px, 8vw, 42px)",
-            fontWeight: 700,
-            lineHeight: 1.1,
-            color: "#3A2C1E",
-            letterSpacing: "-0.01em",
-            marginBottom: "6px",
-          }}
-        >
-          {aboutContent.headline}
-        </motion.h2>
-
-        {/* Thin divider */}
-        <motion.div
-          custom={3}
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            marginBottom: "20px",
-          }}
-        >
-          <div style={{ width: "32px", height: "0.5px", background: "#C4A882", opacity: 0.5 }} />
-          <svg width="14" height="8" viewBox="0 0 32 18" fill="none" stroke="#C4A882" strokeWidth="1.2" opacity="0.6">
-            <path d="M2 9 C9 1 15 1 22 9 C25 12 28 13 31 10" strokeLinecap="round" />
-          </svg>
-          <div style={{ width: "32px", height: "0.5px", background: "#C4A882", opacity: 0.5 }} />
-        </motion.div>
-
-        {/* Bio paragraphs */}
-        <motion.p
-          custom={4}
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          style={{
-            fontFamily: "var(--font-cormorant), serif",
-            fontSize: "17px",
-            lineHeight: 1.72,
-            color: "#4A3728",
-            marginBottom: "16px",
-          }}
-        >
-          {aboutContent.bio}
-        </motion.p>
-        <motion.p
-          custom={5}
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          style={{
-            fontFamily: "var(--font-cormorant), serif",
-            fontSize: "16px",
-            lineHeight: 1.7,
-            color: "#5A4A38",
-            marginBottom: "28px",
-          }}
-        >
-          {aboutContent.bio2}
-        </motion.p>
-
-        {/* Philosophy pull-quote */}
-        <motion.blockquote
-          custom={6}
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          style={{
-            margin: 0,
-            padding: "20px 20px 20px 24px",
-            borderLeft: "2px solid rgba(168,178,154,0.45)",
-            background: "rgba(168,178,154,0.06)",
-            borderRadius: "0 12px 12px 0",
-            marginBottom: "28px",
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "var(--font-cormorant), serif",
-              fontStyle: "italic",
-              fontSize: "18px",
-              lineHeight: 1.6,
-              color: "#4A3728",
-              margin: 0,
-            }}
-          >
-            &ldquo;{aboutContent.philosophy}&rdquo;
-          </p>
-        </motion.blockquote>
-
-        {/* Signature */}
-        <motion.div
-          custom={7}
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-          }}
-        >
-          <div style={{ position: "relative", width: "120px", height: "45px" }}>
-            <Image
-              src="/signature.png"
-              alt="Poonam Choudhary signature"
-              fill
-              sizes="120px"
-              className="object-contain"
-              style={{ objectPosition: "left center", filter: "sepia(0.3) opacity(0.75)" }}
             />
           </div>
-          <div>
-            <p
-              style={{
-                fontFamily: "var(--font-inter), sans-serif",
-                fontSize: "9px",
-                fontWeight: 600,
-                letterSpacing: "0.14em",
-                color: "#A8B29A",
-                textTransform: "uppercase",
-                margin: 0,
-              }}
-            >
-              Bestselling Author
-            </p>
-            <p
-              style={{
-                fontFamily: "var(--font-cormorant), serif",
-                fontStyle: "italic",
-                fontSize: "12px",
-                color: "#6E5A4E",
-                margin: "2px 0 0",
-              }}
-            >
-              of Conscious Parenting
-            </p>
+
+          {/* Floating Author Badge Capsule */}
+          <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-max px-3.5 py-1.5 rounded-full bg-[#FAF8F4] border border-[#A8B29A]/30 shadow-md backdrop-blur-sm">
+            <span className="text-[9px] font-semibold tracking-widest text-[#6E5A4E] uppercase">
+              {aboutContent.role}
+            </span>
           </div>
         </motion.div>
+
+        {/* Author Name */}
+        <motion.h3
+          id="about-heading"
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-2xl xs:text-3xl font-serif text-[#3A2C1E] text-center mt-2 mb-6"
+          style={{ fontFamily: "var(--font-cormorant), serif" }}
+        >
+          {aboutContent.headline}
+        </motion.h3>
+
+        {/* ── Structured Biography Blocks ── */}
+        <div className="w-full space-y-5 text-left text-xs xs:text-sm font-sans text-[#6E5A4E] leading-relaxed">
+          {/* Paragraph 1 */}
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            {aboutContent.bioParagraph1}
+          </motion.p>
+
+          {/* Large Callout Quote */}
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="my-6 p-4 rounded-xl border-l-2 border-[#A8B29A] bg-[#F4EFE6]/60 italic font-serif text-base text-[#3A2C1E] leading-snug"
+            style={{ fontFamily: "var(--font-cormorant), serif" }}
+          >
+            &ldquo;{aboutContent.bioQuote}&rdquo;
+          </motion.div>
+
+          {/* Paragraph 2 */}
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            {aboutContent.bioParagraph2}
+          </motion.p>
+
+          {/* Highlight Block */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="p-4 rounded-2xl bg-[#EDE5D8]/50 border border-[#6E5A4E]/10"
+          >
+            <p className="text-xs font-sans text-[#3A2C1E] font-medium leading-relaxed">
+              {aboutContent.bioHighlight}
+            </p>
+          </motion.div>
+        </div>
+
+        {/* ── Large Centered Personal Quote with Breathing Animation ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="my-10 text-center relative px-6"
+        >
+          <motion.span
+            animate={{ scale: [1, 1.06, 1], opacity: [0.25, 0.4, 0.25] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="block text-6xl text-[#C4A882] font-serif leading-none -mb-6 select-none"
+          >
+            &ldquo;
+          </motion.span>
+          <p
+            className="text-lg xs:text-xl font-serif italic text-[#3A2C1E] leading-snug"
+            style={{ fontFamily: "var(--font-cormorant), serif" }}
+          >
+            {aboutContent.philosophy}
+          </p>
+          <p className="text-[10px] font-sans font-semibold tracking-widest text-[#A8B29A] uppercase mt-3">
+            — POONAM CHOUDHARY
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Section Footer */}
+      <div className="relative z-10 flex items-center justify-between text-[9px] uppercase tracking-widest text-[#6E5A4E]/40 font-sans pt-8 border-t border-[#6E5A4E]/10">
+        <span>BIOGRAPHY & VISION</span>
+        <span>CHAPTER 03</span>
       </div>
     </section>
   );

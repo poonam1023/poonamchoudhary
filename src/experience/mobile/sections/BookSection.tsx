@@ -1,255 +1,186 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
-import { useInView } from "@/src/shared/hooks/useInView";
+import { motion, useScroll, useTransform } from "framer-motion";
+import ChapterHeader from "../components/ChapterHeader";
 import { bookContent } from "@/src/shared/data/content";
-import { EASE_OUT } from "@/src/shared/utils/animations";
-import SectionLabel from "../components/SectionLabel";
 
-const CheckIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="20 6 9 17 4 12" />
-  </svg>
-);
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE_OUT } },
-};
-
-
+/**
+ * BookSection — Chapter 04: The Book
+ *
+ * Architecture:
+ *  - Chapter Header (CHAPTER 04 — THE BOOK)
+ *  - Soft radial light behind book
+ *  - 3D physical book with soft rotation (~2°), dynamic shadow, lifting on scroll
+ *  - Title, Subtitle, Description
+ *  - Premium feature pills (✓ Practical Advice, ✓ Emotional Intelligence, etc.)
+ *  - Vertically stacked buttons: BUY BOOK, READ SAMPLE, LEARN MORE
+ */
 export default function BookSection() {
-  const [ref, inView] = useInView(0.1);
+  const { scrollY } = useScroll();
+
+  // Gentle physical book lift on scroll
+  const bookLiftY = useTransform(scrollY, [600, 1400], [0, -18]);
+  const shadowScale = useTransform(scrollY, [600, 1400], [1, 1.08]);
 
   return (
     <section
       id="book"
       aria-labelledby="book-heading"
-      ref={ref}
+      className="relative min-h-[100svh] flex flex-col justify-between overflow-hidden px-5 py-16 select-none"
       style={{
-        padding: "64px 24px 72px",
-        background: "linear-gradient(180deg, #EDE5D8 0%, #F4EFE6 100%)",
-        position: "relative",
-        overflow: "hidden",
+        background: "#EDE5D8", // Soft beige background for Chapter 04
       }}
     >
-      {/* Warm radial accent */}
+      {/* Soft Radial Light Behind Book */}
       <div
         aria-hidden="true"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full pointer-events-none"
         style={{
-          position: "absolute",
-          bottom: "0",
-          right: "-20%",
-          width: "60%",
-          height: "50%",
-          background: "radial-gradient(circle, rgba(196,168,130,0.15) 0%, transparent 70%)",
-          filter: "blur(30px)",
-          pointerEvents: "none",
+          background: "radial-gradient(circle, rgba(250,248,244,0.70) 0%, rgba(168,178,154,0.18) 55%, transparent 75%)",
+          filter: "blur(35px)",
         }}
       />
 
-      {/* Section label */}
-      <motion.div
-        custom={0}
-        variants={itemVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-      >
-        <SectionLabel text={bookContent.label} className="mb-6" />
-      </motion.div>
+      <div className="relative z-10 w-full mb-4">
+        <ChapterHeader
+          chapterNum={bookContent.chapterNum}
+          title={bookContent.chapterLabel}
+        />
+      </div>
 
-      {/* Title */}
-      <motion.h2
-        id="book-heading"
-        custom={1}
-        variants={itemVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        style={{
-          fontFamily: "var(--font-cormorant), serif",
-          fontSize: "clamp(30px, 7.5vw, 40px)",
-          fontWeight: 700,
-          lineHeight: 1.15,
-          color: "#3A2C1E",
-          letterSpacing: "-0.01em",
-          marginBottom: "28px",
-        }}
-      >
-        {bookContent.title}
-      </motion.h2>
+      <div className="relative z-10 max-w-sm mx-auto w-full flex flex-col items-center">
+        {/* ── 3D Physical Book Showcase ── */}
+        <div className="relative w-full flex flex-col items-center my-4">
+          <motion.div
+            style={{ y: bookLiftY }}
+            initial={{ opacity: 0, rotate: 3, y: 25 }}
+            whileInView={{ opacity: 1, rotate: 2, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.9, ease: [0.25, 1, 0.5, 1] }}
+            className="relative w-56 xs:w-64 aspect-[1/1.4] z-10"
+          >
+            {/* Hardcover Book Frame */}
+            <div
+              className="w-full h-full rounded-r-xl rounded-l-sm overflow-hidden p-1 relative transition-transform duration-500 hover:scale-[1.02]"
+              style={{
+                background: "linear-gradient(135deg, #FAF8F4 0%, #F4EFE6 100%)",
+                boxShadow:
+                  "12px 18px 40px -8px rgba(58,44,30,0.28), 2px 4px 10px rgba(58,44,30,0.12)",
+                borderLeft: "4px solid #6E5A4E", // Book spine binding simulation
+              }}
+            >
+              <img
+                src="/book-cover-3d.jpg?v=2"
+                alt={bookContent.title}
+                className="w-full h-full object-cover rounded-r-lg"
+              />
 
-      {/* Book cover — 3D tilted presentation */}
-      <motion.div
-        custom={2}
-        variants={itemVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: "36px",
-        }}
-      >
-        <div
-          style={{
-            position: "relative",
-            width: "58%",
-            aspectRatio: "3/4",
-            transform: "perspective(600px) rotateY(-8deg) rotateX(2deg)",
-            boxShadow:
-              "8px 12px 32px rgba(58,44,30,0.22), 2px 4px 8px rgba(58,44,30,0.12), -2px 0 6px rgba(250,248,244,0.5)",
-            borderRadius: "4px",
-          }}
-        >
-          <img
-            src="/book-cover.png?v=3"
-            alt="The Little Guide to Parenting by Poonam Choudhary"
-            className="object-cover"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              borderRadius: "4px",
-            }}
-          />
-          {/* Page stack edge */}
-          <div
-            aria-hidden="true"
-            style={{
-              position: "absolute",
-              top: "2px",
-              bottom: "2px",
-              right: "-6px",
-              width: "6px",
-              background:
-                "repeating-linear-gradient(to bottom, #FAF8F4 0px, #FAF8F4 1.5px, #EDE5D8 1.5px, #EDE5D8 2.5px)",
-              borderRadius: "0 2px 2px 0",
-            }}
+              {/* Spine Crease Overlay Motif */}
+              <div
+                aria-hidden="true"
+                className="absolute top-0 bottom-0 left-2 w-2 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(58,44,30,0.12) 0%, rgba(58,44,30,0.03) 50%, rgba(255,255,255,0.15) 100%)",
+                }}
+              />
+            </div>
+          </motion.div>
+
+          {/* Dynamic Dynamic Drop Shadow */}
+          <motion.div
+            style={{ scaleX: shadowScale }}
+            className="w-48 h-5 rounded-full bg-[#3A2C1E]/20 blur-md -mt-2 z-0"
           />
         </div>
-      </motion.div>
 
-      {/* Description */}
-      <motion.p
-        custom={3}
-        variants={itemVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        style={{
-          fontFamily: "var(--font-cormorant), serif",
-          fontSize: "17px",
-          lineHeight: 1.68,
-          color: "#4A3728",
-          marginBottom: "28px",
-        }}
-      >
-        {bookContent.description}
-      </motion.p>
-
-      {/* Highlights */}
-      <motion.ul
-        custom={4}
-        variants={itemVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        style={{
-          listStyle: "none",
-          margin: "0 0 32px",
-          padding: 0,
-          display: "flex",
-          flexDirection: "column",
-          gap: "12px",
-        }}
-      >
-        {bookContent.highlights.map((highlight, i) => (
-          <li
-            key={i}
-            style={{
-              display: "flex",
-              alignItems: "flex-start",
-              gap: "12px",
-            }}
+        {/* Book Title & Subtitle */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mt-3 mb-6"
+        >
+          <h3
+            id="book-heading"
+            className="text-2xl xs:text-3xl font-serif text-[#3A2C1E] font-semibold leading-tight mb-1"
+            style={{ fontFamily: "var(--font-cormorant), serif" }}
           >
-            <span
-              style={{
-                color: "#A8B29A",
-                flexShrink: 0,
-                marginTop: "2px",
-              }}
-            >
-              <CheckIcon />
-            </span>
-            <span
-              style={{
-                fontFamily: "var(--font-inter), sans-serif",
-                fontSize: "13px",
-                lineHeight: 1.6,
-                color: "#4A3728",
-              }}
-            >
-              {highlight}
-            </span>
-          </li>
-        ))}
-      </motion.ul>
+            {bookContent.title}
+          </h3>
+          <p className="text-[11px] font-sans font-medium tracking-widest text-[#A8B29A] uppercase mb-3">
+            {bookContent.subtitle}
+          </p>
+          <p className="text-xs xs:text-sm font-sans text-[#6E5A4E] leading-relaxed max-w-xs mx-auto">
+            {bookContent.description}
+          </p>
+        </motion.div>
 
-      {/* CTAs */}
-      <motion.div
-        custom={5}
-        variants={itemVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        style={{ display: "flex", gap: "12px" }}
-      >
-        <a
-          href="#"
-          id="book-buy-now"
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "52px",
-            borderRadius: "14px",
-            background: "#A8B29A",
-            color: "#FAF8F4",
-            fontFamily: "var(--font-inter), sans-serif",
-            fontSize: "12px",
-            fontWeight: 700,
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            textDecoration: "none",
-            boxShadow: "0 4px 14px rgba(168,178,154,0.35)",
-          }}
+        {/* ── Premium Feature Pills ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="w-full flex flex-wrap justify-center gap-2 mb-8"
         >
-          {bookContent.primaryCta}
-        </a>
-        <a
-          href="#"
-          id="book-learn-more"
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "52px",
-            borderRadius: "14px",
-            background: "transparent",
-            color: "#4A3728",
-            fontFamily: "var(--font-inter), sans-serif",
-            fontSize: "12px",
-            fontWeight: 500,
-            letterSpacing: "0.06em",
-            textDecoration: "none",
-            border: "1px solid rgba(110,90,78,0.18)",
-          }}
+          {bookContent.featurePills.map((pill, idx) => (
+            <span
+              key={idx}
+              className="px-3.5 py-1.5 rounded-full bg-[#FAF8F4]/80 border border-[#6E5A4E]/12 text-[#4A3728] text-[11px] font-sans font-medium shadow-sm backdrop-blur-sm"
+            >
+              {pill}
+            </span>
+          ))}
+        </motion.div>
+
+        {/* ── Vertically Stacked Action Buttons ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="w-full flex flex-col gap-3"
         >
-          {bookContent.secondaryCta}
-        </a>
-      </motion.div>
+          {/* Button 1: BUY BOOK */}
+          <a
+            href="#contact"
+            className="group w-full min-h-[52px] flex items-center justify-center gap-2 px-6 rounded-2xl bg-[#3A2C1E] text-[#FAF8F4] font-sans text-xs font-semibold tracking-wider uppercase shadow-md transition-all duration-300 active:scale-[0.98]"
+          >
+            <span>{bookContent.primaryCta}</span>
+            <svg className="w-4 h-4 text-[#C4A882] transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+
+          {/* Button 2: READ SAMPLE */}
+          <a
+            href="#highlights"
+            className="w-full min-h-[50px] flex items-center justify-center gap-2 px-6 rounded-2xl bg-[#FAF8F4] border border-[#6E5A4E]/18 text-[#3A2C1E] font-sans text-xs font-semibold tracking-wider uppercase shadow-sm transition-all duration-300 hover:bg-[#FAF7F2] active:scale-[0.98]"
+          >
+            <span>{bookContent.secondaryCta}</span>
+          </a>
+
+          {/* Button 3: LEARN MORE */}
+          <a
+            href="#highlights"
+            className="w-full min-h-[46px] flex items-center justify-center gap-1.5 px-6 rounded-2xl bg-transparent text-[#6E5A4E] font-sans text-[11px] font-medium tracking-wider uppercase transition-all duration-300 hover:text-[#3A2C1E]"
+          >
+            <span>{bookContent.tertiaryCta}</span>
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </a>
+        </motion.div>
+      </div>
+
+      {/* Section Footer */}
+      <div className="relative z-10 flex items-center justify-between text-[9px] uppercase tracking-widest text-[#6E5A4E]/40 font-sans pt-10 border-t border-[#6E5A4E]/10 mt-8">
+        <span>FEATURED PUBLICATION</span>
+        <span>CHAPTER 04</span>
+      </div>
     </section>
   );
 }

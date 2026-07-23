@@ -10,13 +10,14 @@ interface MobileMenuProps {
 }
 
 const MENU_ITEMS = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "My Book", href: "#book" },
-  { label: "Articles", href: "#articles" },
-  { label: "Speaking", href: "#speaking" },
-  { label: "Media", href: "#media" },
-  { label: "Contact", href: "#contact" },
+  { num: "01", label: "Introduction", href: "#home" },
+  { num: "02", label: "Mission", href: "#mission" },
+  { num: "03", label: "Meet the Author", href: "#about" },
+  { num: "04", label: "The Book", href: "#book" },
+  { num: "05", label: "Inside Philosophy", href: "#highlights" },
+  { num: "06", label: "Why I Wrote This", href: "#testimonials" },
+  { num: "07", label: "Articles", href: "#articles" },
+  { num: "08", label: "Contact", href: "#contact" },
 ];
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
@@ -208,25 +209,28 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     animate={{ opacity: 1, x: 0, scale: 1 }}
                     transition={{
                       duration: 0.3,
-                      delay: 0.08 + index * 0.04,
+                      delay: 0.08 + index * 0.03,
                       ease: "easeOut",
                     }}
                   >
                     <a
                       href={item.href}
                       onClick={onClose}
-                      style={{
-                        display: "inline-block",
-                        fontFamily: "var(--font-cormorant), Georgia, serif",
-                        fontSize: "26px",
-                        fontWeight: 600,
-                        color: "#3A2C1E",
-                        textDecoration: "none",
-                        transition: "color 0.2s ease, transform 0.2s ease",
-                      }}
-                      className="hover:text-[#A8B29A] hover:translate-x-1"
+                      className="group flex items-baseline gap-3 text-decoration-none"
                     >
-                      {item.label}
+                      <span
+                        className="text-[10px] tracking-[0.2em] font-mono text-[#A8B29A] font-semibold"
+                      >
+                        CH {item.num}
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-cormorant), Georgia, serif",
+                        }}
+                        className="text-[22px] font-medium text-[#3A2C1E] transition-all duration-200 group-hover:text-[#A8B29A] group-hover:translate-x-1"
+                      >
+                        {item.label}
+                      </span>
                     </a>
                   </motion.div>
                 ))}

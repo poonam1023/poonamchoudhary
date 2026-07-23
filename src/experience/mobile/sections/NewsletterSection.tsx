@@ -2,244 +2,193 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
-import { useInView } from "@/src/shared/hooks/useInView";
-import { newsletterContent } from "@/src/shared/data/content";
-import { EASE_OUT } from "@/src/shared/utils/animations";
-import BotanicalAccent from "../components/BotanicalAccent";
+import ChapterHeader from "../components/ChapterHeader";
+import { contactContent } from "@/src/shared/data/content";
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT } },
-};
-
-
+/**
+ * NewsletterSection — Chapter 08: Contact (Stationery Letter Concept)
+ *
+ * Architecture:
+ *  - Chapter Header (CHAPTER 08 — CONTACT)
+ *  - Slight Sage Tint Background (#F0F3ED)
+ *  - Friendly letter writing concept ("Dear Poonam...")
+ *  - Premium stationery paper form with soft border and letterpress input lines
+ *  - Smooth filling submit button ("SEND MESSAGE")
+ */
 export default function NewsletterSection() {
-  const [email, setEmail] = useState("");
+  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
-  const [ref, inView] = useInView(0.1);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) {
+    if (!formState.email) return;
+
+    setSubmitting(true);
+    setTimeout(() => {
+      setSubmitting(false);
       setSubmitted(true);
-    }
+    }, 1000);
   };
 
   return (
     <section
-      id="newsletter"
-      aria-labelledby="newsletter-heading"
-      ref={ref}
+      id="contact"
+      aria-labelledby="contact-heading"
+      className="relative min-h-[100svh] flex flex-col justify-between overflow-hidden px-5 py-16 select-none"
       style={{
-        padding: "64px 24px 72px",
-        background: "linear-gradient(170deg, #EDE5D8 0%, #E8DDD0 100%)",
-        position: "relative",
-        overflow: "hidden",
+        background: "#F0F3ED", // Slight sage tint background for Chapter 08
       }}
     >
-      {/* Background botanical */}
-      <BotanicalAccent
-        variant="branch"
-        opacity={0.08}
-        color="#A8B29A"
+      {/* Background glow accent */}
+      <div
+        aria-hidden="true"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-80 h-80 rounded-full pointer-events-none"
         style={{
-          position: "absolute",
-          bottom: "10%",
-          right: "-4%",
-          width: "120px",
-          height: "120px",
-          pointerEvents: "none",
-        }}
-      />
-      <BotanicalAccent
-        variant="sprig"
-        opacity={0.07}
-        color="#C4A882"
-        style={{
-          position: "absolute",
-          top: "5%",
-          left: "-5%",
-          width: "90px",
-          height: "90px",
-          pointerEvents: "none",
+          background: "radial-gradient(circle, rgba(168,178,154,0.22) 0%, transparent 70%)",
+          filter: "blur(40px)",
         }}
       />
 
-      {/* Envelope icon */}
-      <motion.div
-        custom={0}
-        variants={itemVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        style={{
-          width: "56px",
-          height: "56px",
-          borderRadius: "16px",
-          background: "rgba(168,178,154,0.18)",
-          border: "1px solid rgba(168,178,154,0.25)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#A8B29A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="2" y="4" width="20" height="16" rx="2" />
-          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-        </svg>
-      </motion.div>
+      <div className="relative z-10 w-full mb-4">
+        <ChapterHeader
+          chapterNum={contactContent.chapterNum}
+          title={contactContent.chapterLabel}
+        />
+      </div>
 
-      {/* Label */}
-      <motion.p
-        custom={1}
-        variants={itemVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        style={{
-          fontFamily: "var(--font-inter), sans-serif",
-          fontSize: "10px",
-          fontWeight: 600,
-          letterSpacing: "0.2em",
-          color: "#A8B29A",
-          textTransform: "uppercase",
-          marginBottom: "10px",
-        }}
-      >
-        {newsletterContent.label}
-      </motion.p>
-
-      {/* Heading */}
-      <motion.h2
-        id="newsletter-heading"
-        custom={2}
-        variants={itemVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        style={{
-          fontFamily: "var(--font-cormorant), serif",
-          fontSize: "clamp(26px, 7vw, 34px)",
-          fontWeight: 600,
-          lineHeight: 1.25,
-          color: "#3A2C1E",
-          marginBottom: "10px",
-          letterSpacing: "-0.01em",
-        }}
-      >
-        {newsletterContent.headline}
-      </motion.h2>
-
-      {/* Subline */}
-      <motion.p
-        custom={3}
-        variants={itemVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        style={{
-          fontFamily: "var(--font-inter), sans-serif",
-          fontSize: "13px",
-          lineHeight: 1.6,
-          color: "#6E5A4E",
-          marginBottom: "32px",
-        }}
-      >
-        {newsletterContent.subline}
-      </motion.p>
-
-      {/* Form */}
-      {!submitted ? (
-        <motion.form
-          custom={4}
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          onSubmit={handleSubmit}
-          aria-label="Newsletter subscription form"
-          style={{ display: "flex", flexDirection: "column", gap: "12px" }}
-        >
-          <input
-            type="email"
-            id="newsletter-email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={newsletterContent.placeholder}
-            required
-            aria-label="Email address"
-            style={{
-              width: "100%",
-              minHeight: "52px",
-              padding: "0 18px",
-              borderRadius: "14px",
-              border: "1px solid rgba(110,90,78,0.15)",
-              background: "rgba(250,248,244,0.9)",
-              fontFamily: "var(--font-inter), sans-serif",
-              fontSize: "14px",
-              color: "#3A2C1E",
-              outline: "none",
-              boxSizing: "border-box",
-            }}
-          />
-          <button
-            type="submit"
-            id="newsletter-submit"
-            style={{
-              width: "100%",
-              minHeight: "52px",
-              borderRadius: "14px",
-              background: "#A8B29A",
-              color: "#FAF8F4",
-              fontFamily: "var(--font-inter), sans-serif",
-              fontSize: "13px",
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              border: "none",
-              cursor: "pointer",
-              boxShadow: "0 4px 14px rgba(168,178,154,0.35)",
-              transition: "background 0.2s ease",
-            }}
+      <div className="relative z-10 max-w-sm mx-auto w-full flex flex-col items-center">
+        {/* Section Intro */}
+        <div className="text-center mb-6">
+          <h3
+            id="contact-heading"
+            className="text-2xl xs:text-3xl font-serif text-[#3A2C1E] mb-2"
+            style={{ fontFamily: "var(--font-cormorant), serif" }}
           >
-            {newsletterContent.cta}
-          </button>
-        </motion.form>
-      ) : (
+            {contactContent.headline}
+          </h3>
+          <p className="text-xs font-sans text-[#6E5A4E] leading-relaxed max-w-xs mx-auto">
+            {contactContent.subline}
+          </p>
+        </div>
+
+        {/* ── Luxury Stationery Letter Form ── */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          style={{
-            padding: "28px 24px",
-            borderRadius: "18px",
-            background: "rgba(168,178,154,0.12)",
-            border: "1px solid rgba(168,178,154,0.25)",
-            textAlign: "center",
-          }}
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative w-full p-6 rounded-3xl bg-[#FAF8F4] border border-[#A8B29A]/30 shadow-xl"
         >
-          <div style={{ fontSize: "32px", marginBottom: "12px" }}>🌿</div>
+          {/* Top Stationery Stamp Seal */}
+          <div className="absolute top-4 right-5 w-10 h-10 rounded-full border border-[#A8B29A]/40 flex items-center justify-center pointer-events-none opacity-40">
+            <span className="text-[7px] font-serif tracking-widest text-[#6E5A4E] uppercase">
+              LETTER
+            </span>
+          </div>
+
           <p
-            style={{
-              fontFamily: "var(--font-cormorant), serif",
-              fontSize: "20px",
-              fontStyle: "italic",
-              color: "#4A3728",
-              margin: 0,
-            }}
+            className="text-sm font-serif italic text-[#C97C5D] mb-4"
+            style={{ fontFamily: "var(--font-cormorant), serif" }}
           >
-            Thank you for joining our journey.
+            {contactContent.formIntro}
           </p>
-          <p
-            style={{
-              fontFamily: "var(--font-inter), sans-serif",
-              fontSize: "12px",
-              color: "#6E5A4E",
-              marginTop: "8px",
-            }}
-          >
-            A warm welcome awaits in your inbox.
-          </p>
+
+          {submitted ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="py-10 text-center space-y-3"
+            >
+              <div className="w-12 h-12 rounded-full bg-[#A8B29A] text-[#FAF8F4] mx-auto flex items-center justify-center">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h4
+                className="text-xl font-serif text-[#3A2C1E]"
+                style={{ fontFamily: "var(--font-cormorant), serif" }}
+              >
+                Letter Received
+              </h4>
+              <p className="text-xs font-sans text-[#6E5A4E] leading-relaxed max-w-xs mx-auto">
+                Thank you for reaching out. Poonam will read your note and respond as soon as possible.
+              </p>
+            </motion.div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Field 1: Name */}
+              <div>
+                <label className="block text-[10px] font-mono tracking-widest text-[#A8B29A] font-semibold uppercase mb-1">
+                  YOUR NAME
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder={contactContent.placeholderName}
+                  value={formState.name}
+                  onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl bg-[#F4EFE6]/60 border border-[#6E5A4E]/12 text-xs font-sans text-[#3A2C1E] placeholder-[#6E5A4E]/40 focus:outline-none focus:border-[#A8B29A] transition-colors"
+                />
+              </div>
+
+              {/* Field 2: Email */}
+              <div>
+                <label className="block text-[10px] font-mono tracking-widest text-[#A8B29A] font-semibold uppercase mb-1">
+                  YOUR EMAIL
+                </label>
+                <input
+                  type="email"
+                  required
+                  placeholder={contactContent.placeholderEmail}
+                  value={formState.email}
+                  onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl bg-[#F4EFE6]/60 border border-[#6E5A4E]/12 text-xs font-sans text-[#3A2C1E] placeholder-[#6E5A4E]/40 focus:outline-none focus:border-[#A8B29A] transition-colors"
+                />
+              </div>
+
+              {/* Field 3: Message / Note */}
+              <div>
+                <label className="block text-[10px] font-mono tracking-widest text-[#A8B29A] font-semibold uppercase mb-1">
+                  YOUR NOTE
+                </label>
+                <textarea
+                  rows={4}
+                  required
+                  placeholder={contactContent.placeholderMessage}
+                  value={formState.message}
+                  onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl bg-[#F4EFE6]/60 border border-[#6E5A4E]/12 text-xs font-sans text-[#3A2C1E] placeholder-[#6E5A4E]/40 focus:outline-none focus:border-[#A8B29A] transition-colors resize-none"
+                />
+              </div>
+
+              {/* Submit Button with Smooth Filling Interaction */}
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full min-h-[52px] mt-2 rounded-2xl bg-[#A8B29A] text-[#FAF8F4] font-sans text-xs font-semibold tracking-wider uppercase shadow-md transition-all duration-300 active:scale-[0.98] disabled:opacity-70 flex items-center justify-center gap-2"
+              >
+                {submitting ? (
+                  <span>SENDING LETTER...</span>
+                ) : (
+                  <>
+                    <span>{contactContent.submitCta}</span>
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  </>
+                )}
+              </button>
+            </form>
+          )}
         </motion.div>
-      )}
+      </div>
+
+      {/* Section Footer */}
+      <div className="relative z-10 flex items-center justify-between text-[9px] uppercase tracking-widest text-[#6E5A4E]/40 font-sans pt-10 border-t border-[#6E5A4E]/10 mt-8">
+        <span>LET&apos;S CONNECT</span>
+        <span>CHAPTER 08</span>
+      </div>
     </section>
   );
 }
