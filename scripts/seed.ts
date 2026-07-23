@@ -8,8 +8,7 @@ async function main() {
 
   const defaultEmails = [
     "author@example.com",
-    "poonam@consciousparenting.com",
-    "anotherauthor@example.com",
+    "Purechimes@gmail.com",
   ];
 
   for (const email of defaultEmails) {

@@ -212,7 +212,7 @@ export const footerContent = {
   name: "Poonam Choudhary",
   role: "Author · Speaker · Parenting Guide",
   location: "New Delhi, India",
-  email: "poonam@consciousparenting.com",
+  email: "Purechimes@gmail.com",
   social: "@poonam.choudhary",
   copyright: `© ${new Date().getFullYear()} Poonam Choudhary. All rights reserved.`,
   navLinks: [

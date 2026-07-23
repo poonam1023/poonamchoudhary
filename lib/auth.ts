@@ -12,7 +12,7 @@ export const COOKIE_NAME = "author_session";
 export function getAuthorizedAuthors(): string[] {
   const envList =
     process.env.AUTHORIZED_AUTHORS ||
-    "author@example.com,poonam@consciousparenting.com,anotherauthor@example.com";
+    "author@example.com,Purechimes@gmail.com";
   return envList.split(",").map((e) => e.trim().toLowerCase());
 }
 
