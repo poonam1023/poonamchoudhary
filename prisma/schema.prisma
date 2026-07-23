@@ -1,0 +1,50 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model BlogPost {
+  id               String    @id @default(uuid())
+  title            String
+  slug             String    @unique
+  excerpt          String
+  content          String
+  coverImage       String    @default("")
+  galleryImages    String    @default("[]")
+  author           String    @default("Poonam Choudhary")
+  category         String    @default("PARENTING")
+  tags             String    @default("[]")
+  featured         Boolean   @default(false)
+  status           String    @default("DRAFT")
+  readingTime      String    @default("4 min read")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  publishedAt      DateTime?
+  seoTitle         String?
+  seoDescription  String?
+  views            Int       @default(0)
+  featuredImageAlt String?
+}
+
+model Author {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String   @default("Poonam Choudhary")
+  role         String   @default("AUTHOR")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model MediaItem {
+  id        String   @id @default(uuid())
+  name      String
+  url       String
+  size      Int
+  type      String
+  createdAt DateTime @default(now())
+}
