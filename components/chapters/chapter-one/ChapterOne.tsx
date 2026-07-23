@@ -115,7 +115,7 @@ export default function ChapterOne({ onClose }: ChapterOneProps) {
             RIGHT PAGE
             Fills this container — the visible chapter content.
            ================================================================ */}
-        <div className="w-full h-full relative z-10">
+        <div className="w-full h-full relative z-10 pointer-events-auto select-text">
           <RightPage>
             {renderRightPage()}
           </RightPage>

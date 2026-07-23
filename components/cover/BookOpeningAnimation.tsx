@@ -1,93 +1,94 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+
 import LinenCoverBackground from "./LinenCoverBackground";
 import EndpaperPattern from "./EndpaperPattern";
 import BookTitle from "./BookTitle";
 import BookSubtitle from "./BookSubtitle";
 import AuthorName from "./AuthorName";
 import ChapterOne from "./ChapterOne";
+import ChapterOneRight from "@/components/chapters/chapter-one/ChapterOneRight";
+import RightPage from "@/components/book/RightPage";
 import CoverSection from "./CoverSection";
 import WritingDeskBackground from "./WritingDeskBackground";
 
-import LeftPage from "@/components/book/LeftPage";
 import { NavigationProvider, useNavigation } from "@/hooks/useNavigation";
 
 function BookOpeningAnimationInner() {
   const [isHovered, setIsHovered] = useState(false);
+
   const {
     state,
-    openingPhase,
     isMobile,
-    openBook,
     closeBook,
+    coverProgress,
   } = useNavigation();
-  const [mountPhase, setMountPhase] = useState<"black" | "windowLight" | "desk" | "book" | "details" | "cta">("black");
 
-  const isAnimating = ["opening", "closing", "transitioning"].includes(state);
-  const handleHoverStart = useCallback(() => setIsHovered(true), []);
-  const handleHoverEnd = useCallback(() => setIsHovered(false), []);
+  const frontCoverRef = useRef<HTMLDivElement>(null);
+  const shadowRef = useRef<HTMLDivElement>(null);
+  const spreadRef = useRef<HTMLDivElement>(null);
 
-  // Cinematic mount sequence
+  // GSAP 1:1 Scroll Scrubbing with Visual Center Compensation:
+  // Closed (0%): translateX = -25% so the closed book volume (right 50%) is PERFECTLY CENTERED on screen.
+  // Fully Open (100%): translateX = 0% so the full 2-page spread (100%) is PERFECTLY CENTERED on screen.
   useEffect(() => {
-    const phases = [
-      { name: "windowLight" as const, delay: 400 },
-      { name: "desk" as const, delay: 1200 },
-      { name: "book" as const, delay: 2200 },
-      { name: "details" as const, delay: 3200 },
-      { name: "cta" as const, delay: 4200 },
-    ];
-    const timers = phases.map(({ name, delay }) =>
-      setTimeout(() => setMountPhase(name), delay)
-    );
-    return () => timers.forEach(clearTimeout);
-  }, []);
+    if (!frontCoverRef.current) return;
 
-  const isOpened =
-    state === "open" ||
-    state === "transitioning" ||
-    (state === "opening" && openingPhase === "flipping");
-  const isFlipped =
-    state === "open" ||
-    state === "transitioning" ||
-    (state === "opening" && openingPhase === "flipping");
-  const isPressing = state === "opening" && openingPhase === "pressing";
+    const p = Math.max(0, Math.min(1, coverProgress));
+
+    // Power2.inOut easing simulates physical hardcover weight:
+    // initial resistance (breaking away from pages), free middle rotation, gentle settling flat at -180°
+    const easedP = gsap.parseEase("power2.inOut")(p);
+    const targetRotateY = easedP * -180;
+
+    // Rotate frontCover around left spine edge
+    gsap.to(frontCoverRef.current, {
+      rotateY: targetRotateY,
+      duration: 0.12,
+      ease: "none",
+      overwrite: "auto",
+    });
+
+    // Compensating X-translation to maintain the visual center of the book at screen middle:
+    // Closed (easedP = 0) -> xPercent = -25% (centers the closed book volume)
+    // Open (easedP = 1)   -> xPercent = 0%   (centers the open 2-page spread)
+    if (spreadRef.current) {
+      const targetXPercent = -25 * (1 - easedP);
+      gsap.to(spreadRef.current, {
+        xPercent: targetXPercent,
+        duration: 0.12,
+        ease: "none",
+        overwrite: "auto",
+      });
+    }
+
+    // Dynamic drop shadow under the lifting cover
+    if (shadowRef.current) {
+      const peak = Math.sin(easedP * Math.PI);
+      const blur = 24 + peak * 44;
+      const opacity = 0.28 + peak * 0.28;
+      gsap.to(shadowRef.current, {
+        boxShadow: `-${(peak * 20).toFixed(1)}px ${(18 + peak * 24).toFixed(1)}px ${blur.toFixed(1)}px rgba(10,5,3,${opacity.toFixed(2)})`,
+        duration: 0.12,
+        ease: "none",
+        overwrite: "auto",
+      });
+    }
+  }, [coverProgress]);
+
+  const isReadingActive = state === "open" || state === "transitioning" || coverProgress >= 0.99;
 
   return (
-    <div
-      className={`relative w-screen h-screen flex items-center justify-center overflow-hidden ${
-        isAnimating ? "book-animating" : ""
-      }`}
-      style={{ background: "#150E0B" }}
-    >
-      {/* Layer 0: Initial black screen (fades to reveal) */}
-      <motion.div
-        className="absolute inset-0 bg-[#060403] z-50 pointer-events-none"
-        initial={{ opacity: 1 }}
-        animate={{ opacity: 0 }}
-        transition={{ duration: 1.8, ease: "easeInOut", delay: 0.3 }}
-      />
-
-      {/* Layer 1: Writing Desk Background */}
-      <motion.div
-        className="absolute inset-0 z-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: mountPhase === "black" ? 0 : 1 }}
-        transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
-      >
+    <div className="relative w-screen h-screen flex items-center justify-center overflow-hidden bg-[#150E0B]">
+      {/* Layer 1: Writing Desk Background (Stationary) */}
+      <div className="absolute inset-0 z-0 pointer-events-none select-none">
         <WritingDeskBackground />
-      </motion.div>
+      </div>
 
-      {/* Layer 2: Window light beam */}
-      <motion.div
-        className="absolute inset-0 z-5 pointer-events-none select-none"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: ["black", "windowLight"].includes(mountPhase) ? 0 : 0.10,
-        }}
-        transition={{ duration: 2, ease: "easeOut", delay: 0.5 }}
-      >
+      {/* Layer 2: Ambient Window light beam (Stationary) */}
+      <div className="absolute inset-0 z-5 pointer-events-none select-none opacity-10">
         <div
           className="absolute w-[70%] h-[120%]"
           style={{
@@ -98,108 +99,57 @@ function BookOpeningAnimationInner() {
             clipPath: "polygon(10% 0%, 90% 0%, 70% 100%, 20% 100%)",
           }}
         />
-      </motion.div>
+      </div>
 
-      {/* Layer 4: 3D Book Perspective Wrapper */}
-      <motion.div
-        className="relative z-20"
+      {/* Layer 3: 3D Book Container */}
+      <div
+        className="relative z-20 flex items-center justify-center"
         style={
           isMobile
             ? { width: "90vw", height: "80vh" }
             : {
-                width: "min(96vw, 1800px)",
-                height: "90vh",
-                perspective: "1500px",
-                willChange: "transform",
+                width: "min(92vw, 1550px)",
+                height: "86vh",
+                perspective: "2000px",
               }
         }
       >
-        {/* Book Spread Container */}
-        <motion.div
-          className="relative flex items-center justify-center w-full h-full"
-          style={
-            isMobile
-              ? {}
-              : {
-                  perspective: "2200px",
-                  transformStyle: "preserve-3d",
-                  willChange: isAnimating ? "transform" : "auto",
-                }
-          }
-          animate={{
-            x: isMobile ? 0 : isOpened ? 0 : "-25%",
-            rotateX: isMobile ? 0 : isOpened ? 2.4 : 0,
-            rotate: isOpened ? 0 : isHovered ? -0.2 : -0.7,
-            scale: isOpened ? 1 : isPressing ? 0.985 : isHovered ? 1.015 : 1,
-            y: isOpened ? 0 : isHovered ? -10 : 0,
-          }}
-          transition={{
-            duration: isPressing ? 0.35 : 0.9,
-            ease: [0.25, 1, 0.5, 1],
-          }}
+        {/* Book Spread Board (Visual Center Compensated by -25% * (1 - coverProgress)) */}
+        <div
+          ref={spreadRef}
+          className="relative w-full h-full preserve-3d"
+          style={{ transformStyle: "preserve-3d" }}
         >
-
-          {/* ── BACK COVER BOARD (Walnut Brown linen) ── */}
-          {!isOpened && (
+          {/* ── LEFT HALF BASE BOARD (Fades in as cover opens to reveal left spread) ── */}
+          <div
+            className="absolute left-0 top-0 h-full w-1/2 rounded-none pointer-events-none overflow-hidden transition-opacity duration-200"
+            style={{
+              background:
+                "linear-gradient(160deg, #5E3D2B 0%, #4B2E20 35%, #2D1A12 100%)",
+              boxShadow: "0 30px 70px rgba(10,5,3,0.30)",
+              borderRight: "1px solid rgba(45,26,18,0.35)",
+              opacity: Math.min(1, coverProgress * 4), // Hidden when closed, reveals gracefully as cover opens
+            }}
+          >
+            {/* Linen weave texture */}
             <div
-              className="absolute right-0 top-0 h-full rounded-none pointer-events-none"
+              className="absolute inset-0 opacity-40"
               style={{
-                width: isMobile ? "100%" : "50%",
-                transform: "translate3d(4px, 4px, -10px) rotate(-0.7deg)",
-                background: "linear-gradient(160deg, #5E3D2B 0%, #4B2E20 35%, #2D1A12 100%)",
-                boxShadow: "0 42px 96px rgba(10,5,3,0.38)",
-                borderLeft: "1px solid rgba(45,26,18,0.35)",
-              }}
-            >
-              {/* Linen weave */}
-              <div
-                className="absolute inset-0 opacity-55"
-                style={{
-                  backgroundImage: `
-                    repeating-linear-gradient(0deg, transparent, transparent 1.5px, rgba(45,26,18,0.18) 1.5px, rgba(45,26,18,0.18) 2px),
-                    repeating-linear-gradient(90deg, transparent, transparent 1.5px, rgba(45,26,18,0.14) 1.5px, rgba(45,26,18,0.14) 2px)
-                  `,
-                  backgroundSize: "2px 2px",
-                }}
-              />
-            </div>
-          )}
-
-          {/* ── GILT PAGE STACK EDGE (Soft golden foil page block) ── */}
-          {!isOpened && (
-            <div
-              className="absolute right-0 top-0 h-full rounded-none pointer-events-none overflow-hidden"
-              style={{
-                width: isMobile ? "100%" : "50%",
-                transform: "translate3d(7px, 3px, -5px) rotate(-0.7deg)",
-                backgroundColor: "#CFAF6E",
                 backgroundImage: `
-                  linear-gradient(
-                    90deg,
-                    #E7D192 0%,
-                    #D8BC78 18%,
-                    #CFAF6E 48%,
-                    #B99557 78%,
-                    #A87E46 100%
-                  ),
-                  radial-gradient(circle at 30% 18%, rgba(255,248,215,0.18) 0 0.7px, transparent 1.1px),
-                  radial-gradient(circle at 68% 72%, rgba(86,58,30,0.14) 0 0.6px, transparent 1px)
+                  repeating-linear-gradient(0deg, transparent, transparent 1.5px, rgba(45,26,18,0.18) 1.5px, rgba(45,26,18,0.18) 2px),
+                  repeating-linear-gradient(90deg, transparent, transparent 1.5px, rgba(45,26,18,0.14) 1.5px, rgba(45,26,18,0.14) 2px)
                 `,
-                backgroundSize: "100% 100%, 18px 18px, 22px 22px",
-                boxShadow:
-                  "inset 1px 0 1px rgba(255,245,205,0.45), inset -3px 0 5px rgba(72,45,24,0.22)",
+                backgroundSize: "2px 2px",
               }}
             />
-          )}
+          </div>
 
-          {/* ── RIGHT PAGE / CHAPTER ONE ── */}
+          {/* ── RIGHT HALF PAGES (STATIONARY on right half — overflow-visible so LeftPage renders unclipped) ── */}
           <div
-            className={`absolute right-0 top-0 h-full bg-[#F7F1E8] transition-opacity duration-500 rounded-none ${
-              isMobile ? "left-0 w-full" : "w-1/2"
-            } ${isOpened ? "opacity-100 z-20" : "opacity-0 z-0"}`}
+            className="absolute left-1/2 top-0 h-full w-1/2 bg-[#F7F1E8] rounded-none z-10 overflow-visible"
             style={{
               boxShadow:
-                "0 46px 115px rgba(16, 9, 5, 0.48), 0 18px 40px rgba(16, 9, 5, 0.28)",
+                "0 40px 100px rgba(16, 9, 5, 0.42), 0 16px 36px rgba(16, 9, 5, 0.24)",
             }}
           >
             {!isMobile && (
@@ -210,73 +160,81 @@ function BookOpeningAnimationInner() {
                   bottom: "6%",
                   width: "16px",
                   background:
-                    "linear-gradient(to right, rgba(58,44,30,0.055) 0%, rgba(58,44,30,0.030) 34%, rgba(58,44,30,0.010) 68%, transparent 100%)",
+                    "linear-gradient(to right, rgba(58,44,30,0.06) 0%, transparent 100%)",
                   filter: "blur(3px)",
                   mixBlendMode: "multiply",
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.28) 12%, #000 28%, #000 72%, rgba(0,0,0,0.28) 88%, transparent 100%)",
-                  maskImage:
-                    "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.28) 12%, #000 28%, #000 72%, rgba(0,0,0,0.28) 88%, transparent 100%)",
                 }}
               />
             )}
             <div className="book-board-edge" />
-            {(state === "open" || state === "transitioning") && (
+
+            {/* When cover is 100% open (isReadingActive), render ChapterOne spread (renders both Left and Right pages).
+                When closed or opening, render RightPage so left page doesn't show prematurely while closed. */}
+            {isReadingActive ? (
               <ChapterOne onClose={closeBook} />
+            ) : (
+              <div className="w-full h-full relative z-10">
+                <RightPage>
+                  <ChapterOneRight />
+                </RightPage>
+              </div>
             )}
           </div>
 
-          {/* ── FLIP CARD: COVER (front) + ENDPAPER (back) ── */}
-          <motion.div
-            className="absolute right-0 top-0 h-full preserve-3d origin-left"
+          {/* ── FIXED CENTER SPINE (Stationary at exact center 50%) ── */}
+          <div
+            className="absolute left-1/2 top-0 bottom-0 z-30 pointer-events-none -translate-x-1/2"
             style={{
-              width: isMobile ? "100%" : "50%",
-              willChange: isAnimating ? "transform, opacity" : "auto",
+              width: "10px",
+              background:
+                "linear-gradient(to right, rgba(30,16,10,0.85) 0%, rgba(75,46,32,0.4) 50%, rgba(30,16,10,0.85) 100%)",
+              boxShadow: "0 0 8px rgba(0,0,0,0.4)",
             }}
-            animate={{
-              rotateY: isFlipped ? -180 : 0,
-              opacity:
-                isMobile && (state === "open" || state === "transitioning") ? 0 : 1,
-              zIndex:
-                state === "open" || state === "transitioning" ? 10 : 30,
-            }}
-            transition={{
-              duration: 0.9,
-              ease: [0.25, 1, 0.5, 1],
+          />
+
+          {/* ── FRONT HARDCOVER BOARD (ONLY THIS ROTATES AROUND THE SPINE AT 50%!) ── */}
+          {/* zIndex drops to 5 when reading is active so ChapterOne's LeftPage (zIndex: 10) displays content! */}
+          <div
+            ref={frontCoverRef}
+            className="absolute left-1/2 top-0 h-full w-1/2 preserve-3d"
+            style={{
+              transformOrigin: "left center", // Spine edge at 50%!
+              transformStyle: "preserve-3d",
+              willChange: "transform",
+              zIndex: isReadingActive ? 5 : 40,
+              pointerEvents: isReadingActive ? "none" : "auto",
             }}
           >
             {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                FRONT: Premium Heirloom Hardcover Cover (Walnut Brown)
+                FRONT FACE: Heirloom Hardcover Cover (Walnut Brown)
+                Faces user when rotateY = 0deg (Closed book on right half)
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
             <div
-              onClick={!isOpened ? openBook : undefined}
-              onMouseEnter={!isOpened ? handleHoverStart : undefined}
-              onMouseLeave={!isOpened ? handleHoverEnd : undefined}
-              className={`absolute inset-0 w-full h-full backface-hidden rounded-none flex flex-col justify-between overflow-hidden ${
-                !isOpened ? "cursor-pointer" : ""
-              }`}
+              ref={shadowRef}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              className="absolute inset-0 w-full h-full backface-hidden flex flex-col justify-between overflow-hidden"
               style={{
                 transform: "rotateY(0deg)",
-                pointerEvents: isOpened ? "none" : "auto",
                 boxShadow:
                   "0 36px 84px rgba(14,8,4,0.38), 0 14px 32px rgba(14,8,4,0.20)",
                 borderLeft: "1px solid rgba(45,26,18,0.30)",
                 borderRight: "1px solid rgba(45,26,18,0.30)",
               }}
             >
-              {/* ── LINEN BACKGROUND ── */}
+              {/* LINEN BACKGROUND */}
               <LinenCoverBackground isHovered={isHovered} />
 
-              {/* ── Spine wrap on mobile or inside cover? 
-                   We render spine on the left side of front cover only on desktop ── */}
+              {/* Spine wrap decoration on cover left edge */}
               {!isMobile && (
                 <div
-                  className="absolute left-0 top-0 bottom-0 w-[44px] flex flex-col items-center justify-between py-10 z-20 pointer-events-none select-none"
+                  className="absolute left-0 top-0 bottom-0 w-[40px] flex flex-col items-center justify-between py-10 z-20 pointer-events-none select-none"
                   style={{
                     background:
                       "linear-gradient(to right, rgba(30,16,10,0.65) 0%, rgba(75,46,32,0.22) 30%, rgba(75,46,32,0.08) 100%)",
                     borderRight: "1px solid rgba(30,16,10,0.40)",
-                    boxShadow: "inset -2px 0 6px rgba(20,12,7,0.30), 1px 0 2px rgba(255,255,255,0.04)",
+                    boxShadow:
+                      "inset -2px 0 6px rgba(20,12,7,0.30), 1px 0 2px rgba(255,255,255,0.04)",
                   }}
                 >
                   {/* Spine linen weave */}
@@ -291,14 +249,6 @@ function BookOpeningAnimationInner() {
                     }}
                   />
 
-                  {/* Spine Stitching crease simulation line */}
-                  <div
-                    className="absolute right-[2px] top-0 bottom-0 w-[1px]"
-                    style={{
-                      borderRight: "1px dashed rgba(200, 165, 106, 0.12)",
-                    }}
-                  />
-
                   {/* Spine title */}
                   <div
                     className="relative z-10"
@@ -309,9 +259,6 @@ function BookOpeningAnimationInner() {
                       letterSpacing: "0.24em",
                       fontFamily: "var(--font-cormorant), Georgia, serif",
                       color: "rgba(200,165,106,0.72)",
-                      textShadow:
-                        "0.3px 0.3px 0px rgba(250,230,190,0.40), " +
-                        "-0.3px -0.3px 0px rgba(30,16,10,0.45)",
                       textTransform: "uppercase",
                       lineHeight: 1.5,
                     }}
@@ -319,13 +266,36 @@ function BookOpeningAnimationInner() {
                     Raising Ourselves Before We Raise Our Children
                   </div>
 
-                  {/* Spine leaf spray ornament */}
+                  {/* Spine leaf ornament */}
                   <div className="relative z-10" style={{ opacity: 0.55 }}>
                     <svg width="18" height="22" viewBox="0 0 20 26" fill="none">
-                      <path d="M10 24 C10 18 8 12 10 6 C11 2 10 0 10 0" stroke="#C8A56A" strokeWidth="0.7" strokeLinecap="round"/>
-                      <ellipse cx="6" cy="16" rx="5" ry="2.5" transform="rotate(-25 6 16)" fill="rgba(200,165,106,0.25)" stroke="#C8A56A" strokeWidth="0.4"/>
-                      <ellipse cx="14" cy="13" rx="5" ry="2.5" transform="rotate(25 14 13)" fill="rgba(200,165,106,0.20)" stroke="#C8A56A" strokeWidth="0.4"/>
-                      <circle cx="10" cy="0.5" r="1" fill="#C8A56A"/>
+                      <path
+                        d="M10 24 C10 18 8 12 10 6 C11 2 10 0 10 0"
+                        stroke="#C8A56A"
+                        strokeWidth="0.7"
+                        strokeLinecap="round"
+                      />
+                      <ellipse
+                        cx="6"
+                        cy="16"
+                        rx="5"
+                        ry="2.5"
+                        transform="rotate(-25 6 16)"
+                        fill="rgba(200,165,106,0.25)"
+                        stroke="#C8A56A"
+                        strokeWidth="0.4"
+                      />
+                      <ellipse
+                        cx="14"
+                        cy="13"
+                        rx="5"
+                        ry="2.5"
+                        transform="rotate(25 14 13)"
+                        fill="rgba(200,165,106,0.20)"
+                        stroke="#C8A56A"
+                        strokeWidth="0.4"
+                      />
+                      <circle cx="10" cy="0.5" r="1" fill="#C8A56A" />
                     </svg>
                   </div>
 
@@ -339,9 +309,6 @@ function BookOpeningAnimationInner() {
                       letterSpacing: "0.18em",
                       fontFamily: "var(--font-cormorant), Georgia, serif",
                       color: "rgba(200,165,106,0.75)",
-                      textShadow:
-                        "0.3px 0.3px 0px rgba(250,230,190,0.40), " +
-                        "-0.3px -0.3px 0px rgba(30,16,10,0.45)",
                     }}
                   >
                     Poonam Choudhary
@@ -349,84 +316,114 @@ function BookOpeningAnimationInner() {
                 </div>
               )}
 
-              {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                  EDITORIAL COVER — Centered typographic layout
-                  Restrained, Luxurious, Balanced Margins
-              ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+              {/* EDITORIAL COVER TYPOGRAPHY CONTENT */}
               <CoverSection>
                 <div
                   className="w-full h-full flex flex-col items-center justify-between"
                   style={{
-                    paddingLeft: isMobile ? "clamp(20px,4vw,44px)" : "calc(44px + clamp(20px,4vw,52px))",
+                    paddingLeft: isMobile
+                      ? "clamp(20px,4vw,44px)"
+                      : "calc(40px + clamp(20px,4vw,52px))",
                     paddingRight: "clamp(20px,4vw,52px)",
                     paddingTop: "clamp(48px,9vh,80px)",
                     paddingBottom: "clamp(48px,9vh,80px)",
                   }}
                 >
-
-                  {/* ── TOP: Book Subtitle (Raising Ourselves...) ── */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.6, ease: [0.25, 1, 0.5, 1], delay: 2.0 }}
-                    className="text-center"
-                  >
+                  {/* TOP: Subtitle */}
+                  <div className="text-center">
                     <BookSubtitle />
-                  </motion.div>
+                  </div>
 
-                  {/* ── CENTER: Title (POONAM CHOUDHARY) ── */}
+                  {/* CENTER: Title */}
                   <div className="flex flex-col items-center gap-6 my-auto">
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1], delay: 2.3 }}
-                      className="flex flex-col items-center"
-                    >
+                    <div className="flex flex-col items-center">
                       <BookTitle />
-                    </motion.div>
+                    </div>
 
-                    {/* ── Centered Gold Foil Sprig Motif ( Oak / laurel leaf branch ) ── */}
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.6 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1], delay: 2.6 }}
-                      style={{ color: "#C8A56A" }}
-                    >
-                      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        {/* Elegant gold foil branch sprig */}
+                    {/* Gold Foil Sprig Motif */}
+                    <div style={{ color: "#C8A56A" }}>
+                      <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 32 32"
+                        fill="none"
+                      >
                         <path
                           d="M16 28 C16 20 13 14 16 6 C17.5 2 16 0 16 0"
                           stroke="#C8A56A"
                           strokeWidth="1"
                           strokeLinecap="round"
-                          style={{ filter: "drop-shadow(0.5px 0.5px 0px rgba(255,235,190,0.5))" }}
+                          style={{
+                            filter:
+                              "drop-shadow(0.5px 0.5px 0px rgba(255,235,190,0.5))",
+                          }}
                         />
-                        {/* Gold leaves */}
-                        <path d="M16 24 C10 22 7 18 6 14 C12 15 15 19 16 24Z" fill="#C8A56A" stroke="#B39257" strokeWidth="0.3"/>
-                        <path d="M16 24 C22 22 25 18 26 14 C20 15 17 19 16 24Z" fill="#C8A56A" stroke="#B39257" strokeWidth="0.3"/>
-                        <path d="M16 17 C11 15 9 12 8 8 C13 9 15 13 16 17Z" fill="#C8A56A" stroke="#B39257" strokeWidth="0.3"/>
-                        <path d="M16 17 C21 15 23 12 24 8 C19 9 17 13 16 17Z" fill="#C8A56A" stroke="#B39257" strokeWidth="0.3"/>
-                        <circle cx="16" cy="1" r="1.5" fill="#C8A56A"/>
+                        <path
+                          d="M16 24 C10 22 7 18 6 14 C12 15 15 19 16 24Z"
+                          fill="#C8A56A"
+                          stroke="#B39257"
+                          strokeWidth="0.3"
+                        />
+                        <path
+                          d="M16 24 C22 22 25 18 26 14 C20 15 17 19 16 24Z"
+                          fill="#C8A56A"
+                          stroke="#B39257"
+                          strokeWidth="0.3"
+                        />
+                        <path
+                          d="M16 17 C11 15 9 12 8 8 C13 9 15 13 16 17Z"
+                          fill="#C8A56A"
+                          stroke="#B39257"
+                          strokeWidth="0.3"
+                        />
+                        <path
+                          d="M16 17 C21 15 23 12 24 8 C19 9 17 13 16 17Z"
+                          fill="#C8A56A"
+                          stroke="#B39257"
+                          strokeWidth="0.3"
+                        />
+                        <circle cx="16" cy="1" r="1.5" fill="#C8A56A" />
                       </svg>
-                    </motion.div>
+                    </div>
                   </div>
 
-                  {/* ── BOTTOM: AuthorName (Author • Speaker • Parenting Guide) ── */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1], delay: 2.8 }}
-                    className="flex justify-center"
-                  >
+                  {/* BOTTOM: Author Name & Scroll Prompt */}
+                  <div className="flex flex-col items-center gap-4">
                     <AuthorName />
-                  </motion.div>
-
+                    {!isReadingActive && (
+                      <div className="flex items-center gap-2 opacity-70 animate-pulse text-[#C8A56A]">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M12 5v14M19 12l-7 7-7-7" />
+                        </svg>
+                        <span
+                          style={{
+                            fontFamily: "var(--font-cormorant), serif",
+                            fontSize: "11px",
+                            letterSpacing: "0.2em",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          Scroll to Open
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </CoverSection>
             </div>
 
             {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                BACK: Inside Front Cover — Endpaper
+                BACK FACE: Inside Front Cover — Endpaper
+                Faces user when rotateY = -180deg (Flat open on left half)
             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
             {!isMobile && (
               <div
@@ -438,16 +435,13 @@ function BookOpeningAnimationInner() {
                 }}
               >
                 <EndpaperPattern />
-                <LeftPage>
-                  <></>
-                </LeftPage>
                 <div className="absolute right-0 top-0 bottom-0 w-[4px] bg-gradient-to-l from-[#3A2C1E]/8 to-transparent z-30" />
                 <div className="book-board-edge" />
               </div>
             )}
-          </motion.div>
-        </motion.div>
-      </motion.div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

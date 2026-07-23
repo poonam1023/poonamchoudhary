@@ -23,6 +23,8 @@ interface NavigationContextType {
   flipQueue: FlipStep[];
   activeFlip: ActiveFlip;
   isMobile: boolean;
+  coverProgress: number;
+  setCoverProgress: (p: number | ((prev: number) => number)) => void;
 
   openBook: () => Promise<void>;
   closeBook: () => void;
@@ -46,13 +48,24 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
   const [flipQueue, setFlipQueue] = useState<FlipStep[]>([]);
   const [activeFlip, setActiveFlip] = useState<ActiveFlip>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [coverProgress, setCoverProgressState] = useState(0); // 0.0 = closed, 1.0 = fully open
   const flipIdRef = useRef(0);
 
   // Sync references to avoid stale closures in global event listeners
   const stateRef = useRef(state);
   const currentPageRef = useRef(currentPage);
   const displayPageRef = useRef(displayPage);
+  const coverProgressRef = useRef(coverProgress);
   const isTransitioningRef = useRef(false);
+
+  const setCoverProgress = useCallback((val: number | ((prev: number) => number)) => {
+    setCoverProgressState((prev) => {
+      const next = typeof val === "function" ? val(prev) : val;
+      const clamped = Math.max(0, Math.min(1, next));
+      coverProgressRef.current = clamped;
+      return clamped;
+    });
+  }, []);
 
   useEffect(() => {
     stateRef.current = state;
@@ -62,6 +75,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
   }, [state]);
   useEffect(() => { currentPageRef.current = currentPage; }, [currentPage]);
   useEffect(() => { displayPageRef.current = displayPage; }, [displayPage]);
+  useEffect(() => { coverProgressRef.current = coverProgress; }, [coverProgress]);
 
   // Mobile detection
   useEffect(() => {
@@ -74,41 +88,42 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
   }, []);
 
   const openBook = useCallback(async () => {
-    if (stateRef.current !== "closed" || isTransitioningRef.current) return;
+    if (isTransitioningRef.current) return;
     isTransitioningRef.current = true;
-    setState("opening");
-    setOpeningPhase("pressing");
-
-    await new Promise((resolve) => setTimeout(resolve, 350));
-    setOpeningPhase("flipping");
-
-    await new Promise((resolve) => setTimeout(resolve, 850));
+    setCoverProgress(1);
     setState("open");
-    setOpeningPhase(null);
     setCurrentPage(1);
     setDisplayPage(1);
-  }, []);
+    isTransitioningRef.current = false;
+  }, [setCoverProgress]);
 
   const closeBook = useCallback(() => {
-    if ((stateRef.current !== "open" && stateRef.current !== "transitioning") || isTransitioningRef.current) return;
+    if (isTransitioningRef.current) return;
     isTransitioningRef.current = true;
-    setState("closing");
+    setCoverProgress(0);
+    setState("closed");
     setDisplayPage(0);
+    setCurrentPage(1);
     setFlipQueue([]);
     setActiveFlip(null);
-
-    setTimeout(() => {
-      setState("closed");
-      setCurrentPage(1);
-    }, 900); // matches cover rotation animation duration (0.9s)
-  }, []);
+    isTransitioningRef.current = false;
+  }, [setCoverProgress]);
 
   const goToChapter = useCallback((page: number) => {
-    if (stateRef.current !== "open" || isTransitioningRef.current) return;
+    if (isTransitioningRef.current) return;
     if (page === 0) {
       closeBook();
       return;
     }
+
+    if (stateRef.current === "closed") {
+      setCoverProgress(1);
+      setState("open");
+      setCurrentPage(page);
+      setDisplayPage(page);
+      return;
+    }
+
     if (page === displayPageRef.current) return;
 
     isTransitioningRef.current = true;
@@ -127,7 +142,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
     setDisplayPage(page);
     setFlipQueue(steps);
     setState("transitioning");
-  }, [closeBook]);
+  }, [closeBook, setCoverProgress]);
 
   const goNext = useCallback(() => {
     const currentState = stateRef.current;
@@ -151,44 +166,15 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
     }
   }, [closeBook, goToChapter]);
 
-  const openAndGoToPage = useCallback(async (page: number) => {
-    if (stateRef.current !== "closed" || isTransitioningRef.current) return;
-    isTransitioningRef.current = true;
-    setState("opening");
-    setOpeningPhase("pressing");
-    await new Promise((resolve) => setTimeout(resolve, 350));
-    setOpeningPhase("flipping");
-    await new Promise((resolve) => setTimeout(resolve, 850));
-
-    setCurrentPage(1);
-    setDisplayPage(1);
-
-    if (page > 1) {
-      const steps: FlipStep[] = [];
-      for (let i = 2; i <= page; i++) {
-        steps.push({ to: i, direction: "forward" });
-      }
-      setDisplayPage(page);
-      setFlipQueue(steps);
-      setState("transitioning");
-      setOpeningPhase(null);
-    } else {
-      setState("open");
-      setOpeningPhase(null);
-    }
-  }, []);
-
   // Sync refs of functions for single-mount event listener hookup
   const goNextRef = useRef(goNext);
   const goPreviousRef = useRef(goPrevious);
   const goToChapterRef = useRef(goToChapter);
-  const openAndGoToPageRef = useRef(openAndGoToPage);
   const closeBookRef = useRef(closeBook);
 
   useEffect(() => { goNextRef.current = goNext; }, [goNext]);
   useEffect(() => { goPreviousRef.current = goPrevious; }, [goPrevious]);
   useEffect(() => { goToChapterRef.current = goToChapter; }, [goToChapter]);
-  useEffect(() => { openAndGoToPageRef.current = openAndGoToPage; }, [openAndGoToPage]);
   useEffect(() => { closeBookRef.current = closeBook; }, [closeBook]);
 
   // Queue runner
@@ -236,22 +222,16 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
     }
   }, [displayPage]);
 
-  // Deep linking and browser back/forward buttons
+  // Deep linking
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace("#", "").toLowerCase() || "home";
       const pageIndex = CHAPTER_SLUGS.indexOf(hash);
       if (pageIndex !== -1) {
         if (pageIndex === 0) {
-          if (stateRef.current === "open" || stateRef.current === "transitioning") {
-            closeBookRef.current();
-          }
+          closeBookRef.current();
         } else {
-          if (stateRef.current === "closed") {
-            openAndGoToPageRef.current(pageIndex);
-          } else if (stateRef.current === "open" && pageIndex !== displayPageRef.current) {
-            goToChapterRef.current(pageIndex);
-          }
+          goToChapterRef.current(pageIndex);
         }
       }
     };
@@ -267,13 +247,25 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
     };
   }, []);
 
-  // Global listeners for scroll, touch, and keyboard (registered once on mount)
+  // Global listeners for scroll, touch, and keyboard
   useEffect(() => {
     let wheelAccumulator = 0;
     let resetTimer: NodeJS.Timeout | null = null;
     let touchStartY = 0;
 
     const handleWheel = (e: WheelEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable)
+      ) {
+        if (target.tagName === "TEXTAREA" && target.scrollHeight > target.clientHeight) {
+          return;
+        }
+      }
+
       e.preventDefault();
 
       if (isTransitioningRef.current) {
@@ -282,27 +274,50 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
       }
 
       const currentState = stateRef.current;
-      if (currentState !== "closed" && currentState !== "open") {
-        wheelAccumulator = 0;
+      const currentProg = coverProgressRef.current;
+
+      // Stage 1: Cover opening / closing directly via scroll position
+      if (currentState === "closed" || (currentState === "open" && currentPageRef.current === 1 && e.deltaY < 0)) {
+        const sensitivity = 0.008; // One comfortable scroll gesture opens cover smoothly
+        const delta = e.deltaY * sensitivity;
+        const nextProg = Math.max(0, Math.min(1, currentProg + delta));
+
+        setCoverProgress(nextProg);
+
+        if (nextProg >= 0.99) {
+          if (currentState !== "open") {
+            setState("open");
+            setCurrentPage(1);
+            setDisplayPage(1);
+          }
+        } else {
+          if (currentState !== "closed") {
+            setState("closed");
+            setDisplayPage(0);
+          }
+        }
         return;
       }
 
-      if (resetTimer) clearTimeout(resetTimer);
-      resetTimer = setTimeout(() => {
-        wheelAccumulator = 0;
-      }, 200);
-
-      wheelAccumulator += e.deltaY;
-      const threshold = 80;
-
-      if (wheelAccumulator >= threshold) {
-        wheelAccumulator = 0;
+      // Stage 2: Reading mode page flips (when open on Chapter 1+ and scrolling down)
+      if (currentState === "open") {
         if (resetTimer) clearTimeout(resetTimer);
-        goNextRef.current();
-      } else if (wheelAccumulator <= -threshold) {
-        wheelAccumulator = 0;
-        if (resetTimer) clearTimeout(resetTimer);
-        goPreviousRef.current();
+        resetTimer = setTimeout(() => {
+          wheelAccumulator = 0;
+        }, 200);
+
+        wheelAccumulator += e.deltaY;
+        const threshold = 80;
+
+        if (wheelAccumulator >= threshold) {
+          wheelAccumulator = 0;
+          if (resetTimer) clearTimeout(resetTimer);
+          goNextRef.current();
+        } else if (wheelAccumulator <= -threshold) {
+          wheelAccumulator = 0;
+          if (resetTimer) clearTimeout(resetTimer);
+          goPreviousRef.current();
+        }
       }
     };
 
@@ -321,42 +336,85 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
     const handleTouchEnd = (e: TouchEvent) => {
       if (isTransitioningRef.current) return;
       const currentState = stateRef.current;
-      if (currentState !== "closed" && currentState !== "open") {
+      const currentProg = coverProgressRef.current;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffY = touchStartY - touchEndY;
+
+      // Stage 1 Touch Swipe handling
+      if (currentState === "closed" || (currentState === "open" && currentPageRef.current === 1 && diffY < 0)) {
+        const swipeStep = 0.35;
+        const delta = diffY > 0 ? swipeStep : -swipeStep;
+        const nextProg = Math.max(0, Math.min(1, currentProg + delta));
+
+        setCoverProgress(nextProg);
+
+        if (nextProg >= 0.99) {
+          if (currentState !== "open") {
+            setState("open");
+            setCurrentPage(1);
+            setDisplayPage(1);
+          }
+        } else {
+          if (currentState !== "closed") {
+            setState("closed");
+            setDisplayPage(0);
+          }
+        }
         return;
       }
 
-      const touchEndY = e.changedTouches[0].clientY;
-      const diffY = touchStartY - touchEndY;
-      const minSwipeDistance = 50;
-
-      if (Math.abs(diffY) >= minSwipeDistance) {
-        if (diffY > 0) {
-          goNextRef.current();
-        } else {
-          goPreviousRef.current();
+      // Stage 2 Touch Swipes
+      if (currentState === "open") {
+        const minSwipeDistance = 50;
+        if (Math.abs(diffY) >= minSwipeDistance) {
+          if (diffY > 0) {
+            goNextRef.current();
+          } else {
+            goPreviousRef.current();
+          }
         }
       }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+
       if (isTransitioningRef.current) return;
       const currentState = stateRef.current;
-      if (currentState !== "closed" && currentState !== "open") return;
 
       switch (e.key) {
         case "ArrowDown":
         case "PageDown":
           e.preventDefault();
-          goNextRef.current();
+          if (currentState === "closed") {
+            setCoverProgress(1);
+            setState("open");
+            setCurrentPage(1);
+            setDisplayPage(1);
+          } else {
+            goNextRef.current();
+          }
           break;
         case "ArrowUp":
         case "PageUp":
           e.preventDefault();
-          goPreviousRef.current();
+          if (currentState === "open" && currentPageRef.current === 1) {
+            closeBookRef.current();
+          } else if (currentState === "open") {
+            goPreviousRef.current();
+          }
           break;
         case "Home":
           e.preventDefault();
-          goToChapterRef.current(0);
+          closeBookRef.current();
           break;
         case "End":
           e.preventDefault();
@@ -381,7 +439,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
       window.removeEventListener("keydown", handleKeyDown);
       if (resetTimer) clearTimeout(resetTimer);
     };
-  }, []);
+  }, [setCoverProgress]);
 
   return (
     <NavigationContext.Provider
@@ -393,6 +451,8 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
         flipQueue,
         activeFlip,
         isMobile,
+        coverProgress,
+        setCoverProgress,
         openBook,
         closeBook,
         goNext,
