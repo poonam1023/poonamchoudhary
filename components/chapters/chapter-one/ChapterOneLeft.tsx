@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { BotanicalIllustration } from "@/components/decorations";
 
 function StationeryArtwork() {
@@ -268,9 +269,11 @@ export default function ChapterOneLeft() {
           <span className="ml-1">→</span>
         </button>
 
-        {/* Outline Play Button */}
-        <button
-          className="flex items-center gap-2 py-2.5 transition-all duration-300 pointer-events-auto"
+        {/* See My Blog CTA */}
+        <Link
+          href="/blog"
+          aria-label="See My Blog"
+          className="group flex items-center gap-2 py-2.5 transition-all duration-300 pointer-events-auto"
           style={{
             backgroundColor: "transparent",
             color: "#4A3728",
@@ -281,6 +284,7 @@ export default function ChapterOneLeft() {
             textTransform: "uppercase",
             border: "none",
             cursor: "pointer",
+            textDecoration: "none",
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.color = "#3A2C1E";
@@ -289,17 +293,31 @@ export default function ChapterOneLeft() {
             e.currentTarget.style.color = "#4A3728";
           }}
         >
-          {/* Play Icon Outline */}
+          {/* Feather Pen Icon Outline */}
           <div
-            className="flex items-center justify-center rounded-full border border-[#4A3728]/25"
+            className="flex items-center justify-center rounded-full border border-[#4A3728]/25 transition-all duration-300 group-hover:border-[#4A3728]/50 group-hover:scale-105"
             style={{ width: "20px", height: "20px" }}
           >
-            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: "1px" }}>
-              <polygon points="5 3 19 12 5 21 5 3" />
+            <svg
+              width="9"
+              height="9"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="transition-transform duration-300 group-hover:translate-x-[0.5px]"
+            >
+              <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
+              <line x1="16" y1="8" x2="2" y2="22" />
+              <line x1="17.5" y1="15" x2="9" y2="15" />
             </svg>
           </div>
-          Watch My Story
-        </button>
+          <span className="transition-transform duration-300 group-hover:translate-x-[2px]">
+            See My Blog
+          </span>
+        </Link>
       </div>
 
       {/* ── 6. SPINE CREASE SCROLL HINT ── */}

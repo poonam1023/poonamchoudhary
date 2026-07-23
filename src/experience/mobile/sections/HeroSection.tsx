@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { heroContent } from "@/src/shared/data/content";
 
@@ -232,9 +233,11 @@ export default function HeroSection() {
             {heroContent.primaryCta}
           </a>
 
-          <a
-            href="#about"
-            id="hero-watch-story"
+          <Link
+            href="/blog"
+            id="hero-see-blog"
+            aria-label="See My Blog"
+            className="group"
             style={{
               display: "flex",
               alignItems: "center",
@@ -252,9 +255,11 @@ export default function HeroSection() {
               textTransform: "uppercase",
               textDecoration: "none",
               border: "1px solid rgba(110,90,78,0.18)",
+              transition: "border-color 0.2s ease, background-color 0.2s ease",
             }}
           >
             <span
+              className="transition-transform duration-300 group-hover:scale-110"
               style={{
                 width: "26px",
                 height: "26px",
@@ -265,12 +270,26 @@ export default function HeroSection() {
                 justifyContent: "center",
               }}
             >
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: "1px" }}>
-                <polygon points="5 3 19 12 5 21 5 3" />
+              <svg
+                width="11"
+                height="11"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform duration-300 group-hover:translate-x-[0.5px]"
+              >
+                <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
+                <line x1="16" y1="8" x2="2" y2="22" />
+                <line x1="17.5" y1="15" x2="9" y2="15" />
               </svg>
             </span>
-            {heroContent.secondaryCta}
-          </a>
+            <span className="transition-transform duration-300 group-hover:translate-x-[2px]">
+              {heroContent.secondaryCta}
+            </span>
+          </Link>
         </motion.div>
       </div>
 

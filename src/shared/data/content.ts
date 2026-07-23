@@ -10,7 +10,7 @@ export const heroContent = {
   subline:
     "Practical guidance & heartfelt insights for raising confident, kind and emotionally strong children.",
   primaryCta: "Explore My Book",
-  secondaryCta: "Watch My Story",
+  secondaryCta: "See My Blog",
   quote: "There is no perfect parent, only a present one.",
   quoteAuthor: "— Poonam Choudhary",
   stats: "50,000+ Families Impacted",
