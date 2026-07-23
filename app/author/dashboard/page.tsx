@@ -8,7 +8,7 @@ export default async function DashboardPage() {
   let total = 0;
   let published = 0;
   let drafts = 0;
-  let totalViews = { _sum: { views: 0 } };
+  let totalViews: { _sum: { views: number | null } } = { _sum: { views: 0 } };
   let recent: Array<{
     id: string;
     title: string;
@@ -40,7 +40,7 @@ export default async function DashboardPage() {
     console.warn("Prerender/build warning: Failed to load author dashboard stats", err);
   }
 
-  const views = totalViews._sum.views ?? 0;
+  const views = totalViews._sum?.views ?? 0;
 
   const stats = [
     { label: "Total Posts", value: total, icon: FileText, color: "#A8B29A" },
