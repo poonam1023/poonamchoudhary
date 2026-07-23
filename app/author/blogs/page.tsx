@@ -5,17 +5,22 @@ import BlogsTable from "@/components/author/BlogsTable";
 
 export const dynamic = "force-dynamic";
 
+type Post = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  category: string;
+  status: string;
+  featured: boolean;
+  views: number;
+  readingTime: string;
+  updatedAt: Date;
+  publishedAt: Date | null;
+};
+
 export default async function BlogsPage() {
-  let posts: Array<{
-    id: string;
-    title: string;
-    slug: string;
-    excerpt: string;
-    category: string;
-    status: string;
-    views: number;
-    updatedAt: Date;
-  }> = [];
+  let posts: Post[] = [];
 
   try {
     posts = await prisma.blogPost.findMany({
